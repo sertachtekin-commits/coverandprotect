@@ -265,28 +265,31 @@
         <div style="display:flex;gap:12px;align-items:center;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;"><span style="font-size:1.3rem;">📞</span><div><div style="font-size:0.82rem;font-weight:700;color:var(--white);margin-bottom:2px;">One-on-One Guidance</div><div style="font-size:0.78rem;color:var(--text-muted);">Every estate is unique — we build a strategy around your specific situation</div></div></div>
       </div>
     </div>
-    <div class="form-box">
+    <div class="form-box"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Estate Planning - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html">
+
       <h3>Book a Free Consultation</h3>
       <p class="sub">Tell us about your situation and we'll reach out to schedule.</p>
       <div class="form-row">
-        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="John"></div>
-        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith"></div>
+        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="John" name="fname"></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith" name="lname"></div>
       </div>
-      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="john@example.com"></div>
-      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000"></div>
+      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="john@example.com" name="email"></div>
+      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000" name="phone"></div>
       <div class="fg"><label>Primary Concern</label>
-        <select id="concern"><option value="">— Select your situation —</option><option>I don't have a will yet</option><option>I have young children I need to protect</option><option>I own a business — need succession plan</option><option>I want to minimize estate taxes</option><option>I need life insurance for estate purposes</option><option>I want to review my existing plan</option><option>Common-law / blended family situation</option></select>
+        <select id="concern" name="concern"><option value="">— Select your situation —</option><option>I don't have a will yet</option><option>I have young children I need to protect</option><option>I own a business — need succession plan</option><option>I want to minimize estate taxes</option><option>I need life insurance for estate purposes</option><option>I want to review my existing plan</option><option>Common-law / blended family situation</option></select>
       </div>
       <div class="form-row">
-        <div class="fg"><label>Approx. Age</label><input type="number" id="age" placeholder="e.g. 45" min="18" max="85"></div>
-        <div class="fg"><label>Do You Own a Business?</label><select id="business"><option value="">— Select —</option><option>Yes — incorporated</option><option>Yes — sole proprietor</option><option>No</option></select></div>
+        <div class="fg"><label>Approx. Age</label><input type="number" id="age" placeholder="e.g. 45" min="18" max="85" name="age"></div>
+        <div class="fg"><label>Do You Own a Business?</label><select id="business" name="business"><option value="">— Select —</option><option>Yes — incorporated</option><option>Yes — sole proprietor</option><option>No</option></select></div>
       </div>
-      <div class="fg"><label>Anything Else?</label><textarea id="notes" placeholder="Tell us more about your estate planning goals or concerns..."></textarea></div>
-      <button class="submit-btn" onclick="submitQuote()">Book My Free Consultation →</button>
+      <div class="fg"><label>Anything Else?</label><textarea id="notes" placeholder="Tell us more about your estate planning goals or concerns..." name="notes"></textarea></div>
+      <button class="submit-btn" type="submit" style="cursor:pointer">Book My Free Consultation →</button>
       <div class="success-msg" id="successMsg">✅ Thank you! We'll reach out within one business day to schedule your consultation.</div>
       <p class="disclaimer">Confidential · FSRA Licensed · No obligation<br>Estate planning involves legal documents — we work alongside your solicitor.</p>
-    </div>
-  </div>
+    </form></div>
+  </form></div>
 </section>
 
 <footer>
@@ -295,13 +298,7 @@
   <div class="footer-right">© 2026 coverandprotect.ca</div>
 </footer>
 <script>
-function submitQuote(){
-  const fname=document.getElementById('fname').value,email=document.getElementById('email').value,concern=document.getElementById('concern').value;
-  if(!fname||!email||!concern){alert('Please fill in your name, email, and primary concern.');return;}
-  document.getElementById('successMsg').style.display='block';
-  ['fname','lname','email','phone','age','notes'].forEach(id=>document.getElementById(id).value='');
-  ['concern','business'].forEach(id=>document.getElementById(id).value='');
-}
+
 const cards=document.querySelectorAll('.pillar-card,.who-card,.life-card');
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.1});
 cards.forEach(c=>{c.style.opacity='0';c.style.transform='translateY(16px)';c.style.transition='opacity 0.5s ease,transform 0.5s ease,border-color 0.3s,background 0.3s';obs.observe(c);});

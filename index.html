@@ -961,34 +961,36 @@
       </div>
     </div>
 
-    <div class="quote-form-wrap">
+    <div class="quote-form-wrap"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Quote Request - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html">
       <h3>Request a Free Quote</h3>
       <p>Fill in your details and we'll be in touch within 24 hours.</p>
 
       <div class="form-row">
         <div class="form-group">
           <label>First Name</label>
-          <input type="text" id="fname" placeholder="John">
+          <input type="text" id="fname" placeholder="John" name="fname">
         </div>
         <div class="form-group">
           <label>Last Name</label>
-          <input type="text" id="lname" placeholder="Smith">
+          <input type="text" id="lname" placeholder="Smith" name="lname">
         </div>
       </div>
 
       <div class="form-group">
         <label>Email Address</label>
-        <input type="email" id="email" placeholder="john@example.com">
+        <input type="email" id="email" placeholder="john@example.com" name="email">
       </div>
 
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="tel" id="phone" placeholder="(416) 000-0000">
+        <input type="tel" id="phone" placeholder="(416) 000-0000" name="phone">
       </div>
 
       <div class="form-group">
         <label>Insurance Type Needed</label>
-        <select id="coverage">
+        <select id="coverage" name="coverage">
           <option value="">— Select coverage type —</option>
           <option>Travel Insurance</option>
           <option>Individual Health Insurance</option>
@@ -1002,13 +1004,13 @@
 
       <div class="form-group">
         <label>Tell Us More (Optional)</label>
-        <textarea id="notes" placeholder="Destination, number of employees, current situation..."></textarea>
+        <textarea id="notes" placeholder="Destination, number of employees, current situation..." name="notes"></textarea>
       </div>
 
-      <button class="form-submit" onclick="submitForm()">Send My Request →</button>
+      <button class="form-submit" type="submit" style="cursor:pointer">Send My Request →</button>
       <div class="success-msg" id="successMsg">✅ Thank you! We'll be in touch within 24 hours.</div>
       <p class="form-disclaimer">Your information is kept private. We never sell your data.<br>FSRA Licensed · PIPEDA Compliant</p>
-    </div>
+    </form></div>
   </div>
 </section>
 
@@ -1107,32 +1109,34 @@
       </div>
     </div>
 
-    <div class="quote-form-wrap">
+    <div class="quote-form-wrap"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Contact Message - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html">
       <h3>Send a Message</h3>
       <p>We typically respond within a few hours during business hours.</p>
 
       <div class="form-row">
         <div class="form-group">
           <label>Name</label>
-          <input type="text" id="cname" placeholder="Your name">
+          <input type="text" id="cname" placeholder="Your name" name="cname">
         </div>
         <div class="form-group">
           <label>Phone</label>
-          <input type="tel" id="cphone" placeholder="(416) 000-0000">
+          <input type="tel" id="cphone" placeholder="(416) 000-0000" name="cphone">
         </div>
       </div>
 
       <div class="form-group">
         <label>Email</label>
-        <input type="email" id="cemail" placeholder="your@email.com">
+        <input type="email" id="cemail" placeholder="your@email.com" name="cemail">
       </div>
 
       <div class="form-group">
         <label>Message</label>
-        <textarea id="cmessage" placeholder="How can we help you?"></textarea>
+        <textarea id="cmessage" placeholder="How can we help you?" name="cmessage"></textarea>
       </div>
 
-      <button class="form-submit" onclick="submitContact()">Send Message →</button>
+      <button class="form-submit" type="submit" style="cursor:pointer">Send Message →</button>
       <div class="success-msg" id="contactSuccess">✅ Message received! We'll reply shortly.</div>
     </div>
   </div>
@@ -1150,33 +1154,9 @@
 </footer>
 
 <script>
-function submitForm() {
-  const name = document.getElementById('fname').value;
-  const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
-  const coverage = document.getElementById('coverage').value;
-  if (!name || !email || !coverage) {
-    alert('Please fill in your name, email, and coverage type.');
-    return;
-  }
-  // Replace with your Formspree or Tally endpoint
-  // fetch('https://formspree.io/f/YOUR_ID', { method: 'POST', body: JSON.stringify({name, email, phone, coverage}) })
-  document.getElementById('successMsg').style.display = 'block';
-  ['fname','lname','email','phone','notes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('coverage').value = '';
-}
 
-function submitContact() {
-  const name = document.getElementById('cname').value;
-  const email = document.getElementById('cemail').value;
-  const msg = document.getElementById('cmessage').value;
-  if (!name || !email || !msg) {
-    alert('Please fill in your name, email, and message.');
-    return;
-  }
-  document.getElementById('contactSuccess').style.display = 'block';
-  ['cname','cphone','cemail','cmessage'].forEach(id => document.getElementById(id).value = '');
-}
+
+
 
 // Smooth scroll intersection observer for fade-in
 const cards = document.querySelectorAll('.service-card, .stat-card, .insurer-card');

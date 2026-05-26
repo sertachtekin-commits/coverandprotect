@@ -469,34 +469,37 @@
       </div>
     </div>
 
-    <div class="form-box">
+    <div class="form-box"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Health Insurance - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html">
+
       <h3>Health Insurance Quote</h3>
       <p class="sub">Tell us about yourself and we'll find the right plan.</p>
 
       <div class="form-row">
         <div class="fg">
           <label>First Name</label>
-          <input type="text" id="fname" placeholder="John">
+          <input type="text" id="fname" placeholder="John" name="fname">
         </div>
         <div class="fg">
           <label>Last Name</label>
-          <input type="text" id="lname" placeholder="Smith">
+          <input type="text" id="lname" placeholder="Smith" name="lname">
         </div>
       </div>
 
       <div class="fg">
         <label>Email Address</label>
-        <input type="email" id="email" placeholder="john@example.com">
+        <input type="email" id="email" placeholder="john@example.com" name="email">
       </div>
 
       <div class="fg">
         <label>Phone Number</label>
-        <input type="tel" id="phone" placeholder="(647) 000-0000">
+        <input type="tel" id="phone" placeholder="(647) 000-0000" name="phone">
       </div>
 
       <div class="fg">
         <label>Plan Type Needed</label>
-        <select id="plantype">
+        <select id="plantype" name="plantype">
           <option value="">— Select plan type —</option>
           <option>Individual Health Plan (just me)</option>
           <option>Couple Plan (me + spouse)</option>
@@ -508,7 +511,7 @@
 
       <div class="fg">
         <label>Coverage Priority</label>
-        <select id="priority">
+        <select id="priority" name="priority">
           <option value="">— What matters most? —</option>
           <option>Dental Coverage</option>
           <option>Prescription Drugs</option>
@@ -523,11 +526,11 @@
       <div class="form-row">
         <div class="fg">
           <label>Your Age</label>
-          <input type="number" id="age" placeholder="e.g. 38" min="18" max="80">
+          <input type="number" id="age" placeholder="e.g. 38" min="18" max="80" name="age">
         </div>
         <div class="fg">
           <label>Province</label>
-          <select id="province">
+          <select id="province" name="province">
             <option value="">— Province —</option>
             <option selected>Ontario</option>
             <option>British Columbia</option>
@@ -539,14 +542,14 @@
 
       <div class="fg">
         <label>Anything Else We Should Know?</label>
-        <textarea id="notes" placeholder="Pre-existing conditions, current medications, budget range..."></textarea>
+        <textarea id="notes" placeholder="Pre-existing conditions, current medications, budget range..." name="notes"></textarea>
       </div>
 
-      <button class="submit-btn" onclick="submitQuote()">Get My Health Quote →</button>
+      <button class="submit-btn" type="submit" style="cursor:pointer">Get My Health Quote →</button>
       <div class="success-msg" id="successMsg">✅ Request received! We'll compare plans and reach out within 24 hours.</div>
       <p class="disclaimer">Private & PIPEDA compliant · FSRA Licensed · No obligation, no pressure</p>
-    </div>
-  </div>
+    </form></div>
+  </form></div>
 </section>
 
 <footer>
@@ -560,16 +563,7 @@
 </footer>
 
 <script>
-function submitQuote() {
-  const fname = document.getElementById('fname').value;
-  const email = document.getElementById('email').value;
-  const plantype = document.getElementById('plantype').value;
-  if (!fname || !email || !plantype) { alert('Please fill in your name, email, and plan type.'); return; }
-  // Connect to Formspree: fetch('https://formspree.io/f/YOUR_ID', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({fname,email,plantype}) })
-  document.getElementById('successMsg').style.display = 'block';
-  ['fname','lname','email','phone','age','notes'].forEach(id => document.getElementById(id).value='');
-  ['plantype','priority','province'].forEach(id => document.getElementById(id).value='');
-}
+
 
 const cards = document.querySelectorAll('.who-card,.cov-card,.ins-card');
 const obs = new IntersectionObserver(entries => {

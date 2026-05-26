@@ -279,27 +279,30 @@
         <div style="display:flex;gap:12px;align-items:center;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;"><span style="font-size:1.3rem;">⚡</span><div><div style="font-size:0.82rem;font-weight:700;color:var(--white);margin-bottom:2px;">Live in 2–4 Weeks</div><div style="font-size:0.78rem;color:var(--text-muted);">From quote approval to team enrollment in as little as 14 business days</div></div></div>
       </div>
     </div>
-    <div class="form-box">
+    <div class="form-box"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Group Benefits - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html">
+
       <h3>Group Benefits Quote</h3>
       <p class="sub">Tell us about your business and team.</p>
       <div class="form-row">
-        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="Jane"></div>
-        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith"></div>
+        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="Jane" name="fname"></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith" name="lname"></div>
       </div>
-      <div class="fg"><label>Business Name</label><input type="text" id="biz" placeholder="Your Company Inc."></div>
-      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="jane@yourcompany.ca"></div>
-      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000"></div>
+      <div class="fg"><label>Business Name</label><input type="text" id="biz" placeholder="Your Company Inc." name="biz"></div>
+      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="jane@yourcompany.ca" name="email"></div>
+      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000" name="phone"></div>
       <div class="form-row">
-        <div class="fg"><label>Number of Employees</label><select id="employees"><option value="">— Select —</option><option>2–5</option><option>6–15</option><option>16–50</option><option>51–100</option><option>100+</option></select></div>
-        <div class="fg"><label>Industry</label><select id="industry"><option value="">— Select —</option><option>Construction & Trades</option><option>Professional Services</option><option>Retail & Hospitality</option><option>Healthcare</option><option>Technology</option><option>Manufacturing</option><option>Other</option></select></div>
+        <div class="fg"><label>Number of Employees</label><select id="employees" name="employees"><option value="">— Select —</option><option>2–5</option><option>6–15</option><option>16–50</option><option>51–100</option><option>100+</option></select></div>
+        <div class="fg"><label>Industry</label><select id="industry" name="industry"><option value="">— Select —</option><option>Construction & Trades</option><option>Professional Services</option><option>Retail & Hospitality</option><option>Healthcare</option><option>Technology</option><option>Manufacturing</option><option>Other</option></select></div>
       </div>
-      <div class="fg"><label>Do You Have an Existing Plan?</label><select id="existing"><option value="">— Select —</option><option>No — setting up for the first time</option><option>Yes — looking to switch or improve</option><option>Expired — need to reinstate</option></select></div>
-      <div class="fg"><label>Additional Notes</label><textarea id="notes" placeholder="Budget range, specific coverage priorities, timeline..."></textarea></div>
-      <button class="submit-btn" onclick="submitQuote()">Request Group Quote →</button>
+      <div class="fg"><label>Do You Have an Existing Plan?</label><select id="existing" name="existing"><option value="">— Select —</option><option>No — setting up for the first time</option><option>Yes — looking to switch or improve</option><option>Expired — need to reinstate</option></select></div>
+      <div class="fg"><label>Additional Notes</label><textarea id="notes" placeholder="Budget range, specific coverage priorities, timeline..." name="notes"></textarea></div>
+      <button class="submit-btn" type="submit" style="cursor:pointer">Request Group Quote →</button>
       <div class="success-msg" id="successMsg">✅ Request received! We'll prepare your group benefit comparison within 48 hours.</div>
       <p class="disclaimer">Confidential · FSRA Licensed · No obligation</p>
-    </div>
-  </div>
+    </form></div>
+  </form></div>
 </section>
 
 <footer>
@@ -308,13 +311,7 @@
   <div class="footer-right">© 2026 coverandprotect.ca</div>
 </footer>
 <script>
-function submitQuote(){
-  const fname=document.getElementById('fname').value, email=document.getElementById('email').value, employees=document.getElementById('employees').value;
-  if(!fname||!email||!employees){alert('Please fill in your name, email, and number of employees.');return;}
-  document.getElementById('successMsg').style.display='block';
-  ['fname','lname','biz','email','phone','notes'].forEach(id=>document.getElementById(id).value='');
-  ['employees','industry','existing'].forEach(id=>document.getElementById(id).value='');
-}
+
 const cards=document.querySelectorAll('.why-card,.plan-card,.ins-card');
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.1});
 cards.forEach(c=>{c.style.opacity='0';c.style.transform='translateY(16px)';c.style.transition='opacity 0.5s ease,transform 0.5s ease,border-color 0.3s,background 0.3s';obs.observe(c);});
