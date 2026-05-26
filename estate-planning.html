@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estate Planning Ontario | Life Insurance & Legacy Protection | Cover & Protect</title>
+<meta name="description" content="Ontario estate planning advisor. Life insurance, wills, powers of attorney, and wealth transfer strategies to protect your family and legacy. FSRA licensed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0a1628;--deep:#0d1f3c;--teal:#0e7c7b;--teal-light:#14a8a7;
+    --gold:#c9973a;--gold-light:#e5b657;
+    --rose:#8b3a5c;--rose-light:#c4567f;
+    --white:#ffffff;--text-muted:#8a9ab5;--border:rgba(255,255,255,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+  nav{position:fixed;top:0;width:100%;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,22,40,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+  .logo{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--white);text-decoration:none;}
+  .logo span{color:var(--gold);}
+  .nav-links{display:flex;gap:32px;list-style:none;}
+  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color 0.2s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--white);}
+  .nav-cta{background:var(--gold);color:var(--navy)!important;padding:10px 22px;border-radius:4px;font-weight:600!important;}
+
+  .hero{min-height:88vh;display:flex;align-items:center;padding:130px 60px 80px;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 65% 75% at 75% 45%,rgba(139,58,92,0.18) 0%,transparent 60%),radial-gradient(ellipse 45% 55% at 10% 75%,rgba(201,151,58,0.08) 0%,transparent 55%),linear-gradient(150deg,#0a1628 0%,#0c1220 60%,#0d1628 100%);}
+  .hero-icon{position:absolute;right:9%;top:50%;transform:translateY(-50%);font-size:10rem;opacity:0.05;animation:breathe 6s ease-in-out infinite;}
+  @keyframes breathe{0%,100%{opacity:0.05;transform:translateY(-50%) scale(1)}50%{opacity:0.08;transform:translateY(-52%) scale(1.03)}}
+  .breadcrumb{position:absolute;top:90px;left:60px;font-size:0.78rem;color:var(--text-muted);}
+  .breadcrumb a{color:var(--text-muted);text-decoration:none;} .breadcrumb span{margin:0 8px;}
+  .hero-content{position:relative;z-index:2;max-width:700px;}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,58,92,0.15);border:1px solid rgba(139,58,92,0.4);color:#e4829e;padding:6px 16px;border-radius:100px;font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:28px;animation:fadeUp 0.5s ease both;}
+  h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,4.2vw,3.6rem);font-weight:900;line-height:1.1;letter-spacing:-0.02em;margin-bottom:24px;animation:fadeUp 0.5s 0.1s ease both;}
+  h1 .accent{color:var(--rose-light);} h1 .gold{color:var(--gold-light);}
+  .hero-sub{font-size:1.05rem;color:var(--text-muted);line-height:1.75;margin-bottom:40px;max-width:570px;animation:fadeUp 0.5s 0.2s ease both;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp 0.5s 0.3s ease both;}
+  .btn-primary{background:var(--rose);color:var(--white);padding:15px 30px;border-radius:4px;font-size:1rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background 0.2s,transform 0.2s;}
+  .btn-primary:hover{background:var(--rose-light);transform:translateY(-2px);}
+  .btn-gold{background:var(--gold);color:var(--navy);padding:15px 30px;border-radius:4px;font-size:1rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background 0.2s,transform 0.2s;}
+  .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);}
+  .btn-outline{border:1px solid rgba(255,255,255,0.18);color:var(--white);padding:15px 28px;border-radius:4px;font-size:1rem;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color 0.2s;}
+  .btn-outline:hover{border-color:var(--gold);}
+
+  section{padding:90px 60px;}
+  .section-label{font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal-light);margin-bottom:12px;}
+  .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;line-height:1.2;}
+
+  /* PILLARS */
+  .pillars-section{background:var(--deep);}
+  .pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px;}
+  .pillar-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:36px 28px;transition:border-color 0.3s,transform 0.3s,background 0.3s;}
+  .pillar-card:hover{border-color:rgba(139,58,92,0.3);background:rgba(139,58,92,0.06);transform:translateY(-4px);}
+  .pillar-card.gold-card{border-color:rgba(201,151,58,0.2);background:rgba(201,151,58,0.04);}
+  .pillar-card.gold-card:hover{border-color:rgba(201,151,58,0.4);background:rgba(201,151,58,0.08);}
+  .pillar-icon{font-size:2rem;margin-bottom:20px;display:block;}
+  .pillar-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:12px;}
+  .pillar-card p{color:var(--text-muted);font-size:0.87rem;line-height:1.65;margin-bottom:18px;}
+  .pillar-items{display:flex;flex-direction:column;gap:7px;}
+  .pillar-items span{display:flex;gap:8px;font-size:0.8rem;color:rgba(255,255,255,0.75);}
+  .pillar-items span::before{content:'✓';color:var(--gold-light);font-weight:700;flex-shrink:0;}
+
+  /* LIFE INSURANCE */
+  .life-section{}
+  .life-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .life-cards{display:flex;flex-direction:column;gap:16px;}
+  .life-card{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;padding:24px 26px;display:flex;gap:16px;align-items:flex-start;transition:border-color 0.2s,background 0.2s;}
+  .life-card:hover{border-color:rgba(139,58,92,0.3);background:rgba(139,58,92,0.06);}
+  .life-card-icon{width:44px;height:44px;border-radius:10px;background:rgba(139,58,92,0.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+  .life-card h4{font-size:0.95rem;font-weight:700;margin-bottom:5px;}
+  .life-card p{font-size:0.82rem;color:var(--text-muted);line-height:1.55;}
+
+  /* WHO NEEDS ESTATE PLAN */
+  .who-section{background:var(--deep);}
+  .who-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:52px;}
+  .who-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:28px 22px;text-align:center;transition:border-color 0.2s,background 0.2s,transform 0.2s;}
+  .who-card:hover{border-color:rgba(201,151,58,0.3);background:rgba(201,151,58,0.05);transform:translateY(-4px);}
+  .who-icon{font-size:2rem;margin-bottom:14px;display:block;}
+  .who-card h4{font-size:0.92rem;font-weight:700;margin-bottom:8px;}
+  .who-card p{font-size:0.8rem;color:var(--text-muted);line-height:1.6;}
+
+  /* CHECKLIST */
+  .checklist-section{}
+  .checklist-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-top:52px;}
+  .check-col h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:20px;color:var(--gold-light);}
+  .check-list{display:flex;flex-direction:column;gap:14px;}
+  .check-item{display:flex;gap:12px;align-items:flex-start;}
+  .check-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(201,151,58,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:0.75rem;color:var(--gold-light);}
+  .check-box.done{background:rgba(201,151,58,0.15);border-color:var(--gold);}
+  .check-item-text h5{font-size:0.88rem;font-weight:600;margin-bottom:3px;}
+  .check-item-text p{font-size:0.78rem;color:var(--text-muted);line-height:1.5;}
+
+  /* FORM */
+  .quote-section{background:var(--deep);}
+  .quote-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:70px;align-items:start;}
+  .form-box{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:20px;padding:44px 36px;}
+  .form-box h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:6px;}
+  .form-box .sub{color:var(--text-muted);font-size:0.88rem;margin-bottom:28px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .fg{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+  .fg label{font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .fg input,.fg select,.fg textarea{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 15px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.93rem;outline:none;transition:border-color 0.2s;}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--rose-light);}
+  .fg select option{background:var(--deep);} .fg textarea{resize:vertical;min-height:80px;}
+  .submit-btn{width:100%;background:var(--rose);color:var(--white);border:none;padding:15px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:6px;}
+  .submit-btn:hover{background:var(--rose-light);}
+  .disclaimer{font-size:0.72rem;color:var(--text-muted);text-align:center;margin-top:12px;line-height:1.5;}
+  .success-msg{display:none;background:rgba(14,124,123,0.15);border:1px solid var(--teal);border-radius:8px;padding:14px;text-align:center;color:var(--teal-light);font-weight:500;margin-top:14px;}
+
+  footer{background:rgba(0,0,0,0.3);border-top:1px solid var(--border);padding:36px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;}
+  .footer-logo span{color:var(--gold);}
+  .footer-compliance{font-size:0.72rem;color:var(--text-muted);max-width:480px;line-height:1.6;text-align:center;}
+  .footer-right{font-size:0.75rem;color:var(--text-muted);}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:900px){
+    nav{padding:16px 24px;} .nav-links{display:none;}
+    .hero{padding:100px 24px 60px;} section{padding:60px 24px;}
+    .pillars-grid,.who-grid{grid-template-columns:1fr;}
+    .life-grid,.checklist-grid,.quote-wrap{grid-template-columns:1fr;gap:36px;}
+    .form-row{grid-template-columns:1fr;}
+    footer{padding:28px 24px;flex-direction:column;text-align:center;} .breadcrumb{left:24px;}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Cover<span>&</span>Protect</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="travel-insurance.html">Travel</a></li>
+    <li><a href="health-insurance.html">Health</a></li>
+    <li><a href="group-benefits.html">Group Benefits</a></li>
+    <li><a href="estate-planning.html" class="active">Estate Planning</a></li>
+    <li><a href="#quote" class="nav-cta">Consultation</a></li>
+  </ul>
+</nav>
+<div class="breadcrumb"><a href="index.html">Home</a><span>›</span>Estate Planning</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-icon">🏛️</div>
+  <div class="hero-content">
+    <div class="hero-badge">🏛️ Estate Planning · Legacy & Wealth Protection</div>
+    <h1>Protect What<br>You've <span class="accent">Built.</span><br>Leave a <span class="gold">Legacy.</span></h1>
+    <p class="hero-sub">Estate planning isn't just for the wealthy. If you have a family, a home, a business, or savings — you need a plan. We help Ontario families and business owners protect their assets and ensure their wishes are carried out.</p>
+    <div class="hero-actions">
+      <a href="#quote" class="btn-gold">Book a Free Consultation</a>
+      <a href="#pillars" class="btn-primary">See How It Works</a>
+      <a href="tel:6477028264" class="btn-outline">📞 647-702-8264</a>
+    </div>
+  </div>
+</section>
+
+<section class="pillars-section" id="pillars">
+  <div class="section-label">The 3 Pillars</div>
+  <h2 class="section-title">A Complete Estate Plan Covers Three Areas</h2>
+  <div class="pillars-grid">
+    <div class="pillar-card gold-card">
+      <span class="pillar-icon">🛡️</span>
+      <h3>1. Protection While You're Alive</h3>
+      <p>Ensuring your family is financially protected if you become ill, disabled, or pass away unexpectedly — before you've had a chance to build full wealth.</p>
+      <div class="pillar-items">
+        <span>Life insurance (term & permanent)</span>
+        <span>Critical illness insurance</span>
+        <span>Disability income replacement</span>
+        <span>Powers of attorney (financial & personal care)</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-icon">📜</span>
+      <h3>2. Transfer of Your Estate</h3>
+      <p>Legally directing who receives your assets and how — minimizing probate fees, taxes, and family disputes after you're gone.</p>
+      <div class="pillar-items">
+        <span>Will preparation guidance</span>
+        <span>Beneficiary designation review</span>
+        <span>Probate minimization strategies</span>
+        <span>Trusts for minors or dependants</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-icon">💼</span>
+      <h3>3. Business Succession</h3>
+      <p>For business owners, what happens to the company if you die or become incapacitated? A buy-sell agreement funded by life insurance is essential.</p>
+      <div class="pillar-items">
+        <span>Buy-sell agreement insurance funding</span>
+        <span>Key person life insurance</span>
+        <span>Corporate-owned life insurance (COLI)</span>
+        <span>Shareholder protection planning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="life-section">
+  <div class="life-grid">
+    <div>
+      <div class="section-label">Life Insurance as the Foundation</div>
+      <h2 class="section-title" style="margin-bottom:18px;">The Right Life Insurance<br>is the Core of Every Estate Plan</h2>
+      <p style="color:var(--text-muted);line-height:1.75;margin-bottom:28px;font-size:0.97rem;">Life insurance is the most powerful and tax-efficient way to transfer wealth in Canada. Death benefits are received tax-free by beneficiaries — bypassing probate, bypassing estate taxes, and providing instant liquidity exactly when your family needs it most.</p>
+      <a href="#quote" class="btn-gold">Compare Life Insurance Options →</a>
+    </div>
+    <div class="life-cards">
+      <div class="life-card"><div class="life-card-icon">⏳</div><div><h4>Term Life Insurance</h4><p>Pure protection for a set period (10, 20, 30 years). Most affordable premium for large death benefits. Ideal for income replacement during peak earning years and mortgage protection.</p></div></div>
+      <div class="life-card"><div class="life-card-icon">♾️</div><div><h4>Whole Life Insurance</h4><p>Permanent coverage with guaranteed cash value growth. Tax-sheltered savings component that builds wealth inside the policy. Popular for estate maximization and final expenses.</p></div></div>
+      <div class="life-card"><div class="life-card-icon">📈</div><div><h4>Universal Life Insurance</h4><p>Flexible permanent insurance with an investment component. Control your premium payments and investment allocation. Powerful for high-net-worth estate and tax planning.</p></div></div>
+      <div class="life-card"><div class="life-card-icon">🏢</div><div><h4>Corporate-Owned Life Insurance</h4><p>Business owners can hold life insurance inside a corporation, fund the policy with pre-tax corporate dollars, and pass the death benefit to heirs through the Capital Dividend Account (CDA) — largely tax-free.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="who-section">
+  <div class="section-label">Who Should Have an Estate Plan</div>
+  <h2 class="section-title">If Any of This Applies — You Need a Plan</h2>
+  <div class="who-grid">
+    <div class="who-card"><span class="who-icon">👨‍👩‍👧</span><h4>Parents with Children</h4><p>Who will care for your children? Who manages their inheritance until they're adults? A will and life insurance are non-negotiable.</p></div>
+    <div class="who-card"><span class="who-icon">🏠</span><h4>Homeowners</h4><p>Real estate is often an estate's largest asset. Proper planning avoids forced sales, probate costs, and tax complications for your heirs.</p></div>
+    <div class="who-card"><span class="who-icon">💼</span><h4>Business Owners</h4><p>Without a succession plan, a business can collapse when an owner dies or becomes incapacitated. Protect your life's work.</p></div>
+    <div class="who-card"><span class="who-icon">👫</span><h4>Common-Law Couples</h4><p>In Ontario, common-law spouses have NO automatic inheritance rights. Without a will, your partner may receive nothing.</p></div>
+    <div class="who-card"><span class="who-icon">🌍</span><h4>Newcomers to Canada</h4><p>Cross-border estate issues, foreign assets, and Ontario law all interact. Proactive planning prevents costly surprises.</p></div>
+    <div class="who-card"><span class="who-icon">👴</span><h4>Retirees & Seniors</h4><p>Reviewing and updating your plan as life changes — remarriage, grandchildren, downsizing — ensures your wishes stay current.</p></div>
+    <div class="who-card"><span class="who-icon">📊</span><h4>High-Income Earners</h4><p>The more you earn, the more tax exposure you have at death. Strategic life insurance and trust structures can significantly reduce estate taxes.</p></div>
+    <div class="who-card"><span class="who-icon">🤝</span><h4>Blended Families</h4><p>Second marriages and step-children create complex inheritance dynamics. A clear estate plan prevents conflict and ensures everyone is protected.</p></div>
+  </div>
+</section>
+
+<section class="checklist-section">
+  <div class="section-label">Estate Planning Checklist</div>
+  <h2 class="section-title">Where Do You Stand?</h2>
+  <div class="checklist-grid">
+    <div class="check-col">
+      <h3>✅ Foundation Documents</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Up-to-date Will</h5><p>Legally directs your assets and names a guardian for minor children.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Power of Attorney – Financial</h5><p>Names someone to manage your finances if you're incapacitated.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Power of Attorney – Personal Care</h5><p>Designates who makes medical decisions on your behalf.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Beneficiary Designations Updated</h5><p>RRSP, RRIF, TFSA, and life insurance — are they current?</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Life Insurance in Place</h5><p>Enough coverage to replace income, clear debts, and fund your legacy.</p></div></div>
+      </div>
+    </div>
+    <div class="check-col">
+      <h3>🏆 Advanced Planning</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Trust for Minor Children</h5><p>Ensures inheritances are managed responsibly until children reach a set age.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Business Succession Plan</h5><p>Buy-sell agreement funded by life insurance, key person coverage.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Tax Minimization Strategy</h5><p>TFSA maximization, spousal transfers, corporate insurance structures.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Charitable Giving Plan</h5><p>Strategic donations through insurance that maximize tax credits.</p></div></div>
+        <div class="check-item"><div class="check-box">?</div><div class="check-item-text"><h5>Digital Asset Instructions</h5><p>What happens to your online accounts, crypto, and digital property?</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quote-section" id="quote">
+  <div class="quote-wrap">
+    <div>
+      <div class="section-label">Free Consultation</div>
+      <h2 class="section-title" style="margin-bottom:16px;">Start Your Estate<br>Planning Conversation</h2>
+      <p style="color:var(--text-muted);line-height:1.75;margin-bottom:36px;font-size:0.95rem;">Estate planning can feel overwhelming — but it doesn't have to be. We start with a simple conversation about your family, your assets, and your goals. No jargon, no pressure.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:12px;align-items:center;padding:16px 20px;background:rgba(139,58,92,0.08);border:1px solid rgba(139,58,92,0.25);border-radius:10px;"><span style="font-size:1.3rem;">🏛️</span><div><div style="font-size:0.82rem;font-weight:700;color:var(--rose-light);margin-bottom:2px;">We Coordinate With Your Lawyer & Accountant</div><div style="font-size:0.78rem;color:var(--text-muted);">We handle the insurance and beneficiary strategy; your legal team handles the will</div></div></div>
+        <div style="display:flex;gap:12px;align-items:center;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;"><span style="font-size:1.3rem;">💰</span><div><div style="font-size:0.82rem;font-weight:700;color:var(--white);margin-bottom:2px;">Tax-Free Death Benefits</div><div style="font-size:0.78rem;color:var(--text-muted);">Life insurance proceeds bypass probate and pass tax-free to your beneficiaries</div></div></div>
+        <div style="display:flex;gap:12px;align-items:center;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;"><span style="font-size:1.3rem;">📞</span><div><div style="font-size:0.82rem;font-weight:700;color:var(--white);margin-bottom:2px;">One-on-One Guidance</div><div style="font-size:0.78rem;color:var(--text-muted);">Every estate is unique — we build a strategy around your specific situation</div></div></div>
+      </div>
+    </div>
+    <div class="form-box">
+      <h3>Book a Free Consultation</h3>
+      <p class="sub">Tell us about your situation and we'll reach out to schedule.</p>
+      <div class="form-row">
+        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="John"></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith"></div>
+      </div>
+      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="john@example.com"></div>
+      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000"></div>
+      <div class="fg"><label>Primary Concern</label>
+        <select id="concern"><option value="">— Select your situation —</option><option>I don't have a will yet</option><option>I have young children I need to protect</option><option>I own a business — need succession plan</option><option>I want to minimize estate taxes</option><option>I need life insurance for estate purposes</option><option>I want to review my existing plan</option><option>Common-law / blended family situation</option></select>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Approx. Age</label><input type="number" id="age" placeholder="e.g. 45" min="18" max="85"></div>
+        <div class="fg"><label>Do You Own a Business?</label><select id="business"><option value="">— Select —</option><option>Yes — incorporated</option><option>Yes — sole proprietor</option><option>No</option></select></div>
+      </div>
+      <div class="fg"><label>Anything Else?</label><textarea id="notes" placeholder="Tell us more about your estate planning goals or concerns..."></textarea></div>
+      <button class="submit-btn" onclick="submitQuote()">Book My Free Consultation →</button>
+      <div class="success-msg" id="successMsg">✅ Thank you! We'll reach out within one business day to schedule your consultation.</div>
+      <p class="disclaimer">Confidential · FSRA Licensed · No obligation<br>Estate planning involves legal documents — we work alongside your solicitor.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Cover<span>&</span>Protect</div>
+  <div class="footer-compliance">Cover & Protect is an Ontario-licensed independent insurance advisory practice regulated by FSRA. Estate planning advice relates to insurance products only. For wills, powers of attorney, and legal documents, consult a licensed Ontario solicitor. Tax strategies should be reviewed by a qualified accountant.</div>
+  <div class="footer-right">© 2026 coverandprotect.ca</div>
+</footer>
+<script>
+function submitQuote(){
+  const fname=document.getElementById('fname').value,email=document.getElementById('email').value,concern=document.getElementById('concern').value;
+  if(!fname||!email||!concern){alert('Please fill in your name, email, and primary concern.');return;}
+  document.getElementById('successMsg').style.display='block';
+  ['fname','lname','email','phone','age','notes'].forEach(id=>document.getElementById(id).value='');
+  ['concern','business'].forEach(id=>document.getElementById(id).value='');
+}
+const cards=document.querySelectorAll('.pillar-card,.who-card,.life-card');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.1});
+cards.forEach(c=>{c.style.opacity='0';c.style.transform='translateY(16px)';c.style.transition='opacity 0.5s ease,transform 0.5s ease,border-color 0.3s,background 0.3s';obs.observe(c);});
+</script>
+</body>
+</html>
