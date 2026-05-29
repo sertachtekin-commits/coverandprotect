@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- SEO Meta Tags -->
+  <title>Insurance Advisor Toronto | Travel, Health & Group Benefits | Cover & Protect</title>
+  <meta name="description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa insurance, health, group benefits, life & estate planning. Compare 10+ top Canadian insurers. FSRA Licence #10112782.">
+  <meta name="keywords" content="insurance advisor Toronto, independent insurance advisor Ontario, super visa insurance Toronto, health insurance Ontario, group benefits Toronto, FSRA licensed insurance advisor">
+  <meta name="author" content="Sertac Tekin - Cover & Protect">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="geo.region" content="CA-ON">
+  <meta name="geo.placename" content="Toronto, Ontario">
+  <meta name="geo.position" content="43.6532;-79.3832">
+  <meta name="ICBM" content="43.6532, -79.3832">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.coverandprotect.ca/">
+  <meta property="og:title" content="Cover & Protect | Independent Insurance Advisor Toronto">
+  <meta property="og:description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa insurance, health, group benefits, life & estate planning. Compare 10+ top Canadian insurers. FSRA Licence #10112782.">
+  <meta property="og:site_name" content="Cover & Protect">
+  <meta property="og:locale" content="en_CA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cover & Protect | Independent Insurance Advisor Toronto">
+  <meta name="twitter:description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa insurance, health, group benefits, life & estate planning. Compare 10+ top Canadian insurers. FSRA Licence #10112782.">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.coverandprotect.ca/">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cover & Protect | Insurance & Life Planning | Ontario Licensed Advisor</title>
-<meta name="description" content="Ontario-licensed insurance advisor specializing in travel insurance, health insurance, and group benefits. Get a free quote today from top Canadian insurers.">
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -749,9 +776,177 @@
     footer { padding: 30px 24px; flex-direction: column; text-align: center; }
     .form-row { grid-template-columns: 1fr; }
   }
+
+  /* MOBILE HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,22,40,0.98);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-menu .close-btn {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--white);
+    background: none;
+    border: none;
+  }
+  .mobile-menu .mob-cta {
+    background: var(--gold);
+    color: var(--navy) !important;
+    padding: 14px 36px;
+    border-radius: 4px;
+    font-size: 1.1rem !important;
+  }
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    .nav-links { display: none !important; }
+  }
+
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["InsuranceAgency", "LocalBusiness"],
+  "@id": "https://www.coverandprotect.ca/#business",
+  "name": "Cover & Protect",
+  "alternateName": "Cover and Protect Insurance",
+  "description": "Ontario-licensed independent insurance advisor specializing in travel insurance, super visa insurance, health insurance, group benefits, estate planning, RESP and RRSP savings plans.",
+  "url": "https://www.coverandprotect.ca",
+  "logo": "https://www.coverandprotect.ca/logo.png",
+  "image": "https://www.coverandprotect.ca/logo.png",
+  "telephone": "+16477028264",
+  "email": "contact@coverandprotect.ca",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Toronto",
+    "addressRegion": "ON",
+    "addressCountry": "CA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 43.6532,
+    "longitude": -79.3832
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Toronto"},
+    {"@type": "City", "name": "Mississauga"},
+    {"@type": "City", "name": "Brampton"},
+    {"@type": "City", "name": "Markham"},
+    {"@type": "City", "name": "Vaughan"},
+    {"@type": "AdministrativeArea", "name": "Greater Toronto Area"},
+    {"@type": "Province", "name": "Ontario"}
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Insurance Services",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Super Visa Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Travel Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Health Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Group Benefits"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estate Planning"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "RESP Savings Plans"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "RRSP Savings Plans"}}
+    ]
+  },
+  "employee": {
+    "@type": "Person",
+    "name": "Sertac Tekin",
+    "jobTitle": "Licensed Insurance Advisor",
+    "telephone": "+16477028264",
+    "email": "contact@coverandprotect.ca",
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Professional License",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "Financial Services Regulatory Authority of Ontario (FSRA)",
+        "url": "https://www.fsrao.ca"
+      },
+      "identifier": "10112782"
+    }
+  },
+  "sameAs": [
+    "https://www.coverandprotect.ca"
+  ],
+  "priceRange": "Free Consultation",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "10:00",
+      "closes": "16:00"
+    }
+  ]
+}
+</script>
+
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 </head>
 <body>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" onclick="closeMobileMenu()">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="travel-insurance.html" onclick="closeMobileMenu()">Travel Insurance</a>
+  <a href="health-insurance.html" onclick="closeMobileMenu()">Health Insurance</a>
+  <a href="group-benefits.html" onclick="closeMobileMenu()">Group Benefits</a>
+  <a href="estate-planning.html" onclick="closeMobileMenu()">Estate Planning</a>
+  <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
+  <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
+</div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" onclick="closeMobileMenu()">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="travel-insurance.html" onclick="closeMobileMenu()">Travel Insurance</a>
+  <a href="health-insurance.html" onclick="closeMobileMenu()">Health Insurance</a>
+  <a href="group-benefits.html" onclick="closeMobileMenu()">Group Benefits</a>
+  <a href="estate-planning.html" onclick="closeMobileMenu()">Estate Planning</a>
+  <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
+  <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -763,6 +958,9 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#quote" class="nav-cta">Free Consultation</a></li>
   </ul>
+<div class="hamburger" onclick="openMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1174,6 +1372,21 @@ cards.forEach(card => {
   card.style.transform = 'translateY(20px)';
   card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, background 0.3s';
   observer.observe(card);
+});
+</script>
+
+<script>
+function openMobileMenu() {
+  document.getElementById('mobileMenu').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close on escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeMobileMenu();
 });
 </script>
 </body>
