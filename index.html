@@ -1114,6 +1114,68 @@
   }
   @media(prefers-reduced-motion:reduce){.cp-reviews .cp-card,.cp-reviews .cp-btn{transition:none;}}
 </style>
+
+<style>
+/* ===== COVER & PROTECT ASSISTANT (added) ===== */
+#cpbot-launch{
+  position:fixed;right:20px;bottom:20px;z-index:99998;
+  width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--teal,#0e7c7b);color:#fff;
+  box-shadow:0 10px 30px rgba(14,124,123,.45);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s ease,background .2s ease;
+}
+#cpbot-launch:hover{transform:translateY(-3px) scale(1.04);background:var(--teal-light,#14a8a7);}
+#cpbot-launch svg{width:28px;height:28px;}
+#cpbot-launch .cpbot-dot{
+  position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;
+  background:var(--gold,#c9973a);border:2px solid #fff;
+}
+#cpbot-panel{
+  position:fixed;right:20px;bottom:94px;z-index:99999;width:360px;max-width:calc(100vw - 32px);
+  height:540px;max-height:calc(100vh - 130px);
+  background:#0a1628;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;
+  display:none;flex-direction:column;font-family:'DM Sans',sans-serif;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+#cpbot-panel.cpbot-open{display:flex;animation:cpbotIn .22s ease;}
+@keyframes cpbotIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.cpbot-header{
+  background:linear-gradient(135deg,#0e2138,#0a1628);
+  padding:16px 18px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(201,151,58,.25);
+}
+.cpbot-badge{width:40px;height:40px;border-radius:50%;background:var(--teal,#0e7c7b);
+  display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 40px;}
+.cpbot-badge svg{width:20px;height:20px;}
+.cpbot-title{font-family:'Playfair Display',serif;color:#fff;font-size:1.05rem;font-weight:700;line-height:1.1;}
+.cpbot-title span{color:var(--gold-light,#e5b657);}
+.cpbot-status{color:rgba(255,255,255,.55);font-size:.74rem;margin-top:2px;}
+.cpbot-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.6);font-size:1.4rem;cursor:pointer;line-height:1;padding:4px;}
+.cpbot-body{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px;}
+.cpbot-msg{max-width:84%;padding:11px 14px;border-radius:14px;font-size:.92rem;line-height:1.5;}
+.cpbot-bot{align-self:flex-start;background:rgba(255,255,255,.06);color:#e7edf3;border-bottom-left-radius:4px;}
+.cpbot-user{align-self:flex-end;background:var(--teal,#0e7c7b);color:#fff;border-bottom-right-radius:4px;}
+.cpbot-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;}
+.cpbot-chip{
+  background:rgba(201,151,58,.10);border:1px solid rgba(201,151,58,.4);color:var(--gold-light,#e5b657);
+  font-size:.82rem;padding:8px 13px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:background .15s ease;
+}
+.cpbot-chip:hover{background:rgba(201,151,58,.22);}
+.cpbot-cta{display:inline-flex;align-items:center;gap:7px;margin-top:8px;margin-right:8px;
+  background:var(--teal,#0e7c7b);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;
+  padding:9px 15px;border-radius:10px;}
+.cpbot-cta.alt{background:transparent;border:1px solid rgba(255,255,255,.3);}
+.cpbot-foot{padding:10px 14px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:8px;}
+.cpbot-input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;color:#fff;padding:11px 13px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;}
+.cpbot-input::placeholder{color:rgba(255,255,255,.4);}
+.cpbot-send{background:var(--gold,#c9973a);border:none;border-radius:10px;color:#0a1628;font-weight:700;
+  padding:0 15px;cursor:pointer;font-size:1.1rem;}
+.cpbot-disclaimer{color:rgba(255,255,255,.4);font-size:.68rem;text-align:center;padding:6px 14px 10px;line-height:1.4;}
+@media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
+@media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open{transition:none;animation:none;}}
+</style>
 </head>
 <body>
 <!-- MOBILE MENU -->
@@ -1747,6 +1809,97 @@ function closeMobileMenu() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeMobileMenu();
 });
+</script>
+
+<!-- COVER & PROTECT ASSISTANT -->
+<button id="cpbot-launch" aria-label="Chat with Cover & Protect"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cpbot-dot"></span></button>
+<div id="cpbot-panel" role="dialog" aria-label="Cover and Protect assistant">
+  <div class="cpbot-header">
+    <div class="cpbot-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div>
+      <div class="cpbot-title">Cover<span>&amp;</span>Protect Assistant</div>
+      <div class="cpbot-status">Typically replies in minutes</div>
+    </div>
+    <button class="cpbot-close" id="cpbot-close" aria-label="Close">&times;</button>
+  </div>
+  <div class="cpbot-body" id="cpbot-body"></div>
+  <div class="cpbot-foot">
+    <input class="cpbot-input" id="cpbot-input" type="text" placeholder="Type your question..." autocomplete="off">
+    <button class="cpbot-send" id="cpbot-send" aria-label="Send">&#10148;</button>
+  </div>
+  <div class="cpbot-disclaimer">Informational only. For personalized advice, Sertac (FSRA-licensed advisor) will assist you.</div>
+</div>
+
+<script>
+(function(){
+  var panel=document.getElementById('cpbot-panel');
+  var body=document.getElementById('cpbot-body');
+  var input=document.getElementById('cpbot-input');
+  var greeted=false;
+  function open(){panel.classList.add('cpbot-open');if(!greeted){greet();greeted=true;}setTimeout(function(){input.focus();},250);}
+  function close(){panel.classList.remove('cpbot-open');}
+  document.getElementById('cpbot-launch').onclick=function(){panel.classList.contains('cpbot-open')?close():open();};
+  document.getElementById('cpbot-close').onclick=close;
+
+  function el(cls,html){var d=document.createElement('div');d.className=cls;d.innerHTML=html;return d;}
+  function bot(html){body.appendChild(el('cpbot-msg cpbot-bot',html));body.scrollTop=body.scrollHeight;}
+  function user(text){body.appendChild(el('cpbot-msg cpbot-user',text));body.scrollTop=body.scrollHeight;}
+  function chips(items){
+    var wrap=el('cpbot-chips','');
+    items.forEach(function(it){
+      var c=document.createElement('button');c.className='cpbot-chip';c.textContent=it.label;
+      c.onclick=function(){user(it.label);setTimeout(function(){answer(it.key);},250);};
+      wrap.appendChild(c);
+    });
+    body.appendChild(wrap);body.scrollTop=body.scrollHeight;
+  }
+  var CTA='<div><a class="cpbot-cta" href="#quote">Get a free quote</a><a class="cpbot-cta alt" href="tel:6473669495">Call 647-366-9495</a></div>';
+  var BOOK='<div><a class="cpbot-cta" href="https://calendly.com/contact-coverandprotect/30min" target="_blank" rel="noopener">Book a free consult</a><a class="cpbot-cta alt" href="tel:6473669495">Call now</a></div>';
+
+  var TOPICS={
+    supervisa:"Super Visa insurance is the mandatory medical coverage for parents and grandparents visiting Canada \u2014 minimum $100,000, valid for one year, covering emergency medical, hospitalization, and repatriation. I can compare IRCC-approved plans from Canada\u2019s top insurers to fit your budget."+CTA,
+    travel:"Visitor to Canada and travel insurance covers emergency medical costs during a stay in Canada or abroad. Your price depends on age, length of stay, and any pre-existing conditions \u2014 I can find the right plan for you."+CTA,
+    health:"We offer individual health plans and group benefits for businesses \u2014 dental, prescription, disability, and more \u2014 tailored to your team and budget."+CTA,
+    life:"We provide term and permanent life insurance plus critical illness coverage from Canada\u2019s top carriers. Sertac explains the options in plain language and finds a fit for your needs."+BOOK,
+    quote:"Happy to help you get started. Sertac will personally walk you through your options \u2014 you can book a free 30-minute consult, call, or use the quote form."+BOOK
+  };
+  function answer(key){
+    bot(TOPICS[key]||TOPICS.quote);
+    setTimeout(function(){bot("Anything else I can help with?");menu();},400);
+  }
+  function menu(){
+    chips([
+      {label:"Super Visa insurance",key:"supervisa"},
+      {label:"Travel / visitor insurance",key:"travel"},
+      {label:"Health & group benefits",key:"health"},
+      {label:"Life & critical illness",key:"life"},
+      {label:"Get a quote / talk to Sertac",key:"quote"}
+    ]);
+  }
+  function greet(){
+    bot("Hi! I\u2019m the Cover &amp; Protect assistant. What can I help you with today?");
+    menu();
+  }
+  function route(text){
+    var t=text.toLowerCase();
+    if(/super\s*visa|parent|grandparent/.test(t))return 'supervisa';
+    if(/travel|visitor|trip|abroad/.test(t))return 'travel';
+    if(/health|group|benefit|dental|employee|business/.test(t))return 'health';
+    if(/life|critical|illness|term|permanent|estate/.test(t))return 'life';
+    if(/quote|price|cost|how much|talk|sertac|call|contact|consult|book/.test(t))return 'quote';
+    return null;
+  }
+  function send(){
+    var v=input.value.trim();if(!v)return;input.value='';user(v);
+    var k=route(v);
+    setTimeout(function(){
+      if(k){answer(k);}
+      else{bot("Great question \u2014 Sertac can give you a clear, personalized answer. Book a quick consult or call and he\u2019ll take care of it."+BOOK);setTimeout(menu,400);}
+    },300);
+  }
+  document.getElementById('cpbot-send').onclick=send;
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+})();
 </script>
 </body>
 </html>
