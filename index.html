@@ -1040,6 +1040,80 @@
   <meta name="author" content="Sertac Tekin - Cover & Protect Insurance Advisor Toronto">
   <meta name="coverage" content="Greater Toronto Area, Ontario, Canada">
   <meta name="target" content="Ontario residents, GTA families, small businesses">
+
+  /* ===== CLIENT REVIEWS (added) ===== */
+  .cp-reviews{
+    background:linear-gradient(160deg,var(--navy) 0%,#0e2138 55%,var(--navy) 100%);
+    padding:90px 24px;color:#fff;
+    font-family:'DM Sans',sans-serif;
+  }
+  .cp-reviews *{box-sizing:border-box;}
+  .cp-reviews .cp-wrap{max-width:1180px;margin:0 auto;}
+  .cp-reviews .cp-head{text-align:center;max-width:720px;margin:0 auto 16px;}
+  .cp-reviews .cp-eyebrow{
+    display:inline-block;letter-spacing:.18em;text-transform:uppercase;
+    font-size:.72rem;font-weight:600;color:var(--gold-light);
+    border:1px solid rgba(201,151,58,.5);border-radius:999px;
+    padding:8px 18px;margin-bottom:20px;background:rgba(201,151,58,.07);
+  }
+  .cp-reviews .cp-title{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:0 0 14px;color:#fff;
+  }
+  .cp-reviews .cp-title em{color:var(--teal-light);font-style:italic;}
+  .cp-reviews .cp-sub{color:rgba(255,255,255,.72);font-size:1.05rem;line-height:1.65;margin:0;}
+  .cp-reviews .cp-summary{
+    display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+    margin:30px auto 50px;padding:16px 26px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);border-radius:16px;max-width:560px;
+  }
+  .cp-reviews .cp-g{display:flex;align-items:center;gap:9px;font-weight:600;color:#fff;font-size:1.05rem;}
+  .cp-reviews .cp-g svg{width:22px;height:22px;display:block;}
+  .cp-reviews .cp-score{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#fff;line-height:1;}
+  .cp-reviews .cp-stars{color:var(--gold-light);letter-spacing:2px;font-size:1.15rem;line-height:1;}
+  .cp-reviews .cp-count{color:rgba(255,255,255,.62);font-size:.9rem;}
+  .cp-reviews .cp-divider{width:1px;height:36px;background:rgba(255,255,255,.16);}
+  .cp-reviews .cp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .cp-reviews .cp-card{
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
+    border-radius:18px;padding:30px 28px 26px;display:flex;flex-direction:column;position:relative;
+    transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+  }
+  .cp-reviews .cp-card:hover{
+    transform:translateY(-5px);border-color:rgba(201,151,58,.35);
+    box-shadow:0 18px 44px rgba(0,0,0,.4);
+  }
+  .cp-reviews .cp-quote{
+    position:absolute;top:16px;right:24px;font-size:3.6rem;line-height:1;
+    font-family:'Playfair Display',serif;color:var(--gold);opacity:.22;
+  }
+  .cp-reviews .cp-card .cp-stars{margin-bottom:16px;}
+  .cp-reviews .cp-text{font-size:.98rem;line-height:1.66;color:rgba(255,255,255,.9);margin:0 0 22px;flex:1;}
+  .cp-reviews .cp-person{display:flex;align-items:center;gap:12px;margin-top:auto;}
+  .cp-reviews .cp-avatar{
+    width:46px;height:46px;border-radius:50%;flex:0 0 46px;display:flex;
+    align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:1.1rem;
+  }
+  .cp-reviews .cp-name{font-weight:600;color:#fff;font-size:.97rem;line-height:1.2;}
+  .cp-reviews .cp-meta{color:rgba(255,255,255,.6);font-size:.82rem;display:flex;align-items:center;gap:6px;margin-top:3px;}
+  .cp-reviews .cp-gmark{width:13px;height:13px;display:inline-block;}
+  .cp-reviews .cp-cta{text-align:center;margin-top:48px;}
+  .cp-reviews .cp-btn{
+    display:inline-flex;align-items:center;gap:10px;background:var(--teal);color:#fff;
+    text-decoration:none;font-weight:600;font-size:1rem;padding:16px 32px;border-radius:12px;
+    transition:background .2s ease,transform .2s ease;
+    box-shadow:0 8px 22px rgba(14,124,123,.3);
+  }
+  .cp-reviews .cp-btn:hover{background:var(--teal-light);transform:translateY(-2px);}
+  .cp-reviews .cp-btn svg{width:18px;height:18px;}
+  @media(max-width:880px){.cp-reviews .cp-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){
+    .cp-reviews{padding:64px 18px;}
+    .cp-reviews .cp-grid{grid-template-columns:1fr;}
+    .cp-reviews .cp-summary{gap:12px;padding:14px 18px;}
+  }
+  @media(prefers-reduced-motion:reduce){.cp-reviews .cp-card,.cp-reviews .cp-btn{transition:none;}}
+
 </head>
 <body>
 <!-- MOBILE MENU -->
@@ -1398,6 +1472,107 @@
       <div class="insurer-card-name">Empire Life</div>
       <div class="insurer-card-type">Health · Life · Critical Illness</div>
     </a>
+  </div>
+</section>
+
+
+<!-- CLIENT REVIEWS -->
+<section id="reviews" class="cp-reviews" aria-label="Client reviews">
+  <div class="cp-wrap">
+    <div class="cp-head">
+      <span class="cp-eyebrow">Ontario families &amp; businesses</span>
+      <h2 class="cp-title">Trusted Advice, <em>Real</em> Results</h2>
+      <p class="cp-sub">Verified Google reviews from clients who count on Cover &amp; Protect for life, critical illness, travel, and group benefits coverage.</p>
+    </div>
+    <div class="cp-summary">
+      <div class="cp-g"><svg  viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Google</div>
+      <div class="cp-divider"></div>
+      <div class="cp-score">5.0</div>
+      <div style="text-align:left;">
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="cp-count">9 verified Google reviews</div>
+      </div>
+    </div>
+    <div class="cp-grid">
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">Sertac has become our family's go-to insurance advisor. He set me up with permanent life insurance on a 20-year pay plan with guaranteed cash value, added participating coverage, and made sure my children are protected with critical illness insurance too. He even handles our travel insurance whenever we leave the country. One trusted advisor for everything &mdash; knowledgeable, patient, and always honest. Highly recommend.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#7c4dff;">C</div>
+          <div>
+            <div class="cp-name">Caner Gul</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">As parents of two young kids, my wife and I knew we needed life insurance but felt overwhelmed by the options. Sertac made it simple &mdash; he listened to our situation, explained term vs permanent in plain language, and found us coverage that protects our children's future without stretching our budget. No pressure, just genuine care. Highly recommend to any young family.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#1a73e8;">H</div>
+          <div>
+            <div class="cp-name">Hasan Karagoz</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">Excellent financial advisor! Knowledgeable, responsive, and trustworthy. Sertac always provides clear advice and takes the time to explain options. I truly appreciate the support and guidance he has provided.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#1a73e8;">I</div>
+          <div>
+            <div class="cp-name">I. T.</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">I worked with him for my parents' insurance to travel in Canada. He was helpful all the way through the process.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#0e7c7b;">H</div>
+          <div>
+            <div class="cp-name">Helin Ozkan</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">As a small business owner, I was concerned about the cost and complexity of setting up a group benefits plan. Sertac walked me through every option clearly and built a plan that fit my team and my budget.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#1a73e8;">A</div>
+          <div>
+            <div class="cp-name">Ayaz Dinckurt</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">Sertac is an excellent financial advisor. Someone reliable and trustworthy!</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#d93025;">E</div>
+          <div>
+            <div class="cp-name">Edna Tutor</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="cp-cta">
+      <a class="cp-btn" href="https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8" target="_blank" rel="noopener">
+        Read more reviews on Google
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
