@@ -74,11 +74,4 @@
     <priority>0.7</priority>
   </url>
 
-  <url>
-    <loc>https://www.coverandprotect.ca/thankyou.html</loc>
-    <lastmod>2026-06-26</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-  </url>
-
 </urlset>
