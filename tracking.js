@@ -107,6 +107,14 @@
     };
   }
 
+  var pageParams = new URLSearchParams(window.location.search);
+  if (/\/thankyou\.html$/i.test(window.location.pathname) && pageParams.get("lead") === "1") {
+    sendEvent("generate_lead", {
+      lead_source: "website_form",
+      form_provider: "formspree"
+    });
+  }
+
   if (Object.keys(attribution).length) {
     sendEvent("campaign_landing", { campaign_source: attribution.utm_source || "" });
   }
