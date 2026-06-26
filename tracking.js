@@ -72,6 +72,14 @@
     } else if (/wa\.me|api\.whatsapp\.com|web\.whatsapp\.com/i.test(href)) {
       sendEvent("whatsapp_click", details);
     }
+
+    if (/trustonehealth\.ca/i.test(href) || link.dataset.trustonePlan) {
+      sendEvent("truestone_click", Object.assign({}, details, {
+        provider: "TruStone Health",
+        plan_code: link.dataset.trustonePlan || "",
+        application_type: link.dataset.applicationType || "online_application"
+      }));
+    }
   }, true);
 
   document.addEventListener("focusin", function (event) {
