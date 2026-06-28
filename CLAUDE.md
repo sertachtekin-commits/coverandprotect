@@ -33,6 +33,7 @@ Everything lives at the repository root (flat structure):
 | `long-term-care.html` | Long-term care service page |
 | `savings-plans.html` | Savings / investment plans service page |
 | `blog-supervisa-cost.html` | Blog article (Super Visa cost) |
+| `blog-travel-insurance-canadians.html` | Blog article (travel insurance for Canadians abroad) |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
@@ -71,7 +72,30 @@ structured data → inline `<style>` → fixed `<nav>` → page sections → `<f
 
 When creating a new page, **copy an existing page** (e.g. a service page) as the
 template rather than starting from scratch, so the nav, footer, palette, and
-tracking are consistent.
+tracking are consistent. For blog articles, copy one of the `blog-*.html` files —
+they share a distinct light-theme layout (cream background, `.wrap`, `.cta-box`,
+Article JSON-LD).
+
+### Images & performance
+- Source images live in `images/` and are served directly. **Keep them
+  web-optimized**: long edge ≤ 1920px, JPEG quality ~80, progressive. The whole
+  `images/` folder should stay around a few MB, not tens of MB. If you add a
+  large photo, compress/resize it before committing (e.g. with Pillow).
+- **Loading discipline:** above-the-fold hero images use `fetchpriority="high"`
+  (eager, the default) so they don't delay LCP; below-the-fold content images use
+  `loading="lazy"`. Don't put `loading="lazy"` on a hero.
+
+### Accessibility
+- Every form `<label>` must be associated with its control via `for="id"` ↔
+  `id="…"`. When adding form fields, give the control an `id` and point the label
+  at it. The email field is marked `required`; other fields are intentionally
+  optional to minimize submission friction.
+
+### Internal linking
+- When adding a page, link it from relevant existing pages (nav, footer, or
+  related-article links) in addition to `sitemap.xml` — the site relies on
+  internal links for discovery and SEO. Blog posts cross-link each other and link
+  to the matching service page's quote form.
 
 ### Brand / business facts (keep consistent everywhere)
 - Business: **Cover & Protect**, advisor **Sertac Tekin**, Toronto, Ontario.

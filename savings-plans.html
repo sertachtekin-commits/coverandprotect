@@ -452,7 +452,7 @@
 
 <section class="hero">
   <div class="hero-photo" style="position:absolute;inset:0;overflow:hidden;z-index:0;">
-    <img src="images/hero-savings.jpg" alt="Cover & Protect insurance" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
+    <img src="images/hero-savings.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.62) 0%,rgba(8,15,30,0.78) 100%);"></div>
   </div>
   <div class="hero-bg"></div>
@@ -471,7 +471,7 @@
 
 <!-- VISIBLE PHOTO BAND -->
 <div class="photo-band" style="position:relative;height:340px;overflow:hidden;">
-  <img src="images/hero-savings.jpg" alt="Invest In Their Future" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+  <img src="images/hero-savings.jpg" alt="Invest In Their Future" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;">
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.30) 0%,rgba(8,15,30,0.75) 100%);"></div>
   <div style="position:absolute;left:0;right:0;bottom:0;padding:36px 60px;">
     <div style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:#fff;margin-bottom:6px;">Invest In Their Future</div>
@@ -635,19 +635,19 @@
       <h3>Savings Plan Consultation</h3>
       <p class="sub">Tell us your goals and we'll map out a strategy.</p>
       <div class="form-row">
-        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="John" name="fname"></div>
-        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith" name="lname"></div>
+        <div class="fg"><label for="fname">First Name</label><input type="text" id="fname" placeholder="John" name="fname"></div>
+        <div class="fg"><label for="lname">Last Name</label><input type="text" id="lname" placeholder="Smith" name="lname"></div>
       </div>
-      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="john@example.com" name="email"></div>
-      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000" name="phone"></div>
-      <div class="fg"><label>I'm Interested In</label>
+      <div class="fg"><label for="email">Email Address</label><input type="email" id="email" placeholder="john@example.com" name="email" required></div>
+      <div class="fg"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000" name="phone"></div>
+      <div class="fg"><label for="interest">I'm Interested In</label>
         <select id="interest" name="interest"><option value="">— Select plan type —</option><option>RESP — Starting for my child</option><option>RESP — I have existing contributions, need review</option><option>RRSP — Starting or maximizing contributions</option><option>RRSP — Home Buyers' Plan (first home)</option><option>RRSP — Converting to RRIF / retirement planning</option><option>Both RESP and RRSP strategy</option><option>TFSA strategy</option><option>Full savings plan review</option></select>
       </div>
       <div class="form-row">
-        <div class="fg"><label>Your Age</label><input type="number" id="age" placeholder="e.g. 38" min="18" max="75" name="age"></div>
-        <div class="fg"><label>Child's Age (if RESP)</label><input type="number" id="cage" placeholder="e.g. 3" min="0" max="17" name="cage"></div>
+        <div class="fg"><label for="age">Your Age</label><input type="number" id="age" placeholder="e.g. 38" min="18" max="75" name="age"></div>
+        <div class="fg"><label for="cage">Child's Age (if RESP)</label><input type="number" id="cage" placeholder="e.g. 3" min="0" max="17" name="cage"></div>
       </div>
-      <div class="fg"><label>Anything Else We Should Know?</label><textarea id="notes" placeholder="Income range, existing savings, specific goals or timeline..." name="notes"></textarea></div>
+      <div class="fg"><label for="notes">Anything Else We Should Know?</label><textarea id="notes" placeholder="Income range, existing savings, specific goals or timeline..." name="notes"></textarea></div>
       <button class="submit-btn" type="submit" style="cursor:pointer">Book My Savings Consultation →</button>
       <div class="success-msg" id="successMsg">✅ Consultation request received! We'll reach out within one business day.</div>
       <p class="disclaimer">Confidential · FSRA Licensed · No obligation<br>Investment products offered through licensed channels only.</p>

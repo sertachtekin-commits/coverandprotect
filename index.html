@@ -1206,7 +1206,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-photo" style="position:absolute;inset:0;overflow:hidden;z-index:0;">
-    <img src="images/hero-home.jpg" alt="Cover & Protect insurance" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
+    <img src="images/hero-home.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.62) 0%,rgba(8,15,30,0.78) 100%);"></div>
   </div>
   <div class="hero-bg"></div>
@@ -1249,7 +1249,7 @@
 
 <!-- VISIBLE PHOTO BAND -->
 <div class="photo-band" style="position:relative;height:360px;overflow:hidden;">
-  <img src="images/hero-home.jpg" alt="Insurance advice for Ontario families" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+  <img src="images/hero-home.jpg" alt="Insurance advice for Ontario families" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;">
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.30) 0%,rgba(8,15,30,0.78) 100%);"></div>
   <div style="position:absolute;left:0;right:0;bottom:0;padding:40px 60px;">
     <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:6px;">Trusted Insurance Advice in Ontario</div>
@@ -1422,27 +1422,27 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label>First Name</label>
+          <label for="fname">First Name</label>
           <input type="text" id="fname" placeholder="John" name="fname">
         </div>
         <div class="form-group">
-          <label>Last Name</label>
+          <label for="lname">Last Name</label>
           <input type="text" id="lname" placeholder="Smith" name="lname">
         </div>
       </div>
 
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="john@example.com" name="email">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="john@example.com" name="email" required>
       </div>
 
       <div class="form-group">
-        <label>Phone Number</label>
+        <label for="phone">Phone Number</label>
         <input type="tel" id="phone" placeholder="(416) 000-0000" name="phone">
       </div>
 
       <div class="form-group">
-        <label>Insurance Type Needed</label>
+        <label for="coverage">Insurance Type Needed</label>
         <select id="coverage" name="coverage">
           <option value="">— Select coverage type —</option>
           <option>Travel Insurance</option>
@@ -1456,7 +1456,7 @@
       </div>
 
       <div class="form-group">
-        <label>Tell Us More (Optional)</label>
+        <label for="notes">Tell Us More (Optional)</label>
         <textarea id="notes" placeholder="Destination, number of employees, current situation..." name="notes"></textarea>
       </div>
 
@@ -1671,22 +1671,22 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label>Name</label>
+          <label for="cname">Name</label>
           <input type="text" id="cname" placeholder="Your name" name="cname">
         </div>
         <div class="form-group">
-          <label>Phone</label>
+          <label for="cphone">Phone</label>
           <input type="tel" id="cphone" placeholder="(416) 000-0000" name="cphone">
         </div>
       </div>
 
       <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="cemail" placeholder="contact@coverandprotect.ca" name="cemail">
+        <label for="cemail">Email</label>
+        <input type="email" id="cemail" placeholder="contact@coverandprotect.ca" name="cemail" required>
       </div>
 
       <div class="form-group">
-        <label>Message</label>
+        <label for="cmessage">Message</label>
         <textarea id="cmessage" placeholder="How can we help you?" name="cmessage"></textarea>
       </div>
 
@@ -1718,8 +1718,9 @@
 
 <footer>
   <div class="footer-logo">Cover<span>&</span>Protect</div>
-  <div style="margin:14px 0;font-size:0.9rem;">
-    <a href="blog-supervisa-cost.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: How Much Does Super Visa Insurance Cost in 2026?</a>
+  <div style="margin:14px 0;font-size:0.9rem;line-height:2;">
+    <a href="blog-supervisa-cost.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: How Much Does Super Visa Insurance Cost in 2026?</a><br>
+    <a href="blog-travel-insurance-canadians.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Travel Insurance for Canadians Going Abroad (2026 Guide)</a>
   </div>
   <div class="footer-compliance">
     Cover & Protect is an Ontario-licensed independent insurance advisory practice regulated by FSRA. Licence # 10112782.
