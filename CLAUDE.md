@@ -36,14 +36,18 @@ Everything lives at the repository root (flat structure):
 | `blog-travel-insurance-canadians.html` | Blog article (travel insurance for Canadians abroad) |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
+| `blog.css` | Shared stylesheet for all `blog-*.html` articles |
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
 | `robots.txt` | Crawler directives; points to the sitemap |
 | `CNAME` | GitHub Pages custom domain |
 | `images/` | All image assets (hero images, illustrations) |
 
-There is no shared CSS or HTML include mechanism. **Each HTML page is
-self-contained**: it carries its own inline `<style>` block and its own copy of
-the nav, footer, and meta tags. The only genuinely shared asset is `tracking.js`.
+The service/landing pages are **self-contained**: each carries its own inline
+`<style>` block and its own copy of the nav, footer, and meta tags (these were
+authored at different times and their CSS is not byte-identical, so don't assume
+a change to one applies to others). The shared assets are `tracking.js` (all
+pages) and `blog.css` (the `blog-*.html` articles, which link it instead of
+inlining styles).
 
 ## Conventions
 
@@ -73,14 +77,22 @@ structured data → inline `<style>` → fixed `<nav>` → page sections → `<f
 When creating a new page, **copy an existing page** (e.g. a service page) as the
 template rather than starting from scratch, so the nav, footer, palette, and
 tracking are consistent. For blog articles, copy one of the `blog-*.html` files —
-they share a distinct light-theme layout (cream background, `.wrap`, `.cta-box`,
-Article JSON-LD).
+they share the light-theme layout (cream background, `.wrap`, `.cta-box`, Article
+JSON-LD) and link the shared **`blog.css`** rather than inlining styles. New blog
+posts should link `blog.css` too; only add inline `<style>` for genuinely
+post-specific tweaks.
 
 ### Images & performance
 - Source images live in `images/` and are served directly. **Keep them
   web-optimized**: long edge ≤ 1920px, JPEG quality ~80, progressive. The whole
   `images/` folder should stay around a few MB, not tens of MB. If you add a
   large photo, compress/resize it before committing (e.g. with Pillow).
+- **WebP:** every image ships as both `.jpg` and `.webp`. Images are served via
+  `<picture><source srcset="images/NAME.webp" type="image/webp"><img
+  src="images/NAME.jpg" …></picture>` so WebP-capable browsers get the smaller
+  file and others fall back to JPEG. When adding an image, generate both formats
+  and use the `<picture>` wrapper. A global `picture{display:contents}` rule keeps
+  the wrapper from affecting layout — keep that rule on any page using `<picture>`.
 - **Loading discipline:** above-the-fold hero images use `fetchpriority="high"`
   (eager, the default) so they don't delay LCP; below-the-fold content images use
   `loading="lazy"`. Don't put `loading="lazy"` on a hero.
