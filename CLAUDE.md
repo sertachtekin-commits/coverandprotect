@@ -6,15 +6,19 @@ Guidance for AI assistants working in this repository.
 
 **Cover & Protect** (`coverandprotect.ca`) is the marketing website for an
 Ontario-licensed independent insurance advisor based in Toronto (Sertac Tekin,
-FSRA Licence #10112782). It is a **static, hand-authored HTML site** — there is
-no build step, no framework, no package manager, and no server-side code. Pages
-are plain `.html` files served directly.
+FSRA Licence #10112782). It is a **hand-authored, mostly-static HTML site** — no
+framework, no JS bundler, no server-side code. Pages are plain `.html` files with
+their own inline styles and markup.
 
-The site is **deployed via GitHub Pages**:
+The site is **deployed via GitHub Pages with Jekyll**:
 
 - `CNAME` pins the custom domain `coverandprotect.ca`.
-- Pushing to the default branch (`main`) publishes the live site. There is no CI
-  build — what is committed is what is served.
+- Pushing to the default branch (`main`) triggers GitHub Pages' built-in **Jekyll
+  build**, which resolves `{% include %}` tags and publishes the result. There is
+  no separate CI or bundler step.
+- Jekyll is used only as a lightweight include mechanism (shared `<head>`
+  analytics + footer facts). **No theme or layout is applied** — each page renders
+  exactly as authored. See "Jekyll includes" below.
 
 ## Repository layout
 
@@ -40,7 +44,13 @@ Everything lives at the repository root (flat structure):
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
 | `robots.txt` | Crawler directives; points to the sitemap |
 | `CNAME` | GitHub Pages custom domain |
+| `_config.yml` | Jekyll config (no theme/layout; just includes) |
+| `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
+| `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `images/` | All image assets (hero images, illustrations) |
+
+`_site/` (the Jekyll build output) is git-ignored — never commit it; GitHub Pages
+builds it server-side.
 
 The service/landing pages are **self-contained**: each carries its own inline
 `<style>` block and its own copy of the nav, footer, and meta tags (these were
@@ -68,11 +78,36 @@ Fonts: **Playfair Display** (headings/logo) and **DM Sans** (body), loaded from
 Google Fonts. The logo is the word "Cover & Protect" with the ampersand/accent
 in `--gold`.
 
+### Jekyll includes
+Every page begins with an (empty) YAML front-matter block so Jekyll processes it:
+
+```
+---
+---
+<!DOCTYPE html>
+```
+
+Shared, byte-identical fragments are pulled in with Liquid includes instead of
+being duplicated:
+
+- `{% include analytics.html %}` — the GA4 gtag snippet, in every page's `<head>`.
+- `{% include contact-line.html %}` — the footer licence + contact line, used by
+  the blog articles.
+
+When you add a page, **start it with the `---\n---` front matter** and use
+`{% include analytics.html %}` for the GA4 snippet rather than pasting it. To
+change the GA4 ID or the contact facts, edit the include once. The nav and
+per-page footers are intentionally different across pages and are **not**
+templated — don't try to unify them. Avoid literal `{{` or `{%` in page content
+(Liquid would try to interpret it). Verify a change builds with `jekyll build`
+and that `_site/<page>.html` looks right.
+
 ### Page structure
-Each page generally follows: GA4 snippet in `<head>` → SEO meta tags (title,
-description, keywords, geo, Open Graph, Twitter Card, canonical) → JSON-LD
-structured data → inline `<style>` → fixed `<nav>` → page sections → `<footer>`
-→ `<script src="tracking.js?v=2" defer></script>` before `</body>`.
+Each page generally follows: `---\n---` front matter →
+`{% include analytics.html %}` in `<head>` → SEO meta tags (title, description,
+keywords, geo, Open Graph, Twitter Card, canonical) → JSON-LD structured data →
+inline `<style>` (or `blog.css` link) → fixed `<nav>` → page sections →
+`<footer>` → `<script src="tracking.js?v=2" defer></script>` before `</body>`.
 
 When creating a new page, **copy an existing page** (e.g. a service page) as the
 template rather than starting from scratch, so the nav, footer, palette, and
@@ -133,8 +168,9 @@ pattern (same endpoint, same `_next`, descriptive `_subject`).
 
 A single vanilla-JS, no-dependency script included on every page. Key behavior:
 
-- **GA4** property `G-J7F01SWCLW` (the gtag snippet is inlined in each page's
-  `<head>`; `tracking.js` sends events via `gtag`/`dataLayer`).
+- **GA4** property `G-J7F01SWCLW` (the gtag snippet lives in
+  `_includes/analytics.html`, included in each page's `<head>`; `tracking.js`
+  sends events via `gtag`/`dataLayer`).
 - Persists UTM/click attribution (`utm_*`, `gclid`, `gbraid`, `wbraid`,
   `fbclid`) in `sessionStorage` and attaches it to every event.
 - Auto-fires events: `phone_click`, `email_click`, `whatsapp_click`,
@@ -152,21 +188,25 @@ clients fetch the new file.
 
 ## Common tasks
 
-- **Add a page:** copy an existing page, update content/meta/JSON-LD, add it to
+- **Add a page:** copy an existing page (keep the `---\n---` front matter and the
+  `{% include analytics.html %}`), update content/meta/JSON-LD, add it to
   `sitemap.xml`, and link it from the nav/footer where appropriate.
-- **Edit styling:** edit the inline `<style>` block in the specific page; use the
-  existing CSS variables. Remember changes are not shared across pages.
-- **Update analytics:** edit `tracking.js` and bump `?v=` on all pages.
+- **Edit styling:** edit the inline `<style>` block in the specific page (or
+  `blog.css` for articles); use the existing CSS variables. Page styles are not
+  shared across the service/landing pages.
+- **Update analytics:** edit `_includes/analytics.html` (one place). For
+  `tracking.js` behavior changes, edit the script and bump `?v=` on all pages.
 - **Always update `sitemap.xml`** (add/remove `<url>` entries, refresh
   `<lastmod>`) when pages are added, removed, or substantially changed.
 
 ## Workflow notes
 
-- No build, test, lint, or install commands exist. Validate changes by opening
-  the HTML in a browser (or a static server) and checking layout, links, and
-  console for errors.
+- **Build/verify locally with Jekyll:** `jekyll build` produces `_site/`. Diff a
+  built page against the previous version (or just open it) to confirm includes
+  resolved and nothing else changed. There are no unit tests or linters.
 - Keep SEO tags, JSON-LD, canonical URLs, and `sitemap.xml` consistent with the
   page's actual content and URL.
-- Commit with clear messages; pushing to the published branch updates the live
-  site, so review content (especially licence numbers, contact info, and legal
-  disclaimers) before pushing.
+- Commit with clear messages; pushing to the published branch triggers the
+  GitHub Pages Jekyll build, so review content (especially licence numbers,
+  contact info, and legal disclaimers) before pushing. If the Jekyll build fails,
+  the live site keeps the last good build — so verify the build locally first.

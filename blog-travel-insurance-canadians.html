@@ -1,14 +1,9 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J7F01SWCLW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-J7F01SWCLW');
-</script>
+{% include analytics.html %}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Travel Insurance for Canadians Going Abroad (2026 Guide) | Cover & Protect</title>
@@ -148,8 +143,7 @@
 
 <footer>
   <div class="logo">Cover<span>&</span>Protect</div>
-  <div>Ontario-Licensed Independent Insurance Advisory · FSRA #10112782</div>
-  <div>coverandprotect.ca · 647-366-9495 · contact@coverandprotect.ca</div>
+  {% include contact-line.html %}
 </footer>
 </body>
 </html>
