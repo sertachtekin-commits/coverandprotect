@@ -1,22 +1,19 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en-CA">
 <head>
-  <!-- Google tag (gtag.js) - GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-J7F01SWCLW"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-J7F01SWCLW');
-  </script>
+  {% include analytics.html %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Visitor Insurance Canada | Visitors to Canada Insurance Ontario | Cover & Protect</title>
-  <meta name="description" content="Visitor to Canada insurance quotes for parents, relatives, tourists, new immigrants and returning Canadians. Ontario advisor helping compare emergency medical coverage. Free quote.">
+  <meta name="description" content="Visitor to Canada insurance for parents, relatives, tourists & new immigrants. Ontario advisor comparing emergency medical coverage. Free quote.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.coverandprotect.ca/visitor-insurance-canada.html">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.coverandprotect.ca/visitor-insurance-canada.html">
+  <meta property="og:image" content="https://www.coverandprotect.ca/images/travel-supervisa.jpg">
+  <meta name="twitter:image" content="https://www.coverandprotect.ca/images/travel-supervisa.jpg">
   <meta property="og:title" content="Visitor Insurance Canada | Cover & Protect">
   <meta property="og:description" content="Compare visitor to Canada emergency medical insurance with help from an Ontario insurance advisor.">
   <meta property="og:site_name" content="Cover & Protect">
@@ -40,6 +37,7 @@
     "@type":"InsuranceAgency",
     "name":"Cover & Protect",
     "url":"https://www.coverandprotect.ca/",
+    "sameAs":["https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8","https://www.facebook.com/share/1HAGzGYSun/","https://www.instagram.com/coverandprotect.ca"],
     "areaServed":["Canada","Ontario","Toronto","Greater Toronto Area","Mississauga","Brampton","Vaughan","Markham","Richmond Hill","Scarborough","Etobicoke","North York","Oakville"],
     "telephone":"+1-647-366-9495",
     "email":"info@coverandprotect.ca",
@@ -103,7 +101,7 @@
             <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
             <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" autocomplete="tel" required></div>
           </div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email"></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
           <div class="form-row">
             <div class="field"><label for="visitor_age">Visitor age</label><input id="visitor_age" name="visitor_age" placeholder="e.g. 58"></div>
             <div class="field"><label for="arrival">Arrival date</label><input id="arrival" name="arrival_date" placeholder="e.g. July 2026"></div>

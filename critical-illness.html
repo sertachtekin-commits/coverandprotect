@@ -1,16 +1,9 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J7F01SWCLW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-J7F01SWCLW');
-</script>
-<!-- GOOGLE-VERIFY-PLACEHOLDER: paste your google-site-verification meta tag here -->
-
+{% include analytics.html %}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="geo.region" content="CA-ON">
@@ -19,7 +12,7 @@
 <meta name="ICBM" content="43.6532, -79.3832">
 
 <title>Critical Illness Insurance Ontario | Return of Premium | Cover & Protect</title>
-<meta name="description" content="Critical illness insurance with return of premium option in Ontario. Cancer, heart attack, stroke coverage. Get a lump-sum tax-free benefit. FSRA licensed advisor. Free quote.">
+<meta name="description" content="Critical illness insurance with return-of-premium in Ontario. Tax-free lump-sum cover for cancer, heart attack & stroke. FSRA-licensed advisor. Free quote.">
 <meta name="keywords" content="critical illness insurance Ontario, return of premium critical illness, critical illness insurance Toronto, cancer insurance Ontario, CI insurance advisor Toronto">
 <meta name="geo.region" content="CA-ON">
 <meta name="geo.placename" content="Toronto, Ontario">
@@ -27,6 +20,8 @@
 <meta property="og:title" content="Critical Illness Insurance with Return of Premium | Cover & Protect">
 <meta property="og:description" content="Protect your finances if diagnosed with cancer, heart attack or stroke. Return of Premium option means you get your money back if never claimed.">
 <meta property="og:url" content="https://www.coverandprotect.ca/critical-illness.html">
+<meta property="og:image" content="https://www.coverandprotect.ca/images/ci-hearth.jpg">
+<meta name="twitter:image" content="https://www.coverandprotect.ca/images/ci-hearth.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -470,6 +465,7 @@
   /* click safety */
   .hero-photo { z-index: 0 !important; pointer-events: none; }
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
+  picture{display:contents;}
 </style>
 <script type="application/ld+json">
 {
@@ -539,7 +535,7 @@
     "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
     "opens": "09:00", "closes": "20:00"
   },
-  "sameAs": []
+  "sameAs": ["https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8", "https://www.facebook.com/share/1HAGzGYSun/", "https://www.instagram.com/coverandprotect.ca"]
 }
 </script>
 <script src="tracking.js?v=2" defer></script>
@@ -580,9 +576,9 @@
 <!-- HERO -->
 <section class="hero">
   <div style="position:absolute;inset:0;overflow:hidden;">
-    <img src="images/ci-hearth.jpg"
+    <picture><source srcset="images/ci-hearth.webp" type="image/webp"><img src="images/ci-hearth.jpg" fetchpriority="high"
          alt="Medical protection background"
-         style="width:100%;height:100%;object-fit:cover;opacity:0.07;">
+         style="width:100%;height:100%;object-fit:cover;opacity:0.07;"></picture>
   </div>
   <div class="hero-bg"></div>
   <div class="hero-pulse">
@@ -632,9 +628,9 @@
 <!-- PHOTO STRIP: Real Life Impact -->
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;height:220px;overflow:hidden;">
   <div style="position:relative;overflow:hidden;">
-    <img src="images/ci-hearth.jpg"
+    <picture><source srcset="images/ci-hearth.webp" type="image/webp"><img src="images/ci-hearth.jpg" loading="lazy"
          alt="Heart health and critical illness protection"
-         style="width:100%;height:220px;object-fit:cover;filter:brightness(0.4);">
+         style="width:100%;height:220px;object-fit:cover;filter:brightness(0.4);"></picture>
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;">
       <div style="font-size:2rem;margin-bottom:8px;">❤️</div>
       <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:4px;">Heart Attack</div>
@@ -642,9 +638,9 @@
     </div>
   </div>
   <div style="position:relative;overflow:hidden;border-left:1px solid rgba(255,255,255,0.08);border-right:1px solid rgba(255,255,255,0.08);">
-    <img src="images/ci-cancer.jpg"
+    <picture><source srcset="images/ci-cancer.webp" type="image/webp"><img src="images/ci-cancer.jpg" loading="lazy"
          alt="Cancer treatment and critical illness coverage"
-         style="width:100%;height:220px;object-fit:cover;filter:brightness(0.4);">
+         style="width:100%;height:220px;object-fit:cover;filter:brightness(0.4);"></picture>
     <div style="position:absolute;inset:0;background:rgba(139,26,46,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;">
       <div style="font-size:2rem;margin-bottom:8px;">🎗️</div>
       <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:4px;">Cancer</div>
@@ -652,9 +648,9 @@
     </div>
   </div>
   <div style="position:relative;overflow:hidden;">
-    <img src="images/ci-stroke.jpg"
+    <picture><source srcset="images/ci-stroke.webp" type="image/webp"><img src="images/ci-stroke.jpg" loading="lazy"
          alt="Stroke recovery and critical illness insurance"
-         style="width:100%;height:220px;object-fit:cover;filter:brightness(0.4);">
+         style="width:100%;height:220px;object-fit:cover;filter:brightness(0.4);"></picture>
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;">
       <div style="font-size:2rem;margin-bottom:8px;">🧠</div>
       <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:4px;">Stroke</div>
@@ -712,9 +708,9 @@
   <!-- PHOTO: Doctor & Patient -->
   <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:40px;align-items:center;margin-bottom:52px;">
     <div class="photo-container" style="height:300px;">
-      <img src="images/ci-doctor.jpg"
+      <picture><source srcset="images/ci-doctor.webp" type="image/webp"><img src="images/ci-doctor.jpg" loading="lazy"
            alt="Doctor consulting with patient about critical illness insurance"
-           style="height:300px;">
+           style="height:300px;"></picture>
       <div class="photo-overlay"></div>
       <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;">
         <div style="background:rgba(8,15,30,0.9);border:1px solid rgba(232,67,106,0.3);border-radius:10px;padding:12px 16px;">
@@ -1260,17 +1256,17 @@
       <h3>Critical Illness Quote</h3>
       <p class="sub">Tell us about yourself and we'll find the best CI options.</p>
       <form action="https://formspree.io/f/mdajwykn" method="POST">
-        <input type="hidden" name="_subject" value="New Lead - Critical Illness Quote - Cover&Protect">
-        <input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html?lead=1">
+        <input type="hidden" name="_subject" value="New Lead - Critical Illness Quote - Cover&Protect" id="_subject">
+        <input type="hidden" name="_next" value="https://www.coverandprotect.ca/thankyou.html?lead=1" id="_next">
         <div class="form-row">
-          <div class="fg"><label>First Name</label><input type="text" name="fname" placeholder="John"></div>
-          <div class="fg"><label>Last Name</label><input type="text" name="lname" placeholder="Smith"></div>
+          <div class="fg"><label for="fname">First Name</label><input type="text" name="fname" placeholder="John" id="fname"></div>
+          <div class="fg"><label for="lname">Last Name</label><input type="text" name="lname" placeholder="Smith" id="lname"></div>
         </div>
-        <div class="fg"><label>Email Address</label><input type="email" name="email" placeholder="john@example.com"></div>
-        <div class="fg"><label>Phone Number</label><input type="tel" name="phone" placeholder="(647) 000-0000"></div>
+        <div class="fg"><label for="email">Email Address</label><input type="email" name="email" placeholder="john@example.com" id="email" required></div>
+        <div class="fg"><label for="phone">Phone Number</label><input type="tel" name="phone" placeholder="(647) 000-0000" id="phone"></div>
         <div class="fg">
-          <label>Coverage Amount Needed</label>
-          <select name="coverage">
+          <label for="coverage">Coverage Amount Needed</label>
+          <select name="coverage" id="coverage">
             <option value="">— Select amount —</option>
             <option>$50,000 — $100,000</option>
             <option>$100,000 — $250,000</option>
@@ -1281,8 +1277,8 @@
           </select>
         </div>
         <div class="fg">
-          <label>Plan Type Preference</label>
-          <select name="plan_type">
+          <label for="plan_type">Plan Type Preference</label>
+          <select name="plan_type" id="plan_type">
             <option value="">— Select preference —</option>
             <option>Child CI — For Newborn / Toddler</option>
             <option>Standard CI — Lower Premium</option>
@@ -1291,10 +1287,10 @@
           </select>
         </div>
         <div class="form-row">
-          <div class="fg"><label>Your Age</label><input type="number" name="age" placeholder="e.g. 42" min="18" max="70"></div>
-          <div class="fg"><label>Smoker?</label><select name="smoker"><option value="">—</option><option>Non-Smoker</option><option>Smoker</option></select></div>
+          <div class="fg"><label for="age">Your Age</label><input type="number" name="age" placeholder="e.g. 42" min="18" max="70" id="age"></div>
+          <div class="fg"><label for="smoker">Smoker?</label><select name="smoker" id="smoker"><option value="">—</option><option>Non-Smoker</option><option>Smoker</option></select></div>
         </div>
-        <div class="fg"><label>Additional Notes</label><textarea name="notes" placeholder="Pre-existing conditions, budget range, specific concerns..."></textarea></div>
+        <div class="fg"><label for="notes">Additional Notes</label><textarea name="notes" placeholder="Pre-existing conditions, budget range, specific concerns..." id="notes"></textarea></div>
         <button type="submit" class="submit-btn">Get My CI Quote →</button>
       </form>
       <div class="success-msg" id="successMsg">✅ Quote request received! We'll compare CI plans and contact you within 24 hours.</div>

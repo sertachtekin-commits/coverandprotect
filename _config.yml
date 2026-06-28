@@ -1,0 +1,15 @@
+# Jekyll configuration for the Cover & Protect static site.
+# Pages are plain HTML with front matter; Jekyll only resolves {% include %}
+# tags for shared fragments (analytics, footer facts). No theme or layout is
+# applied, so each page renders exactly as authored.
+title: Cover & Protect
+description: Ontario-licensed independent insurance advisor — Toronto.
+
+# Keep build output predictable; don't sweep in tooling/backup files.
+exclude:
+  - README.md
+  - CLAUDE.md
+  - "*.log"
+  - vendor
+  - Gemfile
+  - Gemfile.lock

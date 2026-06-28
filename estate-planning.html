@@ -1,19 +1,12 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J7F01SWCLW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-J7F01SWCLW');
-</script>
-<!-- GOOGLE-VERIFY-PLACEHOLDER: paste your google-site-verification meta tag here -->
-
+{% include analytics.html %}
   <!-- SEO Meta Tags -->
   <title>Estate Planning Insurance Toronto | Life Insurance Legacy | Cover & Protect</title>
-  <meta name="description" content="Estate planning & life insurance advisor in Toronto. Term life, whole life, corporate-owned insurance & wealth transfer strategies. Protect your family & legacy. FSRA licensed.">
+  <meta name="description" content="Estate planning & life insurance advisor in Toronto. Term, whole & corporate-owned life insurance and wealth-transfer strategies. FSRA licensed. Free quote.">
   <meta name="keywords" content="estate planning insurance Toronto, life insurance estate planning Ontario, life insurance advisor Toronto, term life insurance Ontario, whole life insurance Toronto, corporate life insurance Ontario">
   <meta name="author" content="Sertac Tekin - Cover & Protect">
   <meta name="robots" content="index, follow">
@@ -26,6 +19,8 @@
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.coverandprotect.ca/estate-planning.html">
+  <meta property="og:image" content="https://www.coverandprotect.ca/images/hero-estate.jpg">
+  <meta name="twitter:image" content="https://www.coverandprotect.ca/images/hero-estate.jpg">
   <meta property="og:title" content="Estate Planning & Life Insurance Toronto | Cover & Protect">
   <meta property="og:description" content="Estate planning & life insurance advisor in Toronto. Term life, whole life, corporate-owned insurance & wealth transfer strategies. Protect your family & legacy. FSRA licensed.">
   <meta property="og:site_name" content="Cover & Protect">
@@ -247,6 +242,7 @@
   .hero-photo { z-index: 0 !important; pointer-events: none; }
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
+  picture{display:contents;}
 </style>
 <script type="application/ld+json">
 {
@@ -313,7 +309,9 @@
     }
   },
   "sameAs": [
-    "https://www.coverandprotect.ca"
+    "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8",
+    "https://www.facebook.com/share/1HAGzGYSun/",
+    "https://www.instagram.com/coverandprotect.ca"
   ],
   "priceRange": "Free Consultation",
   "openingHoursSpecification": [
@@ -422,7 +420,7 @@
 
 <section class="hero">
   <div class="hero-photo" style="position:absolute;inset:0;overflow:hidden;z-index:0;">
-    <img src="images/hero-estate.jpg" alt="Cover & Protect insurance" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
+    <picture><source srcset="images/hero-estate.webp" type="image/webp"><img src="images/hero-estate.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;"></picture>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.62) 0%,rgba(8,15,30,0.78) 100%);"></div>
   </div>
   <div class="hero-bg"></div>
@@ -441,7 +439,7 @@
 
 <!-- VISIBLE PHOTO BAND -->
 <div class="photo-band" style="position:relative;height:340px;overflow:hidden;">
-  <img src="images/hero-estate.jpg" alt="Protect Your Legacy" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+  <picture><source srcset="images/hero-estate.webp" type="image/webp"><img src="images/hero-estate.jpg" alt="Protect Your Legacy" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;"></picture>
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.30) 0%,rgba(8,15,30,0.75) 100%);"></div>
   <div style="position:absolute;left:0;right:0;bottom:0;padding:36px 60px;">
     <div style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:#fff;margin-bottom:6px;">Protect Your Legacy</div>
@@ -568,19 +566,19 @@
       <h3>Book a Free Consultation</h3>
       <p class="sub">Tell us about your situation and we'll reach out to schedule.</p>
       <div class="form-row">
-        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="John" name="fname"></div>
-        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="Smith" name="lname"></div>
+        <div class="fg"><label for="fname">First Name</label><input type="text" id="fname" placeholder="John" name="fname"></div>
+        <div class="fg"><label for="lname">Last Name</label><input type="text" id="lname" placeholder="Smith" name="lname"></div>
       </div>
-      <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="john@example.com" name="email"></div>
-      <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000" name="phone"></div>
-      <div class="fg"><label>Primary Concern</label>
+      <div class="fg"><label for="email">Email Address</label><input type="email" id="email" placeholder="john@example.com" name="email" required></div>
+      <div class="fg"><label for="phone">Phone Number</label><input type="tel" id="phone" placeholder="(647) 000-0000" name="phone"></div>
+      <div class="fg"><label for="concern">Primary Concern</label>
         <select id="concern" name="concern"><option value="">— Select your situation —</option><option>I don't have a will yet</option><option>I have young children I need to protect</option><option>I own a business — need succession plan</option><option>I want to minimize estate taxes</option><option>I need life insurance for estate purposes</option><option>I want to review my existing plan</option><option>Common-law / blended family situation</option></select>
       </div>
       <div class="form-row">
-        <div class="fg"><label>Approx. Age</label><input type="number" id="age" placeholder="e.g. 45" min="18" max="85" name="age"></div>
-        <div class="fg"><label>Do You Own a Business?</label><select id="business" name="business"><option value="">— Select —</option><option>Yes — incorporated</option><option>Yes — sole proprietor</option><option>No</option></select></div>
+        <div class="fg"><label for="age">Approx. Age</label><input type="number" id="age" placeholder="e.g. 45" min="18" max="85" name="age"></div>
+        <div class="fg"><label for="business">Do You Own a Business?</label><select id="business" name="business"><option value="">— Select —</option><option>Yes — incorporated</option><option>Yes — sole proprietor</option><option>No</option></select></div>
       </div>
-      <div class="fg"><label>Anything Else?</label><textarea id="notes" placeholder="Tell us more about your estate planning goals or concerns..." name="notes"></textarea></div>
+      <div class="fg"><label for="notes">Anything Else?</label><textarea id="notes" placeholder="Tell us more about your estate planning goals or concerns..." name="notes"></textarea></div>
       <button class="submit-btn" type="submit" style="cursor:pointer">Book My Free Consultation →</button>
       <div class="success-msg" id="successMsg">✅ Thank you! We'll reach out within one business day to schedule your consultation.</div>
       <p class="disclaimer">Confidential · FSRA Licensed · No obligation<br>Estate planning involves legal documents — we work alongside your solicitor.</p>
