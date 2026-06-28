@@ -170,7 +170,9 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 
 - **GA4** property `G-J7F01SWCLW` (the gtag snippet lives in
   `_includes/analytics.html`, included in each page's `<head>`; `tracking.js`
-  sends events via `gtag`/`dataLayer`).
+  sends events via `gtag`/`dataLayer`). `analytics.html` also holds a placeholder
+  comment for the **Google Search Console** `google-site-verification` meta — when
+  the site is verified, replace that comment once and it applies to every page.
 - Persists UTM/click attribution (`utm_*`, `gclid`, `gbraid`, `wbraid`,
   `fbclid`) in `sessionStorage` and attaches it to every event.
 - Auto-fires events: `phone_click`, `email_click`, `whatsapp_click`,
