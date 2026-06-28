@@ -324,6 +324,7 @@
   .hero-photo { z-index: 0 !important; pointer-events: none; }
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
+  picture{display:contents;}
 </style>
 <script type="application/ld+json">
 {
@@ -508,7 +509,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-photo" style="position:absolute;inset:0;overflow:hidden;z-index:0;">
-    <img src="images/hero-health.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;">
+    <picture><source srcset="images/hero-health.webp" type="image/webp"><img src="images/hero-health.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;"></picture>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.62) 0%,rgba(8,15,30,0.78) 100%);"></div>
   </div>
   <div class="hero-bg"></div>
@@ -530,7 +531,7 @@
 
 <!-- VISIBLE PHOTO BAND -->
 <div class="photo-band" style="position:relative;height:340px;overflow:hidden;">
-  <img src="images/hero-health.jpg" alt="Health Coverage That Fits" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;">
+  <picture><source srcset="images/hero-health.webp" type="image/webp"><img src="images/hero-health.jpg" alt="Health Coverage That Fits" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;"></picture>
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.30) 0%,rgba(8,15,30,0.75) 100%);"></div>
   <div style="position:absolute;left:0;right:0;bottom:0;padding:36px 60px;">
     <div style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:#fff;margin-bottom:6px;">Health Coverage That Fits</div>
