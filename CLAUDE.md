@@ -158,7 +158,7 @@ Lead forms post to **Formspree** endpoint `https://formspree.io/f/mdajwykn`
 (same endpoint across all pages). Each form includes hidden fields:
 
 - `_subject` — describes the lead type (e.g. "New Lead - Quote Request").
-- `_next` — redirect target `https://www.coverandprotect.ca/thankyou.html?lead=1`.
+- `_next` — redirect target `https://coverandprotect.ca/thankyou.html?lead=1`.
 
 `thankyou.html` reads `?lead=1` and fires the conversion event, then
 auto-redirects home after a few seconds. When adding a form, mirror this exact
