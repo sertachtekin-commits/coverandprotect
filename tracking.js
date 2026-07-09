@@ -132,6 +132,13 @@
         application_type: link.dataset.applicationType || "online_application"
       }));
     }
+
+    if (/tugo\.com/i.test(href) || link.dataset.tugoStore) {
+      sendEvent("tugo_click", Object.assign({}, details, {
+        provider: "TuGo",
+        application_type: link.dataset.applicationType || "online_store"
+      }));
+    }
   }, true);
 
   document.addEventListener("focusin", function (event) {
