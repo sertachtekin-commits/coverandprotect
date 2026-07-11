@@ -38,6 +38,8 @@ Everything lives at the repository root (flat structure):
 | `savings-plans.html` | Savings / investment plans service page |
 | `blog-supervisa-cost.html` | Blog article (Super Visa cost) |
 | `blog-travel-insurance-canadians.html` | Blog article (travel insurance for Canadians abroad) |
+| `blog-supervisa-refund.html` | Blog article (Super Visa premium refunds) |
+| `blog-ohip-visitors.html` | Blog article (OHIP coverage gaps for visitors) |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
 | `blog.css` | Shared stylesheet for all `blog-*.html` articles |
@@ -45,6 +47,7 @@ Everything lives at the repository root (flat structure):
 | `robots.txt` | Crawler directives; points to the sitemap |
 | `CNAME` | GitHub Pages custom domain |
 | `_config.yml` | Jekyll config (no theme/layout; just includes) |
+| `googledb2fcfa7efcf42c9.html` | Google Search Console HTML-file verification token (leave as-is) |
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `images/` | All image assets (hero images, illustrations) |
@@ -56,7 +59,7 @@ The service/landing pages are **self-contained**: each carries its own inline
 `<style>` block and its own copy of the nav, footer, and meta tags (these were
 authored at different times and their CSS is not byte-identical, so don't assume
 a change to one applies to others). The shared assets are `tracking.js` (all
-pages) and `blog.css` (the `blog-*.html` articles, which link it instead of
+pages) and `blog.css` (the four `blog-*.html` articles, which link it instead of
 inlining styles).
 
 ## Conventions
@@ -107,7 +110,7 @@ Each page generally follows: `---\n---` front matter →
 `{% include analytics.html %}` in `<head>` → SEO meta tags (title, description,
 keywords, geo, Open Graph, Twitter Card, canonical) → JSON-LD structured data →
 inline `<style>` (or `blog.css` link) → fixed `<nav>` → page sections →
-`<footer>` → `<script src="tracking.js?v=2" defer></script>` before `</body>`.
+`<footer>` → `<script src="tracking.js?v=5" defer></script>` before `</body>`.
 
 When creating a new page, **copy an existing page** (e.g. a service page) as the
 template rather than starting from scratch, so the nav, footer, palette, and
@@ -160,6 +163,10 @@ Lead forms post to **Formspree** endpoint `https://formspree.io/f/mdajwykn`
 - `_subject` — describes the lead type (e.g. "New Lead - Quote Request").
 - `_next` — redirect target `https://coverandprotect.ca/thankyou.html?lead=1`.
 
+`tracking.js` additionally injects hidden `utm_*`/`gclid`/etc. attribution fields
+into each Formspree form at runtime (see "Analytics & tracking"), so the owner's
+lead email carries the campaign that produced it — you don't hand-author those.
+
 `thankyou.html` reads `?lead=1` and fires the conversion event, then
 auto-redirects home after a few seconds. When adding a form, mirror this exact
 pattern (same endpoint, same `_next`, descriptive `_subject`).
@@ -170,21 +177,34 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 
 - **GA4** property `G-J7F01SWCLW` (the gtag snippet lives in
   `_includes/analytics.html`, included in each page's `<head>`; `tracking.js`
-  sends events via `gtag`/`dataLayer`). `analytics.html` also holds a placeholder
-  comment for the **Google Search Console** `google-site-verification` meta — when
-  the site is verified, replace that comment once and it applies to every page.
+  sends events via `gtag`/`dataLayer`). `analytics.html` also holds two commented
+  placeholders: one for the **Google Search Console** `google-site-verification`
+  meta, and one for a direct **Google Ads** conversion tag (`gtag('config',
+  'AW-…')` plus a `window.CP_ADS_CONVERSION` id/label). Filling either in once
+  applies it to every page.
+- **Google Search Console verification** is currently done via the HTML-file
+  method: `googledb2fcfa7efcf42c9.html` at the repo root is the token GSC checks
+  for. Leave it in place. (The meta-tag placeholder in `analytics.html` is an
+  alternative that isn't in use.)
 - Persists UTM/click attribution (`utm_*`, `gclid`, `gbraid`, `wbraid`,
-  `fbclid`) in `sessionStorage` and attaches it to every event.
+  `fbclid`) in `localStorage` (90-day window, matching Google Ads' click-through
+  conversion window) with a `sessionStorage` fallback, and attaches it to every
+  event. It also **stamps hidden attribution fields onto Formspree forms** so the
+  owner's lead email shows which campaign/click produced the lead — this ad-click
+  metadata goes only into that lead email, never to analytics.
 - Auto-fires events: `phone_click`, `email_click`, `whatsapp_click`,
-  `truestone_click` (TruStone Health application links), `form_start`,
-  `campaign_landing`, and `generate_lead`.
+  `truestone_click` (TruStone Health application links), `tugo_click` (TuGo online
+  store / B2C links), `form_start`, `campaign_landing`, and `generate_lead`.
 - `generate_lead` is the conversion — fired on a successful Formspree `fetch`
-  response and on the `thankyou.html?lead=1` page. **Mark `generate_lead` as a
-  conversion in GA4** for Google Ads import.
+  response and on the `thankyou.html?lead=1` page (guarded against
+  refresh/back-navigation double-counting via a `sessionStorage` flag). **Mark
+  `generate_lead` as a conversion in GA4** for Google Ads import. If
+  `window.CP_ADS_CONVERSION` is set (see `analytics.html`), the same lead also
+  fires a direct Google Ads `conversion` event.
 - **Privacy:** only engagement metadata is sent to GA4 — never form field values
   or contact details. Preserve this; do not add code that sends PII to analytics.
 
-The script is included with a cache-busting query (`tracking.js?v=2`). **If you
+The script is included with a cache-busting query (`tracking.js?v=5`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
 clients fetch the new file.
 
