@@ -40,6 +40,7 @@ Everything lives at the repository root (flat structure):
 | `blog-travel-insurance-canadians.html` | Blog article (travel insurance for Canadians abroad) |
 | `blog-supervisa-refund.html` | Blog article (Super Visa premium refunds) |
 | `blog-ohip-visitors.html` | Blog article (OHIP coverage gaps for visitors) |
+| `blog.html` | Blog index / hub page listing all `blog-*.html` articles |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
 | `blog.css` | Shared stylesheet for all `blog-*.html` articles |
@@ -118,7 +119,9 @@ tracking are consistent. For blog articles, copy one of the `blog-*.html` files 
 they share the light-theme layout (cream background, `.wrap`, `.cta-box`, Article
 JSON-LD) and link the shared **`blog.css`** rather than inlining styles. New blog
 posts should link `blog.css` too; only add inline `<style>` for genuinely
-post-specific tweaks.
+post-specific tweaks. Also add the new post as a card in the **`blog.html`** hub
+grid and to `sitemap.xml` — `blog.html` is the central blog index, linked from the
+homepage footer and each article's nav ("All Guides").
 
 ### Images & performance
 - Source images live in `images/` and are served directly. **Keep them
