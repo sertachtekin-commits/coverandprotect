@@ -152,6 +152,12 @@ post-specific tweaks.
 - Regulator: **FSRA Licence #10112782** (shown in disclaimers/forms).
 - Phone: `tel:6473669495` · WhatsApp: `wa.me/16473669495`
 - Email: `contact@coverandprotect.ca` / `info@coverandprotect.ca`
+- Social: Facebook `https://www.facebook.com/share/1HAGzGYSun/` · Instagram
+  `https://www.instagram.com/coverandprotect.ca`. These appear both as visible
+  icon links in the page footers (inline SVG, gold `--gold-light`, opening in a
+  new tab) and in each page's JSON-LD `sameAs` array — keep the two in sync. The
+  footer icon row lives in each page's footer; for the blog articles it's in the
+  shared `_includes/contact-line.html`, so update that once for all four.
 - Tone: professional, trust-focused, compliance-aware (FSRA Licensed · PIPEDA
   Compliant).
 
