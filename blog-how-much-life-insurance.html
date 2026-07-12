@@ -1,0 +1,202 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% include analytics.html %}
+<title>How Much Life Insurance Do I Need? Ontario Guide + Example (2026) | Cover & Protect</title>
+<meta name="description" content="How much life insurance do you really need? A simple Ontario formula (debts + income + education − savings), a worked GTA family example, and 2026 costs by age.">
+<meta name="keywords" content="how much life insurance do i need, life insurance calculator canada, life insurance coverage ontario, income replacement life insurance, life insurance for family toronto">
+<meta name="author" content="Sertac Tekin - Cover & Protect">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://coverandprotect.ca/blog-how-much-life-insurance.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How Much Life Insurance Do I Need? Ontario Guide + Example (2026)">
+<meta property="og:description" content="A simple Ontario formula and a worked GTA family example to size your life insurance the right way.">
+<meta property="og:url" content="https://coverandprotect.ca/blog-how-much-life-insurance.html">
+<meta property="og:image" content="https://coverandprotect.ca/images/ci-family.jpg">
+<meta property="og:site_name" content="Cover & Protect">
+<meta property="og:locale" content="en_CA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How Much Life Insurance Do I Need? (Ontario, 2026)">
+<meta name="twitter:description" content="A simple formula and a worked GTA example to size your life insurance the right way.">
+<meta name="twitter:image" content="https://coverandprotect.ca/images/ci-family.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Much Life Insurance Do I Need? Ontario Guide + Example (2026)",
+  "image": "https://coverandprotect.ca/images/ci-family.jpg",
+  "author": {"@type": "Person", "name": "Sertac Tekin", "jobTitle": "Licensed Insurance Advisor", "url": "https://coverandprotect.ca/"},
+  "publisher": {"@type": "Organization", "name": "Cover & Protect", "url": "https://coverandprotect.ca/"},
+  "datePublished": "2026-07-12",
+  "dateModified": "2026-07-12",
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://coverandprotect.ca/blog-how-much-life-insurance.html"},
+  "description": "A plain-language Ontario method for calculating how much life insurance you need — debts plus income replacement plus education minus existing savings — with a worked GTA family example and 2026 term costs by age."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How much life insurance do I need in Canada?", "acceptedAnswer": {"@type": "Answer", "text": "Add up what your family would need if your income stopped: pay off the mortgage and debts, replace your income for the years your dependents rely on it, fund your children's education, and cover final expenses. Then subtract savings and any existing coverage. The remainder is roughly how much life insurance to buy. For many GTA families with a mortgage and young kids, that lands between $750,000 and $1.5 million."}},
+    {"@type": "Question", "name": "Is 10 times my salary enough life insurance?", "acceptedAnswer": {"@type": "Answer", "text": "The 10x-income rule is a quick starting point, but it can be too low if you carry a large mortgage or have young children, and too high if you have significant savings. A proper calculation based on your actual debts, income-replacement years, and goals gives a far more accurate number."}},
+    {"@type": "Question", "name": "Does my work group life insurance cover my family enough?", "acceptedAnswer": {"@type": "Answer", "text": "Usually not. Employer group life is often only one or two times your salary and it ends when you leave the job. It is a helpful supplement, but for most families with a mortgage it falls well short of the real need. It is best treated as a top-up, not your core coverage."}},
+    {"@type": "Question", "name": "How much life insurance does a stay-at-home parent need?", "acceptedAnswer": {"@type": "Answer", "text": "More than most people expect. A stay-at-home parent provides childcare, household management, and more that would cost real money to replace in the GTA. Coverage of $250,000 to $500,000 on a stay-at-home parent is common so the surviving partner can pay for childcare and keep the household running."}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://coverandprotect.ca/"},
+    {"@type": "ListItem", "position": 2, "name": "Insurance Blog", "item": "https://coverandprotect.ca/blog.html"},
+    {"@type": "ListItem", "position": 3, "name": "How Much Life Insurance Do I Need", "item": "https://coverandprotect.ca/blog-how-much-life-insurance.html"}
+  ]
+}
+</script>
+<link rel="stylesheet" href="blog.css">
+<style>
+  /* post-specific visuals for how-much-life-insurance */
+  .calc{background:#fff;border-radius:14px;box-shadow:0 6px 26px rgba(10,22,40,0.08);padding:10px 22px;margin:28px 0;}
+  .calc-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid rgba(10,22,40,0.08);}
+  .calc-row:last-child{border-bottom:none;}
+  .calc-row .op{color:var(--teal);font-weight:800;margin-right:8px;}
+  .calc-row .op.minus{color:#c0392b;}
+  .calc-row .label{color:var(--ink);font-size:1rem;}
+  .calc-row .label small{display:block;color:var(--text-muted);font-size:0.82rem;font-weight:400;}
+  .calc-row .amt{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);white-space:nowrap;font-size:1.08rem;}
+  .calc-row.sub{background:#faf7f1;margin:0 -22px;padding-left:22px;padding-right:22px;}
+  .calc-row.total{background:linear-gradient(135deg,var(--navy),var(--deep));margin:0 -22px;padding:20px 22px;border-radius:0 0 14px 14px;}
+  .calc-row.total .label,.calc-row.total .amt{color:#fff;}
+  .calc-row.total .amt{color:var(--gold-light);font-size:1.5rem;}
+  .viz{margin:30px 0;}
+  .viz svg{width:100%;height:auto;display:block;}
+  .example{background:#fff;border-left:4px solid var(--teal);border-radius:8px;padding:22px 24px;margin:26px 0;box-shadow:0 4px 20px rgba(10,22,40,0.05);}
+  .example h3{color:var(--navy);margin-bottom:8px;}
+</style>
+<script src="tracking.js?v=5" defer></script>
+</head>
+<body>
+<div class="top-bar">Independent life insurance advice across Canada's top insurers — <a href="https://coverandprotect.ca/estate-planning.html">Get a free life insurance quote →</a></div>
+<div style="background:#fff;border-bottom:1px solid rgba(10,22,40,0.08);padding:14px 24px;text-align:center;font-size:0.92rem;">
+  <a href="index.html" style="color:#0a1628;text-decoration:none;font-weight:600;margin:0 14px;">← Home</a>
+  <a href="blog.html" style="color:#0e7c7b;text-decoration:none;font-weight:600;margin:0 14px;">All Guides</a>
+  <a href="estate-planning.html" style="color:#0e7c7b;text-decoration:none;font-weight:600;margin:0 14px;">Life &amp; Estate</a>
+  <a href="blog-term-vs-whole-life.html" style="color:#0e7c7b;text-decoration:none;font-weight:600;margin:0 14px;">Term vs. Whole Life</a>
+</div>
+
+<div class="wrap">
+  <header class="post">
+    <div class="eyebrow">Life Insurance</div>
+    <h1>How Much Life Insurance Do I Really Need? (Ontario Guide + Example)</h1>
+    <div class="meta">By Sertac Tekin, Licensed Ontario Insurance Advisor (FSRA #10112782) · Updated July 2026 · 6 min read</div>
+  </header>
+
+  <picture><source srcset="images/ci-family.webp" type="image/webp"><img class="hero-img" src="images/ci-family.jpg" alt="Young GTA family whose future is protected by life insurance" fetchpriority="high"></picture>
+
+  <article>
+    <p class="lead">The honest answer isn't a magic multiple of your salary — it's a <strong>number your family can actually live on</strong> if your income disappeared tomorrow. The good news: you can calculate a solid estimate in about five minutes with grade-school math.</p>
+
+    <p>You've probably heard "buy 10 times your income." It's a fine starting point, but it can leave a Toronto family with an $800,000 mortgage badly under-insured — or an older couple with big savings over-paying. Let's do this properly, the way an advisor actually does it, with a formula you can follow and a real GTA example.</p>
+
+    <h2>The rule of thumb (and why it's not enough)</h2>
+    <p>"10× your annual income" is popular because it's easy. If you earn $90,000, that's $900,000 of coverage. Not a bad ballpark — but it ignores your <em>specific</em> mortgage, your kids' ages, and what you've already saved. Two families earning the same salary can need wildly different amounts. So use it as a sanity check, not the final answer.</p>
+
+    <h2>The better method: add up the need, subtract what you have</h2>
+    <p>Think of life insurance as the money that replaces <em>you</em> financially. Add up four things your family would need, then subtract what they already have:</p>
+    <ul>
+      <li><strong>Debts &amp; mortgage</strong> — so your family can stay in the home, mortgage-free.</li>
+      <li><strong>Income replacement</strong> — your take-home pay for the number of years your family depends on it (often until the youngest child is ~18–22).</li>
+      <li><strong>Children's future</strong> — post-secondary education (an RESP goal), childcare, and big milestones.</li>
+      <li><strong>Final expenses</strong> — a funeral in the GTA commonly runs $10,000–$15,000, plus any final taxes.</li>
+    </ul>
+    <p>Then <strong>subtract</strong> your existing savings, investments, and any group life insurance. What's left is roughly the coverage to buy.</p>
+
+    <h2>See it as a simple worksheet</h2>
+    <div class="calc" aria-label="Life insurance needs worksheet example">
+      <div class="calc-row"><span class="label"><span class="op">+</span>Mortgage &amp; other debts <small>Pay off the home &amp; loans</small></span><span class="amt">$650,000</span></div>
+      <div class="calc-row"><span class="label"><span class="op">+</span>Income replacement <small>~$45,000/yr take-home × 10 yrs</small></span><span class="amt">$450,000</span></div>
+      <div class="calc-row"><span class="label"><span class="op">+</span>Children's education <small>Two kids, post-secondary</small></span><span class="amt">$120,000</span></div>
+      <div class="calc-row"><span class="label"><span class="op">+</span>Final expenses <small>Funeral &amp; final taxes</small></span><span class="amt">$25,000</span></div>
+      <div class="calc-row sub"><span class="label"><strong>Total need</strong></span><span class="amt">$1,245,000</span></div>
+      <div class="calc-row"><span class="label"><span class="op minus">−</span>Savings, TFSA &amp; group life <small>What you already have</small></span><span class="amt">$195,000</span></div>
+      <div class="calc-row total"><span class="label"><strong>Coverage to buy</strong></span><span class="amt">≈ $1,050,000</span></div>
+    </div>
+
+    <div class="example">
+      <h3>A real-world GTA example: the Sharma family, Mississauga</h3>
+      <p>Priya (36) and Arjun (38) own a townhouse with a <strong>$650,000 mortgage</strong> and have two kids, ages 4 and 7. Priya earns about $45,000 take-home; Arjun earns similar. They have ~$120,000 in savings and TFSAs, and Arjun has <strong>$75,000 of group life</strong> through work (≈ 1× salary).</p>
+      <p>Using the worksheet above, each parent needs roughly <strong>$1 million</strong> of coverage so the survivor could clear the mortgage, replace income while the kids grow up, and fund their education. Arjun's group life covers less than 8% of that — nowhere near enough on its own. Their solution: two <strong>20-year term</strong> policies of ~$1M each. Cost for a healthy couple in their late 30s? Often <strong>under $120/month combined</strong> — for a million dollars of protection each.</p>
+    </div>
+
+    <div class="cta-box" style="margin:30px 0;">
+      <h3>Want Your Number, Not a Sample One?</h3>
+      <p>Tell a licensed Ontario advisor your mortgage, income, and family, and we'll calculate your real coverage need and quote it from Canada's top insurers — free and no pressure.</p>
+      <a class="btn" href="https://coverandprotect.ca/estate-planning.html">Get My Free Life Quote →</a>
+    </div>
+
+    <h2>Why buying younger saves you thousands</h2>
+    <p>Life insurance is priced on your age and health <em>today</em>, and that rate is locked for the life of a term policy. Waiting a few years — or until a health issue appears — can raise your premium substantially. Here's what $500,000 of 20-year term typically costs a healthy non-smoker by age in 2026:</p>
+
+    <div class="viz">
+      <figure>
+        <svg viewBox="0 0 620 270" role="img" aria-label="Bar chart showing monthly cost of 500,000 dollars of 20-year term life insurance rising with age: about 33 dollars at 30, 55 dollars at 40, and 140 dollars at 50" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', sans-serif">
+          <text x="8" y="26" font-size="16" font-weight="700" fill="#0a1628">Monthly cost of $500,000 term — the earlier, the cheaper</text>
+          <line x1="70" y1="212" x2="600" y2="212" stroke="#d8d0c4" stroke-width="1.5"></line>
+          <!-- Age 30: ~$33 -> height ~48 -->
+          <rect x="120" y="164" width="90" height="48" rx="5" fill="#0e7c7b"></rect>
+          <text x="165" y="152" font-size="15" font-weight="700" fill="#0a1628" text-anchor="middle">~$33</text>
+          <text x="165" y="234" font-size="13" fill="#42506a" text-anchor="middle">Age 30</text>
+          <!-- Age 40: ~$55 -> height ~80 -->
+          <rect x="285" y="132" width="90" height="80" rx="5" fill="#14a8a7"></rect>
+          <text x="330" y="120" font-size="15" font-weight="700" fill="#0a1628" text-anchor="middle">~$55</text>
+          <text x="330" y="234" font-size="13" fill="#42506a" text-anchor="middle">Age 40</text>
+          <!-- Age 50: ~$140 -> height ~172 -->
+          <rect x="450" y="40" width="90" height="172" rx="5" fill="#c9973a"></rect>
+          <text x="495" y="28" font-size="15" font-weight="700" fill="#0a1628" text-anchor="middle">~$140</text>
+          <text x="495" y="234" font-size="13" fill="#42506a" text-anchor="middle">Age 50</text>
+          <text x="70" y="258" font-size="11" fill="#8a7f6f">Illustrative 2026 monthly premium, healthy non-smoker, $500K 20-year term.</text>
+        </svg>
+        <figcaption>Locking in coverage in your 30s can cost a fraction of waiting until your 50s.</figcaption>
+      </figure>
+    </div>
+
+    <h2>Three things families in the GTA often get wrong</h2>
+    <ul>
+      <li><strong>Relying on work coverage.</strong> Group life is usually 1–2× salary and vanishes if you change jobs. Treat it as a bonus, not your plan.</li>
+      <li><strong>Skipping coverage on a stay-at-home parent.</strong> Replacing childcare and household work in the GTA is expensive — $250,000–$500,000 of coverage is common and wise.</li>
+      <li><strong>Forgetting to update it.</strong> A new baby, a bigger mortgage, or a move to a pricier home all change your number. Revisit every few years.</li>
+    </ul>
+
+    <h2>The bottom line</h2>
+    <p>Don't guess, and don't just grab a round number. Add up your family's real need — mortgage, income replacement, education, final expenses — subtract what you already have, and cover the gap, almost always with affordable <a href="blog-term-vs-whole-life.html">term insurance</a>. For most GTA families with a mortgage and kids, that's somewhere between <strong>$750,000 and $1.5 million</strong>. Run your own numbers with the worksheet above, then have an advisor confirm it and shop the best rate for you.</p>
+
+    <div class="cta-box">
+      <h3>Get Your Free Coverage Calculation</h3>
+      <p>A licensed Ontario advisor will size your real need and compare quotes from Canada's top insurers — clear, honest, and no obligation.</p>
+      <a class="btn" href="https://coverandprotect.ca/estate-planning.html">Get a Free Quote →</a>
+    </div>
+
+    <p style="font-size:0.95rem;"><strong>Keep reading:</strong> <a href="blog-term-vs-whole-life.html">Term vs. whole life insurance</a> — which type should you actually buy, and what does each cost?</p>
+
+    <div class="disclaimer">
+      <p>The worksheet, example, and premiums in this article are illustrative 2026 estimates for general guidance only — they are not a quote, a recommendation, or a guarantee. "The Sharma family" is a hypothetical example. Your actual coverage need and premium depend on your specific finances, age, health, and the insurer. Cover &amp; Protect is an Ontario-licensed independent insurance advisory practice (FSRA Licence #10112782). This article does not constitute insurance, tax, or financial advice for any specific individual; contact us for advice tailored to your situation.</p>
+    </div>
+  </article>
+</div>
+
+<footer>
+  <div class="logo">Cover<span>&</span>Protect</div>
+  {% include contact-line.html %}
+</footer>
+</body>
+</html>
