@@ -1,4 +1,34 @@
 User-agent: *
 Allow: /
 
+# AI assistants and LLM crawlers are welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Machine-readable business facts: https://coverandprotect.ca/llms.txt
+
 Sitemap: https://coverandprotect.ca/sitemap.xml
