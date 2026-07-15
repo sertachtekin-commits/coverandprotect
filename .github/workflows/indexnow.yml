@@ -64,7 +64,37 @@ jobs:
 
       - name: Submit URLs to IndexNow
         run: |
-          curl --fail-with-body --retry 3 --retry-delay 5 \
-            -H "Content-Type: application/json; charset=utf-8" \
+          # IndexNow is a best-effort SEO ping. Submit the payload and surface
+          # the response, but don't fail the job (and email the owner) when
+          # IndexNow rejects the request or is unreachable — a rejected ping does
+          # not affect the published site. Only genuine problems in the build
+          # step above should fail this workflow.
+          http_code="$(curl --silent --show-error --fail-with-body \
+            --output indexnow-response.txt --write-out '%{http_code}' \
+            --retry 3 --retry-delay 5 \
+            -H 'Content-Type: application/json; charset=utf-8' \
             --data-binary @indexnow-payload.json \
-            https://api.indexnow.org/indexnow
+            https://api.indexnow.org/indexnow)" || true
+          [ -n "$http_code" ] || http_code="000"
+          body="$(cat indexnow-response.txt 2>/dev/null || true)"
+
+          echo "IndexNow HTTP status: $http_code"
+          echo "IndexNow response body: $body"
+          {
+            echo "### IndexNow submission"
+            echo ""
+            echo "- HTTP status: \`$http_code\`"
+            echo "- Response: \`${body:-<empty>}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          case "$http_code" in
+            200|202)
+              echo "IndexNow accepted the submission."
+              ;;
+            000)
+              echo "::warning title=IndexNow unreachable::Could not reach api.indexnow.org after retries; the ping was skipped. This does not affect the published site."
+              ;;
+            *)
+              echo "::warning title=IndexNow rejected submission::IndexNow returned HTTP $http_code. This is common for a domain Bing has not yet verified/trusted — verify coverandprotect.ca in Bing Webmaster Tools to restore acceptance. Body: $body"
+              ;;
+          esac
