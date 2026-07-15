@@ -1,34 +1,50 @@
 User-agent: *
 Allow: /
 
-# AI assistants and LLM crawlers are welcome
-User-agent: GPTBot
-Allow: /
-
+# OpenAI search, browsing, and model crawlers
 User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: GPTBot
+Allow: /
+
+# Anthropic search, user-requested browsing, and model crawlers
+User-agent: Claude-SearchBot
 Allow: /
 
 User-agent: Claude-User
 Allow: /
 
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity search and user-requested browsing
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: Perplexity-User
 Allow: /
 
+# Google and Apple AI controls/search discovery
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Microsoft Bing / Copilot discovery
 User-agent: Bingbot
 Allow: /
 
-# Machine-readable business facts: https://coverandprotect.ca/llms.txt
+# Machine-readable site and business facts
+# https://coverandprotect.ca/llms.txt
+# https://coverandprotect.ca/entity.json
+# https://coverandprotect.ca/feed.xml
 
 Sitemap: https://coverandprotect.ca/sitemap.xml

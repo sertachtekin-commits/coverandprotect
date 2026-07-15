@@ -1,0 +1,70 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.html"
+      - "**.xml"
+      - "robots.txt"
+      - "llms.txt"
+      - "entity.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-main
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+
+      - name: Build IndexNow payload
+        env:
+          INDEXNOW_KEY: 168b5dc145b34850011606e2b2c3cc1b
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import xml.etree.ElementTree as ET
+
+          host = "coverandprotect.ca"
+          key = os.environ["INDEXNOW_KEY"]
+          namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          root = ET.parse("sitemap.xml").getroot()
+          urls = [
+              node.text.strip()
+              for node in root.findall("sm:url/sm:loc", namespace)
+              if node.text and node.text.strip()
+          ]
+          urls.extend([
+              f"https://{host}/llms.txt",
+              f"https://{host}/entity.json",
+              f"https://{host}/feed.xml",
+          ])
+          urls = list(dict.fromkeys(urls))
+
+          payload = {
+              "host": host,
+              "key": key,
+              "keyLocation": f"https://{host}/{key}.txt",
+              "urlList": urls,
+          }
+          with open("indexnow-payload.json", "w", encoding="utf-8") as handle:
+              json.dump(payload, handle, ensure_ascii=False)
+          print(f"Prepared {len(urls)} URLs for IndexNow")
+          PY
+
+      - name: Submit URLs to IndexNow
+        run: |
+          curl --fail-with-body --retry 3 --retry-delay 5 \
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data-binary @indexnow-payload.json \
+            https://api.indexnow.org/indexnow
