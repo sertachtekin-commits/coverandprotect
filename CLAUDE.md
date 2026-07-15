@@ -46,6 +46,7 @@ Everything lives at the repository root (flat structure):
 | `blog-rrsp-vs-tfsa.html` | Blog article (RRSP vs TFSA retirement savings) |
 | `blog-group-benefits-small-business.html` | Blog article (group benefits for small business) |
 | `blog-will-ontario.html` | Blog article (why Ontario families need a will) |
+| `blog-power-of-attorney-ontario.html` | Blog article (powers of attorney in Ontario) |
 | `blog-term-vs-whole-life.html` | Blog article (term vs whole life insurance) |
 | `blog-how-much-life-insurance.html` | Blog article (life insurance needs / coverage amount) |
 | `blog.html` | Blog index / hub page listing all `blog-*.html` articles |
