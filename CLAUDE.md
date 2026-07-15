@@ -41,6 +41,7 @@ Everything lives at the repository root (flat structure):
 | `blog-supervisa-refund.html` | Blog article (Super Visa premium refunds) |
 | `blog-ohip-visitors.html` | Blog article (OHIP coverage gaps for visitors) |
 | `blog-critical-illness-worth-it.html` | Blog article (is critical illness insurance worth it) |
+| `blog-health-dental-self-employed.html` | Blog article (health & dental for the self-employed) |
 | `blog-term-vs-whole-life.html` | Blog article (term vs whole life insurance) |
 | `blog-how-much-life-insurance.html` | Blog article (life insurance needs / coverage amount) |
 | `blog.html` | Blog index / hub page listing all `blog-*.html` articles |
