@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cover &amp; Protect Insurance Guides</title>
+    <link>https://coverandprotect.ca/blog.html</link>
+    <description>Insurance and savings guides for Ontario families, newcomers, self-employed professionals, and small businesses.</description>
+    <language>en-ca</language>
+    <lastBuildDate>Wed, 15 Jul 2026 11:30:00 GMT</lastBuildDate>
+    <atom:link href="https://coverandprotect.ca/feed.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>RRSP vs. TFSA: Which Should You Use First?</title>
+      <link>https://coverandprotect.ca/blog-rrsp-vs-tfsa.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-rrsp-vs-tfsa.html</guid>
+      <pubDate>Mon, 13 Jul 2026 12:00:00 GMT</pubDate>
+      <description>A plain-language Ontario guide to comparing RRSP and TFSA accounts, including tax timing, flexibility, and common use cases.</description>
+    </item>
+
+    <item>
+      <title>RESP and CESG Explained for Ontario Families</title>
+      <link>https://coverandprotect.ca/blog-resp-cesg-explained.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-resp-cesg-explained.html</guid>
+      <pubDate>Mon, 13 Jul 2026 11:00:00 GMT</pubDate>
+      <description>An educational guide to Registered Education Savings Plans and the Canada Education Savings Grant.</description>
+    </item>
+
+    <item>
+      <title>Health and Dental Insurance for the Self-Employed</title>
+      <link>https://coverandprotect.ca/blog-health-dental-self-employed.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-health-dental-self-employed.html</guid>
+      <pubDate>Mon, 13 Jul 2026 10:00:00 GMT</pubDate>
+      <description>How self-employed people in Ontario can compare individual health and dental insurance options.</description>
+    </item>
+
+    <item>
+      <title>Is Critical Illness Insurance Worth It?</title>
+      <link>https://coverandprotect.ca/blog-critical-illness-worth-it.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-critical-illness-worth-it.html</guid>
+      <pubDate>Sun, 12 Jul 2026 12:00:00 GMT</pubDate>
+      <description>A practical guide to how critical illness insurance works, what it covers, and factors to consider.</description>
+    </item>
+
+    <item>
+      <title>Term vs. Whole Life Insurance in Canada</title>
+      <link>https://coverandprotect.ca/blog-term-vs-whole-life.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-term-vs-whole-life.html</guid>
+      <pubDate>Sun, 12 Jul 2026 11:00:00 GMT</pubDate>
+      <description>A comparison of term and permanent life insurance, including cost structure, duration, and common objectives.</description>
+    </item>
+
+    <item>
+      <title>How Much Life Insurance Do I Need?</title>
+      <link>https://coverandprotect.ca/blog-how-much-life-insurance.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-how-much-life-insurance.html</guid>
+      <pubDate>Sun, 12 Jul 2026 10:00:00 GMT</pubDate>
+      <description>A framework for estimating life insurance needs using income replacement, debts, education, and existing assets.</description>
+    </item>
+
+    <item>
+      <title>Is Super Visa Insurance Refundable?</title>
+      <link>https://coverandprotect.ca/blog-supervisa-refund.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-supervisa-refund.html</guid>
+      <pubDate>Wed, 08 Jul 2026 12:00:00 GMT</pubDate>
+      <description>An overview of common Super Visa insurance refund scenarios and the importance of insurer-specific policy terms.</description>
+    </item>
+
+    <item>
+      <title>Does OHIP Cover Visitors to Canada?</title>
+      <link>https://coverandprotect.ca/blog-ohip-visitors.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-ohip-visitors.html</guid>
+      <pubDate>Wed, 08 Jul 2026 11:00:00 GMT</pubDate>
+      <description>A guide to provincial health coverage gaps for visitors and why emergency medical insurance may be needed.</description>
+    </item>
+
+    <item>
+      <title>How Much Does Super Visa Insurance Cost in 2026?</title>
+      <link>https://coverandprotect.ca/blog-supervisa-cost.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-supervisa-cost.html</guid>
+      <pubDate>Mon, 06 Jul 2026 12:00:00 GMT</pubDate>
+      <description>Factors that affect Super Visa insurance premiums, including age, deductible, medical history, and coverage design.</description>
+    </item>
+
+    <item>
+      <title>Travel Insurance for Canadians Going Abroad</title>
+      <link>https://coverandprotect.ca/blog-travel-insurance-canadians.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-travel-insurance-canadians.html</guid>
+      <pubDate>Mon, 06 Jul 2026 11:00:00 GMT</pubDate>
+      <description>A guide to emergency medical, trip cancellation, interruption, and multi-trip travel insurance for Canadians.</description>
+    </item>
+  </channel>
+</rss>
