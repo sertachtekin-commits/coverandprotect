@@ -44,6 +44,7 @@ Everything lives at the repository root (flat structure):
 | `blog-health-dental-self-employed.html` | Blog article (health & dental for the self-employed) |
 | `blog-resp-cesg-explained.html` | Blog article (RESP & CESG education savings grant) |
 | `blog-rrsp-vs-tfsa.html` | Blog article (RRSP vs TFSA retirement savings) |
+| `blog-group-benefits-small-business.html` | Blog article (group benefits for small business) |
 | `blog-term-vs-whole-life.html` | Blog article (term vs whole life insurance) |
 | `blog-how-much-life-insurance.html` | Blog article (life insurance needs / coverage amount) |
 | `blog.html` | Blog index / hub page listing all `blog-*.html` articles |
