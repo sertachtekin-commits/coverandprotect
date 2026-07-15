@@ -1,0 +1,166 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://coverandprotect.ca/#website",
+      "url": "https://coverandprotect.ca/",
+      "name": "Cover & Protect",
+      "alternateName": "Cover and Protect Insurance",
+      "inLanguage": "en-CA",
+      "publisher": {
+        "@id": "https://coverandprotect.ca/#business"
+      }
+    },
+    {
+      "@type": [
+        "InsuranceAgency",
+        "LocalBusiness"
+      ],
+      "@id": "https://coverandprotect.ca/#business",
+      "name": "Cover & Protect",
+      "alternateName": "Cover and Protect Insurance",
+      "url": "https://coverandprotect.ca/",
+      "description": "Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario.",
+      "telephone": "+1-647-366-9495",
+      "email": "contact@coverandprotect.ca",
+      "founder": {
+        "@id": "https://coverandprotect.ca/#sertac-tekin"
+      },
+      "employee": {
+        "@id": "https://coverandprotect.ca/#sertac-tekin"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Toronto",
+        "addressRegion": "ON",
+        "addressCountry": "CA"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Toronto"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Greater Toronto Area"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Ontario"
+        }
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-647-366-9495",
+        "email": "contact@coverandprotect.ca",
+        "contactType": "customer service",
+        "areaServed": "CA-ON",
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8",
+        "https://www.facebook.com/share/1HAGzGYSun/",
+        "https://www.instagram.com/coverandprotect.ca"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Insurance and savings advisory services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Super Visa insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Visitor to Canada insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Travel insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Individual health insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Group benefits"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Life insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Critical illness insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "RESP and RRSP savings guidance"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://coverandprotect.ca/#sertac-tekin",
+      "name": "Sertac Tekin",
+      "url": "https://coverandprotect.ca/about-sertac-tekin.html",
+      "jobTitle": "Ontario-Licensed Insurance Advisor",
+      "worksFor": {
+        "@id": "https://coverandprotect.ca/#business"
+      },
+      "telephone": "+1-647-366-9495",
+      "email": "contact@coverandprotect.ca",
+      "knowsAbout": [
+        "Super Visa insurance",
+        "Visitor to Canada insurance",
+        "Travel insurance",
+        "Individual health insurance",
+        "Group benefits",
+        "Life insurance",
+        "Critical illness insurance",
+        "RESP",
+        "RRSP"
+      ],
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Professional licence",
+        "identifier": "10112782",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Financial Services Regulatory Authority of Ontario",
+          "url": "https://www.fsrao.ca/"
+        }
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/sertac-tekin-9a42653b2"
+      ]
+    }
+  ]
+}
