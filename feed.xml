@@ -5,8 +5,16 @@
     <link>https://coverandprotect.ca/blog.html</link>
     <description>Insurance and savings guides for Ontario families, newcomers, self-employed professionals, and small businesses.</description>
     <language>en-ca</language>
-    <lastBuildDate>Wed, 15 Jul 2026 11:30:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 15 Jul 2026 12:30:00 GMT</lastBuildDate>
     <atom:link href="https://coverandprotect.ca/feed.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Travel Insurance 2026 for Canadians: Costs, Coverage and How to Choose</title>
+      <link>https://coverandprotect.ca/blog-travel-insurance-canadians.html</link>
+      <guid isPermaLink="true">https://coverandprotect.ca/blog-travel-insurance-canadians.html</guid>
+      <pubDate>Wed, 15 Jul 2026 12:00:00 GMT</pubDate>
+      <description>An updated guide to emergency medical coverage, 2026 planning costs, single-trip versus annual plans, long-stay insurance and pre-existing condition rules for Canadians abroad.</description>
+    </item>
 
     <item>
       <title>RRSP vs. TFSA: Which Should You Use First?</title>
@@ -78,14 +86,6 @@
       <guid isPermaLink="true">https://coverandprotect.ca/blog-supervisa-cost.html</guid>
       <pubDate>Mon, 06 Jul 2026 12:00:00 GMT</pubDate>
       <description>Factors that affect Super Visa insurance premiums, including age, deductible, medical history, and coverage design.</description>
-    </item>
-
-    <item>
-      <title>Travel Insurance for Canadians Going Abroad</title>
-      <link>https://coverandprotect.ca/blog-travel-insurance-canadians.html</link>
-      <guid isPermaLink="true">https://coverandprotect.ca/blog-travel-insurance-canadians.html</guid>
-      <pubDate>Mon, 06 Jul 2026 11:00:00 GMT</pubDate>
-      <description>A guide to emergency medical, trip cancellation, interruption, and multi-trip travel insurance for Canadians.</description>
     </item>
   </channel>
 </rss>
