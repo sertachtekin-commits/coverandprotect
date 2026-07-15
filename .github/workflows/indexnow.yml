@@ -63,8 +63,22 @@ jobs:
           PY
 
       - name: Submit URLs to IndexNow
+        env:
+          INDEXNOW_KEY: 168b5dc145b34850011606e2b2c3cc1b
         run: |
-          curl --fail-with-body --retry 3 --retry-delay 5 \
+          # IndexNow only notifies Bing/Yandex (not Google) and is best-effort.
+          # A non-2xx response (e.g. verification/rate-limit) is logged as a
+          # warning rather than failing the workflow, so it doesn't send alarming
+          # failure emails on every push.
+          status=$(curl -s -o response.txt -w "%{http_code}" --retry 3 --retry-delay 5 \
             -H "Content-Type: application/json; charset=utf-8" \
             --data-binary @indexnow-payload.json \
-            https://api.indexnow.org/indexnow
+            https://api.indexnow.org/indexnow)
+          echo "IndexNow HTTP status: $status"
+          cat response.txt 2>/dev/null || true
+          echo
+          if [ "$status" -ge 200 ] && [ "$status" -lt 300 ]; then
+            echo "IndexNow submission accepted."
+          else
+            echo "::warning::IndexNow returned HTTP $status (Bing/Yandex only; does not affect Google). If this persists, confirm the key file is live at https://coverandprotect.ca/${INDEXNOW_KEY}.txt"
+          fi
