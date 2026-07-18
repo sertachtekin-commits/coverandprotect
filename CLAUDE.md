@@ -38,6 +38,7 @@ Everything lives at the repository root (flat structure):
 | `savings-plans.html` | Savings / investment plans service page |
 | `blog-supervisa-cost.html` | Blog article (Super Visa cost) |
 | `blog-travel-insurance-canadians.html` | Blog article (travel insurance for Canadians abroad) |
+| `blog-how-to-make-travel-insurance-claim.html` | Blog article (Canadian travel insurance claim guide) |
 | `blog-supervisa-refund.html` | Blog article (Super Visa premium refunds) |
 | `blog-ohip-visitors.html` | Blog article (OHIP coverage gaps for visitors) |
 | `blog-critical-illness-worth-it.html` | Blog article (is critical illness insurance worth it) |
