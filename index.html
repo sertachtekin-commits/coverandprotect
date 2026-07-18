@@ -6,7 +6,7 @@ This wrapper renders it and applies a small, crawlable SEO copy update without c
 {% endcomment %}
 {% capture homepage_source %}{% include homepage-original.html %}{% endcapture %}
 {% assign homepage_source = homepage_source | slice: 8, 999999 %}
-{% assign homepage_source = homepage_source | replace_first: '<h1>Insurance That <em>Actually</em> Works For You</h1>', '<h1>Independent Insurance Advisor for <em>Toronto &amp; Ontario</em></h1>' %}
+{% assign homepage_source = homepage_source | replace_first: '<h1>Insurance That <em>Actually</em> Works For You</h1>', '<h1>Independent Insurance Advisor Serving <em>Toronto &amp; Ontario</em></h1>' %}
 {% assign homepage_source = homepage_source | replace_first: 'Travel insurance, health coverage, and group benefits tailored for Ontario families and businesses.', 'Compare Super Visa, travel, health, life insurance, and group benefits from 10+ Canadian insurers.' %}
 {% assign homepage_source = homepage_source | replace_first: 'Access top Canadian insurers in one place — with expert guidance at every step.', 'Get clear, licensed advice for families and businesses across Toronto, the GTA, and Ontario.' %}
 {{ homepage_source }}
