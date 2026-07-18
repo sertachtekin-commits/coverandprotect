@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - seo/homepage-local-h1
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
