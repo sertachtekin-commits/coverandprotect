@@ -1,7 +1,7 @@
 # Cover & Protect — Independent Insurance Advisor in Toronto, Ontario
 
 > Canonical website: https://coverandprotect.ca/
-> Last reviewed: 2026-07-17
+> Last reviewed: 2026-07-18
 
 Cover & Protect is an Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario. The advisor is Sertac Tekin (FSRA licence #10112782). The practice helps individuals, families, newcomers, parents and grandparents visiting Canada, self-employed professionals, and small businesses compare insurance and savings options from multiple Canadian providers.
 
@@ -47,6 +47,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [Is Super Visa Insurance Refundable?](https://coverandprotect.ca/blog-supervisa-refund.html)
 - [Does OHIP Cover Visitors to Canada?](https://coverandprotect.ca/blog-ohip-visitors.html)
 - [Travel Insurance for Canadians Going Abroad](https://coverandprotect.ca/blog-travel-insurance-canadians.html)
+- [How to Make a Travel Insurance Claim in Canada](https://coverandprotect.ca/blog-how-to-make-travel-insurance-claim.html): A practical claim map covering emergency notification, evidence, submission, common myths, historical approval statistics, denials and appeals.
 - [Health and Dental Insurance for the Self-Employed](https://coverandprotect.ca/blog-health-dental-self-employed.html)
 - [Is Critical Illness Insurance Worth It?](https://coverandprotect.ca/blog-critical-illness-worth-it.html)
 - [Term vs. Whole Life Insurance in Canada](https://coverandprotect.ca/blog-term-vs-whole-life.html)
