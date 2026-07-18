@@ -19,6 +19,12 @@
   <meta property="og:site_name" content="Cover & Protect">
   <meta property="og:locale" content="en_CA">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a1628">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="C&amp;P Calculator">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -108,6 +114,7 @@
         <div class="actions">
           <a class="btn gold" href="#calculator">Try the calculator</a>
           <a class="btn out" href="travel-insurance.html">Explore travel insurance</a>
+          <button class="btn out" id="pwa-install" hidden>Install as app</button>
         </div>
         <div class="trust" aria-label="Trust highlights">
           <div><strong>Instant</strong><span>Estimate updates as you type</span></div>
@@ -452,6 +459,37 @@
 
   setPlan("supervisa");
   calculate();
+
+  /* PWA: register the service worker (scope "/") so the calculator works
+   * offline, and surface the browser's install prompt via the hero button.
+   * Only the install event itself is reported to analytics — no inputs. */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").catch(function () {});
+    });
+  }
+  var installBtn = document.getElementById("pwa-install");
+  var deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    deferredPrompt = event;
+    installBtn.hidden = false;
+  });
+  installBtn.addEventListener("click", function () {
+    if (!deferredPrompt) { return; }
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () { deferredPrompt = null; });
+    installBtn.hidden = true;
+  });
+  window.addEventListener("appinstalled", function () {
+    installBtn.hidden = true;
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "pwa_install", {
+        page_location: window.location.href,
+        page_path: window.location.pathname
+      });
+    }
+  });
 }());
 </script>
 <script src="tracking.js?v=5" defer></script>

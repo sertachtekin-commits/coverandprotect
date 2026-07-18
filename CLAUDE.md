@@ -53,6 +53,8 @@ Everything lives at the repository root (flat structure):
 | `blog.html` | Blog index / hub page listing all `blog-*.html` articles |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
+| `manifest.json` | PWA web app manifest (calculator installable as an app) |
+| `sw.js` | PWA service worker — offline caching; bump `CACHE_VERSION` when precached assets change |
 | `blog.css` | Shared stylesheet for all `blog-*.html` articles |
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
 | `robots.txt` | Crawler directives; points to the sitemap |
@@ -173,6 +175,18 @@ homepage footer and each article's nav ("All Guides").
   shared `_includes/contact-line.html`, so update that once for all four.
 - Tone: professional, trust-focused, compliance-aware (FSRA Licensed · PIPEDA
   Compliant).
+
+## PWA (installable calculator)
+
+`travel-insurance-calculator.html` is installable as a Progressive Web App:
+`manifest.json` (start URL is the calculator; scope is the whole site) plus
+`sw.js`, registered from the calculator page. App icons live in `images/`
+(`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`,
+`apple-touch-icon.png`), generated in the brand style. The service worker is
+network-first for page navigations (deploys show immediately) and cache-first
+for static assets, same-origin GET only — it never touches Formspree posts or
+analytics. If you change what the calculator page loads, update `PRECACHE` in
+`sw.js` and bump its `CACHE_VERSION` so installed clients refresh.
 
 ## Forms and lead capture
 
