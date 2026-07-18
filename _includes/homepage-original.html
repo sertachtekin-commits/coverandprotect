@@ -1,0 +1,2144 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% include analytics.html %}
+  <!-- SEO Meta Tags -->
+  <title>Insurance Advisor Toronto | Travel, Health & Group Benefits | Cover & Protect</title>
+  <meta name="description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa, health, group benefits & life insurance from 10+ top Canadian insurers. Free quote.">
+  <meta name="keywords" content="insurance advisor Toronto, independent insurance advisor Ontario, super visa insurance Toronto, health insurance Ontario, group benefits Toronto, FSRA licensed insurance advisor">
+  <meta name="author" content="Sertac Tekin - Cover & Protect">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="geo.region" content="CA-ON">
+  <meta name="geo.placename" content="Toronto, Ontario">
+  <meta name="geo.position" content="43.6532;-79.3832">
+  <meta name="ICBM" content="43.6532, -79.3832">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://coverandprotect.ca/">
+  <meta property="og:image" content="https://coverandprotect.ca/images/hero-home.jpg">
+  <meta name="twitter:image" content="https://coverandprotect.ca/images/hero-home.jpg">
+  <meta property="og:title" content="Cover & Protect | Independent Insurance Advisor Toronto">
+  <meta property="og:description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa insurance, health, group benefits, life & estate planning. Compare 10+ top Canadian insurers. FSRA Licence #10112782.">
+  <meta property="og:site_name" content="Cover & Protect">
+  <meta property="og:locale" content="en_CA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cover & Protect | Independent Insurance Advisor Toronto">
+  <meta name="twitter:description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa insurance, health, group benefits, life & estate planning. Compare 10+ top Canadian insurers. FSRA Licence #10112782.">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://coverandprotect.ca/">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --deep: #0d1f3c;
+    --teal: #0e7c7b;
+    --teal-light: #14a8a7;
+    --gold: #c9973a;
+    --gold-light: #e5b657;
+    --cream: #f5f0e8;
+    --white: #ffffff;
+    --text-muted: #8a9ab5;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 20px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+
+  .logo span { color: var(--gold); }
+
+  .nav-links {
+    position: relative; z-index: 101;
+    display: flex; gap: 36px; list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy) !important;
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-weight: 600 !important;
+    color: var(--navy) !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 70% 50%, rgba(14,124,123,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(201,151,58,0.10) 0%, transparent 50%),
+      linear-gradient(135deg, #0a1628 0%, #0d1f3c 100%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-content { position: relative; z-index: 2;
+    position: relative; z-index: 2;
+    max-width: 680px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,151,58,0.12);
+    border: 1px solid rgba(201,151,58,0.3);
+    color: var(--gold-light);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--teal-light);
+    position: relative;
+  }
+
+  h1 em::after {
+    content: '';
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal-light);
+    opacity: 0.4;
+    border-radius: 2px;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.2s ease both;
+    max-width: 520px;
+  }
+
+  .hero-actions {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: var(--white);
+    padding: 15px 32px;
+    border-radius: 4px;
+    font-size: 1rem; font-weight: 600;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    padding: 15px 32px;
+    border-radius: 4px;
+    font-size: 1rem; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,151,58,0.06); }
+
+  .hero-stats {
+    position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 20px;
+    z-index: 2;
+    animation: fadeLeft 0.7s 0.4s ease both;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: rgba(14,124,123,0.4); }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+  }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 60px;
+    display: flex; align-items: center; gap: 48px;
+    overflow-x: auto;
+  }
+
+  .trust-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .insurer-list {
+    display: flex; gap: 36px; align-items: center; flex-wrap: wrap;
+  }
+
+  .insurer-tag {
+    font-size: 0.82rem; font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+
+  .insurer-tag:hover { color: var(--white); }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 60px;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 500px;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--deep); }
+
+  .services-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 60px;
+    flex-wrap: wrap; gap: 24px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .service-card {
+    z-index: 2;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 32px;
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover {
+    border-color: rgba(14,124,123,0.3);
+    background: rgba(14,124,123,0.06);
+    transform: translateY(-4px);
+  }
+
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-card.priority {
+    border-color: rgba(201,151,58,0.2);
+    background: rgba(201,151,58,0.04);
+  }
+
+  .service-card.priority::before { background: var(--gold); }
+  .service-card.priority:hover { border-color: rgba(201,151,58,0.4); background: rgba(201,151,58,0.08); }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    background: rgba(14,124,123,0.15);
+  }
+
+  .service-card.priority .service-icon {
+    background: rgba(201,151,58,0.15);
+  }
+
+  .priority-tag {
+    display: inline-block;
+    background: rgba(201,151,58,0.15);
+    color: var(--gold-light);
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+
+  .service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .service-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  .service-insurers {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+
+  .insurer-chip {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.5);
+    font-size: 0.7rem; font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── QUOTE SECTION ── */
+  #quote {
+    background: linear-gradient(135deg, rgba(14,124,123,0.12) 0%, rgba(10,22,40,0) 60%);
+    position: relative;
+  }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .quote-form-wrap {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px 40px;
+  }
+
+  .quote-form-wrap h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .quote-form-wrap p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 13px 16px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--teal-light);
+  }
+
+  .form-group select option {
+    background: var(--deep);
+    color: var(--white);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 90px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+
+  .form-submit:hover { background: var(--teal-light); }
+
+  .form-disclaimer {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  .quote-benefits h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .quote-benefits p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .benefit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .benefit-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .benefit-icon {
+    width: 40px; height: 40px;
+    background: rgba(14,124,123,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .benefit-item h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .benefit-item p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  /* ── INSURERS ── */
+  #insurers { background: var(--deep); }
+
+  .insurers-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .insurers-header .section-sub {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .insurers-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .insurer-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+
+  .insurer-card:hover {
+    border-color: rgba(14,124,123,0.4);
+    background: rgba(14,124,123,0.06);
+    transform: translateY(-3px);
+  }
+
+  .insurer-card-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .insurer-card-type {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .insurer-card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--navy);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+  }
+
+  .contact-info p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-method {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    text-decoration: none;
+    padding: 18px 22px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-method:hover {
+    border-color: rgba(14,124,123,0.4);
+    background: rgba(14,124,123,0.06);
+  }
+
+  .contact-method-icon {
+    width: 44px; height: 44px;
+    background: rgba(14,124,123,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-method-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .contact-method-value {
+    font-weight: 600;
+    color: var(--white);
+    font-size: 0.95rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid var(--border);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  .footer-compliance {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    max-width: 500px;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .footer-right {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── SUCCESS MSG ── */
+  .success-msg {
+    display: none;
+    background: rgba(14,124,123,0.15);
+    border: 1px solid var(--teal);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    color: var(--teal-light);
+    font-weight: 500;
+    margin-top: 16px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-stats { display: none; }
+    section { padding: 70px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .quote-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .insurers-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-bar { padding: 16px 24px; }
+    footer { padding: 30px 24px; flex-direction: column; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* MOBILE HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,22,40,0.98);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-menu .close-btn {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--white);
+    background: none;
+    border: none;
+  }
+  .mobile-menu .mob-cta {
+    background: var(--gold);
+    color: var(--navy) !important;
+    padding: 14px 36px;
+    border-radius: 4px;
+    font-size: 1.1rem !important;
+  }
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    .nav-links { display: none !important; }
+  }
+
+
+  /* GLOBAL MOBILE FIXES */
+  @media (max-width: 768px) {
+    body { font-size: 15px; }
+    h1 { font-size: clamp(2rem, 8vw, 3rem) !important; }
+    h2 { font-size: clamp(1.5rem, 6vw, 2.2rem) !important; }
+    section { padding: 60px 20px !important; }
+    nav { padding: 14px 20px !important; }
+    .hero { padding: 100px 20px 60px !important; }
+    footer { padding: 28px 20px !important; flex-direction: column; text-align: center; }
+    .form-box { padding: 28px 18px !important; }
+    .stats-bar { padding: 20px !important; }
+    .trust-bar { padding: 16px 20px !important; }
+  }
+  @media (min-width: 901px) and (max-width: 1200px) {
+    nav { padding: 18px 30px; }
+    section { padding: 80px 40px; }
+    .hero { padding: 120px 40px 80px; }
+  }
+  @media (min-width: 1201px) {
+    section { max-width: 1400px; margin: 0 auto; }
+  }
+
+  /* click safety */
+  nav, .nav-links, .nav-links a, .service-card, .services { position: relative; z-index: 5; }
+  .hero-photo { z-index: 0 !important; pointer-events: none; }
+  @media (max-width:768px){ .photo-band{height:240px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="2rem"]{font-size:1.4rem!important;} }
+
+  /* ── DYNAMIC VISUALS (added) ── */
+  /* Animated drifting glow behind hero — subtle, GPU-friendly */
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: -20%;
+    background:
+      radial-gradient(ellipse 45% 55% at 30% 35%, rgba(14,124,123,0.16) 0%, transparent 55%),
+      radial-gradient(ellipse 35% 45% at 75% 65%, rgba(201,151,58,0.10) 0%, transparent 50%);
+    animation: heroDrift 18s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes heroDrift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(3%, -2%) scale(1.06); }
+  }
+
+  /* Scroll-reveal: elements start hidden, animate in when .in-view added */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    will-change: opacity, transform;
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  /* Insurer tag hover lift */
+  .insurer-tag { transition: color 0.2s, transform 0.2s; cursor: default; }
+  .insurer-tag:hover { color: var(--white); transform: translateY(-2px); }
+
+  /* Stat card subtle lift on hover */
+  .stat-card { transition: border-color 0.2s, transform 0.25s, background 0.25s; }
+  .stat-card:hover { transform: translateY(-3px); background: rgba(255,255,255,0.06); }
+
+  /* Counting number doesn't reflow layout */
+  .stat-num { font-variant-numeric: tabular-nums; }
+
+  /* Respect users who prefer reduced motion — turn everything calm */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg::after { animation: none; }
+    .hero-badge, h1, .hero-sub, .hero-actions, .hero-stats { animation: none !important; }
+    .hero-badge::before { animation: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+  picture{display:contents;}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["InsuranceAgency", "LocalBusiness"],
+  "@id": "https://coverandprotect.ca/#business",
+  "name": "Cover & Protect",
+  "alternateName": "Cover and Protect Insurance",
+  "description": "Ontario-licensed independent insurance advisor specializing in travel insurance, super visa insurance, health insurance, group benefits, estate planning, RESP and RRSP savings plans.",
+  "url": "https://coverandprotect.ca",
+  "logo": "https://coverandprotect.ca/logo.png",
+  "image": "https://coverandprotect.ca/logo.png",
+  "telephone": "+16473669495",
+  "email": "contact@coverandprotect.ca",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Toronto",
+    "addressRegion": "ON",
+    "addressCountry": "CA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 43.6532,
+    "longitude": -79.3832
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Toronto"},
+    {"@type": "City", "name": "Mississauga"},
+    {"@type": "City", "name": "Brampton"},
+    {"@type": "City", "name": "Markham"},
+    {"@type": "City", "name": "Vaughan"},
+    {"@type": "AdministrativeArea", "name": "Greater Toronto Area"},
+    {"@type": "Province", "name": "Ontario"}
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Insurance Services",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Super Visa Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Travel Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Health Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Group Benefits"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life Insurance"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estate Planning"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "RESP Savings Plans"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "RRSP Savings Plans"}}
+    ]
+  },
+  "employee": {
+    "@type": "Person",
+    "name": "Sertac Tekin",
+    "jobTitle": "Licensed Insurance Advisor",
+    "telephone": "+16473669495",
+    "email": "contact@coverandprotect.ca",
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Professional License",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "Financial Services Regulatory Authority of Ontario (FSRA)",
+        "url": "https://www.fsrao.ca"
+      },
+      "identifier": "10112782"
+    }
+  },
+  "sameAs": [
+    "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8",
+    "https://www.facebook.com/share/1HAGzGYSun/",
+    "https://www.instagram.com/coverandprotect.ca"
+  ],
+  "priceRange": "Free Consultation",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "9",
+    "bestRating": "5"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "09:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "10:00",
+      "closes": "16:00"
+    }
+  ]
+}
+</script>
+
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What insurance services does Cover & Protect offer in Toronto?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cover & Protect offers travel insurance, Super Visa insurance, individual health insurance, group benefits for small businesses, critical illness insurance with return of premium, estate planning, life insurance, RESP and RRSP savings plans. We are an independent advisor contracted with 10+ major Canadian insurers including Manulife, Canada Life, TuGo, TrustStone, RBC Life, and more."
+      }
+    },    {
+      "@type": "Question",
+      "name": "Is Cover & Protect licensed to sell insurance in Ontario?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Cover & Protect is licensed and regulated by the Financial Services Regulatory Authority of Ontario (FSRA). Our licence number is 10112782. You can verify this at the FSRA public registry at fsrao.ca."
+      }
+    },    {
+      "@type": "Question",
+      "name": "How do I get a free insurance quote in Toronto?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can get a free quote by calling 647-366-9495, emailing contact@coverandprotect.ca, booking a free 30-minute consultation at calendly.com/contact-coverandprotect/30min, or filling out the quote form on our website at coverandprotect.ca."
+      }
+    },    {
+      "@type": "Question",
+      "name": "What areas of Ontario does Cover & Protect serve?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We serve clients across the Greater Toronto Area including Toronto, Etobicoke, Mississauga, Brampton, Vaughan, Markham, Scarborough, and North York. As a licensed Ontario advisor, we can also serve clients across all of Ontario remotely."
+      }
+    }
+  ]
+}
+</script>
+  <!-- NAP: Cover & Protect | 647-366-9495 | contact@coverandprotect.ca | Toronto, ON -->
+  <meta name="author" content="Sertac Tekin - Cover & Protect Insurance Advisor Toronto">
+  <meta name="coverage" content="Greater Toronto Area, Ontario, Canada">
+  <meta name="target" content="Ontario residents, GTA families, small businesses">
+<style>
+  /* ===== CLIENT REVIEWS (added) ===== */
+  .cp-reviews{
+    background:linear-gradient(160deg,var(--navy) 0%,#0e2138 55%,var(--navy) 100%);
+    padding:90px 24px;color:#fff;
+    font-family:'DM Sans',sans-serif;
+  }
+  .cp-reviews *{box-sizing:border-box;}
+  .cp-reviews .cp-wrap{max-width:1180px;margin:0 auto;}
+  .cp-reviews .cp-head{text-align:center;max-width:720px;margin:0 auto 16px;}
+  .cp-reviews .cp-eyebrow{
+    display:inline-block;letter-spacing:.18em;text-transform:uppercase;
+    font-size:.72rem;font-weight:600;color:var(--gold-light);
+    border:1px solid rgba(201,151,58,.5);border-radius:999px;
+    padding:8px 18px;margin-bottom:20px;background:rgba(201,151,58,.07);
+  }
+  .cp-reviews .cp-title{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:0 0 14px;color:#fff;
+  }
+  .cp-reviews .cp-title em{color:var(--teal-light);font-style:italic;}
+  .cp-reviews .cp-sub{color:rgba(255,255,255,.72);font-size:1.05rem;line-height:1.65;margin:0;}
+  .cp-reviews .cp-summary{
+    display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+    margin:30px auto 50px;padding:16px 26px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);border-radius:16px;max-width:560px;
+  }
+  .cp-reviews .cp-g{display:flex;align-items:center;gap:9px;font-weight:600;color:#fff;font-size:1.05rem;}
+  .cp-reviews .cp-g svg{width:22px;height:22px;display:block;}
+  .cp-reviews .cp-score{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#fff;line-height:1;}
+  .cp-reviews .cp-stars{color:var(--gold-light);letter-spacing:2px;font-size:1.15rem;line-height:1;}
+  .cp-reviews .cp-count{color:rgba(255,255,255,.62);font-size:.9rem;}
+  .cp-reviews .cp-divider{width:1px;height:36px;background:rgba(255,255,255,.16);}
+  .cp-reviews .cp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .cp-reviews .cp-card{
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
+    border-radius:18px;padding:30px 28px 26px;display:flex;flex-direction:column;position:relative;
+    transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease;
+  }
+  .cp-reviews .cp-card:hover{
+    transform:translateY(-5px);border-color:rgba(201,151,58,.35);
+    box-shadow:0 18px 44px rgba(0,0,0,.4);
+  }
+  .cp-reviews .cp-quote{
+    position:absolute;top:16px;right:24px;font-size:3.6rem;line-height:1;
+    font-family:'Playfair Display',serif;color:var(--gold);opacity:.22;
+  }
+  .cp-reviews .cp-card .cp-stars{margin-bottom:16px;}
+  .cp-reviews .cp-text{font-size:.98rem;line-height:1.66;color:rgba(255,255,255,.9);margin:0 0 22px;flex:1;}
+  .cp-reviews .cp-person{display:flex;align-items:center;gap:12px;margin-top:auto;}
+  .cp-reviews .cp-avatar{
+    width:46px;height:46px;border-radius:50%;flex:0 0 46px;display:flex;
+    align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:1.1rem;
+  }
+  .cp-reviews .cp-name{font-weight:600;color:#fff;font-size:.97rem;line-height:1.2;}
+  .cp-reviews .cp-meta{color:rgba(255,255,255,.6);font-size:.82rem;display:flex;align-items:center;gap:6px;margin-top:3px;}
+  .cp-reviews .cp-gmark{width:13px;height:13px;display:inline-block;}
+  .cp-reviews .cp-cta{text-align:center;margin-top:48px;}
+  .cp-reviews .cp-btn{
+    display:inline-flex;align-items:center;gap:10px;background:var(--teal);color:#fff;
+    text-decoration:none;font-weight:600;font-size:1rem;padding:16px 32px;border-radius:12px;
+    transition:background .2s ease,transform .2s ease;
+    box-shadow:0 8px 22px rgba(14,124,123,.3);
+  }
+  .cp-reviews .cp-btn:hover{background:var(--teal-light);transform:translateY(-2px);}
+  .cp-reviews .cp-btn svg{width:18px;height:18px;}
+  @media(max-width:880px){.cp-reviews .cp-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){
+    .cp-reviews{padding:64px 18px;}
+    .cp-reviews .cp-grid{grid-template-columns:1fr;}
+    .cp-reviews .cp-summary{gap:12px;padding:14px 18px;}
+  }
+  @media(prefers-reduced-motion:reduce){.cp-reviews .cp-card,.cp-reviews .cp-btn{transition:none;}}
+</style>
+<style>
+/* ===== COVER & PROTECT ASSISTANT (added) ===== */
+#cpbot-launch{position:fixed;right:20px;bottom:20px;z-index:99998;width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;background:var(--teal,#0e7c7b);color:#fff;box-shadow:0 10px 30px rgba(14,124,123,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s ease,background .2s ease;}
+#cpbot-launch:hover{transform:translateY(-3px) scale(1.04);background:var(--teal-light,#14a8a7);}
+#cpbot-launch svg{width:28px;height:28px;}
+#cpbot-launch .cpbot-dot{position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:var(--gold,#c9973a);border:2px solid #fff;}
+#cpbot-panel{position:fixed;right:20px;bottom:94px;z-index:99999;width:374px;max-width:calc(100vw - 32px);height:566px;max-height:calc(100vh - 130px);background:#0a1628;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;display:none;flex-direction:column;font-family:'DM Sans',sans-serif;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+#cpbot-panel.cpbot-open{display:flex;animation:cpbotIn .22s ease;}
+@keyframes cpbotIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.cpbot-header{background:linear-gradient(135deg,#0e2138,#0a1628);padding:16px 18px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(201,151,58,.25);}
+.cpbot-badge{width:40px;height:40px;border-radius:50%;background:var(--teal,#0e7c7b);display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 40px;}
+.cpbot-badge svg{width:20px;height:20px;}
+.cpbot-title{font-family:'Playfair Display',serif;color:#fff;font-size:1.05rem;font-weight:700;line-height:1.1;}
+.cpbot-title span{color:var(--gold-light,#e5b657);}
+.cpbot-status{color:rgba(255,255,255,.55);font-size:.74rem;margin-top:2px;}
+.cpbot-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.6);font-size:1.4rem;cursor:pointer;line-height:1;padding:4px;}
+.cpbot-body{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px;}
+.cpbot-msg{max-width:86%;padding:11px 14px;border-radius:14px;font-size:.92rem;line-height:1.5;}
+.cpbot-bot{align-self:flex-start;background:rgba(255,255,255,.06);color:#e7edf3;border-bottom-left-radius:4px;}
+.cpbot-user{align-self:flex-end;background:var(--teal,#0e7c7b);color:#fff;border-bottom-right-radius:4px;}
+.cpbot-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;}
+.cpbot-chip{background:rgba(201,151,58,.10);border:1px solid rgba(201,151,58,.4);color:var(--gold-light,#e5b657);font-size:.82rem;padding:8px 13px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s ease;}
+.cpbot-chip:hover{background:rgba(201,151,58,.22);}
+.cpbot-chip.cpbot-cancel{background:transparent;border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.6);}
+.cpbot-cta{display:inline-flex;align-items:center;gap:7px;margin-top:8px;margin-right:8px;background:var(--teal,#0e7c7b);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;padding:9px 15px;border-radius:10px;}
+.cpbot-cta.alt{background:transparent;border:1px solid rgba(255,255,255,.3);}
+.cpbot-typing{display:flex;gap:5px;align-items:center;}
+.cpbot-typing span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);animation:cpblink 1.2s infinite;}
+.cpbot-typing span:nth-child(2){animation-delay:.18s;}
+.cpbot-typing span:nth-child(3){animation-delay:.36s;}
+@keyframes cpblink{0%,60%,100%{opacity:.25;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
+.cpbot-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.cpbot-form input,.cpbot-form textarea{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;color:#fff;padding:10px 11px;font-size:.86rem;font-family:'DM Sans',sans-serif;outline:none;width:100%;}
+.cpbot-form input::placeholder,.cpbot-form textarea::placeholder{color:rgba(255,255,255,.4);}
+.cpbot-form textarea{resize:vertical;min-height:46px;}
+.cpbot-form button{background:var(--gold,#c9973a);color:#0a1628;border:none;border-radius:9px;padding:11px;font-weight:700;cursor:pointer;font-size:.88rem;}
+.cpbot-err{color:#ffb4a8;font-size:.78rem;}
+.cpbot-sum{margin-top:6px;font-size:.86rem;line-height:1.6;color:#dfe7ef;}
+.cpbot-foot{padding:10px 14px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:8px;}
+.cpbot-input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:#fff;padding:11px 13px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;}
+.cpbot-input::placeholder{color:rgba(255,255,255,.4);}
+.cpbot-send{background:var(--gold,#c9973a);border:none;border-radius:10px;color:#0a1628;font-weight:700;padding:0 15px;cursor:pointer;font-size:1.1rem;}
+.cpbot-disclaimer{color:rgba(255,255,255,.4);font-size:.68rem;text-align:center;padding:6px 14px 10px;line-height:1.4;}
+@media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
+@media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open,.cpbot-typing span{transition:none;animation:none;}}
+</style>
+<script src="tracking.js?v=5" defer></script>
+</head>
+<body>
+<!-- MOBILE MENU -->
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" onclick="closeMobileMenu()">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="travel-insurance.html" onclick="closeMobileMenu()">Travel Insurance</a>
+  <a href="health-insurance.html" onclick="closeMobileMenu()">Health Insurance</a>
+  <a href="group-benefits.html" onclick="closeMobileMenu()">Group Benefits</a>
+  <a href="critical-illness.html" onclick="closeMobileMenu()">Critical Illness</a>
+  <a href="estate-planning.html" onclick="closeMobileMenu()">Estate Planning</a>
+  <a href="long-term-care.html" onclick="closeMobileMenu()">Long-Term Care</a>
+  <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
+  <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Cover<span>&</span>Protect</div>
+  <ul class="nav-links">
+    <li><a href="travel-insurance.html">Travel</a></li>
+    <li><a href="health-insurance.html">Health</a></li>
+    <li><a href="group-benefits.html">Group</a></li>
+    <li><a href="critical-illness.html">Critical Illness</a></li>
+    <li><a href="estate-planning.html">Estate</a></li>
+    <li><a href="long-term-care.html">Long-Term Care</a></li>
+    <li><a href="savings-plans.html">RESP</a></li>
+    <li><a href="#quote" class="nav-cta">Free Consultation</a></li>
+  </ul>
+<div class="hamburger" onclick="openMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo" style="position:absolute;inset:0;overflow:hidden;z-index:0;">
+    <picture><source srcset="images/hero-home.webp" type="image/webp"><img src="images/hero-home.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;"></picture>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.62) 0%,rgba(8,15,30,0.78) 100%);"></div>
+  </div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Ontario Licensed Insurance Advisor · FSRA Regulated</div>
+    <h1>Insurance That <em>Actually</em> Works For You</h1>
+    <p class="hero-sub">
+      Travel insurance, health coverage, and group benefits tailored for Ontario families and businesses.
+      Access top Canadian insurers in one place — with expert guidance at every step.
+    </p>
+    <div class="hero-actions">
+      <a href="#quote" class="btn-primary">
+        <span>Get a Free Quote</span>
+        <span>→</span>
+      </a>
+      <a href="tel:6473669495" class="btn-outline">
+        <span>📞</span>
+        <span>647-366-9495</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <span class="stat-num" data-count="10" data-suffix="+">10+</span>
+      <span class="stat-label">Top Insurers</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num" data-count="3" data-suffix="">3</span>
+      <span class="stat-label">Core Services</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num" data-count="100" data-suffix="%">100%</span>
+      <span class="stat-label">Independent</span>
+    </div>
+  </div>
+</section>
+
+<!-- VISIBLE PHOTO BAND -->
+<div class="photo-band" style="position:relative;height:360px;overflow:hidden;">
+  <picture><source srcset="images/hero-home.webp" type="image/webp"><img src="images/hero-home.jpg" alt="Insurance advice for Ontario families" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;"></picture>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.30) 0%,rgba(8,15,30,0.78) 100%);"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:40px 60px;">
+    <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:6px;">Trusted Insurance Advice in Ontario</div>
+    <div style="font-size:1.05rem;color:rgba(255,255,255,0.85);">Travel · Health · Group Benefits · Critical Illness · Estate · RESP & RRSP</div>
+  </div>
+</div>
+
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <span class="trust-label">Partnered With</span>
+  <div class="insurer-list">
+    <span class="insurer-tag">Manulife</span>
+    <span class="insurer-tag">Canada Life</span>
+    <span class="insurer-tag">TuGo</span>
+    <span class="insurer-tag">RBC Life</span>
+    <span class="insurer-tag">Desjardins</span>
+    <span class="insurer-tag">iA Financial</span>
+    <span class="insurer-tag">BMO Life</span>
+    <span class="insurer-tag">Empire Life</span>
+    <span class="insurer-tag">21st Century</span>
+    <span class="insurer-tag">TrustStone Health</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Coverage Built For<br>Real Life</h2>
+    </div>
+    <p class="section-sub">Independent advice across all major product lines — we find the right fit, not the easiest sale.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- Travel -->
+    <a href="travel-insurance.html" class="service-card priority" style="text-decoration:none;color:inherit;display:block;">
+      <div class="priority-tag">⭐ Priority Service</div>
+      <div class="service-icon">✈️</div>
+      <h3>Travel Insurance</h3>
+      <p>Emergency medical, trip cancellation, multi-trip annual plans, and snowbird coverage. Whether you're heading south for winter or backpacking abroad — we've got you covered.</p>
+      <div class="service-insurers">
+        <span class="insurer-chip">TuGo</span>
+        <span class="insurer-chip">21st Century</span>
+        <span class="insurer-chip">Manulife</span>
+        <span class="insurer-chip">RBC Life</span>
+        <span class="insurer-chip">Desjardins</span>
+      </div>
+    </a>
+
+    <!-- Health -->
+    <a href="health-insurance.html" class="service-card priority" style="text-decoration:none;color:inherit;display:block;">
+      <div class="priority-tag">⭐ Priority Service</div>
+      <div class="service-icon">🏥</div>
+      <h3>Health Insurance</h3>
+      <p>Dental, vision, prescription drugs, and paramedical coverage for individuals, self-employed professionals, and families not covered by an employer plan.</p>
+      <div class="service-insurers">
+        <span class="insurer-chip">TrustStone</span>
+        <span class="insurer-chip">Manulife</span>
+        <span class="insurer-chip">Canada Life</span>
+        <span class="insurer-chip">Empire Life</span>
+        <span class="insurer-chip">iA Financial</span>
+      </div>
+    </a>
+
+    <!-- Group -->
+    <a href="group-benefits.html" class="service-card priority" style="text-decoration:none;color:inherit;display:block;">
+      <div class="priority-tag">⭐ Priority Service</div>
+      <div class="service-icon">🏢</div>
+      <h3>Group Benefits</h3>
+      <p>Affordable group benefit plans for small and mid-size businesses. Attract and retain talent with health, dental, disability, and life coverage your team actually values.</p>
+      <div class="service-insurers">
+        <span class="insurer-chip">Canada Life</span>
+        <span class="insurer-chip">Desjardins</span>
+        <span class="insurer-chip">iA Financial</span>
+        <span class="insurer-chip">Manulife</span>
+        <span class="insurer-chip">Empire Life</span>
+      </div>
+    </a>
+
+    <!-- Life -->
+    <a href="estate-planning.html" class="service-card" style="text-decoration:none;color:inherit;display:block;">
+      <div class="service-icon">🛡️</div>
+      <h3>Life Insurance</h3>
+      <p>Term and permanent life insurance designed around your family's financial future. We compare rates across carriers to find your best option.</p>
+      <div class="service-insurers">
+        <span class="insurer-chip">Manulife</span>
+        <span class="insurer-chip">Canada Life</span>
+        <span class="insurer-chip">BMO Life</span>
+        <span class="insurer-chip">RBC Life</span>
+      </div>
+    </a>
+
+    <!-- Critical Illness -->
+    <a href="critical-illness.html" class="service-card" style="text-decoration:none;color:inherit;display:block;">
+      <div class="service-icon">💊</div>
+      <h3>Critical Illness</h3>
+      <p>Lump-sum coverage triggered by a diagnosis of cancer, heart attack, stroke, and 25+ other conditions. Financial protection when you need it most.</p>
+      <div class="service-insurers">
+        <span class="insurer-chip">Manulife</span>
+        <span class="insurer-chip">Empire Life</span>
+        <span class="insurer-chip">iA Financial</span>
+        <span class="insurer-chip">Canada Life</span>
+      </div>
+    </a>
+
+    <!-- Disability -->
+    <a href="#quote" class="service-card" style="text-decoration:none;color:inherit;display:block;">
+      <div class="service-icon">🤝</div>
+      <h3>Disability Insurance</h3>
+      <p>Income replacement if illness or injury prevents you from working. Especially critical for self-employed professionals and business owners without employer coverage.</p>
+      <div class="service-insurers">
+        <span class="insurer-chip">Canada Life</span>
+        <span class="insurer-chip">iA Financial</span>
+        <span class="insurer-chip">Desjardins</span>
+        <span class="insurer-chip">Manulife</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- TUGO ONLINE STORE STRIP -->
+<div style="background:linear-gradient(135deg,rgba(14,124,123,0.12),rgba(8,15,30,0));border-top:1px solid rgba(14,124,123,0.18);border-bottom:1px solid rgba(14,124,123,0.18);padding:28px 60px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;max-width:960px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="width:48px;height:48px;flex-shrink:0;background:rgba(20,168,167,0.18);border:1px solid rgba(20,168,167,0.35);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🌐</div>
+      <div>
+        <div style="font-weight:700;font-size:0.97rem;margin-bottom:2px;">Buy TuGo Travel Insurance Online</div>
+        <div style="font-size:0.8rem;color:var(--text-muted,#8a9ab5);">Quote &amp; purchase travel, visitor and snowbird plans instantly in our secure store — backed by your advisor</div>
+      </div>
+    </div>
+    <a href="https://shop.tugo.com/store/TEK200" target="_blank" rel="noopener" data-tugo-store="TEK200" data-application-type="online_store"
+       style="background:#0e7c7b;color:white;padding:13px 28px;border-radius:4px;font-weight:600;font-size:0.95rem;text-decoration:none;white-space:nowrap;transition:background 0.2s;"
+       onmouseover="this.style.background='#14a8a7'" onmouseout="this.style.background='#0e7c7b'">
+      Open TuGo Store →
+    </a>
+  </div>
+</div>
+
+<!-- QUOTE FORM -->
+<section id="quote">
+  <div class="quote-grid">
+    <div class="quote-benefits">
+      <div class="section-label">Free Consultation</div>
+      <h3 class="section-title">Get the Right Coverage<br>At the Right Price</h3>
+      <p>Tell us what you're looking for and we'll compare options across our insurer network — no obligation, no pressure.</p>
+
+      <div class="benefit-list">
+        <div class="benefit-item">
+          <div class="benefit-icon">⚡</div>
+          <div>
+            <h4>Fast Turnaround</h4>
+            <p>Most quotes delivered within 24 hours of your request.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🔍</div>
+          <div>
+            <h4>Independent Comparison</h4>
+            <p>We're not tied to one insurer — we shop the market for your best option.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">📋</div>
+          <div>
+            <h4>Plain Language Advice</h4>
+            <p>We explain what you're buying in clear terms — no insurance jargon.</p>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">🇨🇦</div>
+          <div>
+            <h4>Ontario Licensed</h4>
+            <p>FSRA licensed and regulated. Your interests are always protected.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-form-wrap"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Quote Request - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://coverandprotect.ca/thankyou.html?lead=1">
+      <h3>Request a Free Quote</h3>
+      <p>Fill in your details and we'll be in touch within 24 hours.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" placeholder="John" name="fname">
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" placeholder="Smith" name="lname">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="john@example.com" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="(416) 000-0000" name="phone">
+      </div>
+
+      <div class="form-group">
+        <label for="coverage">Insurance Type Needed</label>
+        <select id="coverage" name="coverage">
+          <option value="">— Select coverage type —</option>
+          <option>Travel Insurance</option>
+          <option>Individual Health Insurance</option>
+          <option>Group Benefits (Business)</option>
+          <option>Life Insurance</option>
+          <option>Critical Illness</option>
+          <option>Disability Insurance</option>
+          <option>Multiple / Not Sure</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Tell Us More (Optional)</label>
+        <textarea id="notes" placeholder="Destination, number of employees, current situation..." name="notes"></textarea>
+      </div>
+
+      <button class="form-submit" type="submit" style="cursor:pointer">Send My Request →</button>
+      <div class="success-msg" id="successMsg">✅ Thank you! We'll be in touch within 24 hours.</div>
+      <p class="form-disclaimer">Your information is kept private. We never sell your data.<br>FSRA Licensed · PIPEDA Compliant</p>
+    </form></div>
+  </div>
+</section>
+
+<!-- INSURER PARTNERS -->
+<section id="insurers">
+  <div class="insurers-header">
+    <div class="section-label">Our Insurance Partners</div>
+    <h2 class="section-title">Access to Canada's Top Carriers</h2>
+    <p class="section-sub">As an independent advisor, I'm contracted with all major insurers — giving you unbiased access to the widest range of products and pricing.</p>
+  </div>
+
+  <div class="insurers-grid">
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏦</span>
+      <div class="insurer-card-name">Manulife</div>
+      <div class="insurer-card-type">Travel · Health · Life · Group</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏦</span>
+      <div class="insurer-card-name">Canada Life</div>
+      <div class="insurer-card-type">Health · Life · Group · Disability</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">✈️</span>
+      <div class="insurer-card-name">TuGo</div>
+      <div class="insurer-card-type">Travel Specialist</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏦</span>
+      <div class="insurer-card-name">RBC Life</div>
+      <div class="insurer-card-type">Travel · Life · Health</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏦</span>
+      <div class="insurer-card-name">Desjardins</div>
+      <div class="insurer-card-type">Group · Health · Life</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏦</span>
+      <div class="insurer-card-name">iA Financial</div>
+      <div class="insurer-card-type">Group · Health · Disability</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏦</span>
+      <div class="insurer-card-name">BMO Life</div>
+      <div class="insurer-card-type">Life · Health</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">✈️</span>
+      <div class="insurer-card-name">21st Century</div>
+      <div class="insurer-card-type">Travel Specialist</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🏥</span>
+      <div class="insurer-card-name">TrustStone Health</div>
+      <div class="insurer-card-type">Individual Health</div>
+    </a>
+    <a href="#quote" class="insurer-card">
+      <span class="insurer-card-icon">🛡️</span>
+      <div class="insurer-card-name">Empire Life</div>
+      <div class="insurer-card-type">Health · Life · Critical Illness</div>
+    </a>
+  </div>
+</section>
+
+
+<!-- CLIENT REVIEWS -->
+<section id="reviews" class="cp-reviews" aria-label="Client reviews">
+  <div class="cp-wrap">
+    <div class="cp-head">
+      <span class="cp-eyebrow">Ontario families &amp; businesses</span>
+      <h2 class="cp-title">Trusted Advice, <em>Real</em> Results</h2>
+      <p class="cp-sub">Verified Google reviews from clients who count on Cover &amp; Protect for life, critical illness, travel, and group benefits coverage.</p>
+    </div>
+    <div class="cp-summary">
+      <div class="cp-g"><svg  viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Google</div>
+      <div class="cp-divider"></div>
+      <div class="cp-score">5.0</div>
+      <div style="text-align:left;">
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="cp-count">9 verified Google reviews</div>
+      </div>
+    </div>
+    <div class="cp-grid">
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">Sertac has become our family's go-to insurance advisor. He set me up with permanent life insurance on a 20-year pay plan with guaranteed cash value, added participating coverage, and made sure my children are protected with critical illness insurance too. He even handles our travel insurance whenever we leave the country. One trusted advisor for everything &mdash; knowledgeable, patient, and always honest. Highly recommend.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#7c4dff;">C</div>
+          <div>
+            <div class="cp-name">Caner Gul</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">As parents of two young kids, my wife and I knew we needed life insurance but felt overwhelmed by the options. Sertac made it simple &mdash; he listened to our situation, explained term vs permanent in plain language, and found us coverage that protects our children's future without stretching our budget. No pressure, just genuine care. Highly recommend to any young family.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#1a73e8;">H</div>
+          <div>
+            <div class="cp-name">Hasan Karagoz</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">Excellent financial advisor! Knowledgeable, responsive, and trustworthy. Sertac always provides clear advice and takes the time to explain options. I truly appreciate the support and guidance he has provided.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#1a73e8;">I</div>
+          <div>
+            <div class="cp-name">I. T.</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">I worked with him for my parents' insurance to travel in Canada. He was helpful all the way through the process.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#0e7c7b;">H</div>
+          <div>
+            <div class="cp-name">Helin Ozkan</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">As a small business owner, I was concerned about the cost and complexity of setting up a group benefits plan. Sertac walked me through every option clearly and built a plan that fit my team and my budget.</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#1a73e8;">A</div>
+          <div>
+            <div class="cp-name">Ayaz Dinckurt</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+      <article class="cp-card">
+        <span class="cp-quote">&rdquo;</span>
+        <div class="cp-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="cp-text">Sertac is an excellent financial advisor. Someone reliable and trustworthy!</p>
+        <div class="cp-person">
+          <div class="cp-avatar" style="background:#d93025;">E</div>
+          <div>
+            <div class="cp-name">Edna Tutor</div>
+            <div class="cp-meta"><svg class="cp-gmark" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.3 9.14 5.38 12 5.38z"/></svg>Posted on Google</div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="cp-cta">
+      <a class="cp-btn" href="https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8" target="_blank" rel="noopener">
+        Read more reviews on Google
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="section-label">Get In Touch</div>
+      <h2>Let's Talk About Your Coverage</h2>
+      <p>Whether you have a quick question or want to review your existing plan, I'm here to help. No sales pressure — just clear, honest advice.</p>
+
+      <div class="contact-methods">
+        <a href="tel:6473669495" class="contact-method">
+          <div class="contact-method-icon">📞</div>
+          <div>
+            <div class="contact-method-label">Call or Text</div>
+            <div class="contact-method-value">647-366-9495</div>
+          </div>
+        </a>
+        <a href="mailto:contact@coverandprotect.ca" class="contact-method">
+          <div class="contact-method-icon">✉️</div>
+          <div>
+            <div class="contact-method-label">Email</div>
+            <div class="contact-method-value">contact@coverandprotect.ca</div>
+          </div>
+        </a>
+        <a href="https://calendly.com/contact-coverandprotect/30min" target="_blank" class="contact-method">
+          <div class="contact-method-icon">📅</div>
+          <div>
+            <div class="contact-method-label">Book a Consultation</div>
+            <div class="contact-method-value">Book a Free 30-Min Consultation →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="quote-form-wrap"><form action="https://formspree.io/f/mdajwykn" method="POST">
+<input type="hidden" name="_subject" value="New Lead - Contact Message - Cover&amp;Protect">
+<input type="hidden" name="_next" value="https://coverandprotect.ca/thankyou.html?lead=1">
+      <h3>Send a Message</h3>
+      <p>We typically respond within a few hours during business hours.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cname">Name</label>
+          <input type="text" id="cname" placeholder="Your name" name="cname">
+        </div>
+        <div class="form-group">
+          <label for="cphone">Phone</label>
+          <input type="tel" id="cphone" placeholder="(416) 000-0000" name="cphone">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cemail">Email</label>
+        <input type="email" id="cemail" placeholder="contact@coverandprotect.ca" name="cemail" required>
+      </div>
+
+      <div class="form-group">
+        <label for="cmessage">Message</label>
+        <textarea id="cmessage" placeholder="How can we help you?" name="cmessage"></textarea>
+      </div>
+
+      <button class="form-submit" type="submit" style="cursor:pointer">Send Message →</button>
+      <div class="success-msg" id="contactSuccess">✅ Message received! We'll reply shortly.</div>
+    </form></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<!-- CALENDLY BOOKING STRIP -->
+<div style="background:linear-gradient(135deg,rgba(14,124,123,0.1),rgba(8,15,30,0));border-top:1px solid rgba(14,124,123,0.15);border-bottom:1px solid rgba(14,124,123,0.15);padding:28px 60px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;max-width:900px;margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="width:48px;height:48px;background:rgba(14,124,123,0.2);border:1px solid rgba(14,168,167,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">📅</div>
+      <div>
+        <div style="font-weight:700;font-size:0.97rem;margin-bottom:2px;">Book a Free 30-Min Consultation</div>
+        <div style="font-size:0.8rem;color:var(--text-muted,#8a9ab5);">Speak directly with a licensed Ontario advisor — no obligation, no pressure</div>
+      </div>
+    </div>
+    <a href="https://calendly.com/contact-coverandprotect/30min" target="_blank"
+       style="background:#0e7c7b;color:white;padding:13px 28px;border-radius:4px;font-weight:600;font-size:0.95rem;text-decoration:none;white-space:nowrap;transition:background 0.2s;"
+       onmouseover="this.style.background='#14a8a7'" onmouseout="this.style.background='#0e7c7b'">
+      Book Free Consultation →
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
+    <div class="footer-logo">Cover<span>&</span>Protect</div>
+    <div class="footer-social" style="display:flex;gap:16px;">
+      <a href="https://www.facebook.com/share/1HAGzGYSun/" target="_blank" rel="noopener" aria-label="Cover &amp; Protect on Facebook" style="color:#e5b657;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+      <a href="https://www.instagram.com/coverandprotect.ca" target="_blank" rel="noopener" aria-label="Cover &amp; Protect on Instagram" style="color:#e5b657;display:inline-flex;"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0Zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.899.421.422.68.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.9 1.382-.419.421-.824.68-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.9-.421-.419-.689-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03Zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162ZM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4Zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439Z"/></svg></a>
+    </div>
+  </div>
+  <div style="margin:14px 0;font-size:0.9rem;line-height:2;">
+    <a href="super-visa-insurance-ontario.html" style="color:#e5b657;text-decoration:none;font-weight:600;">🛡️ Super Visa Insurance Ontario — Quotes for Parents &amp; Grandparents</a><br>
+    <a href="visitor-insurance-canada.html" style="color:#e5b657;text-decoration:none;font-weight:600;">🛡️ Visitor to Canada Insurance — Emergency Medical Coverage</a><br>
+    <a href="blog-supervisa-cost.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: How Much Does Super Visa Insurance Cost in 2026?</a><br>
+    <a href="blog-travel-insurance-canadians.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Travel Insurance for Canadians Going Abroad (2026 Guide)</a><br>
+    <a href="blog-supervisa-refund.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Is Super Visa Insurance Refundable? Refund Rules Explained</a><br>
+    <a href="blog-ohip-visitors.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Does OHIP Cover Visitors to Canada?</a><br>
+    <a href="blog-term-vs-whole-life.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Term vs. Whole Life Insurance in Canada</a><br>
+    <a href="blog-how-much-life-insurance.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: How Much Life Insurance Do I Need?</a><br>
+    <a href="blog-critical-illness-worth-it.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Is Critical Illness Insurance Worth It?</a><br>
+    <a href="blog-health-dental-self-employed.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Health &amp; Dental for the Self-Employed</a><br>
+    <a href="blog-resp-cesg-explained.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: RESP &amp; CESG — Free Money for Education</a><br>
+    <a href="blog-rrsp-vs-tfsa.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: RRSP vs. TFSA — Which Comes First?</a><br>
+    <a href="blog-group-benefits-small-business.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Group Benefits for Small Business</a><br>
+    <a href="blog-will-ontario.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Why Every Ontario Family Needs a Will</a><br>
+    <a href="blog-power-of-attorney-ontario.html" style="color:#e5b657;text-decoration:none;font-weight:600;">📖 Blog: Power of Attorney in Ontario</a><br>
+    <a href="blog.html" style="color:#e5b657;text-decoration:none;font-weight:700;">📚 All Insurance Guides &amp; Blog →</a>
+  </div>
+  <div class="footer-compliance">
+    Cover & Protect is an Ontario-licensed independent insurance advisory practice regulated by FSRA. Licence # 10112782.
+    Insurance products are underwritten by the respective insurers listed. All coverages subject to policy terms and conditions.
+    This website does not constitute a contract of insurance.
+  </div>
+  <div class="footer-right">© 2026 coverandprotect.ca</div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Elements to reveal on scroll
+  var revealSelectors = '.service-card, .stat-card, .insurer-card, .section-label, .section-title, .section-sub, .services-header, .insurers-header, .contact-info, .quote-form-wrap';
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll(revealSelectors));
+
+  if (reduce) {
+    // Show everything immediately, set counters to final value
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+    document.querySelectorAll('.stat-num[data-count]').forEach(function (el) {
+      el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || '');
+    });
+    return;
+  }
+
+  revealEls.forEach(function (el) { el.classList.add('reveal'); });
+
+  // Reveal observer with slight stagger for grouped items
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var el = e.target;
+        var siblings = el.parentElement ? Array.prototype.slice.call(el.parentElement.children) : [el];
+        var idx = siblings.indexOf(el);
+        var delay = Math.min(idx, 5) * 80; // cap stagger
+        setTimeout(function () { el.classList.add('in-view'); }, delay);
+        revealObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(function (el) { revealObserver.observe(el); });
+
+  // Animated counters
+  function runCounter(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var dur = 1400, start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      var val = Math.round(eased * target);
+      el.textContent = val + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  var counterObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { runCounter(e.target); counterObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat-num[data-count]').forEach(function (el) { counterObserver.observe(el); });
+})();
+</script>
+
+<script>
+function openMobileMenu() {
+  document.getElementById('mobileMenu').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Close on escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeMobileMenu();
+});
+</script>
+
+<!-- COVER & PROTECT ASSISTANT -->
+<button id="cpbot-launch" aria-label="Chat with Cover and Protect"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cpbot-dot"></span></button>
+<div id="cpbot-panel" role="dialog" aria-label="Cover and Protect assistant">
+  <div class="cpbot-header">
+    <div class="cpbot-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div>
+      <div class="cpbot-title">Cover<span>&amp;</span>Protect Assistant</div>
+      <div class="cpbot-status">Ask a question or get a quote</div>
+    </div>
+    <button class="cpbot-close" id="cpbot-close" aria-label="Close">&times;</button>
+  </div>
+  <div class="cpbot-body" id="cpbot-body"></div>
+  <div class="cpbot-foot">
+    <input class="cpbot-input" id="cpbot-input" type="text" placeholder="Ask a question, e.g. Super Visa cost..." autocomplete="off">
+    <button class="cpbot-send" id="cpbot-send" aria-label="Send">&#10148;</button>
+  </div>
+  <div class="cpbot-disclaimer">Informational only. For personalized advice, Sertac (FSRA-licensed advisor) will assist you.</div>
+</div>
+<script>
+(function(){
+  var panel=document.getElementById('cpbot-panel');
+  var body=document.getElementById('cpbot-body');
+  var input=document.getElementById('cpbot-input');
+  var DEFAULT_PH="Ask a question, e.g. Super Visa cost...";
+  var greeted=false;
+  var session={flow:null,fkey:null,step:0,data:{}};
+
+  function open(){panel.classList.add('cpbot-open');if(!greeted){greet();greeted=true;}setTimeout(function(){input.focus();},250);}
+  function close(){panel.classList.remove('cpbot-open');}
+  document.getElementById('cpbot-launch').onclick=function(){panel.classList.contains('cpbot-open')?close():open();};
+  document.getElementById('cpbot-close').onclick=close;
+
+  function el(cls,html){var d=document.createElement('div');d.className=cls;if(html!=null)d.innerHTML=html;return d;}
+  function bot(html){body.appendChild(el('cpbot-msg cpbot-bot',html));body.scrollTop=body.scrollHeight;}
+  function user(text){var d=el('cpbot-msg cpbot-user',null);d.textContent=text;body.appendChild(d);body.scrollTop=body.scrollHeight;}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function typingThen(cb){var t=el('cpbot-msg cpbot-bot cpbot-typing','<span></span><span></span><span></span>');body.appendChild(t);body.scrollTop=body.scrollHeight;setTimeout(function(){t.remove();cb();},560);}
+  function chips(items){var wrap=el('cpbot-chips',null);items.forEach(function(it){var c=document.createElement('button');c.className='cpbot-chip'+(it.cancel?' cpbot-cancel':'');c.textContent=it.label;c.onclick=function(){user(it.label);setTimeout(function(){route(it.key);},180);};wrap.appendChild(c);});body.appendChild(wrap);body.scrollTop=body.scrollHeight;}
+
+  var CTA='<div><a class="cpbot-cta" href="tel:6473669495">Call 647-366-9495</a></div>';
+  var BOOK='<div><a class="cpbot-cta" href="https://calendly.com/contact-coverandprotect/30min" target="_blank" rel="noopener">Book a free consult</a><a class="cpbot-cta alt" href="tel:6473669495">Call now</a></div>';
+
+  var KB={
+    supervisa:{k:["what is super visa","super visa insurance","explain super visa","super visa mean","about super visa","super visa work"],c:CTA,a:"Super Visa insurance is the mandatory emergency medical coverage required for parents and grandparents visiting Canada on a Super Visa. It must provide at least $100,000 in coverage, stay valid for a full year from entry, and cover emergency healthcare, hospitalization, and repatriation."},
+    cost:{k:["super visa cost","super visa price","how much super visa","cost","how much","premium","rate"],c:CTA,a:"Super Visa pricing varies by the applicant's age, the coverage amount, the deductible, and any pre-existing conditions. As a general guide, $100,000 coverage often runs roughly $90 to $180+ per month, but your exact price depends on the details. I can start a quote so Sertac gives you an accurate number."},
+    requirements:{k:["requirement","minimum","ircc rules","qualify","criteria","mandatory","what do i need"],c:CTA,a:"To meet IRCC rules, a Super Visa policy must provide at least $100,000 in coverage, be valid for one year from entry, cover emergency medical care, hospitalization and repatriation, and come from a Canadian or IRCC-approved insurer. Proof of paid coverage is required with the application."},
+    duration:{k:["how long","valid","duration","how many years","renew","expire","length of stay"],c:null,a:"A Super Visa lets parents and grandparents stay up to 5 years per visit, and the visa is valid up to 10 years. Your insurance must be valid for at least one year from your entry date; many families renew annually for longer stays."},
+    monthly:{k:["monthly","installment","instalment","pay monthly","payment plan","split payment"],c:CTA,a:"Yes - many Super Visa and travel plans offer monthly payment options instead of paying the full year upfront, as long as the insurer has valid proof of coverage for the application."},
+    refund:{k:["refund","refuse","refused","denied","rejection","money back","visa rejected"],c:null,a:"Most Super Visa policies offer a full refund if the visa is refused and the person never travels to Canada, as long as you submit the refusal letter before the policy start date. Terms vary by insurer."},
+    preexisting:{k:["pre existing","preexisting","existing condition","medical condition","diabetes","heart","blood pressure","medication","health issue"],c:CTA,a:"Many Super Visa plans can cover pre-existing conditions if they've been stable for a set period (often 90 to 180 days), usually with a higher premium or a stability clause. The right plan depends on the specific condition."},
+    coverage:{k:["what does it cover","cover","include","benefit","ambulance","prescription","hospital","dental emergency"],c:null,a:"Super Visa and visitor insurance typically cover emergency medical treatment, hospital stays, ambulance, doctor visits, emergency prescriptions, and repatriation. Some plans add dental emergencies and follow-up care."},
+    age:{k:["age","how old","senior","elderly","year old","age limit"],c:CTA,a:"Coverage is available for most ages, including seniors. Premiums rise with age and some plans have age bands or limits on the highest coverage amounts."},
+    apply:{k:["how to apply","how do i apply","document","process","invitation letter","lico","income","proof of insurance","application"],c:CTA,a:"For a Super Visa you'll need proof of paid Canadian medical insurance meeting IRCC rules, a letter of invitation from your Canadian child or grandchild, and proof they meet the minimum income (LICO). Sertac can prepare the insurance proof."},
+    visitor:{k:["visitor","tourist","visiting canada","returning resident","ohip wait","visitor insurance","work permit"],c:CTA,a:"Visitor to Canada insurance covers emergency medical costs for visitors who aren't on a Super Visa - tourists, visa holders, new residents waiting for provincial coverage, and more. Plans are flexible by length of stay and coverage amount."},
+    travel:{k:["travel insurance","trip","abroad","vacation","leaving canada","multi-trip","travelling","outside canada"],c:CTA,a:"We offer travel insurance for Canadians heading abroad - single-trip or multi-trip annual plans covering emergency medical, trip cancellation, lost baggage, and more."},
+    health:{k:["health insurance","individual health","family health","drug plan","vision","dental plan","health coverage"],c:CTA,a:"We offer individual and family health and dental plans for people without group coverage - helping with prescriptions, dental, vision, and paramedical costs."},
+    group:{k:["group","group benefits","business benefits","employee","team benefits","company plan","staff"],c:CTA,a:"We set up group benefits for businesses of all sizes - health, dental, disability, and life - designed around your team and budget. Even small teams can qualify."},
+    life:{k:["life insurance","term life","permanent life","whole life","universal life","death benefit","protect my family"],c:BOOK,a:"We offer term and permanent life insurance from Canada's top carriers. Term gives affordable coverage for a set period; permanent lasts for life and builds cash value. We also offer critical illness coverage."},
+    critical:{k:["critical illness","cancer","heart attack","stroke","lump sum","serious illness"],c:BOOK,a:"Critical illness insurance pays a tax-free lump sum if you're diagnosed with a covered condition such as cancer, heart attack, or stroke - money you can use however you need during recovery."},
+    resp:{k:["resp","rrsp","savings","education savings","retirement","investment","grant","tfsa"],c:BOOK,a:"We help with RESP (education savings, boosted by government grants) and RRSP (retirement savings) to grow your family's future tax-efficiently."},
+    estate:{k:["estate","inheritance","beneficiary","will","legacy","estate planning"],c:BOOK,a:"Estate planning helps protect and pass on your assets efficiently using life insurance, beneficiary planning, and tax strategies."},
+    ltc:{k:["long term care","ltc","nursing home","assisted living","in-home care","elderly care"],c:BOOK,a:"Long-term care insurance helps cover in-home care, assisted living, or a nursing home if you can no longer care for yourself - protecting your savings and family."},
+    newcomer:{k:["newcomer","new immigrant","new to canada","immigrant","just arrived","permanent resident","pr card"],c:BOOK,a:"Sertac works closely with newcomer and immigrant families across the GTA, guiding you through Super Visa, visitor, health, and life coverage step by step."},
+    nomedical:{k:["no medical","without medical","no exam","simplified issue","guaranteed issue","no health questions"],c:BOOK,a:"Yes - we offer no-medical and simplified-issue life insurance for coverage without a full medical exam. Approval is faster, with only a few health questions or none at all."},
+    mortgage:{k:["mortgage","mortgage insurance","mortgage protection"],c:BOOK,a:"Instead of bank mortgage insurance, a personal term life policy can protect your mortgage and stay with you even if you move or refinance - often at a better rate."},
+    free:{k:["is it free","free consultation","consultation free","free","no cost","obligation","do you charge","your fee","free advice","cost to talk"],c:BOOK,a:"Yes - consultations are completely free with no obligation. As an independent advisor, Sertac is paid by the insurers, so his guidance costs you nothing."},
+    claims:{k:["claim","make a claim","file a claim","claims help","reimburse"],c:BOOK,a:"If you need to make a claim, Sertac helps you through the process and works with the insurer so you're not on your own."},
+    about:{k:["who is sertac","about sertac","advisor experience","licensed","fsra","broker","who are you"],c:BOOK,a:"Sertac Tekin is an Ontario-licensed, FSRA-regulated insurance advisor serving families and businesses across the Greater Toronto Area. He is independent, comparing plans from many top Canadian insurers to find your best fit."},
+    areas:{k:["area","location","where are you","toronto","gta","ontario","etobicoke","near me","do you serve"],c:BOOK,a:"Cover & Protect serves clients across the Greater Toronto Area and throughout Ontario, in person and remotely."},
+    quote:{k:["quote","talk to sertac","talk to someone","speak to someone","speak to","reach someone","human","representative","agent","contact","call you","reach you","email","consult","book appointment","get started"],c:null,a:""}
+  };
+
+  var LBL={supervisa:"Super Visa basics",cost:"Cost",requirements:"Requirements",duration:"How long it lasts",monthly:"Monthly payments",refund:"Refund if refused",preexisting:"Pre-existing conditions",coverage:"What's covered",age:"Age limits",apply:"How to apply",visitor:"Visitor insurance",travel:"Travel insurance",health:"Health & dental",group:"Group benefits",life:"Life insurance",critical:"Critical illness",resp:"RESP & RRSP",estate:"Estate planning",ltc:"Long-term care",newcomer:"New to Canada",nomedical:"No-medical life",mortgage:"Mortgage protection",free:"Is it free?",claims:"Claims help",about:"About Sertac",areas:"Areas served"};
+  var REL={supervisa:["cost","requirements","preexisting"],cost:["monthly","requirements","preexisting"],requirements:["cost","apply","duration"],duration:["cost","requirements"],monthly:["cost","refund"],refund:["cost","requirements"],preexisting:["cost","coverage"],coverage:["cost","preexisting"],age:["cost","preexisting"],apply:["requirements","cost"],visitor:["cost","coverage"],travel:["health"],health:["group"],group:["health"],life:["critical","nomedical"],critical:["life"],resp:["estate"],estate:["life"],ltc:["life"],newcomer:["supervisa","health"],nomedical:["life"],mortgage:["life"],free:["about"],claims:["about"],about:["areas"],areas:["about"]};
+  var QSTART={supervisa:"supervisa",cost:"supervisa",requirements:"supervisa",duration:"supervisa",monthly:"supervisa",refund:"supervisa",preexisting:"supervisa",coverage:"supervisa",age:"supervisa",apply:"supervisa",visitor:"visitor",travel:"travel",health:"health",group:"group",life:"life",critical:"life",nomedical:"life",mortgage:"mortgage",resp:"savings",estate:"life",ltc:"life"};
+  var QNAME={supervisa:"Start my Super Visa quote",visitor:"Start visitor quote",travel:"Start travel quote",health:"Start health quote",group:"Start group quote",life:"Talk about life insurance",savings:"Start RESP / RRSP enquiry",mortgage:"Start mortgage protection"};
+
+  var MENU=[{label:"Get a quote",key:"#quote"},{label:"Super Visa insurance",key:"supervisa"},{label:"Travel / visitor",key:"visitor"},{label:"Life & critical illness",key:"life"},{label:"Talk to Sertac",key:"#lead"}];
+
+  var FLOWS={
+    supervisa:{title:"Super Visa quote",steps:[
+      {t:"choice",k:"whom",L:"For",q:"Who is the coverage for?",o:[["Parent","Parent"],["Grandparent","Grandparent"],["Multiple people","Multiple"]]},
+      {t:"choice",k:"count",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
+      {t:"text",k:"ages",L:"Age(s)",q:"What are their age(s)? e.g. 62, 65",p:"Age(s)..."},
+      {t:"text",k:"arrival",L:"Arrival",q:"Approximate arrival date in Canada? e.g. Aug 2026",p:"Arrival date..."},
+      {t:"choice",k:"term",L:"Term",q:"How long do you need coverage?",o:[["1 year","1 year"],["2 years","2 years"],["Not sure","Not sure"]]},
+      {t:"choice",k:"amount",L:"Amount",q:"Coverage amount?",o:[["$100,000","$100,000"],["$150,000","$150,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
+      {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing medical conditions?",o:[["No","No"],["Yes - stable","Yes, stable"],["Yes - recent","Yes, recent changes"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    visitor:{title:"Visitor to Canada quote",steps:[
+      {t:"choice",k:"count",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
+      {t:"text",k:"ages",L:"Age(s)",q:"Age(s) of the visitor(s)?",p:"Age(s)..."},
+      {t:"text",k:"arrival",L:"Arrival",q:"Arrival date in Canada?",p:"Arrival date..."},
+      {t:"text",k:"length",L:"Length",q:"How long is coverage needed? e.g. 3 months",p:"e.g. 3 months"},
+      {t:"choice",k:"amount",L:"Amount",q:"Coverage amount?",o:[["$50,000","$50,000"],["$100,000","$100,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
+      {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing conditions?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    travel:{title:"Travel insurance quote (abroad)",steps:[
+      {t:"choice",k:"count",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
+      {t:"text",k:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
+      {t:"text",k:"dest",L:"Destination",q:"Where are you travelling to?",p:"Destination..."},
+      {t:"text",k:"dates",L:"Dates",q:"Travel dates? e.g. Jul 1-15",p:"Travel dates..."},
+      {t:"choice",k:"plan",L:"Plan",q:"Single trip or multi-trip annual?",o:[["Single trip","Single"],["Multi-trip annual","Multi-trip"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    life:{title:"Life insurance enquiry",steps:[
+      {t:"choice",k:"goal",L:"Goal",q:"What's the main goal?",o:[["Protect family income","Income"],["Cover mortgage/debts","Mortgage"],["Final expenses","Final expenses"],["Wealth / estate","Estate"]]},
+      {t:"choice",k:"type",L:"Type",q:"Term or permanent coverage?",o:[["Term","Term"],["Permanent","Permanent"],["Not sure","Not sure"]]},
+      {t:"text",k:"amount",L:"Amount",q:"Coverage amount in mind? e.g. $500,000",p:"Amount..."},
+      {t:"text",k:"age",L:"Age",q:"Your age?",p:"Age..."},
+      {t:"choice",k:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
+      {t:"contact"}
+    ]},
+    group:{title:"Group benefits enquiry",steps:[
+      {t:"text",k:"company",L:"Company",q:"Company name?",p:"Company..."},
+      {t:"choice",k:"size",L:"Employees",q:"How many employees?",o:[["1-5","1-5"],["6-20","6-20"],["21-50","21-50"],["50+","50+"]]},
+      {t:"choice",k:"current",L:"Current plan",q:"Do you have benefits now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
+      {t:"text",k:"want",L:"Priorities",q:"What matters most? e.g. health, dental, disability",p:"Priorities..."},
+      {t:"contact"}
+    ]},
+    health:{title:"Health & dental enquiry",steps:[
+      {t:"choice",k:"who",L:"For",q:"Who is the coverage for?",o:[["Just me","Individual"],["Family","Family"]]},
+      {t:"choice",k:"current",L:"Current",q:"Do you have any coverage now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
+      {t:"text",k:"need",L:"Needs",q:"Main needs? e.g. prescriptions, dental, vision",p:"Needs..."},
+      {t:"contact"}
+    ]},
+    savings:{title:"RESP / RRSP enquiry",steps:[
+      {t:"choice",k:"goal",L:"Goal",q:"What are you saving for?",o:[["Children's education (RESP)","RESP"],["Retirement (RRSP)","RRSP"],["General / TFSA","TFSA"],["Not sure","Not sure"]]},
+      {t:"choice",k:"horizon",L:"Timeframe",q:"When will you need the money?",o:[["Within 5 years","Under 5y"],["5-15 years","5-15y"],["15+ years","15+ y"]]},
+      {t:"text",k:"monthly",L:"Monthly",q:"Roughly how much could you set aside monthly? e.g. $200",p:"Monthly amount..."},
+      {t:"choice",k:"risk",L:"Risk comfort",q:"Comfort with investment risk?",o:[["Low / safe","Low"],["Balanced","Balanced"],["Growth","Growth"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    mortgage:{title:"Mortgage protection enquiry",steps:[
+      {t:"text",k:"balance",L:"Mortgage balance",q:"Approximate mortgage balance? e.g. $450,000",p:"Balance..."},
+      {t:"text",k:"years",L:"Years left",q:"Years left on the mortgage? e.g. 22",p:"Years remaining..."},
+      {t:"text",k:"age",L:"Age",q:"Your age?",p:"Age..."},
+      {t:"choice",k:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
+      {t:"choice",k:"bank",L:"Bank coverage now",q:"Do you currently have bank mortgage insurance?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]}
+  };
+
+  function answerFaq(id){
+    var e=KB[id];
+    typingThen(function(){
+      bot(e.a+(e.c||''));
+      setTimeout(function(){
+        var rel=(REL[id]||[]).map(function(r){return {label:LBL[r],key:r};});
+        var qs=QSTART[id]; if(qs){rel.push({label:QNAME[qs]||"Get a quote",key:"@"+qs});} else {rel.push({label:"Talk to Sertac",key:"#lead"});}
+        if(rel.length)chips(rel);
+      },300);
+    });
+  }
+
+  function startQuote(){
+    typingThen(function(){
+      bot("Which quote would you like to start? It takes under a minute.");
+      chips([{label:"Super Visa",key:"@supervisa"},{label:"Visitor to Canada",key:"@visitor"},{label:"Travel (abroad)",key:"@travel"},{label:"Life insurance",key:"@life"},{label:"Group benefits",key:"@group"},{label:"Health / dental",key:"@health"},{label:"RESP / RRSP",key:"@savings"},{label:"Mortgage protection",key:"@mortgage"}]);
+    });
+  }
+
+  function startFlow(fk){
+    session.flow=FLOWS[fk];session.fkey=fk;session.step=0;session.data={};
+    typingThen(function(){bot("Great - let's start your "+FLOWS[fk].title+". You can type 'cancel' anytime.");nextStep();});
+  }
+  function cancelFlow(){
+    session.flow=null;session.fkey=null;session.step=0;session.data={};input.placeholder=DEFAULT_PH;
+    typingThen(function(){bot("No problem - we can pick up anywhere. What would you like to do?");chips(MENU);});
+  }
+  function nextStep(){
+    if(!session.flow)return;
+    if(session.step>=session.flow.steps.length){return;}
+    var st=session.flow.steps[session.step];
+    if(st.t==="contact"){renderContact();return;}
+    typingThen(function(){
+      bot(st.q);
+      if(st.t==="choice"){
+        var items=st.o.map(function(p){return {label:p[0],key:"="+p[1]};});
+        items.push({label:"Cancel",key:"#cancel",cancel:true});
+        chips(items);input.placeholder="Or tap an option above...";
+      } else {
+        input.placeholder=st.p||"Type your answer...";setTimeout(function(){input.focus();},60);
+      }
+    });
+  }
+  function advance(val){
+    var st=session.flow.steps[session.step];
+    session.data[st.k]=val;session.step++;input.placeholder=DEFAULT_PH;nextStep();
+  }
+  function summaryHtml(){
+    var rows=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){rows.push("&bull; "+esc(st.L)+": "+esc(session.data[st.k]));}});
+    return '<div class="cpbot-sum">'+rows.join("<br>")+'</div>';
+  }
+  function renderContact(){
+    typingThen(function(){
+      bot("Here's what I'll send Sertac:"+summaryHtml());
+      bot("Where should he send your quote?");
+      buildForm(false,"",function(name,contact,note,f,er,btn){submitFlow(name,contact,f,er,btn);});
+    });
+  }
+  function buildForm(showNote,prefill,onSubmit){
+    var wrap=el('cpbot-msg cpbot-bot',null);
+    var f=el('cpbot-form',null);
+    var nm=document.createElement('input');nm.placeholder='Your name';
+    var ct=document.createElement('input');ct.placeholder='Phone or email';
+    var ms=null;
+    if(showNote){ms=document.createElement('textarea');ms.placeholder='What do you need help with?';ms.value=prefill||'';}
+    var btn=document.createElement('button');btn.textContent='Send to Sertac';
+    var er=el('cpbot-err',null);
+    f.appendChild(nm);f.appendChild(ct);if(ms)f.appendChild(ms);f.appendChild(btn);f.appendChild(er);
+    wrap.appendChild(f);body.appendChild(wrap);body.scrollTop=body.scrollHeight;
+    btn.onclick=function(){
+      var name=nm.value.trim(),contact=ct.value.trim(),note=ms?ms.value.trim():"";
+      if(!name||!contact){er.style.color='';er.textContent='Please add your name and a phone or email.';return;}
+      btn.disabled=true;er.style.color='rgba(255,255,255,.6)';er.textContent='Sending...';
+      onSubmit(name,contact,note,f,er,btn);
+    };
+  }
+  function post(fd,onOk,er,btn){
+    fetch('https://formspree.io/f/mdajwykn',{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+      .then(function(r){if(r.ok){onOk();}else{btn.disabled=false;er.style.color='';er.textContent="That didn't send. Please call 647-366-9495.";}})
+      .catch(function(){btn.disabled=false;er.style.color='';er.textContent="Network issue - please call 647-366-9495.";});
+  }
+  function submitFlow(name,contact,f,er,btn){
+    var fd=new FormData();fd.append('name',name);
+    if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
+    var lines=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){fd.append(st.k,session.data[st.k]);lines.push(st.L+': '+session.data[st.k]);}});
+    fd.append('details',session.flow.title+" -- "+lines.join(' | '));
+    fd.append('source','Website Chat - '+session.flow.title);
+    fd.append('_subject','New quote request - '+session.flow.title);
+    var nm=name;
+    post(fd,function(){f.remove();bot("Perfect, "+esc(nm)+"! Your "+esc(session.flow.title)+" is on its way to Sertac - he'll reach out within 24 hours with options."+'<div><a class="cpbot-cta alt" href="tel:6473669495">Or call now</a></div>');session.flow=null;session.fkey=null;},er,btn);
+  }
+  function leadForm(prefill){
+    typingThen(function(){
+      bot("Leave your details and Sertac will reach out personally:");
+      buildForm(true,prefill,function(name,contact,note,f,er,btn){
+        var fd=new FormData();fd.append('name',name);
+        if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
+        fd.append('message',note||'(from website chat)');
+        fd.append('source','Website Chat Assistant');fd.append('_subject','New chat lead - Cover & Protect');
+        post(fd,function(){f.remove();bot("Thank you, "+esc(name)+"! Your message is on its way to Sertac - he'll reach out within 24 hours."+'<div><a class="cpbot-cta alt" href="tel:6473669495">Or call now</a></div>');},er,btn);
+      });
+    });
+  }
+
+  function norm(s){return ' '+s.toLowerCase().replace(/super\s*visa/g,'super visa').replace(/grand\s*parents?/g,'parents').replace(/\b(price|prices|pricing|priced|expensive|afford|affordable|cheap|fee|fees|rates?)\b/g,'cost').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ')+' ';}
+  function rank(text){var t=norm(text);var arr=[];for(var id in KB){var s=0;KB[id].k.forEach(function(p){var pp=' '+p.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()+' ';if(t.indexOf(pp)!==-1)s+=pp.length;});if(s>0)arr.push([id,s]);}arr.sort(function(a,b){return b[1]-a[1];});return arr;}
+
+  function route(key){
+    if(key==="#quote"){startQuote();return;}
+    if(key==="#lead"){leadForm("");return;}
+    if(key==="#cancel"){cancelFlow();return;}
+    if(key[0]==="@"){startFlow(key.slice(1));return;}
+    if(key[0]==="="){advance(key.slice(1));return;}
+    if(KB[key]){ if(key==="quote"){leadForm("");} else {answerFaq(key);} return; }
+  }
+
+  function send(){
+    var v=input.value.trim();if(!v)return;input.value='';
+    if(session.flow){
+      var low=v.toLowerCase();
+      if(low==="cancel"||low==="stop"||low==="restart"||low==="start over"||low==="menu"){user(v);cancelFlow();return;}
+      user(v);advance(v);return;
+    }
+    user(v);
+    var r=rank(v);
+    if(r.length&&r[0][1]>=4){ if(r[0][0]==="quote"){leadForm(v);} else {answerFaq(r[0][0]);} return; }
+    typingThen(function(){
+      if(r.length){
+        bot("I want to get this right - did you mean one of these?");
+        chips(r.slice(0,3).map(function(x){return {label:LBL[x[0]]||"Talk to Sertac",key:x[0]};}).concat([{label:"Get a quote",key:"#quote"}]));
+      } else {
+        bot("Great question - let me connect you with Sertac for a precise answer.");
+        leadForm(v);
+      }
+    });
+  }
+
+  function greet(){
+    var h=new Date().getHours();var g=h<12?'Good morning':(h<18?'Good afternoon':'Good evening');
+    bot(g+"! I'm the Cover &amp; Protect assistant. Ask me anything, get a quote in under a minute, or pick a topic below.");
+    chips(MENU);
+  }
+
+  document.getElementById('cpbot-send').onclick=send;
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+})();
+</script>
+</body>
+</html>
