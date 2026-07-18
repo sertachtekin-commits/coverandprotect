@@ -1,0 +1,353 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% include analytics.html %}
+  <title>Insurance Services in Toronto & GTA | Cover & Protect</title>
+  <meta name="description" content="Compare Super Visa, visitor, travel, health, life and group benefits options with an Ontario-licensed independent advisor serving Toronto and the GTA.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://coverandprotect.ca/insurance-services-toronto-gta.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://coverandprotect.ca/insurance-services-toronto-gta.html">
+  <meta property="og:title" content="Insurance Services in Toronto & GTA | Cover & Protect">
+  <meta property="og:description" content="Independent insurance advice for Toronto and GTA families, newcomers, self-employed professionals and small businesses.">
+  <meta property="og:image" content="https://coverandprotect.ca/images/hero-home.jpg">
+  <meta property="og:site_name" content="Cover & Protect">
+  <meta property="og:locale" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Insurance Services in Toronto & GTA | Cover & Protect">
+  <meta name="twitter:description" content="Compare travel, health, life and group benefits options with an Ontario-licensed independent advisor.">
+  <meta name="twitter:image" content="https://coverandprotect.ca/images/hero-home.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{--navy:#0a1628;--deep:#0d1f3c;--teal:#0e7c7b;--teal2:#14a8a7;--gold:#c9973a;--gold2:#e5b657;--muted:#9aa8bd;--white:#fff;--border:rgba(255,255,255,.12);--soft:rgba(255,255,255,.055)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);line-height:1.65}
+    a{color:inherit}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+    header{position:sticky;top:0;z-index:20;background:rgba(10,22,40,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+    .nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+    .logo{font-family:'Playfair Display',serif;font-size:1.38rem;font-weight:900;text-decoration:none}
+    .logo span{color:var(--gold)}
+    .navlinks{display:flex;align-items:center;gap:20px}
+    .navlinks a{font-size:.9rem;text-decoration:none;color:var(--muted);font-weight:600}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;text-decoration:none;font-weight:700;padding:13px 20px;border:1px solid transparent}
+    .btn.gold{background:var(--gold);color:var(--navy)}
+    .btn.out{border-color:var(--border);color:var(--white)}
+    .hero{padding:86px 0 64px;background:radial-gradient(circle at 78% 25%,rgba(20,168,167,.23),transparent 34%),linear-gradient(135deg,#0a1628,#0d1f3c)}
+    .badge{display:inline-flex;align-items:center;color:var(--gold2);background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.35);padding:7px 14px;border-radius:999px;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px}
+    h1,h2{font-family:'Playfair Display',serif}
+    h1{font-size:clamp(2.35rem,5vw,4rem);line-height:1.08;max-width:850px;margin-bottom:20px}
+    h1 em{font-style:normal;color:var(--teal2)}
+    .lead{font-size:1.12rem;color:var(--muted);max-width:790px;margin-bottom:28px}
+    .actions{display:flex;gap:14px;flex-wrap:wrap}
+    section{padding:58px 0}
+    section.alt{background:var(--deep);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    h2{font-size:clamp(1.75rem,3vw,2.55rem);line-height:1.15;margin-bottom:14px}
+    h3{font-size:1.08rem;margin-bottom:8px}
+    p,li{color:var(--muted)}
+    p{margin-bottom:14px}
+    strong{color:var(--white)}
+    .intro{max-width:780px;margin-bottom:28px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .card{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:22px}
+    .card h3 a{color:var(--gold2);text-decoration:none}
+    .card p{margin:0}
+    .areas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}
+    .area{background:rgba(14,124,123,.1);border:1px solid rgba(20,168,167,.24);border-radius:16px;padding:22px}
+    .area ul{padding-left:20px;margin-top:10px}
+    .area li{margin-bottom:7px}
+    .notice{margin-top:22px;padding:17px 19px;border-radius:12px;background:rgba(201,151,58,.1);border:1px solid rgba(201,151,58,.28)}
+    .notice p{margin:0}
+    .steps{counter-reset:step;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:24px}
+    .step{counter-increment:step;background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:22px}
+    .step:before{content:counter(step);display:flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:var(--teal);font-weight:800;margin-bottom:14px}
+    .faq{display:grid;gap:12px;margin-top:22px}
+    .faq details{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:18px}
+    .faq summary{cursor:pointer;font-weight:800}
+    .faq p{margin:10px 0 0}
+    .cta{text-align:center;background:linear-gradient(135deg,rgba(14,124,123,.22),rgba(201,151,58,.12));border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .cta p{max-width:720px;margin:0 auto 22px}
+    footer{padding:36px 0;color:var(--muted);font-size:.86rem}
+    .foot{display:grid;gap:12px}
+    .foot a{color:var(--gold2)}
+    @media(max-width:900px){.grid,.areas{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.navlinks a:not(.btn){display:none}}
+    @media(max-width:620px){.grid,.areas,.steps{grid-template-columns:1fr}.wrap{padding:0 18px}.hero{padding-top:64px}.navlinks .btn.out{display:none}}
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://coverandprotect.ca/insurance-services-toronto-gta.html#webpage",
+        "url": "https://coverandprotect.ca/insurance-services-toronto-gta.html",
+        "name": "Insurance Services in Toronto & GTA",
+        "description": "Independent insurance advice and plan comparison for Toronto and Greater Toronto Area families, newcomers, self-employed professionals and small businesses.",
+        "inLanguage": "en-CA",
+        "isPartOf": {
+          "@id": "https://coverandprotect.ca/#website"
+        },
+        "about": {
+          "@id": "https://coverandprotect.ca/#business"
+        },
+        "datePublished": "2026-07-17",
+        "dateModified": "2026-07-17"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://coverandprotect.ca/insurance-services-toronto-gta.html#service",
+        "name": "Independent insurance advice for Toronto and the Greater Toronto Area",
+        "serviceType": "Insurance advice and plan comparison",
+        "provider": {
+          "@id": "https://coverandprotect.ca/#business"
+        },
+        "areaServed": [
+          {"@type": "City", "name": "Toronto"},
+          {"@type": "City", "name": "Mississauga"},
+          {"@type": "City", "name": "Brampton"},
+          {"@type": "City", "name": "Vaughan"},
+          {"@type": "City", "name": "Markham"},
+          {"@type": "AdministrativeArea", "name": "Greater Toronto Area"},
+          {"@type": "AdministrativeArea", "name": "Ontario"}
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Insurance advisory services",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Super Visa and visitor insurance"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Travel insurance"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Individual health and dental insurance"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life and critical illness insurance"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Group benefits"}}
+          ]
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://coverandprotect.ca/"},
+          {"@type": "ListItem", "position": 2, "name": "Toronto & GTA Insurance Services", "item": "https://coverandprotect.ca/insurance-services-toronto-gta.html"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which parts of the GTA does Cover & Protect serve?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cover & Protect serves clients in Toronto, Etobicoke, North York, Scarborough, East York, Mississauga, Brampton, Vaughan, Richmond Hill, Markham, Pickering, Ajax, Oakville and other Ontario communities by phone and online."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Cover & Protect have an office in every city listed?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The cities are service areas, not separate branch-office locations. Consultations and applications are generally handled by phone and online unless another arrangement is confirmed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I compare insurance options without an in-person meeting?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Most consultations, plan comparisons and application steps can be completed by phone, email and secure online links."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of insurance are available?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cover & Protect assists with Super Visa and visitor insurance, travel insurance, individual health and dental coverage, life insurance, critical illness insurance, disability coverage and group benefits."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I verify the advisor's Ontario licence?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The advisor is Sertac Tekin and the website identifies FSRA licence number 10112782. Consumers can verify licensing information through the Financial Services Regulatory Authority of Ontario."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">Cover<span>&amp;</span>Protect</a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="/travel-insurance.html">Travel</a>
+      <a href="/health-insurance.html">Health</a>
+      <a href="/group-benefits.html">Group Benefits</a>
+      <a class="btn out" href="tel:6473669495">647-366-9495</a>
+      <a class="btn gold" href="/#quote">Free Quote</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="badge">Toronto &amp; GTA service area</div>
+      <h1>Insurance services for <em>Toronto and GTA</em> families and businesses</h1>
+      <p class="lead">Compare travel, health, life and employee-benefit options with Sertac Tekin, an Ontario-licensed independent insurance advisor. Consultations are available by phone and online across the GTA and throughout Ontario.</p>
+      <div class="actions">
+        <a class="btn gold" href="/#quote">Request a free comparison</a>
+        <a class="btn out" href="tel:6473669495">Call or text 647-366-9495</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Insurance advice built around your situation</h2>
+      <p class="intro">The right policy depends on who needs protection, why the coverage is required, existing benefits, medical history where relevant, budget and policy wording. Cover &amp; Protect compares available options from multiple Canadian providers and explains the trade-offs before an application is submitted.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3><a href="/super-visa-insurance-ontario.html">Super Visa insurance</a></h3>
+          <p>Coverage comparisons for parents and grandparents applying for a Canadian Super Visa, including deductible and medical-history considerations.</p>
+        </article>
+        <article class="card">
+          <h3><a href="/visitor-insurance-canada.html">Visitor to Canada insurance</a></h3>
+          <p>Emergency medical coverage for visiting relatives, tourists and eligible newcomers waiting for provincial health coverage.</p>
+        </article>
+        <article class="card">
+          <h3><a href="/travel-insurance.html">Travel insurance</a></h3>
+          <p>Single-trip, multi-trip, emergency medical, trip cancellation and snowbird options for Canadians travelling outside their province or country.</p>
+        </article>
+        <article class="card">
+          <h3><a href="/health-insurance.html">Health and dental insurance</a></h3>
+          <p>Individual plans for families, self-employed professionals and people without adequate workplace health and dental benefits.</p>
+        </article>
+        <article class="card">
+          <h3><a href="/estate-planning.html">Life insurance</a> &amp; <a href="/critical-illness.html">critical illness</a></h3>
+          <p>Protection options for income replacement, debts, family obligations, business needs and covered critical illness events.</p>
+        </article>
+        <article class="card">
+          <h3><a href="/group-benefits.html">Group benefits for businesses</a></h3>
+          <p>Health, dental, disability and life-benefit planning for small and mid-size employers seeking a competitive employee package.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>Toronto and Greater Toronto Area service coverage</h2>
+      <p class="intro">Clients can receive advice and complete most application steps remotely. This makes the service practical for families, business owners and newcomers across the GTA without unnecessary travel.</p>
+
+      <div class="areas">
+        <div class="area">
+          <h3>Toronto</h3>
+          <ul>
+            <li>Downtown Toronto</li>
+            <li>Etobicoke</li>
+            <li>North York</li>
+            <li>Scarborough</li>
+            <li>East York and York</li>
+          </ul>
+        </div>
+        <div class="area">
+          <h3>West GTA</h3>
+          <ul>
+            <li>Mississauga</li>
+            <li>Brampton</li>
+            <li>Oakville</li>
+            <li>Burlington</li>
+          </ul>
+        </div>
+        <div class="area">
+          <h3>North and East GTA</h3>
+          <ul>
+            <li>Vaughan</li>
+            <li>Richmond Hill</li>
+            <li>Markham</li>
+            <li>Pickering and Ajax</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notice">
+        <p><strong>Service-area clarification:</strong> the communities above are areas served, not separate Cover &amp; Protect branch offices. Advice and applications are generally provided by phone and online unless another arrangement is confirmed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>How the comparison process works</h2>
+      <div class="steps">
+        <div class="step"><h3>Define the need</h3><p>Share who needs coverage, the objective, timing, budget and relevant background.</p></div>
+        <div class="step"><h3>Compare options</h3><p>Available products are reviewed across suitable Canadian providers.</p></div>
+        <div class="step"><h3>Review the wording</h3><p>Key limits, exclusions, deductibles and eligibility conditions are explained in plain language.</p></div>
+        <div class="step"><h3>Apply with support</h3><p>Receive guidance through the application and assistance with follow-up questions.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>Why work with a local Ontario advisor?</h2>
+      <div class="grid">
+        <div class="card"><h3>Ontario licensed</h3><p>Sertac Tekin is identified on the website as an Ontario-licensed insurance advisor regulated by FSRA, licence #10112782.</p></div>
+        <div class="card"><h3>Independent comparison</h3><p>The practice is not tied to a single insurer, allowing suitable options from multiple providers to be reviewed.</p></div>
+        <div class="card"><h3>Direct accountability</h3><p>You deal with a named advisor who can explain recommendations and remain available for policy questions.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Frequently asked questions</h2>
+      <div class="faq">
+        <details><summary>Which parts of the GTA do you serve?</summary><p>Cover &amp; Protect serves clients in Toronto, Etobicoke, North York, Scarborough, East York, Mississauga, Brampton, Vaughan, Richmond Hill, Markham, Pickering, Ajax, Oakville and other Ontario communities by phone and online.</p></details>
+        <details><summary>Do you have an office in every city listed?</summary><p>No. These are service areas, not separate branch-office locations. Consultations and applications are generally handled by phone and online unless another arrangement is confirmed.</p></details>
+        <details><summary>Can I compare options without an in-person meeting?</summary><p>Yes. Most consultations, comparisons and application steps can be completed by phone, email and secure online links.</p></details>
+        <details><summary>What types of insurance do you help with?</summary><p>Super Visa and visitor insurance, travel insurance, health and dental coverage, life insurance, critical illness, disability coverage and group benefits.</p></details>
+        <details><summary>How can I verify the advisor's licence?</summary><p>The advisor is Sertac Tekin and the website identifies FSRA licence #10112782. Licensing information can be checked through the <a href="https://www.fsrao.ca/" rel="noopener" style="color:var(--gold2)">Financial Services Regulatory Authority of Ontario</a>.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>Start with a no-obligation coverage review</h2>
+      <p>Describe the coverage you need and your location. Cover &amp; Protect will identify the information required and compare suitable options available for your situation.</p>
+      <div class="actions" style="justify-content:center">
+        <a class="btn gold" href="/#quote">Request a free quote</a>
+        <a class="btn out" href="mailto:contact@coverandprotect.ca">contact@coverandprotect.ca</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><strong>Cover &amp; Protect</strong> — independent insurance advice for Toronto, the GTA and Ontario.</div>
+    <div>Services: <a href="/super-visa-insurance-ontario.html">Super Visa</a> • <a href="/visitor-insurance-canada.html">Visitor Insurance</a> • <a href="/travel-insurance.html">Travel</a> • <a href="/health-insurance.html">Health</a> • <a href="/group-benefits.html">Group Benefits</a> • <a href="/blog.html">Insurance Guides</a></div>
+    <div>FSRA Licence #10112782 • <a href="tel:6473669495">647-366-9495</a> • <a href="mailto:contact@coverandprotect.ca">contact@coverandprotect.ca</a></div>
+    <div>Insurance products are underwritten by the applicable insurers and remain subject to policy terms, eligibility, exclusions and underwriting. This page is general information, not an insurance contract or personalized recommendation.</div>
+  </div>
+</footer>
+<script src="tracking.js?v=5" defer></script>
+</body>
+</html>
