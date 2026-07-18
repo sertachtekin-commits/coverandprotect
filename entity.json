@@ -6,7 +6,10 @@
       "@id": "https://coverandprotect.ca/#website",
       "url": "https://coverandprotect.ca/",
       "name": "Cover & Protect",
-      "alternateName": "Cover and Protect Insurance",
+      "alternateName": [
+        "Cover and Protect",
+        "Cover & Protect Insurance"
+      ],
       "inLanguage": "en-CA",
       "publisher": {
         "@id": "https://coverandprotect.ca/#business"
@@ -19,9 +22,19 @@
       ],
       "@id": "https://coverandprotect.ca/#business",
       "name": "Cover & Protect",
-      "alternateName": "Cover and Protect Insurance",
+      "alternateName": [
+        "Cover and Protect",
+        "Cover & Protect Insurance"
+      ],
       "url": "https://coverandprotect.ca/",
       "description": "Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario.",
+      "disambiguatingDescription": "Cover & Protect is an Ontario insurance advisory practice that compares insurance and savings products; it is not a retailer of protective vehicle, equipment, or furniture covers.",
+      "naics": "524210",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "FSRA licence",
+        "value": "10112782"
+      },
       "telephone": "+1-647-366-9495",
       "email": "contact@coverandprotect.ca",
       "founder": {
@@ -62,6 +75,17 @@
         "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8",
         "https://www.facebook.com/share/1HAGzGYSun/",
         "https://www.instagram.com/coverandprotect.ca"
+      ],
+      "knowsAbout": [
+        "Super Visa insurance",
+        "Visitor to Canada insurance",
+        "Travel insurance",
+        "Individual health insurance",
+        "Group benefits",
+        "Life insurance",
+        "Critical illness insurance",
+        "RESP",
+        "RRSP"
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
