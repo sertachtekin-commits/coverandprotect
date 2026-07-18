@@ -1,0 +1,54 @@
+name: Update homepage H1
+
+on:
+  push:
+    branches:
+      - seo/homepage-local-h1
+
+permissions:
+  contents: write
+
+jobs:
+  update-homepage-copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo/homepage-local-h1
+          fetch-depth: 0
+
+      - name: Update homepage heading and supporting copy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          old_heading = '<h1>Insurance That <em>Actually</em> Works For You</h1>'
+          new_heading = '<h1>Independent Insurance Advisor for <em>Toronto &amp; Ontario</em></h1>'
+
+          old_sub = '''      Travel insurance, health coverage, and group benefits tailored for Ontario families and businesses.
+      Access top Canadian insurers in one place — with expert guidance at every step.'''
+          new_sub = '''      Compare Super Visa, travel, health, life insurance, and group benefits from 10+ Canadian insurers.
+      Get clear, licensed advice for families and businesses across Toronto, the GTA, and Ontario.'''
+
+          if old_heading not in text:
+              raise SystemExit('Expected homepage H1 was not found; no changes made.')
+          if old_sub not in text:
+              raise SystemExit('Expected homepage supporting copy was not found; no changes made.')
+
+          text = text.replace(old_heading, new_heading, 1)
+          text = text.replace(old_sub, new_sub, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove temporary workflow and commit
+        run: |
+          rm .github/workflows/update-homepage-h1.yml
+          git config user.name "Cover & Protect SEO Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html .github/workflows/update-homepage-h1.yml
+          git commit -m "Improve homepage H1 for Toronto insurance searches"
+          git push origin HEAD:seo/homepage-local-h1
