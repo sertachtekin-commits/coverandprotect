@@ -1,7 +1,7 @@
 # Cover & Protect — Independent Insurance Advisor in Toronto, Ontario
 
 > Canonical website: https://coverandprotect.ca/
-> Last reviewed: 2026-07-15
+> Last reviewed: 2026-07-17
 
 Cover & Protect is an Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario. The advisor is Sertac Tekin (FSRA licence #10112782). The practice helps individuals, families, newcomers, parents and grandparents visiting Canada, self-employed professionals, and small businesses compare insurance and savings options from multiple Canadian providers.
 
@@ -23,6 +23,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 ## Primary entity and trust pages
 
 - [Home](https://coverandprotect.ca/): Overview of the practice, services, contact methods, insurer access, and client reviews.
+- [Toronto and GTA Insurance Services](https://coverandprotect.ca/insurance-services-toronto-gta.html): Service-area hub explaining available insurance services, communities served, remote consultation process, licensing, and contact information.
 - [About Sertac Tekin](https://coverandprotect.ca/about-sertac-tekin.html): Advisor background, licensing, professional focus, and identity information.
 - [Machine-readable entity record](https://coverandprotect.ca/entity.json): Consolidated Organization, Person, and WebSite facts in JSON-LD.
 - [Insurance guides feed](https://coverandprotect.ca/feed.xml): Recently published and updated educational guides.
