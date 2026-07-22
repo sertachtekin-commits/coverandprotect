@@ -40,6 +40,7 @@
     .pwa-modal{position:fixed;inset:0;z-index:60;background:rgba(4,10,20,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px}.pwa-modal[hidden]{display:none}.pwa-modal-box{position:relative;max-width:420px;width:100%;background:var(--deep);border:1px solid var(--border);border-radius:20px;padding:26px;box-shadow:0 30px 90px rgba(0,0,0,.5)}.pwa-modal-box h3{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:6px;padding-right:30px}.pwa-modal-box .sub{font-size:.85rem;color:var(--muted);margin-bottom:16px}.pwa-modal-box ol{margin:0;padding-left:20px;display:grid;gap:10px}.pwa-modal-box li{font-size:.92rem;color:var(--muted)}.pwa-modal-box li strong{color:var(--white)}.pwa-modal-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--white);width:32px;height:32px;font-size:.9rem;cursor:pointer;line-height:1}
     @media(max-width:480px){.app-promo{flex-wrap:wrap}.app-promo .btn{width:100%}}
     .result{background:linear-gradient(135deg,rgba(14,124,123,.2),rgba(201,151,58,.1));border:1px solid rgba(20,168,167,.35);border-radius:16px;padding:22px;text-align:center;margin-top:6px}.result .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--muted)}.result .amount{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:900;color:var(--gold2);line-height:1.15;margin:6px 0 2px}.result .per{font-size:.95rem;color:var(--white);font-weight:700}.result .alt{font-size:.85rem;color:var(--muted);margin-top:8px}.result .note{font-size:.72rem;color:var(--muted);margin-top:12px;line-height:1.5}
+    .apply-online{margin-top:18px}.apply-head{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--muted);margin-bottom:10px}.apply-list{display:grid;gap:10px;margin-bottom:12px}.apply-link{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.32);border-radius:12px;padding:14px 15px;text-decoration:none;color:var(--white)}.apply-link:hover{background:rgba(201,151,58,.2);border-color:rgba(201,151,58,.55)}.apply-brand{font-weight:700;font-size:.95rem}.apply-brand small{display:block;font-weight:500;font-size:.76rem;color:var(--muted)}.apply-tag{color:var(--gold2);font-size:.82rem;font-weight:800;white-space:nowrap}.apply-note{font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.5}.apply-or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:2px 0 12px}.apply-or::before,.apply-or::after{content:"";height:1px;flex:1;background:var(--border)}
     section{padding:64px 0}.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.15;margin-bottom:14px}.section-sub{color:var(--muted);max-width:720px;margin-bottom:30px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.info{background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:24px}.info h3{font-size:1.1rem;margin-bottom:10px}.info p,.info li{color:var(--muted);font-size:.95rem}.info ul{padding-left:18px}.info a{color:var(--gold2)}
     .faq{display:grid;gap:12px}.faq details{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:18px}.faq summary{cursor:pointer;font-weight:800}.faq p{color:var(--muted);margin-top:10px}
     .cta{background:linear-gradient(135deg,rgba(14,124,123,.22),rgba(201,151,58,.12));border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}.cta p{color:var(--muted);margin:0 auto 22px;max-width:720px}
@@ -190,8 +191,21 @@
           <div class="alt" id="calc-alt">≈ $167 – $317 per month if paid monthly</div>
           <div class="note">Illustrative estimate only — not a quote or guarantee of premium. Actual rates depend on the applicant, insurer, destination and policy terms. Comparing insurers usually saves the most.</div>
         </div>
-        <div class="actions" style="margin-top:18px">
-          <a class="btn gold" style="flex:1" href="#quote" id="calc-cta">Get my exact quote →</a>
+        <div class="apply-online" id="apply-online">
+          <div class="apply-head" id="apply-head">Ready to buy? Apply or purchase online now</div>
+          <div class="apply-list">
+            <a class="apply-link" id="apply-trustone" target="_blank" rel="noopener" data-application-type="truestone_online">
+              <span class="apply-brand">Apply with TruStone Health<small id="apply-trustone-sub">Instant online application</small></span>
+              <span class="apply-tag" id="apply-trustone-tag">Apply →</span>
+            </a>
+            <a class="apply-link" id="apply-tugo" target="_blank" rel="noopener" href="https://shop.tugo.com/store/TEK200" data-tugo-store="TEK200" data-application-type="online_store" hidden>
+              <span class="apply-brand">Buy from TuGo online store<small>Compare &amp; purchase travel plans instantly</small></span>
+              <span class="apply-tag">Shop →</span>
+            </a>
+          </div>
+          <div class="apply-or">or</div>
+          <a class="btn gold" style="width:100%" href="#quote" id="calc-cta">Have an advisor compare insurers for me →</a>
+          <div class="apply-note">Online applications open on the insurer's own secure site, where you'll see the exact price and can buy directly. Not sure which plan fits, or want the best rate across insurers? An advisor compares your options free.</div>
         </div>
         <div class="app-promo" id="app-promo">
           <div class="app-promo-badge" aria-hidden="true">C<span>&amp;</span>P</div>
@@ -339,6 +353,38 @@
     abroad: "Travel insurance (Canadian abroad)"
   };
 
+  /* Direct online-application routing. The estimate is illustrative; these
+   * links hand the visitor to the insurer's own secure site to see the exact
+   * price and buy. TruStone plan codes and the TuGo store code are the same
+   * ones used on the service pages; tracking.js fires truestone_click /
+   * tugo_click from the data-* attributes and destination URL. */
+  var TRUSTONE_UID = "U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==";
+  function trustoneUrl(code) {
+    return "https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765" +
+      "&xxx:Plan=" + code + "&xxx:UserLang=english&xxx:AgentID=0&uid=" + TRUSTONE_UID;
+  }
+  // plan tab + pre-existing selection -> the matching TruStone application.
+  var TRUSTONE_PLANS = {
+    supervisa: { none: { code: "ELVTC", desc: "Visitor to Canada — Super Visa eligible" },
+                 stable: { code: "ELVTCUW", desc: "Visitor to Canada — covers stable pre-existing" } },
+    visitor:   { none: { code: "ELVTC", desc: "Visitor to Canada plan" },
+                 stable: { code: "ELVTCUW", desc: "Visitor to Canada — covers stable pre-existing" } },
+    abroad:    { none: { code: "ELOOCNP", desc: "Travel Outside Canada plan" },
+                 stable: { code: "ELOOC", desc: "Travel Outside Canada — covers stable pre-existing" } }
+  };
+
+  function updateProviders() {
+    var cond = conditionsEl.value === "stable" ? "stable" : "none";
+    var pick = TRUSTONE_PLANS[plan][cond];
+    var ts = byId("apply-trustone");
+    ts.href = trustoneUrl(pick.code);
+    ts.setAttribute("data-trustone-plan", pick.code);
+    byId("apply-trustone-sub").textContent = pick.desc;
+    byId("apply-trustone-tag").textContent = pick.code + " →";
+    // TuGo's online store is for Canadians travelling abroad; show it there.
+    byId("apply-tugo").hidden = plan !== "abroad";
+  }
+
   function byId(id) { return document.getElementById(id); }
   var ageEl = byId("calc-age"), daysEl = byId("calc-days"), destinationEl = byId("calc-destination");
   var coverageEl = byId("calc-coverage"), deductibleEl = byId("calc-deductible"), conditionsEl = byId("calc-conditions");
@@ -438,6 +484,8 @@
     byId("lead-deductible").value = plan === "abroad" ? "" : "$" + deductibleEl.value + " deductible";
     byId("lead-conditions").value = conditionsEl.options[conditionsEl.selectedIndex].text;
     byId("lead-estimate").value = estimateText;
+
+    updateProviders();
   }
 
   function setPlan(next) {
