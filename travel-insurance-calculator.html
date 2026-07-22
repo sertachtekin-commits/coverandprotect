@@ -41,6 +41,8 @@
     @media(max-width:480px){.app-promo{flex-wrap:wrap}.app-promo .btn{width:100%}}
     .result{background:linear-gradient(135deg,rgba(14,124,123,.2),rgba(201,151,58,.1));border:1px solid rgba(20,168,167,.35);border-radius:16px;padding:22px;text-align:center;margin-top:6px}.result .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--muted)}.result .amount{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:900;color:var(--gold2);line-height:1.15;margin:6px 0 2px}.result .per{font-size:.95rem;color:var(--white);font-weight:700}.result .alt{font-size:.85rem;color:var(--muted);margin-top:8px}.result .note{font-size:.72rem;color:var(--muted);margin-top:12px;line-height:1.5}
     .apply-online{margin-top:18px}.apply-head{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--muted);margin-bottom:10px}.apply-list{display:grid;gap:10px;margin-bottom:12px}.apply-link{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.32);border-radius:12px;padding:14px 15px;text-decoration:none;color:var(--white)}.apply-link:hover{background:rgba(201,151,58,.2);border-color:rgba(201,151,58,.55)}.apply-brand{font-weight:700;font-size:.95rem}.apply-brand small{display:block;font-weight:500;font-size:.76rem;color:var(--muted)}.apply-tag{color:var(--gold2);font-size:.82rem;font-weight:800;white-space:nowrap}.apply-note{font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.5}.apply-or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:2px 0 12px}.apply-or::before,.apply-or::after{content:"";height:1px;flex:1;background:var(--border)}
+    .second-wrap{margin-bottom:13px}.second-check{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--white);font-weight:600;cursor:pointer}.second-check input{width:18px;height:18px;flex:none;accent-color:var(--teal2);cursor:pointer}.second-check span{color:var(--muted);font-weight:500;font-size:.8rem}
+    .share-row{display:flex;gap:10px;margin-top:12px}.share-btn{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;color:var(--white);padding:11px 10px;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer}.share-btn:hover{background:rgba(255,255,255,.12)}
     section{padding:64px 0}.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.7rem);line-height:1.15;margin-bottom:14px}.section-sub{color:var(--muted);max-width:720px;margin-bottom:30px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.info{background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:24px}.info h3{font-size:1.1rem;margin-bottom:10px}.info p,.info li{color:var(--muted);font-size:.95rem}.info ul{padding-left:18px}.info a{color:var(--gold2)}
     .faq{display:grid;gap:12px}.faq details{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:18px}.faq summary{cursor:pointer;font-weight:800}.faq p{color:var(--muted);margin-top:10px}
     .cta{background:linear-gradient(135deg,rgba(14,124,123,.22),rgba(201,151,58,.12));border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}.cta p{color:var(--muted);margin:0 auto 22px;max-width:720px}
@@ -150,6 +152,13 @@
             </select>
           </div>
         </div>
+        <div class="second-wrap">
+          <label class="second-check"><input type="checkbox" id="calc-second"> Add a second traveller <span>— e.g. both parents or a couple</span></label>
+        </div>
+        <div class="field" id="field-age2" hidden>
+          <label for="calc-age2" id="calc-age2-label">Second traveller's age</label>
+          <input id="calc-age2" type="number" inputmode="numeric" min="18" max="99" value="68">
+        </div>
         <div class="form-row">
           <div class="field" id="field-coverage">
             <label for="calc-coverage">Coverage amount</label>
@@ -189,7 +198,12 @@
           <div class="amount" id="calc-amount">$2,000 – $3,800</div>
           <div class="per" id="calc-per">per year · $100,000 coverage</div>
           <div class="alt" id="calc-alt">≈ $167 – $317 per month if paid monthly</div>
+          <div class="alt" id="calc-breakdown" hidden></div>
           <div class="note">Illustrative estimate only — not a quote or guarantee of premium. Actual rates depend on the applicant, insurer, destination and policy terms. Comparing insurers usually saves the most.</div>
+        </div>
+        <div class="share-row" id="share-row">
+          <button type="button" class="share-btn" id="share-copy">Copy estimate</button>
+          <button type="button" class="share-btn" id="share-email">Email it to me</button>
         </div>
         <div class="apply-online" id="apply-online">
           <div class="apply-head" id="apply-head">Ready to buy? Apply or purchase online now</div>
@@ -391,6 +405,7 @@
   var tabs = { supervisa: byId("tab-supervisa"), visitor: byId("tab-visitor"), abroad: byId("tab-abroad") };
   var payAnnualEl = byId("calc-pay-annual"), payMonthlyEl = byId("calc-pay-monthly");
   var headingEl = byId("calc-heading"), amountEl = byId("calc-amount"), perEl = byId("calc-per"), altEl = byId("calc-alt");
+  var secondEl = byId("calc-second"), age2El = byId("calc-age2");
   var plan = "supervisa";
   var payMode = "annual";
   var usedFired = false;
@@ -414,12 +429,10 @@
     return bands[bands.length - 1];
   }
 
-  function calculate() {
-    var age = clampInt(ageEl, 65, 18, 99);
-    var days = clampInt(daysEl, 30, 1, 365);
+  function premiumForAge(age, days) {
+    // Low–high premium for ONE traveller under the current plan + shared
+    // settings: annual for Super Visa, per-trip for visitor and abroad.
     var conditionsFactor = CONDITIONS_FACTOR[conditionsEl.value] || 1;
-    var low, high, tripLabel, coverageLabel, estimateText;
-
     if (plan === "abroad") {
       var band = pickBand(ABROAD_BANDS, age);
       // Short trips carry a higher per-day rate (minimum premiums); blend
@@ -428,62 +441,88 @@
       var dayLow = band.shortLow + (band.longLow - band.shortLow) * blend;
       var dayHigh = band.shortHigh + (band.longHigh - band.shortHigh) * blend;
       var factor = conditionsFactor * (DESTINATION_FACTOR[destinationEl.value] || 1);
-      low = roundTo(dayLow * days * factor, 5);
-      high = roundTo(dayHigh * days * factor, 5);
+      return { low: roundTo(dayLow * days * factor, 5), high: roundTo(dayHigh * days * factor, 5) };
+    }
+    var svBand = pickBand(SUPERVISA_BANDS, age);
+    var youthFactor = age < 40 ? 0.85 : 1; // under-40 visitors price at or below the youngest band
+    var baseFactor = youthFactor * conditionsFactor *
+      (DEDUCTIBLE_FACTOR[deductibleEl.value] || 1) *
+      (COVERAGE_FACTOR[coverageEl.value] || 1);
+    if (plan === "visitor") {
+      return { low: roundTo(svBand.low / 365 * days * baseFactor, 10), high: roundTo(svBand.high / 365 * days * baseFactor, 10) };
+    }
+    return { low: roundTo(svBand.low * baseFactor, 50), high: roundTo(svBand.high * baseFactor, 50) };
+  }
+
+  function calculate() {
+    var age = clampInt(ageEl, 65, 18, 99);
+    var days = clampInt(daysEl, 30, 1, 365);
+    var twoUp = secondEl.checked;
+    var age2 = twoUp ? clampInt(age2El, 68, 18, 99) : null;
+
+    // Estimate each traveller, then combine (same policy terms, different ages).
+    var parts = [premiumForAge(age, days)];
+    if (twoUp) { parts.push(premiumForAge(age2, days)); }
+    var low = 0, high = 0;
+    parts.forEach(function (p) { low += p.low; high += p.high; });
+
+    var coverageLabel = "$" + (parseInt(coverageEl.value, 10) / 1000) + ",000 coverage";
+    var travTag = twoUp ? "2 travellers · " : "";
+    var travSuffix = twoUp ? " · 2 travellers" : "";
+    var tripLabel, estimateText;
+
+    if (plan === "abroad") {
       tripLabel = days + "-day trip";
-      headingEl.textContent = "Estimated trip premium";
+      headingEl.textContent = "Estimated trip premium" + travSuffix;
       amountEl.textContent = money(low) + " – " + money(high);
       perEl.textContent = "per trip · " + tripLabel + " · emergency medical";
-      altEl.textContent = "≈ " + money(low / days) + " – " + money(high / days) + " per day of travel";
+      altEl.textContent = travTag + "≈ " + money(low / days) + " – " + money(high / days) + " per day of travel";
+      estimateText = money(low) + "-" + money(high) + " for a " + tripLabel;
+    } else if (plan === "visitor") {
+      tripLabel = days + "-day stay";
+      headingEl.textContent = "Estimated visitor premium" + travSuffix;
+      amountEl.textContent = money(low) + " – " + money(high);
+      perEl.textContent = "per stay · " + tripLabel + " · " + coverageLabel;
+      altEl.textContent = travTag + "≈ " + money(low / days) + " – " + money(high / days) + " per day of coverage";
       estimateText = money(low) + "-" + money(high) + " for a " + tripLabel;
     } else {
-      var svBand = pickBand(SUPERVISA_BANDS, age);
-      var youthFactor = age < 40 ? 0.85 : 1; // under-40 visitors price at or below the youngest band
-      var baseFactor = youthFactor * conditionsFactor *
-        (DEDUCTIBLE_FACTOR[deductibleEl.value] || 1) *
-        (COVERAGE_FACTOR[coverageEl.value] || 1);
-      coverageLabel = "$" + (parseInt(coverageEl.value, 10) / 1000) + ",000 coverage";
-
-      if (plan === "visitor") {
-        low = roundTo(svBand.low / 365 * days * baseFactor, 10);
-        high = roundTo(svBand.high / 365 * days * baseFactor, 10);
-        tripLabel = days + "-day stay";
-        headingEl.textContent = "Estimated visitor premium";
-        amountEl.textContent = money(low) + " – " + money(high);
-        perEl.textContent = "per stay · " + tripLabel + " · " + coverageLabel;
-        altEl.textContent = "≈ " + money(low / days) + " – " + money(high / days) + " per day of coverage";
-        estimateText = money(low) + "-" + money(high) + " for a " + tripLabel;
+      headingEl.textContent = "Estimated Super Visa premium" + travSuffix;
+      if (payMode === "monthly") {
+        var mLow = roundTo(low * MONTHLY_LOADING / 12, 5);
+        var mHigh = roundTo(high * MONTHLY_LOADING / 12, 5);
+        amountEl.textContent = money(mLow) + " – " + money(mHigh);
+        perEl.textContent = "per month · " + coverageLabel + " · 365 days";
+        altEl.textContent = travTag + "≈ " + money(low) + " – " + money(high) + " per year if paid annually";
+        estimateText = money(mLow) + "-" + money(mHigh) + "/month";
       } else {
-        low = roundTo(svBand.low * baseFactor, 50);
-        high = roundTo(svBand.high * baseFactor, 50);
-        headingEl.textContent = "Estimated Super Visa premium";
-        if (payMode === "monthly") {
-          var mLow = roundTo(low * MONTHLY_LOADING / 12, 5);
-          var mHigh = roundTo(high * MONTHLY_LOADING / 12, 5);
-          amountEl.textContent = money(mLow) + " – " + money(mHigh);
-          perEl.textContent = "per month · " + coverageLabel + " · 365 days";
-          altEl.textContent = "≈ " + money(low) + " – " + money(high) + " per year if paid annually";
-          estimateText = money(mLow) + "-" + money(mHigh) + "/month";
-        } else {
-          amountEl.textContent = money(low) + " – " + money(high);
-          perEl.textContent = "per year · " + coverageLabel + " · 365 days";
-          altEl.textContent = "≈ " + money(roundTo(low * MONTHLY_LOADING / 12, 5)) + " – " + money(roundTo(high * MONTHLY_LOADING / 12, 5)) + " per month on a monthly plan";
-          estimateText = money(low) + "-" + money(high) + "/year";
-        }
+        amountEl.textContent = money(low) + " – " + money(high);
+        perEl.textContent = "per year · " + coverageLabel + " · 365 days";
+        altEl.textContent = travTag + "≈ " + money(roundTo(low * MONTHLY_LOADING / 12, 5)) + " – " + money(roundTo(high * MONTHLY_LOADING / 12, 5)) + " per month on a monthly plan";
+        estimateText = money(low) + "-" + money(high) + "/year";
       }
+    }
+
+    // Per-traveller breakdown line when two travellers are estimated.
+    var bd = byId("calc-breakdown");
+    if (twoUp) {
+      bd.hidden = false;
+      bd.textContent = "Traveller 1 (age " + age + "): " + money(parts[0].low) + "–" + money(parts[0].high) +
+        "  ·  Traveller 2 (age " + age2 + "): " + money(parts[1].low) + "–" + money(parts[1].high);
+    } else {
+      bd.hidden = true;
     }
 
     // Stamp the current selections onto the quote form's hidden fields so the
     // lead email arrives with the estimate context (goes only to the owner's
     // Formspree email — nothing here is sent to analytics).
     byId("lead-plan").value = PLAN_LABELS[plan];
-    byId("lead-age").value = age;
+    byId("lead-age").value = twoUp ? (age + " & " + age2) : String(age);
     byId("lead-trip").value = plan === "supervisa" ? "365 days (Super Visa)" :
       days + " days" + (plan === "abroad" ? " · " + destinationEl.options[destinationEl.selectedIndex].text : "");
     byId("lead-coverage").value = plan === "abroad" ? "Emergency medical" : coverageLabel;
     byId("lead-deductible").value = plan === "abroad" ? "" : "$" + deductibleEl.value + " deductible";
     byId("lead-conditions").value = conditionsEl.options[conditionsEl.selectedIndex].text;
-    byId("lead-estimate").value = estimateText;
+    byId("lead-estimate").value = estimateText + (twoUp ? " (2 travellers)" : "");
 
     updateProviders();
   }
@@ -517,9 +556,13 @@
 
   function onChange() { trackUse(); calculate(); }
 
-  [ageEl, daysEl, destinationEl, coverageEl, deductibleEl, conditionsEl].forEach(function (el) {
+  [ageEl, daysEl, destinationEl, coverageEl, deductibleEl, conditionsEl, age2El].forEach(function (el) {
     el.addEventListener("input", onChange);
     el.addEventListener("change", onChange);
+  });
+  secondEl.addEventListener("change", function () {
+    byId("field-age2").hidden = !secondEl.checked;
+    onChange();
   });
   Object.keys(tabs).forEach(function (key) {
     tabs[key].addEventListener("click", function () { setPlan(key); onChange(); });
@@ -535,6 +578,66 @@
     payMonthlyEl.setAttribute("aria-pressed", "true");
     payAnnualEl.setAttribute("aria-pressed", "false");
     onChange();
+  });
+
+  /* Share the current estimate — copy to clipboard or open a pre-filled email.
+   * Built from the same illustrative selections; no personal data involved. */
+  function currentSummary() {
+    return [
+      "Cover & Protect — Travel insurance estimate",
+      "Plan: " + byId("lead-plan").value,
+      "Traveller age(s): " + byId("lead-age").value,
+      "Trip: " + byId("lead-trip").value,
+      "Coverage: " + byId("lead-coverage").value + (byId("lead-deductible").value ? ", " + byId("lead-deductible").value : ""),
+      "Pre-existing: " + byId("lead-conditions").value,
+      "Estimated premium: " + amountEl.textContent + " (" + perEl.textContent + ")",
+      "",
+      "Illustrative estimate only — not a quote. Get an exact price:",
+      "https://coverandprotect.ca/travel-insurance-calculator.html#quote"
+    ].join("\n");
+  }
+
+  function pingShare(method) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "calculator_share", {
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        method: method
+      });
+    }
+  }
+
+  function flash(btn, text) {
+    if (btn._orig === undefined) { btn._orig = btn.textContent; }
+    btn.textContent = text;
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () { btn.textContent = btn._orig; btn._orig = undefined; }, 1600);
+  }
+
+  byId("share-copy").addEventListener("click", function () {
+    var btn = this;
+    var text = currentSummary();
+    function done() { flash(btn, "Copied ✓"); pingShare("copy"); }
+    function fallback() {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.setAttribute("readonly", "");
+        ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        document.execCommand("copy"); document.body.removeChild(ta);
+        done();
+      } catch (e) { flash(btn, "Couldn't copy"); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else { fallback(); }
+  });
+
+  byId("share-email").addEventListener("click", function () {
+    var subject = "My travel insurance estimate — Cover & Protect";
+    window.location.href = "mailto:?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(currentSummary());
+    pingShare("email");
   });
 
   setPlan("supervisa");
