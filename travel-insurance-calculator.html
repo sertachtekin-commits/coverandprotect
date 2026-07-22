@@ -213,7 +213,7 @@
               <span class="apply-tag" id="apply-trustone-tag">Apply →</span>
             </a>
             <a class="apply-link" id="apply-tugo" target="_blank" rel="noopener" href="https://shop.tugo.com/store/TEK200" data-tugo-store="TEK200" data-application-type="online_store" hidden>
-              <span class="apply-brand">Buy from TuGo online store<small>Compare &amp; purchase travel plans instantly</small></span>
+              <span class="apply-brand">Buy from TuGo online store<small>Super Visa, visitor &amp; travel plans — buy online</small></span>
               <span class="apply-tag">Shop →</span>
             </a>
           </div>
@@ -395,8 +395,9 @@
     ts.setAttribute("data-trustone-plan", pick.code);
     byId("apply-trustone-sub").textContent = pick.desc;
     byId("apply-trustone-tag").textContent = pick.code + " →";
-    // TuGo's online store is for Canadians travelling abroad; show it there.
-    byId("apply-tugo").hidden = plan !== "abroad";
+    // TuGo's online store sells Super Visa, visitor and travel plans, so it's
+    // a valid buy-online option on every tab.
+    byId("apply-tugo").hidden = false;
   }
 
   function byId(id) { return document.getElementById(id); }

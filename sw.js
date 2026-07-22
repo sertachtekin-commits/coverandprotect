@@ -5,7 +5,7 @@
  * fallback. Only same-origin GET requests are ever cached — Formspree posts,
  * analytics and fonts pass straight through to the network.
  * Bump CACHE_VERSION when precached assets change. */
-var CACHE_VERSION = "cp-pwa-v4";
+var CACHE_VERSION = "cp-pwa-v5";
 var PRECACHE = [
   "/travel-insurance-calculator.html",
   "/tracking.js?v=5",
