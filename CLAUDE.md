@@ -123,7 +123,7 @@ Each page generally follows: `---\n---` front matter →
 `{% include analytics.html %}` in `<head>` → SEO meta tags (title, description,
 keywords, geo, Open Graph, Twitter Card, canonical) → JSON-LD structured data →
 inline `<style>` (or `blog.css` link) → fixed `<nav>` → page sections →
-`<footer>` → `<script src="tracking.js?v=5" defer></script>` before `</body>`.
+`<footer>` → `<script src="tracking.js?v=6" defer></script>` before `</body>`.
 
 When creating a new page, **copy an existing page** (e.g. a service page) as the
 template rather than starting from scratch, so the nav, footer, palette, and
@@ -237,7 +237,7 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 - **Privacy:** only engagement metadata is sent to GA4 — never form field values
   or contact details. Preserve this; do not add code that sends PII to analytics.
 
-The script is included with a cache-busting query (`tracking.js?v=5`). **If you
+The script is included with a cache-busting query (`tracking.js?v=6`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
 clients fetch the new file.
 
