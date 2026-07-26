@@ -1173,7 +1173,7 @@
 @media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
 @media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open,.cpbot-typing span{transition:none;animation:none;}}
 </style>
-<script src="tracking.js?v=5" defer></script>
+<script src="tracking.js?v=6" defer></script>
 </head>
 <body>
 <!-- MOBILE MENU -->
@@ -1214,7 +1214,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-photo" style="position:absolute;inset:0;overflow:hidden;z-index:0;">
-    <picture><source srcset="images/hero-home.webp" type="image/webp"><img src="images/hero-home.jpg" alt="Cover & Protect insurance" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;opacity:0.85;"></picture>
+    <picture><source srcset="images/hero-home.webp" type="image/webp"><picture><source srcset="images/hero-home.webp" type="image/webp"><img src="images/hero-home.jpg" alt="Cover & Protect insurance" fetchpriority="high" width="1200" height="800" style="width:100%;height:100%;object-fit:cover;opacity:0.85;"></picture></picture>
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.62) 0%,rgba(8,15,30,0.78) 100%);"></div>
   </div>
   <div class="hero-bg"></div>
@@ -1257,7 +1257,7 @@
 
 <!-- VISIBLE PHOTO BAND -->
 <div class="photo-band" style="position:relative;height:360px;overflow:hidden;">
-  <picture><source srcset="images/hero-home.webp" type="image/webp"><img src="images/hero-home.jpg" alt="Insurance advice for Ontario families" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;display:block;"></picture>
+  <picture><source srcset="images/hero-home.webp" type="image/webp"><picture><source srcset="images/hero-home.webp" type="image/webp"><img src="images/hero-home.jpg" alt="Insurance advice for Ontario families" fetchpriority="high" width="1200" height="800" style="width:100%;height:100%;object-fit:cover;display:block;"></picture></picture>
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,15,30,0.30) 0%,rgba(8,15,30,0.78) 100%);"></div>
   <div style="position:absolute;left:0;right:0;bottom:0;padding:40px 60px;">
     <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:6px;">Trusted Insurance Advice in Ontario</div>
@@ -2144,5 +2144,6 @@ document.addEventListener('keydown', function(e) {
   input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
 })();
 </script>
+<div class="cp-policy-links" style="background:#071323;color:#d6deea;text-align:center;padding:14px 20px;font-size:.8rem"><a href="/privacy-policy.html" style="color:#e5b657">Privacy Policy</a> · <a href="/terms.html" style="color:#e5b657">Terms &amp; Insurance Disclaimer</a></div>
 </body>
 </html>

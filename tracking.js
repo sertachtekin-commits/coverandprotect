@@ -105,6 +105,24 @@
       input.value = String(value).slice(0, 200);
       form.appendChild(input);
     });
+
+    [["source_page", window.location.pathname], ["source_title", document.title], ["product_interest", form.dataset.product || document.body.dataset.product || ""]].forEach(function (pair) {
+      if (form.querySelector('input[name="' + pair[0] + '"]')) { return; }
+      var input = document.createElement("input");
+      input.type = "hidden";
+      input.name = pair[0];
+      input.value = String(pair[1] || "").slice(0, 200);
+      form.appendChild(input);
+    });
+
+    if (!form.querySelector(".cp-form-consent")) {
+      var consent = document.createElement("p");
+      consent.className = "cp-form-consent";
+      consent.style.cssText = "font-size:.78rem;line-height:1.45;opacity:.78;margin:12px 0";
+      consent.innerHTML = 'By submitting, you agree that Cover &amp; Protect may contact you about this request. See our <a href="/privacy-policy.html">Privacy Policy</a>.';
+      var submit = form.querySelector('[type="submit"],button:not([type])');
+      if (submit) { form.insertBefore(consent, submit); } else { form.appendChild(consent); }
+    }
   }
 
   document.addEventListener("click", function (event) {
@@ -123,6 +141,8 @@
       sendEvent("email_click", details);
     } else if (/wa\.me|api\.whatsapp\.com|web\.whatsapp\.com/i.test(href)) {
       sendEvent("whatsapp_click", details);
+    } else if (/calendly\.com/i.test(href)) {
+      sendEvent("booking_click", details);
     }
 
     if (/trustonehealth\.ca/i.test(href) || link.dataset.trustonePlan) {
@@ -140,6 +160,10 @@
       }));
     }
   }, true);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    Array.prototype.forEach.call(document.querySelectorAll("form"), stampForm);
+  });
 
   document.addEventListener("focusin", function (event) {
     var form = event.target && event.target.form;
