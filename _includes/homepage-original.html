@@ -1440,7 +1440,7 @@
       </div>
     </div>
 
-    <div class="quote-form-wrap"><form action="https://formspree.io/f/mdajwykn" method="POST">
+    <div class="quote-form-wrap"><form id="homepage-quote-form" name="homepage_quote" data-product="general-insurance-quote" action="https://formspree.io/f/mdajwykn" method="POST">
 <input type="hidden" name="_subject" value="New Lead - Quote Request - Cover&amp;Protect">
 <input type="hidden" name="_next" value="https://coverandprotect.ca/thankyou.html?lead=1">
       <h3>Request a Free Quote</h3>
@@ -1449,22 +1449,22 @@
       <div class="form-row">
         <div class="form-group">
           <label for="fname">First Name</label>
-          <input type="text" id="fname" placeholder="John" name="fname">
+          <input type="text" id="fname" placeholder="John" name="fname" autocomplete="given-name">
         </div>
         <div class="form-group">
           <label for="lname">Last Name</label>
-          <input type="text" id="lname" placeholder="Smith" name="lname">
+          <input type="text" id="lname" placeholder="Smith" name="lname" autocomplete="family-name">
         </div>
       </div>
 
       <div class="form-group">
         <label for="email">Email Address</label>
-        <input type="email" id="email" placeholder="john@example.com" name="email" required>
+        <input type="email" id="email" placeholder="john@example.com" name="email" autocomplete="email" required>
       </div>
 
       <div class="form-group">
         <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" placeholder="(416) 000-0000" name="phone">
+        <input type="tel" id="phone" placeholder="(416) 000-0000" name="phone" autocomplete="tel">
       </div>
 
       <div class="form-group">
@@ -1483,7 +1483,7 @@
 
       <div class="form-group">
         <label for="notes">Tell Us More (Optional)</label>
-        <textarea id="notes" placeholder="Destination, number of employees, current situation..." name="notes"></textarea>
+        <textarea id="notes" placeholder="Destination, number of employees, or general coverage questions. Please do not include medical records or detailed health information." name="notes"></textarea>
       </div>
 
       <button class="form-submit" type="submit" style="cursor:pointer">Send My Request →</button>
@@ -1689,7 +1689,7 @@
       </div>
     </div>
 
-    <div class="quote-form-wrap"><form action="https://formspree.io/f/mdajwykn" method="POST">
+    <div class="quote-form-wrap"><form id="homepage-contact-form" name="homepage_contact" data-product="general-contact" action="https://formspree.io/f/mdajwykn" method="POST">
 <input type="hidden" name="_subject" value="New Lead - Contact Message - Cover&amp;Protect">
 <input type="hidden" name="_next" value="https://coverandprotect.ca/thankyou.html?lead=1">
       <h3>Send a Message</h3>
@@ -1698,22 +1698,22 @@
       <div class="form-row">
         <div class="form-group">
           <label for="cname">Name</label>
-          <input type="text" id="cname" placeholder="Your name" name="cname">
+          <input type="text" id="cname" placeholder="Your name" name="cname" autocomplete="name">
         </div>
         <div class="form-group">
           <label for="cphone">Phone</label>
-          <input type="tel" id="cphone" placeholder="(416) 000-0000" name="cphone">
+          <input type="tel" id="cphone" placeholder="(416) 000-0000" name="cphone" autocomplete="tel">
         </div>
       </div>
 
       <div class="form-group">
         <label for="cemail">Email</label>
-        <input type="email" id="cemail" placeholder="contact@coverandprotect.ca" name="cemail" required>
+        <input type="email" id="cemail" placeholder="you@example.com" name="cemail" autocomplete="email" required>
       </div>
 
       <div class="form-group">
         <label for="cmessage">Message</label>
-        <textarea id="cmessage" placeholder="How can we help you?" name="cmessage"></textarea>
+        <textarea id="cmessage" placeholder="How can we help? Please do not include medical records or detailed health information." name="cmessage"></textarea>
       </div>
 
       <button class="form-submit" type="submit" style="cursor:pointer">Send Message →</button>
