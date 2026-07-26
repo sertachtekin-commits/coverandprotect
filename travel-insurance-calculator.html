@@ -22,12 +22,10 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0a1628">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="C&amp;P Calculator">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{--navy:#0a1628;--deep:#0d1f3c;--teal:#0e7c7b;--teal2:#14a8a7;--gold:#c9973a;--gold2:#e5b657;--muted:#91a0b8;--white:#fff;--border:rgba(255,255,255,.12);--soft:rgba(255,255,255,.055)}
     *{box-sizing:border-box;margin:0;padding:0} [hidden]{display:none!important} body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);line-height:1.6} a{color:inherit} .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
@@ -47,7 +45,8 @@
     .faq{display:grid;gap:12px}.faq details{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:18px}.faq summary{cursor:pointer;font-weight:800}.faq p{color:var(--muted);margin-top:10px}
     .cta{background:linear-gradient(135deg,rgba(14,124,123,.22),rgba(201,151,58,.12));border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}.cta p{color:var(--muted);margin:0 auto 22px;max-width:720px}
     footer{padding:34px 0;color:var(--muted);font-size:.84rem;border-top:1px solid var(--border)}footer .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.sticky-call{display:none}
-    @media(max-width:900px){.navlinks a:not(.btn){display:none}.hero-grid{grid-template-columns:1fr}.hero{padding:44px 0 42px}.trust,.grid3{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.card{padding:22px}.sticky-call{display:flex;position:fixed;bottom:12px;left:12px;right:12px;z-index:30;gap:10px}.sticky-call a{flex:1}.wrap{padding:0 18px}section{padding:52px 0}}
+    .logo,.hero h1,.card h2,.result .amount,.section-title,.pwa-modal-box h3{font-family:Georgia,'Times New Roman',serif}.field-error{display:block;min-height:1.2em;margin-top:5px;color:#ffd28a;font-size:.78rem;font-weight:700}.field-optional{opacity:1;color:#c8d2e3}.result-meta{margin-top:10px;color:#c8d2e3;font-size:.72rem;line-height:1.5}.share-btn,.app-promo .btn,.pwa-modal-close,footer a,.cp-policy-links a{min-height:44px}.pwa-modal-close{min-width:44px}.faq a,.info a,footer a,.cp-policy-links a{display:inline-flex;align-items:center}.plan-tabs button[aria-pressed="true"] span{opacity:1;color:#fff}#quote{scroll-margin-top:84px}
+    @media(max-width:900px){.nav{gap:8px}.navlinks{gap:6px}.navlinks .btn{padding:12px 10px;font-size:.82rem}.navlinks a:not(.btn){display:none}.hero-grid{grid-template-columns:1fr}.hero{padding:44px 0 42px}.trust,.grid3{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.card{padding:22px}.sticky-call{display:flex;position:fixed;bottom:12px;left:12px;right:12px;z-index:30;gap:10px}.sticky-call a{flex:1}.wrap{padding:0 18px}section{padding:52px 0}footer .foot{gap:12px}.share-row{flex-direction:column}}
   </style>
   <script type="application/ld+json">
   {
@@ -65,7 +64,7 @@
       "name":"Cover & Protect",
       "url":"https://coverandprotect.ca/",
       "telephone":"+1-647-366-9495",
-      "email":"info@coverandprotect.ca",
+      "email":"contact@coverandprotect.ca",
       "founder":{"@type":"Person","name":"Sertac Tekin"},
       "sameAs":["https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8","https://www.facebook.com/share/1HAGzGYSun/","https://www.instagram.com/coverandprotect.ca"],
       "areaServed":["Toronto","Greater Toronto Area","Ontario"]
@@ -138,11 +137,11 @@
         <div class="form-row">
           <div class="field">
             <label for="calc-age" id="calc-age-label">Visitor's age</label>
-            <input id="calc-age" type="number" inputmode="numeric" min="18" max="99" value="65" aria-describedby="calc-result">
+            <input id="calc-age" type="number" inputmode="numeric" min="18" max="99" value="65" aria-describedby="calc-age-error calc-result"><span class="field-error" id="calc-age-error" aria-live="polite"></span>
           </div>
           <div class="field" id="field-days" hidden>
             <label for="calc-days">Trip length (days)</label>
-            <input id="calc-days" type="number" inputmode="numeric" min="1" max="365" value="30">
+            <input id="calc-days" type="number" inputmode="numeric" min="1" max="365" value="30" aria-describedby="calc-days-error"><span class="field-error" id="calc-days-error" aria-live="polite"></span>
           </div>
           <div class="field" id="field-destination" hidden>
             <label for="calc-destination">Destination</label>
@@ -157,7 +156,7 @@
         </div>
         <div class="field" id="field-age2" hidden>
           <label for="calc-age2" id="calc-age2-label">Second traveller's age</label>
-          <input id="calc-age2" type="number" inputmode="numeric" min="18" max="99" value="68">
+          <input id="calc-age2" type="number" inputmode="numeric" min="18" max="99" value="68" aria-describedby="calc-age2-error"><span class="field-error" id="calc-age2-error" aria-live="polite"></span>
         </div>
         <div class="form-row">
           <div class="field" id="field-coverage">
@@ -199,11 +198,12 @@
           <div class="per" id="calc-per">per year · $100,000 coverage</div>
           <div class="alt" id="calc-alt">≈ $167 – $317 per month if paid monthly</div>
           <div class="alt" id="calc-breakdown" hidden></div>
-          <div class="note">Illustrative estimate only — not a quote or guarantee of premium. Actual rates depend on the applicant, insurer, destination and policy terms. Comparing insurers usually saves the most.</div>
+          <div class="note">Illustrative estimate in CAD only — not a quote or guarantee. The total covers the selected traveller(s); actual rates depend on the applicant, insurer, destination and policy terms.</div>
+          <div class="result-meta">Methodology: typical 2026 Canadian market ranges adjusted for age, trip length, coverage, deductible and selected options. Rate assumptions reviewed July 25, 2026 (version 2026.07).</div>
         </div>
         <div class="share-row" id="share-row">
           <button type="button" class="share-btn" id="share-copy">Copy estimate</button>
-          <button type="button" class="share-btn" id="share-email">Email it to me</button>
+          <button type="button" class="share-btn" id="share-email">Open email draft</button>
         </div>
         <div class="apply-online" id="apply-online">
           <div class="apply-head" id="apply-head">Ready to buy? Apply or purchase online now</div>
@@ -260,7 +260,7 @@
         <p class="section-sub">Send the basics and Cover &amp; Protect will compare suitable plans from Canada's top insurers and contact you personally. Your calculator selections are included automatically so you don't have to repeat them.</p>
         <div class="faq">
           <details><summary>How accurate is this calculator?</summary><p>It reflects typical 2026 market ranges for the standard factors — age, trip length, coverage, deductible and stable pre-existing conditions. It's an illustration, not a quote: insurers price the same traveller differently, which is exactly why comparing through an advisor pays off. See the <a href="blog-supervisa-cost.html" style="color:var(--gold2)">Super Visa cost guide</a> and the <a href="blog-travel-insurance-canadians.html" style="color:var(--gold2)">guide for Canadians travelling abroad</a> for the numbers behind the estimates.</p></details>
-          <details><summary>Which coverage type should I pick?</summary><p><strong>Super Visa</strong> is the mandatory 1-year, $100,000-minimum policy for parents and grandparents applying under the Super Visa program. <strong>Visitor to Canada</strong> covers any other visitor — tourists, family on a regular visa, new immigrants waiting for OHIP. <strong>Canadians Abroad</strong> is emergency medical coverage for Canadian residents travelling outside Canada, where <a href="blog-travel-insurance-canadians.html" style="color:var(--gold2)">provincial health plans cover almost nothing</a>.</p></details>
+          <details><summary>Which coverage type should I pick?</summary><p><strong>Super Visa</strong> is the mandatory 1-year, $100,000-minimum policy for parents and grandparents applying under the Super Visa program. <strong>Visitor to Canada</strong> covers tourists, family on a regular visa, and people who are not eligible for OHIP. Eligible Ontario residents can apply for OHIP without a waiting period. <strong>Canadians Abroad</strong> estimates emergency-medical-only coverage for Canadian residents travelling outside Canada. <a href="blog-travel-insurance-canadians.html" style="color:var(--gold2)">Read the Canadians abroad guide</a>.</p></details>
           <details><summary>Can we pay monthly on Super Visa plans?</summary><p>Many Super Visa plans offer monthly payments — typically a deposit of about two months' premium with the balance spread over the stay. Paying monthly usually costs a little more over the full year than paying upfront.</p></details>
           <details><summary>What if the visa is refused?</summary><p>Most insurers refund in full on refusal if the policy hasn't started. Read the <a href="blog-supervisa-refund.html" style="color:var(--gold2)">refund guide</a> for how it works, including monthly plans.</p></details>
           <details><summary>Are pre-existing conditions covered?</summary><p>Often yes, if the condition has been stable for the insurer's required period (commonly 90–180 days), usually at a higher premium. The right plan depends on the specific condition and wording — this is where advice matters most.</p></details>
@@ -282,11 +282,11 @@
           <input type="hidden" name="calculator_estimate" id="lead-estimate" value="">
           <div class="form-row">
             <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
-            <div class="field"><label for="phone">Phone <span style="text-transform:none;letter-spacing:0;opacity:.65;">(optional)</span></label><input id="phone" name="phone" autocomplete="tel"></div>
+            <div class="field"><label for="phone">Phone <span class="field-optional" style="text-transform:none;letter-spacing:0;">(optional)</span></label><input id="phone" name="phone" autocomplete="tel"></div>
           </div>
           <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
-          <div class="field"><label for="travel-dates">Travel dates <span style="text-transform:none;letter-spacing:0;opacity:.65;">(optional)</span></label><input id="travel-dates" name="travel_dates" placeholder="e.g. August 2026, 3 weeks"></div>
-          <div class="field"><label for="message">Anything important? <span style="text-transform:none;letter-spacing:0;opacity:.65;">(optional)</span></label><textarea id="message" name="message" placeholder="Number of travellers, health notes, destination, questions..."></textarea></div>
+          <div class="field"><label for="travel-dates">Travel dates <span class="field-optional" style="text-transform:none;letter-spacing:0;">(optional)</span></label><input id="travel-dates" name="travel_dates" placeholder="e.g. August 2026, 3 weeks"></div>
+          <div class="field"><label for="message">General questions <span class="field-optional" style="text-transform:none;letter-spacing:0;">(optional)</span></label><textarea id="message" name="message" placeholder="Destination, number of travellers, or coverage questions. Please do not include medical records or detailed health information."></textarea></div>
           <button class="submit" type="submit">Send my quote request</button>
           <div class="fine">No spam. Your details are used only to respond to your insurance request.</div>
         </form>
@@ -298,7 +298,7 @@
   <div class="wrap foot">
     <div>Cover &amp; Protect — Ontario insurance advisor</div>
     <div>Related: <a href="travel-insurance.html">Travel Insurance</a> • <a href="super-visa-insurance-ontario.html">Super Visa Insurance Ontario</a> • <a href="visitor-insurance-canada.html">Visitor Insurance Canada</a> • <a href="best-visitor-insurance-toronto.html">Best Visitor Insurance Toronto</a> • <a href="blog-supervisa-cost.html">Super Visa Cost Guide</a> • <a href="blog-travel-insurance-canadians.html">Canadians Abroad Guide</a> • <a href="about-sertac-tekin.html">About the Advisor</a></div>
-    <div>FSRA Licence #10112782 • <a href="tel:6473669495">647-366-9495</a> • <a href="mailto:info@coverandprotect.ca">info@coverandprotect.ca</a>
+    <div>FSRA Licence #10112782 • <a href="tel:6473669495">647-366-9495</a> • <a href="mailto:contact@coverandprotect.ca">contact@coverandprotect.ca</a>
       <span style="display:inline-flex;gap:12px;margin-left:12px;vertical-align:middle;">
         <a href="https://www.facebook.com/share/1HAGzGYSun/" target="_blank" rel="noopener" aria-label="Cover &amp; Protect on Facebook" style="color:#e5b657;display:inline-flex;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
         <a href="https://www.instagram.com/coverandprotect.ca" target="_blank" rel="noopener" aria-label="Cover &amp; Protect on Instagram" style="color:#e5b657;display:inline-flex;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0Zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.899.421.422.68.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.9 1.382-.419.421-.824.68-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.9-.421-.419-.689-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03Zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162ZM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4Zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439Z"/></svg></a>
@@ -410,6 +410,7 @@
   var plan = "supervisa";
   var payMode = "annual";
   var usedFired = false;
+  var estimateFired = false;
 
   function money(n) {
     return "$" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -417,10 +418,27 @@
 
   function roundTo(n, step) { return Math.max(step, Math.round(n / step) * step); }
 
-  function clampInt(el, fallback, min, max) {
+  function validatedInt(el, min, max, errorId, active) {
+    var errorEl = byId(errorId);
+    if (!active) {
+      el.removeAttribute("aria-invalid");
+      el.setCustomValidity("");
+      errorEl.textContent = "";
+      return null;
+    }
     var n = parseInt(el.value, 10);
-    if (isNaN(n)) { n = fallback; }
-    return Math.min(max, Math.max(min, n));
+    var valid = !isNaN(n) && n >= min && n <= max && String(n) === el.value.trim();
+    if (!valid) {
+      var message = "Enter a whole number from " + min + " to " + max + ".";
+      el.setAttribute("aria-invalid", "true");
+      el.setCustomValidity(message);
+      errorEl.textContent = message;
+      return null;
+    }
+    el.removeAttribute("aria-invalid");
+    el.setCustomValidity("");
+    errorEl.textContent = "";
+    return n;
   }
 
   function pickBand(bands, age) {
@@ -456,10 +474,19 @@
   }
 
   function calculate() {
-    var age = clampInt(ageEl, 65, 18, 99);
-    var days = clampInt(daysEl, 30, 1, 365);
     var twoUp = secondEl.checked;
-    var age2 = twoUp ? clampInt(age2El, 68, 18, 99) : null;
+    var age = validatedInt(ageEl, 18, 99, "calc-age-error", true);
+    var enteredDays = validatedInt(daysEl, 1, 365, "calc-days-error", plan !== "supervisa");
+    var days = plan === "supervisa" ? 365 : enteredDays;
+    var age2 = validatedInt(age2El, 18, 99, "calc-age2-error", twoUp);
+    if (age === null || days === null || (twoUp && age2 === null)) {
+      headingEl.textContent = "Check the highlighted details";
+      amountEl.textContent = "—";
+      perEl.textContent = "Displayed, calculated and submitted values must match.";
+      altEl.textContent = "Correct the field above to see your estimate.";
+      ["lead-plan", "lead-age", "lead-trip", "lead-coverage", "lead-deductible", "lead-conditions", "lead-estimate"].forEach(function (id) { byId(id).value = ""; });
+      return false;
+    }
 
     // Estimate each traveller, then combine (same policy terms, different ages).
     var parts = [premiumForAge(age, days)];
@@ -526,6 +553,7 @@
     byId("lead-estimate").value = estimateText + (twoUp ? " (2 travellers)" : "");
 
     updateProviders();
+    return true;
   }
 
   function setPlan(next) {
@@ -555,7 +583,20 @@
     }
   }
 
-  function onChange() { trackUse(); calculate(); }
+  function onChange() {
+    trackUse();
+    if (calculate() && !estimateFired) {
+      estimateFired = true;
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "estimate_completed", {
+          page_path: window.location.pathname,
+          calculator: "travel_insurance_estimator",
+          plan: plan,
+          device_group: window.matchMedia("(max-width: 900px)").matches ? "mobile" : "desktop"
+        });
+      }
+    }
+  }
 
   [ageEl, daysEl, destinationEl, coverageEl, deductibleEl, conditionsEl, age2El].forEach(function (el) {
     el.addEventListener("input", onChange);
@@ -641,6 +682,16 @@
     pingShare("email");
   });
 
+  byId("calc-cta").addEventListener("click", function () {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "quote_cta_click", {
+        page_path: window.location.pathname,
+        plan: plan,
+        device_group: window.matchMedia("(max-width: 900px)").matches ? "mobile" : "desktop"
+      });
+    }
+  });
+
   setPlan("supervisa");
   calculate();
 
@@ -712,7 +763,7 @@
   });
 }());
 </script>
-<script src="tracking.js?v=6" defer></script>
+<script src="tracking.js?v=7" defer></script>
 <div class="cp-policy-links" style="background:#071323;color:#d6deea;text-align:center;padding:14px 20px;font-size:.8rem"><a href="/privacy-policy.html" style="color:#e5b657">Privacy Policy</a> · <a href="/terms.html" style="color:#e5b657">Terms &amp; Insurance Disclaimer</a></div>
 </body>
 </html>
