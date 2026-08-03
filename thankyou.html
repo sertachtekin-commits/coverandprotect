@@ -8,32 +8,51 @@
 {% include analytics.html %}
 <meta name="robots" content="noindex, follow">
 <title>Thank You | Cover & Protect</title>
-<meta http-equiv="refresh" content="6;url=https://coverandprotect.ca">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'DM Sans',sans-serif;background:#0a1628;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;}
-  .card{max-width:500px;}
-  .icon{font-size:4rem;margin-bottom:24px;}
-  h1{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;margin-bottom:16px;}
+  body{font-family:'DM Sans',sans-serif;background:#0a1628;color:#fff;min-height:100vh;padding:24px;}
+  .wrap{max-width:760px;margin:0 auto;padding:54px 0;}
+  .card{background:#0d1f3c;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:34px;text-align:center;}
+  .icon{font-size:3.5rem;margin-bottom:18px;}
+  h1{font-family:'Playfair Display',serif;font-size:2.35rem;font-weight:900;margin-bottom:14px;}
   h1 span{color:#e5b657;}
-  p{color:#8a9ab5;line-height:1.75;font-size:1rem;margin-bottom:32px;}
-  .btn{display:inline-block;background:#0e7c7b;color:#fff;padding:14px 32px;border-radius:4px;text-decoration:none;font-weight:600;font-size:1rem;transition:background 0.2s;}
-  .btn:hover{background:#14a8a7;}
-  .note{font-size:0.78rem;color:#8a9ab5;margin-top:20px;}
+  p{color:#a8b4c7;line-height:1.7;font-size:1rem;margin-bottom:22px;}
+  .next{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0;}
+  .step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;font-size:.88rem;color:#dbe3ef;}
+  .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn{display:inline-block;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.95rem;}
+  .primary{background:#0e7c7b;color:#fff;}
+  .secondary{background:#c9973a;color:#0a1628;}
+  .tertiary{border:1px solid rgba(255,255,255,.22);color:#fff;}
+  .note{font-size:.8rem;margin-top:20px;color:#8290a6;}
+  .links{text-align:center;padding:18px;font-size:.8rem;color:#d6deea;}
+  .links a{color:#e5b657;}
+  @media(max-width:700px){.next{grid-template-columns:1fr}.card{padding:25px 18px}.wrap{padding-top:24px}}
 </style>
-<script src="tracking.js?v=6" defer></script>
+<script src="tracking.js?v=7" defer></script>
 </head>
 <body>
-<div class="card">
-  <div class="icon">✅</div>
-  <h1>Thank You for <span>Reaching Out!</span></h1>
-  <p>We've received your request and will be in touch within 24 hours to discuss your insurance needs. Check your inbox — a confirmation is on its way.</p>
-  <a href="https://coverandprotect.ca" class="btn">← Back to Home</a>
-  <p class="note">You'll be redirected automatically in a few seconds.</p>
+<div class="wrap">
+  <main class="card">
+    <div class="icon">✓</div>
+    <h1>Your request has been <span>received</span></h1>
+    <p>A licensed Ontario insurance advisor will review your request and follow up. For urgent travel or arrival-date questions, call or text directly.</p>
+    <div class="next" aria-label="What happens next">
+      <div class="step"><strong>1. Review</strong><br>Your requested coverage and timing are checked.</div>
+      <div class="step"><strong>2. Compare</strong><br>Relevant insurer and deductible options are identified.</div>
+      <div class="step"><strong>3. Contact</strong><br>You receive a clear explanation of suitable next steps.</div>
+    </div>
+    <div class="actions">
+      <a href="tel:6473669495" class="btn primary" data-cta-section="thank_you" data-cta-variant="call_now">Call 647-366-9495</a>
+      <a href="/travel-insurance-calculator.html" class="btn secondary" data-cta-section="thank_you" data-cta-variant="calculator">Use Cost Calculator</a>
+      <a href="/super-visa-guide.html" class="btn tertiary" data-cta-section="thank_you" data-cta-variant="super_visa_guide">Read Super Visa Guide</a>
+    </div>
+    <p class="note">Do not email sensitive medical information. Detailed underwriting questions should be handled through the approved application process.</p>
+  </main>
+  <div class="links"><a href="/">Home</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms &amp; Insurance Disclaimer</a></div>
 </div>
-<div class="cp-policy-links" style="background:#071323;color:#d6deea;text-align:center;padding:14px 20px;font-size:.8rem"><a href="/privacy-policy.html" style="color:#e5b657">Privacy Policy</a> · <a href="/terms.html" style="color:#e5b657">Terms &amp; Insurance Disclaimer</a></div>
 </body>
 </html>
