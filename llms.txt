@@ -1,7 +1,7 @@
 # Cover & Protect — Independent Insurance Advisor in Toronto, Ontario
 
 > Canonical website: https://coverandprotect.ca/
-> Last reviewed: 2026-07-23
+> Last reviewed: 2026-08-03
 
 Cover & Protect is an Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario. The advisor is Sertac Tekin (FSRA licence #10112782). The practice helps individuals, families, newcomers, parents and grandparents visiting Canada, self-employed professionals, and small businesses compare insurance and savings options from multiple Canadian providers.
 
@@ -30,9 +30,10 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 
 ## Core service pages
 
-- [Super Visa Insurance Ontario](https://coverandprotect.ca/super-visa-insurance-ontario.html): Required emergency medical insurance for eligible parents and grandparents applying for a Canadian Super Visa.
+- [Super Visa Insurance Ontario](https://coverandprotect.ca/super-visa-insurance-ontario.html): Emergency medical insurance for eligible parents and grandparents applying for a Canadian Super Visa.
 - [Visitor to Canada Insurance](https://coverandprotect.ca/visitor-insurance-canada.html): Emergency medical insurance for visitors, tourists, visiting relatives, and eligible newcomers waiting for provincial coverage.
 - [Travel Insurance](https://coverandprotect.ca/travel-insurance.html): Emergency medical, trip cancellation, interruption, multi-trip, and snowbird coverage.
+- [Travel Insurance Cost Calculator](https://coverandprotect.ca/travel-insurance-calculator.html): Educational estimator and lead-intake tool for Canadian travel insurance shoppers.
 - [Individual Health Insurance](https://coverandprotect.ca/health-insurance.html): Health and dental plans for individuals, families, and self-employed people.
 - [Group Benefits](https://coverandprotect.ca/group-benefits.html): Health, dental, disability, and life benefits for Ontario employers.
 - [Critical Illness Insurance](https://coverandprotect.ca/critical-illness.html): Lump-sum protection following a covered critical illness diagnosis.
@@ -40,26 +41,29 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [Long-Term Care Insurance](https://coverandprotect.ca/long-term-care.html): Coverage intended to help with eligible long-term care costs.
 - [RESP and RRSP Savings Plans](https://coverandprotect.ca/savings-plans.html): Education and retirement savings guidance.
 
-## Local and decision guides
+## High-priority guides
 
-- [Travel Insurance and Pre-Existing Conditions in Canada](https://coverandprotect.ca/blog-travel-insurance-pre-existing-conditions.html): How stability periods, medication changes, disclosure and policy wording affect eligibility and claims.
-- [Super Visa Insurance From a Foreign Insurer](https://coverandprotect.ca/blog-super-visa-foreign-insurer-rules.html): The IRCC and OSFI conditions that a policy from a company outside Canada must satisfy.
+- [Super Visa and Visitor Insurance Guide](https://coverandprotect.ca/super-visa-guide.html): Plain-language overview of Super Visa requirements, typical cost factors, insurer comparison, and quote preparation.
+- [Travel Insurance for Canadians Going Abroad](https://coverandprotect.ca/blog-travel-insurance-canadians.html): Core Canadian travel-insurance guide covering emergency medical, cancellation, annual plans, cost factors, and buying considerations.
+- [Snowbird Travel Insurance for Florida and Arizona](https://coverandprotect.ca/blog-snowbird-travel-insurance.html): Ontario-focused guide to long-stay U.S. coverage, top-ups, residency rules, and pre-existing-condition stability periods.
+- [Travel Insurance and Pre-Existing Conditions](https://coverandprotect.ca/blog-travel-insurance-pre-existing-conditions.html): Stability periods, medication changes, disclosure, policy wording, and claims risk.
+- [How to Make a Travel Insurance Claim](https://coverandprotect.ca/blog-how-to-make-travel-insurance-claim.html): Emergency notification, documentation, submission, denials, and appeals.
+- [USA vs Worldwide Travel Insurance](https://coverandprotect.ca/blog-usa-vs-worldwide-travel-insurance.html): Why U.S. coverage generally costs more and how destination affects pricing.
+- [Super Visa Insurance Cost](https://coverandprotect.ca/blog-supervisa-cost.html): Main premium factors and representative cost considerations.
+- [Super Visa Insurance Refunds](https://coverandprotect.ca/blog-supervisa-refund.html): Typical refund scenarios and policy conditions.
+- [Super Visa Insurance From a Foreign Insurer](https://coverandprotect.ca/blog-super-visa-foreign-insurer-rules.html): IRCC and OSFI conditions for policies issued outside Canada.
+- [Super Visa Insurance vs Visitor Insurance](https://coverandprotect.ca/blog-super-visa-vs-visitor-insurance.html): Coverage, duration, minimums, cost, and eligibility differences.
+- [Best Visitor Insurance in Toronto — How to Compare](https://coverandprotect.ca/best-visitor-insurance-toronto.html): Toronto-oriented comparison guide.
+- [Does OHIP Cover Visitors to Canada?](https://coverandprotect.ca/blog-ohip-visitors.html): Ontario provincial coverage limitations for visitors.
 
-- [Best Visitor Insurance in Toronto — How to Compare](https://coverandprotect.ca/best-visitor-insurance-toronto.html)
-- [Super Visa Insurance vs Visitor Insurance — What's the Difference?](https://coverandprotect.ca/blog-super-visa-vs-visitor-insurance.html): How the two overlap and differ on coverage minimums, duration and cost, and which one a family needs.
-- [How Much Does Super Visa Insurance Cost in 2026?](https://coverandprotect.ca/blog-supervisa-cost.html)
-- [Is Super Visa Insurance Refundable?](https://coverandprotect.ca/blog-supervisa-refund.html)
-- [Does OHIP Cover Visitors to Canada?](https://coverandprotect.ca/blog-ohip-visitors.html)
-- [Travel Insurance for Canadians Going Abroad](https://coverandprotect.ca/blog-travel-insurance-canadians.html)
-- [USA vs Worldwide Travel Insurance — Why U.S. Coverage Costs More](https://coverandprotect.ca/blog-usa-vs-worldwide-travel-insurance.html): Why including the United States raises a Canadian's travel insurance premium, with representative 2026 medical and repatriation costs.
-- [Snowbird Travel Insurance for Florida & Arizona — An Ontario Guide](https://coverandprotect.ca/blog-snowbird-travel-insurance.html): How Ontario snowbirds insure a winter in the U.S. — the OHIP out-of-country gap since 2020, the 153-day residency rule, long-stay vs multi-trip plans and top-ups, pre-existing-condition stability periods, and typical cost.
-- [How to Make a Travel Insurance Claim in Canada](https://coverandprotect.ca/blog-how-to-make-travel-insurance-claim.html): A practical claim map covering emergency notification, evidence, submission, common myths, historical approval statistics, denials and appeals.
+## Additional educational guides
+
 - [Health and Dental Insurance for the Self-Employed](https://coverandprotect.ca/blog-health-dental-self-employed.html)
 - [Is Critical Illness Insurance Worth It?](https://coverandprotect.ca/blog-critical-illness-worth-it.html)
-- [Term vs. Whole Life Insurance in Canada](https://coverandprotect.ca/blog-term-vs-whole-life.html)
+- [Term vs Whole Life Insurance in Canada](https://coverandprotect.ca/blog-term-vs-whole-life.html)
 - [How Much Life Insurance Do I Need?](https://coverandprotect.ca/blog-how-much-life-insurance.html)
 - [RESP and CESG Explained](https://coverandprotect.ca/blog-resp-cesg-explained.html)
-- [RRSP vs. TFSA](https://coverandprotect.ca/blog-rrsp-vs-tfsa.html)
+- [RRSP vs TFSA](https://coverandprotect.ca/blog-rrsp-vs-tfsa.html)
 - [All Insurance Guides](https://coverandprotect.ca/blog.html)
 
 ## Insurer access described on the website
