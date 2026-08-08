@@ -199,6 +199,56 @@
     };
   }
 
+  // Formspree only honours the hidden _next redirect on some plans/settings.
+  // When it does not, the visitor lands on formspree.io/thanks, never reaches
+  // thankyou.html?lead=1, and generate_lead never fires — the lead email still
+  // arrives, but the conversion is invisible to GA4 and Google Ads. Submitting
+  // over fetch and performing the redirect here removes that dependency and
+  // keeps the visitor on our own site.
+  //
+  // This deliberately uses nativeFetch, bypassing the interception above, so
+  // the conversion is fired once by thankyou.html on a fresh page load (where
+  // analytics loads immediately) rather than twice.
+  document.addEventListener("submit", function (event) {
+    var form = event.target;
+    if (!form || form.tagName !== "FORM" || event.defaultPrevented) { return; }
+    if (!/formspree\.io/i.test(form.action || "")) { return; }
+    if (form.dataset.cpSubmitting === "1" || form.dataset.cpNative === "1") { return; }
+    if (typeof nativeFetch !== "function") { return; }
+
+    var nextField = form.querySelector('input[name="_next"]');
+    var target = nextField && nextField.value;
+    if (!target || !/^(https?:)?\/\/|^\//.test(target)) { return; }
+
+    event.preventDefault();
+    stampForm(form);
+    form.dataset.cpSubmitting = "1";
+
+    var button = form.querySelector('[type="submit"],button:not([type])');
+    if (button) { button.disabled = true; }
+
+    function submitNatively() {
+      // Let the browser do what it would have done, so a lead is never lost to
+      // a network hiccup — even if that means Formspree's own thanks page.
+      form.dataset.cpNative = "1";
+      delete form.dataset.cpSubmitting;
+      if (button) { button.disabled = false; }
+      form.submit();
+    }
+
+    nativeFetch.call(window, form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "Accept": "application/json" }
+    }).then(function (response) {
+      if (response && response.ok) {
+        window.location.href = target;
+      } else {
+        submitNatively();
+      }
+    })["catch"](submitNatively);
+  }, false);
+
   var pageParams = new URLSearchParams(window.location.search);
   if (/\/thankyou\.html$/i.test(window.location.pathname) && pageParams.get("lead") === "1") {
     // Guard against refreshes/back-navigation re-firing the conversion and
