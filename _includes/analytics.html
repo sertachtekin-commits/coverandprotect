@@ -14,10 +14,20 @@
       script.src = 'https://www.googletagmanager.com/gtag/js?id=G-J7F01SWCLW';
       document.head.appendChild(script);
     }
-    ['pointerdown', 'keydown', 'scroll'].forEach(function (eventName) {
-      window.addEventListener(eventName, loadAnalytics, { once: true, passive: true });
-    });
-    window.addEventListener('load', function () { setTimeout(loadAnalytics, 8000); }, { once: true });
+    // The conversion page redirects away on its own timer, so a visitor who
+    // does not tap or scroll would leave before the delayed load ever runs and
+    // the queued generate_lead would never be transmitted. Load immediately
+    // there; keep the delayed load everywhere else.
+    var isConversionPage = /\/thankyou\.html$/i.test(window.location.pathname) ||
+                           /[?&]lead=1(&|$)/.test(window.location.search);
+    if (isConversionPage) {
+      loadAnalytics();
+    } else {
+      ['pointerdown', 'keydown', 'scroll'].forEach(function (eventName) {
+        window.addEventListener(eventName, loadAnalytics, { once: true, passive: true });
+      });
+      window.addEventListener('load', function () { setTimeout(loadAnalytics, 8000); }, { once: true });
+    }
   }());
 </script>
 
