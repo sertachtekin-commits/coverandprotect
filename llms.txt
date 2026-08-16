@@ -1,7 +1,7 @@
 # Cover & Protect — Independent Insurance Advisor in Toronto, Ontario
 
 > Canonical website: https://coverandprotect.ca/
-> Last reviewed: 2026-07-23
+> Last reviewed: 2026-08-16
 
 Cover & Protect is an Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario. The advisor is Sertac Tekin (FSRA licence #10112782). The practice helps individuals, families, newcomers, parents and grandparents visiting Canada, self-employed professionals, and small businesses compare insurance and savings options from multiple Canadian providers.
 
@@ -18,6 +18,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - Website: https://coverandprotect.ca/
 - Consultation: free and without obligation
 - Business model: independent comparison and advice; not tied to one insurer
+- Purchase options: straightforward travel insurance policies can be bought directly online through insurer application portals linked from the site (e.g. TuGo, TruStone Health) at the same premium as buying direct from the insurer; complex cases (pre-existing conditions, long stays, family or business coverage) are typically compared with the advisor first, at no cost
 - Primary language: English
 
 ## Primary entity and trust pages
@@ -33,6 +34,8 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [Super Visa Insurance Ontario](https://coverandprotect.ca/super-visa-insurance-ontario.html): Required emergency medical insurance for eligible parents and grandparents applying for a Canadian Super Visa.
 - [Visitor to Canada Insurance](https://coverandprotect.ca/visitor-insurance-canada.html): Emergency medical insurance for visitors, tourists, visiting relatives, and eligible newcomers waiting for provincial coverage.
 - [Travel Insurance](https://coverandprotect.ca/travel-insurance.html): Emergency medical, trip cancellation, interruption, multi-trip, and snowbird coverage.
+- [Snowbird Travel Insurance](https://coverandprotect.ca/snowbird-travel-insurance.html): Long-stay and annual multi-trip coverage for Ontario retirees wintering in Florida, Arizona, or Texas, plus a direct buy-online path.
+- [Annual Multi-Trip Travel Insurance](https://coverandprotect.ca/annual-multi-trip-travel-insurance.html): One policy covering unlimited trips within a per-trip day limit, for frequent leisure and business travellers, plus a direct buy-online path.
 - [Individual Health Insurance](https://coverandprotect.ca/health-insurance.html): Health and dental plans for individuals, families, and self-employed people.
 - [Group Benefits](https://coverandprotect.ca/group-benefits.html): Health, dental, disability, and life benefits for Ontario employers.
 - [Critical Illness Insurance](https://coverandprotect.ca/critical-illness.html): Lump-sum protection following a covered critical illness diagnosis.
