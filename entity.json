@@ -27,6 +27,13 @@
         "Cover & Protect Insurance"
       ],
       "url": "https://coverandprotect.ca/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://coverandprotect.ca/images/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://coverandprotect.ca/images/icon-512.png",
       "description": "Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario.",
       "disambiguatingDescription": "Cover & Protect is an Ontario insurance advisory practice that compares insurance and savings products; it is not a retailer of protective vehicle, equipment, or furniture covers.",
       "naics": "524210",
@@ -80,6 +87,8 @@
         "Super Visa insurance",
         "Visitor to Canada insurance",
         "Travel insurance",
+        "Snowbird travel insurance",
+        "Annual multi-trip travel insurance",
         "Individual health insurance",
         "Group benefits",
         "Life insurance",
@@ -110,6 +119,20 @@
             "itemOffered": {
               "@type": "Service",
               "name": "Travel insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Snowbird travel insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Annual multi-trip travel insurance"
             }
           },
           {
@@ -148,6 +171,12 @@
             }
           }
         ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "15",
+        "bestRating": "5"
       }
     },
     {
