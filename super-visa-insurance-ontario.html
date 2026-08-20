@@ -30,6 +30,36 @@
     .card{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:22px;padding:30px;box-shadow:0 24px 80px rgba(0,0,0,.25)}.card h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:8px}.card p{color:var(--muted);margin-bottom:22px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:13px}.field label{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted);margin-bottom:7px}input,select,textarea{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:var(--white);padding:13px 14px;font:inherit;outline:none}select option{color:#111}textarea{min-height:96px;resize:vertical}.submit{width:100%;margin-top:4px;background:var(--teal);color:#fff;border:0;border-radius:10px;padding:15px;font-weight:800;font-size:1rem}.fine{font-size:.75rem;color:var(--muted);text-align:center;margin-top:12px}.online-options{margin-top:24px;padding-top:22px;border-top:1px solid var(--border)}.online-options h3{font-size:1.05rem;margin-bottom:6px}.online-options p{font-size:.88rem;margin-bottom:14px}.online-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}.online-link{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(201,151,58,.12);border:1px solid rgba(201,151,58,.28);border-radius:12px;padding:12px 13px;text-decoration:none;font-weight:800;font-size:.88rem;color:var(--white)}.online-link span{color:var(--gold2);font-size:.76rem;font-weight:800;white-space:nowrap}.online-link:hover{background:rgba(201,151,58,.2);border-color:rgba(201,151,58,.5)}.help-note{font-size:.76rem;color:var(--muted);margin-top:12px;text-align:center}
     section{padding:72px 0}.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3vw,3rem);line-height:1.15;margin-bottom:14px}.section-sub{color:var(--muted);max-width:720px;margin-bottom:30px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.info{background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:24px}.info h3{font-size:1.12rem;margin-bottom:10px}.info p,.info li{color:var(--muted);font-size:.96rem}.info ul{padding-left:18px}.areas{background:var(--deep);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.city-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.city-pill{background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:999px;padding:10px 15px;color:var(--white);font-weight:800;font-size:.9rem}.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.proof-card{background:rgba(14,124,123,.1);border:1px solid rgba(20,168,167,.24);border-radius:18px;padding:24px}.proof-card h3{margin-bottom:10px}.proof-card p{color:var(--muted)}.proof-list{display:grid;gap:12px}.proof-item{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:16px}.proof-item strong{display:block;color:var(--gold2);margin-bottom:4px}.proof-item span{color:var(--muted);font-size:.94rem}.split{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:start}.steps{counter-reset:item}.step{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}.step:before{counter-increment:item;content:counter(item);width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:900;flex:none}.faq{display:grid;gap:12px}.faq details{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:18px}.faq summary{cursor:pointer;font-weight:800}.faq p{color:var(--muted);margin-top:10px}.cta{background:linear-gradient(135deg,rgba(14,124,123,.22),rgba(201,151,58,.12));border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}.cta p{color:var(--muted);margin:0 auto 22px;max-width:720px}footer{padding:34px 0;color:var(--muted);font-size:.84rem;border-top:1px solid var(--border)}footer .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.sticky-call{display:none}
     @media(max-width:900px){.navlinks a:not(.btn){display:none}.hero-grid,.split,.proof-grid{grid-template-columns:1fr}.hero{padding:54px 0 42px}.trust,.grid3,.online-list{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.card{padding:22px}.sticky-call{display:flex;position:fixed;bottom:12px;left:12px;right:12px;z-index:30;gap:10px}.sticky-call a{flex:1}.wrap{padding:0 18px}section{padding:54px 0}}
+    /* Inline Super Visa quote estimator (#instant-quote) */
+    .iq-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:start}
+    .iq-card{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:22px;padding:28px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+    .iq-eyebrow{display:inline-block;background:rgba(20,168,167,.16);border:1px solid rgba(20,168,167,.32);color:var(--teal2);border-radius:999px;padding:5px 12px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+    .iq-card h3{font-family:'Playfair Display',serif;font-size:1.55rem;margin-bottom:6px}
+    .iq-card .form-row{align-items:end}
+    .iq-intro{color:var(--muted);font-size:.94rem;margin-bottom:20px}
+    .iq-check{margin:2px 0 13px}
+    .iq-check label{display:flex;align-items:center;gap:9px;font-size:.9rem;font-weight:700;color:var(--white);cursor:pointer;text-transform:none;letter-spacing:0;margin:0}
+    .iq-check input{width:18px;height:18px;flex:none;accent-color:var(--teal2);padding:0}
+    .iq-check span{color:var(--white);font-weight:700}
+    .iq-check em{color:var(--muted);font-weight:500;font-style:normal}
+    .iq-err{display:block;color:#ffb4a8;font-size:.76rem;margin-top:5px}
+    .iq-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .iq-toggle button{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;color:var(--muted);padding:12px 10px;font:inherit;font-weight:800;font-size:.88rem;cursor:pointer}
+    .iq-toggle button[aria-pressed="true"]{background:rgba(20,168,167,.18);border-color:rgba(20,168,167,.5);color:var(--white)}
+    .iq-result{margin-top:18px;background:linear-gradient(135deg,rgba(14,124,123,.2),rgba(201,151,58,.1));border:1px solid rgba(20,168,167,.28);border-radius:16px;padding:22px;text-align:center}
+    .iq-label{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:var(--muted)}
+    .iq-amount{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.15;color:var(--gold2);margin:6px 0 4px}
+    .iq-per{font-weight:700;font-size:.95rem}
+    .iq-alt{color:var(--muted);font-size:.86rem;margin-top:6px}
+    .iq-note{color:var(--muted);font-size:.74rem;margin-top:12px;line-height:1.5}
+    .iq-actions{display:grid;gap:10px;margin-top:16px}
+    .iq-actions .btn{width:100%}
+    .iq-aside{background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:26px}
+    .iq-aside h3{font-size:1.2rem;margin-bottom:10px}
+    .iq-aside p{color:var(--muted);font-size:.94rem;margin-bottom:16px}
+    .iq-aside .iq-links{margin-top:16px;font-size:.88rem;color:var(--muted)}
+    .iq-aside .iq-links a{color:var(--gold2);font-weight:700}
+    @media(max-width:900px){.iq-grid{grid-template-columns:1fr}.iq-card{padding:22px}}
   </style>
   <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -122,6 +152,7 @@
         <p class="price-note">Plans from <strong>~$1,000/yr</strong> for $100,000 coverage · <strong>monthly payments</strong> available</p>
         <div class="actions">
           <a class="btn gold" href="#quote">Get my free quote</a>
+          <a class="btn out" href="#instant-quote">See an instant estimate</a>
           <a class="btn out" href="tel:6473669495">Call now</a>
           <a class="btn out" href="mailto:info@coverandprotect.ca">Email Cover &amp; Protect</a>
         </div>
@@ -138,6 +169,13 @@
           <input type="hidden" name="_subject" value="New Super Visa landing page lead - Cover & Protect">
           <input type="hidden" name="source" value="Super Visa Ontario landing page">
           <input type="hidden" name="_next" value="https://coverandprotect.ca/thankyou.html?lead=1">
+          <!-- Filled in by the on-page estimator (#instant-quote) so the lead email
+               arrives with the numbers the visitor actually saw. Owner email only. -->
+          <input type="hidden" name="estimate_age" id="iq-lead-age" value="">
+          <input type="hidden" name="estimate_coverage" id="iq-lead-coverage" value="">
+          <input type="hidden" name="estimate_deductible" id="iq-lead-deductible" value="">
+          <input type="hidden" name="estimate_conditions" id="iq-lead-conditions" value="">
+          <input type="hidden" name="estimate_result" id="iq-lead-estimate" value="">
           <div class="form-row">
             <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
             <div class="field"><label for="phone">Phone <span style="text-transform:none;letter-spacing:0;opacity:.65;">(optional)</span></label><input id="phone" name="phone" autocomplete="tel"></div>
@@ -221,34 +259,113 @@
     </div>
   </section>
 
-  <section>
+  <section id="instant-quote">
     <div class="wrap">
-      <h2 class="section-title">What families typically pay</h2>
-      <p class="section-sub">Age is the biggest factor for the required $100,000 of coverage. These are illustrative 2026 ranges — try the <a href="travel-insurance-calculator.html" style="color:var(--gold2)">interactive cost calculator</a>, <a href="blog-supervisa-cost.html" style="color:var(--gold2)">see the full cost guide</a>, or get your exact price below.</p>
-      <figure style="margin:8px 0 0;">
-        <svg viewBox="0 0 620 265" role="img" aria-label="Bar chart of typical annual Super Visa premium by age for 100,000 dollars of coverage, rising from about 1,250 dollars at ages 40 to 54 up to about 5,000 dollars at age 75 and over" style="width:100%;height:auto;display:block;max-width:640px" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', sans-serif">
-          <line x1="60" y1="225" x2="590" y2="225" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"></line>
-          <rect x="70" y="180" width="60" height="45" rx="4" fill="#14a8a7"></rect>
-          <text x="100" y="172" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$1.2K</text>
-          <text x="100" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">40–54</text>
-          <rect x="160" y="167" width="60" height="58" rx="4" fill="#4bb193"></rect>
-          <text x="190" y="159" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$1.6K</text>
-          <text x="190" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">55–59</text>
-          <rect x="250" y="148" width="60" height="77" rx="4" fill="#86b06a"></rect>
-          <text x="280" y="140" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$2.2K</text>
-          <text x="280" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">60–64</text>
-          <rect x="340" y="121" width="60" height="104" rx="4" fill="#c1a94c"></rect>
-          <text x="370" y="113" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$2.9K</text>
-          <text x="370" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">65–69</text>
-          <rect x="430" y="85" width="60" height="140" rx="4" fill="#d9ab48"></rect>
-          <text x="460" y="77" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$3.9K</text>
-          <text x="460" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">70–74</text>
-          <rect x="520" y="45" width="60" height="180" rx="4" fill="#e5b657"></rect>
-          <text x="550" y="37" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$5K</text>
-          <text x="550" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">75+</text>
-        </svg>
-      </figure>
-      <div class="actions" style="margin-top:20px"><a class="btn gold" href="#quote">Get my exact price</a></div>
+      <h2 class="section-title">Super Visa insurance quote &mdash; instant online estimate</h2>
+      <p class="section-sub">Enter the visitor&rsquo;s age and choose the coverage. You&rsquo;ll see an illustrative 2026 premium straight away, then either apply online or have Cover &amp; Protect compare insurers for the exact price. No email address needed to see the number.</p>
+      <div class="iq-grid">
+        <div class="iq-card" aria-label="Super Visa insurance quote estimator">
+          <span class="iq-eyebrow">Instant estimate</span>
+          <h3>Estimate the premium</h3>
+          <p class="iq-intro">Priced for a 365-day policy &mdash; the length IRCC requires for a Super Visa.</p>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="iq-age">Visitor&rsquo;s age</label>
+              <input id="iq-age" type="number" inputmode="numeric" min="18" max="99" value="65" aria-describedby="iq-age-error iq-result">
+              <span class="iq-err" id="iq-age-error" aria-live="polite"></span>
+            </div>
+            <div class="field">
+              <label for="iq-coverage">Coverage amount</label>
+              <select id="iq-coverage">
+                <option value="100000" selected>$100,000 (Super Visa minimum)</option>
+                <option value="150000">$150,000</option>
+                <option value="200000">$200,000</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="iq-check">
+            <label for="iq-second"><input type="checkbox" id="iq-second"> <span>Add a second traveller <em>&mdash; e.g. both parents</em></span></label>
+          </div>
+          <div class="field" id="iq-field-age2" hidden>
+            <label for="iq-age2">Second traveller&rsquo;s age</label>
+            <input id="iq-age2" type="number" inputmode="numeric" min="18" max="99" value="68" aria-describedby="iq-age2-error">
+            <span class="iq-err" id="iq-age2-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="iq-deductible">Deductible</label>
+              <select id="iq-deductible">
+                <option value="0">$0 (no deductible)</option>
+                <option value="500">$500</option>
+                <option value="1000" selected>$1,000</option>
+                <option value="3000">$3,000 (lowest premium)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="iq-conditions">Pre-existing conditions</label>
+              <select id="iq-conditions">
+                <option value="none" selected>No conditions</option>
+                <option value="stable">Yes &mdash; stable (e.g. controlled blood pressure)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label id="iq-pay-label">Payment preference</label>
+            <div class="iq-toggle" role="group" aria-labelledby="iq-pay-label">
+              <button type="button" id="iq-pay-annual" aria-pressed="true">Pay annually</button>
+              <button type="button" id="iq-pay-monthly" aria-pressed="false">Pay monthly</button>
+            </div>
+          </div>
+
+          <div class="iq-result" id="iq-result" role="status" aria-live="polite">
+            <div class="iq-label" id="iq-heading">Estimated Super Visa premium</div>
+            <div class="iq-amount" id="iq-amount">$2,000 &ndash; $3,800</div>
+            <div class="iq-per" id="iq-per">per year &middot; $100,000 coverage &middot; 365 days</div>
+            <div class="iq-alt" id="iq-alt">&asymp; $180 &ndash; $340 per month on a monthly plan</div>
+            <div class="iq-alt" id="iq-breakdown" hidden></div>
+            <div class="iq-note">Illustrative estimate in CAD &mdash; not a quote or a guarantee of price or eligibility. Real premiums depend on the applicant, the insurer, medical history and policy terms. Rate assumptions reviewed July 2026.</div>
+          </div>
+
+          <div class="iq-actions">
+            <a class="btn gold" href="#quote" id="iq-cta">Get my exact price &mdash; free comparison &rarr;</a>
+            <a class="btn out" id="iq-buy" href="https://shop.tugo.com/store/TEK200" target="_blank" rel="noopener" data-tugo-store="TEK200" data-application-type="online_store">Buy online in minutes &rarr;</a>
+          </div>
+          <div class="help-note">Buying online opens TuGo&rsquo;s secure store, where you&rsquo;ll see the exact price and can purchase directly. Want the rate compared across several insurers first, or need to be sure the plan meets the IRCC requirement? The quote form is free and there&rsquo;s no obligation.</div>
+        </div>
+
+        <div class="iq-aside">
+          <h3>What families typically pay</h3>
+          <p>Age is the biggest factor for the required $100,000 of coverage. These are illustrative 2026 ranges for a full 365-day policy.</p>
+        <figure style="margin:8px 0 0;">
+          <svg viewBox="0 0 620 265" role="img" aria-label="Bar chart of typical annual Super Visa premium by age for 100,000 dollars of coverage, rising from about 1,250 dollars at ages 40 to 54 up to about 5,000 dollars at age 75 and over" style="width:100%;height:auto;display:block;max-width:640px" xmlns="http://www.w3.org/2000/svg" font-family="'DM Sans', sans-serif">
+            <line x1="60" y1="225" x2="590" y2="225" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"></line>
+            <rect x="70" y="180" width="60" height="45" rx="4" fill="#14a8a7"></rect>
+            <text x="100" y="172" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$1.2K</text>
+            <text x="100" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">40–54</text>
+            <rect x="160" y="167" width="60" height="58" rx="4" fill="#4bb193"></rect>
+            <text x="190" y="159" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$1.6K</text>
+            <text x="190" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">55–59</text>
+            <rect x="250" y="148" width="60" height="77" rx="4" fill="#86b06a"></rect>
+            <text x="280" y="140" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$2.2K</text>
+            <text x="280" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">60–64</text>
+            <rect x="340" y="121" width="60" height="104" rx="4" fill="#c1a94c"></rect>
+            <text x="370" y="113" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$2.9K</text>
+            <text x="370" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">65–69</text>
+            <rect x="430" y="85" width="60" height="140" rx="4" fill="#d9ab48"></rect>
+            <text x="460" y="77" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$3.9K</text>
+            <text x="460" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">70–74</text>
+            <rect x="520" y="45" width="60" height="180" rx="4" fill="#e5b657"></rect>
+            <text x="550" y="37" font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">~$5K</text>
+            <text x="550" y="245" font-size="12" fill="#91a0b8" text-anchor="middle">75+</text>
+          </svg>
+        </figure>
+          <div class="iq-links">Go deeper: <a href="blog-supervisa-cost.html">the full 2026 cost guide</a> &middot; <a href="travel-insurance-calculator.html">the multi-plan calculator</a> (Super Visa, visitor and travel) &middot; <a href="blog-supervisa-refund.html">refunds if the visa is refused</a>.</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -367,6 +484,181 @@
   </div>
 </footer>
 <div class="sticky-call"><a class="btn out" href="tel:6473669495">Call</a><a class="btn out" href="https://wa.me/16473669495" target="_blank" rel="noopener">WhatsApp</a><a class="btn gold" href="#quote">Free Quote</a></div>
+<script>
+/* Inline Super Visa premium estimator (#instant-quote).
+ * The rate model below is the Super Visa half of the model in
+ * travel-insurance-calculator.html. Keep the two in sync — the same inputs
+ * must never produce two different numbers on two pages. Illustrative only:
+ * nothing here is presented as a quote, and no input is sent to analytics. */
+(function () {
+  "use strict";
+
+  var SUPERVISA_BANDS = [
+    { max: 54, low: 1000, high: 1500 },
+    { max: 59, low: 1200, high: 2000 },
+    { max: 64, low: 1500, high: 2800 },
+    { max: 69, low: 2000, high: 3800 },
+    { max: 74, low: 2800, high: 5000 },
+    { max: 200, low: 4000, high: 6000 }
+  ];
+  var DEDUCTIBLE_FACTOR = { "0": 1.10, "500": 1.05, "1000": 1.00, "3000": 0.90 };
+  var COVERAGE_FACTOR = { "100000": 1.00, "150000": 1.15, "200000": 1.30 };
+  var CONDITIONS_FACTOR = { none: 1.00, stable: 1.25 };
+  var MONTHLY_LOADING = 1.08; // monthly plans cost a little more over the year
+
+  function byId(id) { return document.getElementById(id); }
+
+  var ageEl = byId("iq-age"), age2El = byId("iq-age2"), secondEl = byId("iq-second");
+  var coverageEl = byId("iq-coverage"), deductibleEl = byId("iq-deductible"), conditionsEl = byId("iq-conditions");
+  var payAnnualEl = byId("iq-pay-annual"), payMonthlyEl = byId("iq-pay-monthly");
+  var headingEl = byId("iq-heading"), amountEl = byId("iq-amount"), perEl = byId("iq-per");
+  var altEl = byId("iq-alt"), breakdownEl = byId("iq-breakdown");
+  if (!ageEl || !amountEl) { return; }
+
+  var payMode = "annual";
+  var usedFired = false;
+
+  function money(n) {
+    return "$" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  function roundTo(n, step) { return Math.max(step, Math.round(n / step) * step); }
+
+  function pickBand(age) {
+    for (var i = 0; i < SUPERVISA_BANDS.length; i++) {
+      if (age <= SUPERVISA_BANDS[i].max) { return SUPERVISA_BANDS[i]; }
+    }
+    return SUPERVISA_BANDS[SUPERVISA_BANDS.length - 1];
+  }
+
+  function validatedAge(el, errorId, active) {
+    var errorEl = byId(errorId);
+    if (!active) {
+      el.removeAttribute("aria-invalid");
+      errorEl.textContent = "";
+      return null;
+    }
+    var n = parseInt(el.value, 10);
+    var valid = !isNaN(n) && n >= 18 && n <= 99 && String(n) === el.value.trim();
+    if (!valid) {
+      el.setAttribute("aria-invalid", "true");
+      errorEl.textContent = "Enter a whole age from 18 to 99.";
+      return null;
+    }
+    el.removeAttribute("aria-invalid");
+    errorEl.textContent = "";
+    return n;
+  }
+
+  function premiumForAge(age) {
+    var band = pickBand(age);
+    var youthFactor = age < 40 ? 0.85 : 1; // under-40 visitors price at or below the youngest band
+    var factor = youthFactor *
+      (CONDITIONS_FACTOR[conditionsEl.value] || 1) *
+      (DEDUCTIBLE_FACTOR[deductibleEl.value] || 1) *
+      (COVERAGE_FACTOR[coverageEl.value] || 1);
+    return { low: roundTo(band.low * factor, 50), high: roundTo(band.high * factor, 50) };
+  }
+
+  var LEAD_IDS = ["iq-lead-age", "iq-lead-coverage", "iq-lead-deductible", "iq-lead-conditions", "iq-lead-estimate"];
+  function setLead(id, value) { var el = byId(id); if (el) { el.value = value; } }
+  function clearLead() { LEAD_IDS.forEach(function (id) { setLead(id, ""); }); }
+
+  function calculate() {
+    var twoUp = secondEl.checked;
+    var age = validatedAge(ageEl, "iq-age-error", true);
+    var age2 = validatedAge(age2El, "iq-age2-error", twoUp);
+
+    if (age === null || (twoUp && age2 === null)) {
+      headingEl.textContent = "Check the highlighted details";
+      amountEl.textContent = "\u2014";
+      perEl.textContent = "Enter an age from 18 to 99 to see the estimate.";
+      altEl.textContent = "";
+      breakdownEl.hidden = true;
+      clearLead();
+      return;
+    }
+
+    var parts = [premiumForAge(age)];
+    if (twoUp) { parts.push(premiumForAge(age2)); }
+    var low = 0, high = 0;
+    parts.forEach(function (part) { low += part.low; high += part.high; });
+
+    var coverageLabel = "$" + (parseInt(coverageEl.value, 10) / 1000) + ",000 coverage";
+    var travSuffix = twoUp ? " \u00b7 2 travellers" : "";
+    var travTag = twoUp ? "2 travellers \u00b7 " : "";
+    var mLow = roundTo(low * MONTHLY_LOADING / 12, 5);
+    var mHigh = roundTo(high * MONTHLY_LOADING / 12, 5);
+    var estimateText;
+
+    headingEl.textContent = "Estimated Super Visa premium" + travSuffix;
+    if (payMode === "monthly") {
+      amountEl.textContent = money(mLow) + " \u2013 " + money(mHigh);
+      perEl.textContent = "per month \u00b7 " + coverageLabel + " \u00b7 365 days";
+      altEl.textContent = travTag + "\u2248 " + money(low) + " \u2013 " + money(high) + " per year if paid annually";
+      estimateText = money(mLow) + "-" + money(mHigh) + "/month";
+    } else {
+      amountEl.textContent = money(low) + " \u2013 " + money(high);
+      perEl.textContent = "per year \u00b7 " + coverageLabel + " \u00b7 365 days";
+      altEl.textContent = travTag + "\u2248 " + money(mLow) + " \u2013 " + money(mHigh) + " per month on a monthly plan";
+      estimateText = money(low) + "-" + money(high) + "/year";
+    }
+
+    if (twoUp) {
+      breakdownEl.hidden = false;
+      breakdownEl.textContent = "Traveller 1 (age " + age + "): " + money(parts[0].low) + "\u2013" + money(parts[0].high) +
+        "  \u00b7  Traveller 2 (age " + age2 + "): " + money(parts[1].low) + "\u2013" + money(parts[1].high);
+    } else {
+      breakdownEl.hidden = true;
+    }
+
+    /* Stamp the selections onto the quote form's hidden fields so the lead
+     * email carries the estimate the visitor saw. Owner's Formspree email
+     * only — none of this goes to analytics. */
+    setLead("iq-lead-age", twoUp ? (age + " & " + age2) : String(age));
+    setLead("iq-lead-coverage", coverageLabel);
+    setLead("iq-lead-deductible", "$" + deductibleEl.value + " deductible");
+    setLead("iq-lead-conditions", conditionsEl.options[conditionsEl.selectedIndex].text);
+    setLead("iq-lead-estimate", estimateText + (twoUp ? " (2 travellers)" : ""));
+
+  }
+
+  function trackUse() {
+    // One engagement ping per page view; no estimator inputs are sent.
+    if (usedFired) { return; }
+    usedFired = true;
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "calculator_use", {
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        calculator: "super_visa_inline_estimator"
+      });
+    }
+  }
+
+  function onInteract() { trackUse(); calculate(); }
+
+  [ageEl, age2El, coverageEl, deductibleEl, conditionsEl].forEach(function (el) {
+    el.addEventListener("input", onInteract);
+    el.addEventListener("change", onInteract);
+  });
+
+  secondEl.addEventListener("change", function () {
+    byId("iq-field-age2").hidden = !secondEl.checked;
+    onInteract();
+  });
+
+  function setPay(mode) {
+    payMode = mode;
+    payAnnualEl.setAttribute("aria-pressed", mode === "annual" ? "true" : "false");
+    payMonthlyEl.setAttribute("aria-pressed", mode === "monthly" ? "true" : "false");
+    onInteract();
+  }
+  payAnnualEl.addEventListener("click", function () { setPay("annual"); });
+  payMonthlyEl.addEventListener("click", function () { setPay("monthly"); });
+
+  calculate();
+})();
+</script>
 <script src="tracking.js?v=8" defer></script>
 <div class="cp-policy-links" style="background:#071323;color:#d6deea;text-align:center;padding:14px 20px;font-size:.8rem"><a href="/privacy-policy.html" style="color:#e5b657">Privacy Policy</a> · <a href="/terms.html" style="color:#e5b657">Terms &amp; Insurance Disclaimer</a></div>
 </body>
