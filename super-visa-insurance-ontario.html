@@ -53,7 +53,7 @@
     .iq-alt{color:var(--muted);font-size:.86rem;margin-top:6px}
     .iq-note{color:var(--muted);font-size:.74rem;margin-top:12px;line-height:1.5}
     .iq-actions{display:grid;gap:10px;margin-top:16px}
-    .iq-actions .btn,.iq-actions .online-link{width:100%}
+    .iq-actions .btn{width:100%}
     .iq-aside{background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:26px}
     .iq-aside h3{font-size:1.2rem;margin-bottom:10px}
     .iq-aside p{color:var(--muted);font-size:.94rem;margin-bottom:16px}
@@ -332,9 +332,9 @@
 
           <div class="iq-actions">
             <a class="btn gold" href="#quote" id="iq-cta">Get my exact price &mdash; free comparison &rarr;</a>
-            <a class="online-link" id="iq-apply" target="_blank" rel="noopener" data-application-type="truestone_online" data-trustone-plan="ELVTC" href="https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765&amp;xxx:Plan=ELVTC&amp;xxx:UserLang=english&amp;xxx:AgentID=0&amp;uid=U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==">Apply online now <span id="iq-apply-tag">ELVTC &rarr;</span></a>
+            <a class="btn out" href="tel:6473669495">Call 647-366-9495</a>
           </div>
-          <div class="help-note">Applying online opens TruStone Health&rsquo;s secure site, where you&rsquo;ll see the exact price and can buy directly. Want the best rate across several insurers instead? The quote form is free and there&rsquo;s no obligation.</div>
+          <div class="help-note">Prefer to talk it through? Call and Cover &amp; Protect will confirm the exact price, check the plan meets the IRCC requirement, and compare eligible insurers with you &mdash; free, and no obligation.</div>
         </div>
 
         <div class="iq-aside">
@@ -506,18 +506,6 @@
   var CONDITIONS_FACTOR = { none: 1.00, stable: 1.25 };
   var MONTHLY_LOADING = 1.08; // monthly plans cost a little more over the year
 
-  /* Direct online application. Same broker id, uid and plan codes as the
-   * quote form's "Prefer to apply online?" list and the calculator page. */
-  var TRUSTONE_UID = "U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==";
-  var TRUSTONE_PLANS = {
-    none: { code: "ELVTC", label: "Apply online now" },
-    stable: { code: "ELVTCUW", label: "Apply online — covers stable pre-existing" }
-  };
-  function trustoneUrl(code) {
-    return "https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765" +
-      "&xxx:Plan=" + code + "&xxx:UserLang=english&xxx:AgentID=0&uid=" + TRUSTONE_UID;
-  }
-
   function byId(id) { return document.getElementById(id); }
 
   var ageEl = byId("iq-age"), age2El = byId("iq-age2"), secondEl = byId("iq-second");
@@ -525,7 +513,6 @@
   var payAnnualEl = byId("iq-pay-annual"), payMonthlyEl = byId("iq-pay-monthly");
   var headingEl = byId("iq-heading"), amountEl = byId("iq-amount"), perEl = byId("iq-per");
   var altEl = byId("iq-alt"), breakdownEl = byId("iq-breakdown");
-  var applyEl = byId("iq-apply"), applyTagEl = byId("iq-apply-tag");
   if (!ageEl || !amountEl) { return; }
 
   var payMode = "annual";
@@ -575,14 +562,6 @@
   var LEAD_IDS = ["iq-lead-age", "iq-lead-coverage", "iq-lead-deductible", "iq-lead-conditions", "iq-lead-estimate"];
   function setLead(id, value) { var el = byId(id); if (el) { el.value = value; } }
   function clearLead() { LEAD_IDS.forEach(function (id) { setLead(id, ""); }); }
-
-  function updateApplyLink() {
-    var pick = TRUSTONE_PLANS[conditionsEl.value === "stable" ? "stable" : "none"];
-    applyEl.href = trustoneUrl(pick.code);
-    applyEl.setAttribute("data-trustone-plan", pick.code);
-    applyEl.childNodes[0].nodeValue = pick.label + " ";
-    applyTagEl.textContent = pick.code + " \u2192";
-  }
 
   function calculate() {
     var twoUp = secondEl.checked;
@@ -641,7 +620,6 @@
     setLead("iq-lead-conditions", conditionsEl.options[conditionsEl.selectedIndex].text);
     setLead("iq-lead-estimate", estimateText + (twoUp ? " (2 travellers)" : ""));
 
-    updateApplyLink();
   }
 
   function trackUse() {
