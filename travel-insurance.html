@@ -362,6 +362,41 @@
     .nav-links { display: none !important; }
   }
 
+  /* MOBILE ACTION BAR — call · buy online · free quote, matching the bar on the
+     Super Visa, visitor and calculator pages. Sits under the mobile menu
+     (z-index 150) so an open menu still covers it. */
+  .sticky-call { display: none; }
+  @media (max-width: 900px) {
+    .sticky-call {
+      display: flex;
+      position: fixed; bottom: 12px; left: 12px; right: 12px;
+      z-index: 120; gap: 6px;
+    }
+    .sticky-call a {
+      flex: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 12px 4px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700; font-size: 0.8rem; white-space: nowrap;
+    }
+    .sticky-call .call,
+    .sticky-call .buy {
+      background: rgba(10,22,40,0.92);
+      backdrop-filter: blur(8px);
+    }
+    .sticky-call .call { border: 1px solid rgba(255,255,255,0.28); color: var(--white); }
+    .sticky-call .buy { border: 1px solid var(--gold); color: var(--gold); }
+    .sticky-call .quote { background: var(--gold); color: var(--navy); }
+    /* leave room for the bar so it never covers the policy links */
+    body { padding-bottom: 82px; }
+  }
+  @media (max-width: 360px) {
+    .sticky-call { flex-wrap: wrap; }
+    .sticky-call a { flex: 1 1 46%; }
+    body { padding-bottom: 134px; }
+  }
+
 
   /* GLOBAL MOBILE FIXES */
   @media (max-width: 768px) {
@@ -1362,6 +1397,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeMobileMenu();
 });
 </script>
+<div class="sticky-call"><a class="call" href="tel:6473669495">Call</a><a class="buy" href="/buy-online.html">Buy Online</a><a class="quote" href="#quote">Free Quote</a></div>
 <div class="cp-policy-links" style="background:#071323;color:#d6deea;text-align:center;padding:14px 20px;font-size:.8rem"><a href="/privacy-policy.html" style="color:#e5b657">Privacy Policy</a> · <a href="/terms.html" style="color:#e5b657">Terms &amp; Insurance Disclaimer</a></div>
 </body>
 </html>
