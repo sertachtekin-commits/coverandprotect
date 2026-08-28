@@ -118,7 +118,11 @@
   .mobile-menu {
     display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(8,15,30,0.98); z-index: 150;
-    flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    flex-direction: column; align-items: center; gap: 32px;
+    /* `safe center` keeps the list centred but still scrollable — with a full
+       menu it would otherwise overflow the top of a short phone */
+    justify-content: center; justify-content: safe center;
+    overflow-y: auto; padding: 72px 20px;
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a { color: var(--white); text-decoration: none; font-size: 1.4rem; font-weight: 600; font-family: 'Playfair Display', serif; }
@@ -642,6 +646,7 @@
   <a href="critical-illness.html" onclick="closeMobileMenu()">Critical Illness</a>
   <a href="estate-planning.html" onclick="closeMobileMenu()">Estate Planning</a>
   <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
+  <a href="buy-online.html" onclick="closeMobileMenu()">Buy Online</a>
   <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
 </div>
 
@@ -656,6 +661,7 @@
     <li><a href="group-benefits.html">Group</a></li>
     <li><a href="critical-illness.html" class="active">Critical Illness</a></li>
     <li><a href="estate-planning.html">Estate</a></li>
+    <li><a href="buy-online.html">Buy Online</a></li>
     <li><a href="#quote" class="nav-cta">Free Quote</a></li>
   </ul>
   <div class="hamburger" onclick="openMobileMenu()">

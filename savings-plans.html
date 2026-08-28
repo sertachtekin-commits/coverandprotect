@@ -205,8 +205,13 @@
     z-index: 150;
     flex-direction: column;
     align-items: center;
+    /* `safe center` keeps the list centred but still scrollable — with a full
+       menu it would otherwise overflow the top of a short phone */
     justify-content: center;
+    justify-content: safe center;
+    overflow-y: auto;
     gap: 32px;
+    padding: 72px 20px;
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a {
@@ -502,6 +507,7 @@
   <a href="critical-illness.html" onclick="closeMobileMenu()">Critical Illness</a>
   <a href="estate-planning.html" onclick="closeMobileMenu()">Estate Planning</a>
   <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
+  <a href="buy-online.html" onclick="closeMobileMenu()">Buy Online</a>
   <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
 </div>
 <!-- MOBILE MENU -->
@@ -515,6 +521,7 @@
   <a href="critical-illness.html" onclick="closeMobileMenu()">Critical Illness</a>
   <a href="estate-planning.html" onclick="closeMobileMenu()">Estate Planning</a>
   <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
+  <a href="buy-online.html" onclick="closeMobileMenu()">Buy Online</a>
   <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
 </div>
 <nav>
@@ -527,6 +534,7 @@
     <li><a href="health-insurance.html">Health</a></li>
     <li><a href="group-benefits.html">Group Benefits</a></li>
     <li><a href="savings-plans.html" class="active">Savings Plans</a></li>
+    <li><a href="buy-online.html">Buy Online</a></li>
     <li><a href="#quote" class="nav-cta">Get Started</a></li>
   </ul>
 <div class="hamburger" onclick="openMobileMenu()" aria-label="Menu">
