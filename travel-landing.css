@@ -29,6 +29,9 @@ header.site .bar{height:72px;display:flex;align-items:center;justify-content:spa
 .navlinks{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .navlinks a{font-size:.9rem;text-decoration:none;color:var(--text-muted);font-weight:600}
 .navlinks a:hover{color:var(--white)}
+/* the Buy Online link is a primary path, not a secondary nav item, so it is
+   gold and stays visible on mobile where the other text links are hidden */
+.navlinks a.buy{color:var(--gold-light)}
 /* buttons inside the nav must keep their own colours — `.navlinks a` would
    otherwise win on specificity and mute the button text */
 .navlinks a.btn{padding:11px 18px;font-size:.88rem}
@@ -156,8 +159,11 @@ footer.site .legal{border-top:1px solid var(--border);padding-top:18px;font-size
 @media(max-width:860px){
   .paths{grid-template-columns:1fr}
   .navlinks a:not(.btn){display:none}
+  .navlinks a.buy{display:inline-block}
   /* let the bar grow instead of overflowing when the CTAs wrap */
-  header.site .bar{height:auto;min-height:64px;padding:12px 0;flex-wrap:wrap}
+  /* keep the .wrap side padding — a `padding:12px 0` shorthand here would
+     zero it and push the logo and links against the screen edge */
+  header.site .bar{height:auto;min-height:64px;padding:12px 24px;flex-wrap:wrap}
   .navlinks{gap:10px}
   .navlinks a.btn{padding:10px 14px;font-size:.84rem}
   .form-row{grid-template-columns:1fr}
