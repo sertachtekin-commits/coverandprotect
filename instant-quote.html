@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% include analytics.html %}
-<title>Instant Visitor to Canada Insurance Quote | Cover &amp; Protect</title>
-<meta name="description" content="Price Visitor to Canada and Super Visa insurance yourself, right here on our site. Compare plans, coverage limits and deductibles instantly, then a licensed Ontario advisor reviews it with you before you pay.">
+<title>Instant Visitor to Canada Insurance Quote</title>
+<meta name="description" content="Price Visitor to Canada and Super Visa insurance yourself. Compare plans, limits and deductibles instantly, then a licensed advisor checks it before you pay.">
 <meta name="keywords" content="instant visitor insurance quote, visitor to Canada quote online, super visa insurance quote Ontario, 21st century travel insurance quote, visitor insurance calculator Toronto">
 <meta name="robots" content="index, follow">
 <meta name="geo.region" content="CA-ON">
@@ -39,7 +39,13 @@
     .api-wrap{padding:6px;border-radius:14px}
     .api-frame{height:calc(100vh - 150px);min-height:600px}
   }
+  .api-note{font-size:.9rem;color:var(--text-muted);border-left:3px solid var(--gold);
+    padding:2px 0 2px 14px;margin:-6px 0 18px}
   .api-fallback{font-size:.84rem;color:var(--text-muted);margin-top:14px;text-align:center}
+  /* the tool is a Blazor app holding a live connection: if that drops it freezes
+     until reloaded, and a visitor cannot reload a frame on its own */
+  .api-reload{font:inherit;color:var(--gold-light);background:none;border:0;padding:0;
+    text-decoration:underline;cursor:pointer}
   .api-fallback a{color:var(--gold-light)}
   .steps-num{display:grid;gap:14px;margin:22px 0 6px}
   .steps-num li{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
@@ -86,14 +92,30 @@
   <div class="wrap">
     <p class="eyebrow">Live quoting</p>
     <h2>Visitor to Canada &amp; Super Visa quotes</h2>
-    <p>Enter the traveller's details and you'll see every plan, coverage limit and deductible with current pricing. Plan summaries and full policy wordings are available inside the tool. Already have a quote from us? Choose <strong>Review Agent's Quote</strong> and enter the password from your email.</p>
+    <p>Scroll down inside the tool and press <strong>Start New Quote</strong> under Visitor to Canada &amp; Super Visa. You'll see every plan, coverage limit and deductible with current pricing, plus plan summaries and the full policy wordings. Already have a quote from us? Choose <strong>Review Agent's Quote</strong> and enter the password from your email instead.</p>
+    <p class="api-note">The <strong>Agent Login</strong> button inside the tool is ours, not yours — you don't need an account, a code or a password to get a quote.</p>
 
     <div class="api-wrap">
       <iframe class="api-frame"
               src="https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9"
               title="Visitor to Canada insurance quote tool — 21st Century Travel Insurance"></iframe>
     </div>
-    <p class="api-fallback">Tool not loading? <a href="https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9" target="_blank" rel="noopener">Open it in a new tab</a>, or <a href="tel:6473669495">call 647-366-9495</a> and we'll quote it with you.</p>
+    <p class="api-fallback">Tool stuck, blank, or saying the session expired? <button type="button" class="api-reload" id="api-reload">Restart it</button>, <a href="https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9" target="_blank" rel="noopener">open it in its own tab</a>, or <a href="tel:6473669495">call 647-366-9495</a> and we'll quote it with you.</p>
+    <script>
+      // Restart the embedded tool. Reassigning src starts a fresh session — a
+      // visitor cannot reload a frame themselves, and reloading our page does
+      // not always give the tool a clean circuit.
+      (function () {
+        var btn = document.getElementById("api-reload");
+        var frame = document.querySelector(".api-frame");
+        if (!btn || !frame) return;
+        var src = frame.getAttribute("src");
+        btn.addEventListener("click", function () {
+          frame.setAttribute("src", "about:blank");
+          setTimeout(function () { frame.setAttribute("src", src); }, 60);
+        });
+      })();
+    </script>
   </div>
 </section>
 
