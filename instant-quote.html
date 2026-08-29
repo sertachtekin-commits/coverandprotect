@@ -40,6 +40,10 @@
     .api-frame{height:calc(100vh - 150px);min-height:600px}
   }
   .api-fallback{font-size:.84rem;color:var(--text-muted);margin-top:14px;text-align:center}
+  /* the tool is a Blazor app holding a live connection: if that drops it freezes
+     until reloaded, and a visitor cannot reload a frame on its own */
+  .api-reload{font:inherit;color:var(--gold-light);background:none;border:0;padding:0;
+    text-decoration:underline;cursor:pointer}
   .api-fallback a{color:var(--gold-light)}
   .steps-num{display:grid;gap:14px;margin:22px 0 6px}
   .steps-num li{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
@@ -93,7 +97,22 @@
               src="https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9"
               title="Visitor to Canada insurance quote tool — 21st Century Travel Insurance"></iframe>
     </div>
-    <p class="api-fallback">Tool not loading? <a href="https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9" target="_blank" rel="noopener">Open it in a new tab</a>, or <a href="tel:6473669495">call 647-366-9495</a> and we'll quote it with you.</p>
+    <p class="api-fallback">Tool stuck, blank, or saying the session expired? <button type="button" class="api-reload" id="api-reload">Restart it</button>, <a href="https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9" target="_blank" rel="noopener">open it in its own tab</a>, or <a href="tel:6473669495">call 647-366-9495</a> and we'll quote it with you.</p>
+    <script>
+      // Restart the embedded tool. Reassigning src starts a fresh session — a
+      // visitor cannot reload a frame themselves, and reloading our page does
+      // not always give the tool a clean circuit.
+      (function () {
+        var btn = document.getElementById("api-reload");
+        var frame = document.querySelector(".api-frame");
+        if (!btn || !frame) return;
+        var src = frame.getAttribute("src");
+        btn.addEventListener("click", function () {
+          frame.setAttribute("src", "about:blank");
+          setTimeout(function () { frame.setAttribute("src", src); }, 60);
+        });
+      })();
+    </script>
   </div>
 </section>
 
