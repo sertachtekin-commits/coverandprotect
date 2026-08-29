@@ -32,6 +32,14 @@
     @media(max-width:900px){.navlinks a:not(.btn){display:none}.hero-grid,.split,.proof-grid{grid-template-columns:1fr}.hero{padding:54px 0 42px}.trust,.grid3,.online-list{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.card{padding:22px}.sticky-call{display:flex;position:fixed;bottom:12px;left:12px;right:12px;z-index:30;gap:6px}.sticky-call a{flex:1}.sticky-call .btn{padding:12px 4px;font-size:.8rem;white-space:nowrap}body{padding-bottom:82px}.wrap{padding:0 18px}section{padding:54px 0}}
     /* very narrow phones: let the action bar wrap to two rows rather than
        squeezing four labels onto one line */
+    /* mobile: the logo plus three CTAs cannot share one 72px row, so let the
+       bar wrap and drop the long half of the Email and Call labels */
+    @media(max-width:900px){
+      .nav{height:auto;min-height:64px;flex-wrap:wrap;gap:10px;padding-top:10px;padding-bottom:10px}
+      .navlinks{flex-wrap:wrap;gap:8px}
+      .navlinks .btn{padding:11px 14px;font-size:.85rem}
+      .navlinks .lbl{display:none}
+    }
     @media(max-width:360px){.sticky-call{flex-wrap:wrap}.sticky-call a{flex:1 1 46%}body{padding-bottom:134px}}
   </style>
   <script type="application/ld+json">{
@@ -110,8 +118,8 @@
       <a href="/health-insurance.html">Health</a>
       <a href="/travel-insurance-calculator.html">Calculator</a>
       <a class="buy" href="/buy-online.html">Buy Online</a>
-      <a href="mailto:info@coverandprotect.ca" class="btn out">Email Cover &amp; Protect</a>
-      <a href="tel:6473669495" class="btn out">Call 647-366-9495</a>
+      <a href="mailto:info@coverandprotect.ca" class="btn out">Email<span class="lbl">Cover &amp; Protect</span></a>
+      <a href="tel:6473669495" class="btn out">Call<span class="lbl">647-366-9495</span></a>
       <a href="#quote" class="btn gold">Free Quote</a>
     </nav>
   </div>
