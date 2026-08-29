@@ -18,7 +18,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - Website: https://coverandprotect.ca/
 - Consultation: free and without obligation
 - Business model: independent comparison and advice; not tied to one insurer
-- Purchase options: straightforward travel insurance policies can be bought directly online through insurer application portals linked from the site (e.g. TuGo, TruStone Health) at the same premium as buying direct from the insurer; complex cases (pre-existing conditions, long stays, family or business coverage) are typically compared with the advisor first, at no cost
+- Purchase options: straightforward travel insurance policies can be bought directly online through insurer application portals linked from the site (e.g. TuGo, TruStone Health) at the same premium as buying direct from the insurer; Visitor to Canada and Super Visa coverage can also be quoted on the site itself through the 21st Century quoting tool, where the advisor reviews the quote and issues a secure payment link; complex cases (pre-existing conditions, long stays, family or business coverage) are typically compared with the advisor first, at no cost
 - Primary language: English
 
 ## Primary entity and trust pages
@@ -37,6 +37,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [Snowbird Travel Insurance](https://coverandprotect.ca/snowbird-travel-insurance.html): Long-stay and annual multi-trip coverage for Ontario retirees wintering in Florida, Arizona, or Texas, plus a direct buy-online path.
 - [Annual Multi-Trip Travel Insurance](https://coverandprotect.ca/annual-multi-trip-travel-insurance.html): One policy covering unlimited trips within a per-trip day limit, for frequent leisure and business travellers, plus a direct buy-online path.
 - [Buy Insurance Online](https://coverandprotect.ca/buy-online.html): Central page listing the secure insurer portals for buying Super Visa, visitor to Canada, and travel medical insurance online, with guidance on choosing between the plans and when to speak to the advisor first.
+- [Instant Visitor to Canada Quote](https://coverandprotect.ca/instant-quote.html): Self-serve quoting tool hosted on the Cover & Protect site and powered by 21st Century Travel Insurance; visitors compare plans, coverage limits and deductibles for Visitor to Canada and Super Visa coverage, then the licensed advisor reviews the quote and sends a secure payment link. Policies cannot be bought directly from the insurer without the advisor.
 - [Individual Health Insurance](https://coverandprotect.ca/health-insurance.html): Health and dental plans for individuals, families, and self-employed people.
 - [Group Benefits](https://coverandprotect.ca/group-benefits.html): Health, dental, disability, and life benefits for Ontario employers.
 - [Critical Illness Insurance](https://coverandprotect.ca/critical-illness.html): Lump-sum protection following a covered critical illness diagnosis.
