@@ -39,6 +39,8 @@
     .api-wrap{padding:6px;border-radius:14px}
     .api-frame{height:calc(100vh - 150px);min-height:600px}
   }
+  .api-note{font-size:.9rem;color:var(--text-muted);border-left:3px solid var(--gold);
+    padding:2px 0 2px 14px;margin:-6px 0 18px}
   .api-fallback{font-size:.84rem;color:var(--text-muted);margin-top:14px;text-align:center}
   /* the tool is a Blazor app holding a live connection: if that drops it freezes
      until reloaded, and a visitor cannot reload a frame on its own */
@@ -90,7 +92,8 @@
   <div class="wrap">
     <p class="eyebrow">Live quoting</p>
     <h2>Visitor to Canada &amp; Super Visa quotes</h2>
-    <p>Enter the traveller's details and you'll see every plan, coverage limit and deductible with current pricing. Plan summaries and full policy wordings are available inside the tool. Already have a quote from us? Choose <strong>Review Agent's Quote</strong> and enter the password from your email.</p>
+    <p>Scroll down inside the tool and press <strong>Start New Quote</strong> under Visitor to Canada &amp; Super Visa. You'll see every plan, coverage limit and deductible with current pricing, plus plan summaries and the full policy wordings. Already have a quote from us? Choose <strong>Review Agent's Quote</strong> and enter the password from your email instead.</p>
+    <p class="api-note">The <strong>Agent Login</strong> button inside the tool is ours, not yours — you don't need an account, a code or a password to get a quote.</p>
 
     <div class="api-wrap">
       <iframe class="api-frame"
