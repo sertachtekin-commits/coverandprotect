@@ -51,9 +51,11 @@ Everything lives at the repository root (flat structure):
 | `blog-term-vs-whole-life.html` | Blog article (term vs whole life insurance) |
 | `blog-how-much-life-insurance.html` | Blog article (life insurance needs / coverage amount) |
 | `blog.html` | Blog index / hub page listing all `blog-*.html` articles |
+| `buy-online.html` | Buy-online hub — every self-serve purchase path in one place |
+| `app.html` | Installable buy-online app (the PWA start page) |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
-| `manifest.json` | PWA web app manifest (calculator installable as an app) |
+| `manifest.json` | PWA web app manifest (the buy-online app; start URL is `app.html`) |
 | `sw.js` | PWA service worker — offline caching; bump `CACHE_VERSION` when precached assets change |
 | `blog.css` | Shared stylesheet for all `blog-*.html` articles |
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
@@ -63,6 +65,7 @@ Everything lives at the repository root (flat structure):
 | `googledb2fcfa7efcf42c9.html` | Google Search Console HTML-file verification token (leave as-is) |
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
+| `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
 | `images/` | All image assets (hero images, illustrations) |
 
 `_site/` (the Jekyll build output) is git-ignored — never commit it; GitHub Pages
@@ -162,6 +165,27 @@ homepage footer and each article's nav ("All Guides").
   internal links for discovery and SEO. Blog posts cross-link each other and link
   to the matching service page's quote form.
 
+### The buy-online path (mobile buy bar)
+Every content page carries a fixed bottom action bar on phones, so the purchase
+path is always one tap away. There are **two implementations, and a page must
+never have both**:
+
+- **`.sticky-call`** — hand-written into `super-visa-insurance-ontario.html`,
+  `visitor-insurance-canada.html`, `travel-insurance.html` and
+  `travel-insurance-calculator.html`, using each page's own CSS variables.
+- **`{% include buy-bar.html %}`** — the shared, self-styled bar (prefixed
+  `cp-buybar-*`) for every other page, dropped in just before `</body>`. It
+  carries its own `<style>` so it works on pages with unrelated CSS, reserves
+  `padding-bottom` on `<body>` so it never covers the footer links, and hides
+  itself on desktop and inside the installed app.
+
+When adding a page, include `buy-bar.html` unless you are hand-writing a
+`.sticky-call` bar. Legal pages (`privacy-policy.html`, `terms.html`),
+`thankyou.html` and `app.html` deliberately have neither.
+
+Every page should also reach `buy-online.html` through its nav or footer — that
+hub is what routes organic blog traffic to a purchase.
+
 ### Brand / business facts (keep consistent everywhere)
 - Business: **Cover & Protect**, advisor **Sertac Tekin**, Toronto, Ontario.
 - Regulator: **FSRA Licence #10112782** (shown in disclaimers/forms).
@@ -176,17 +200,41 @@ homepage footer and each article's nav ("All Guides").
 - Tone: professional, trust-focused, compliance-aware (FSRA Licensed · PIPEDA
   Compliant).
 
-## PWA (installable calculator)
+## PWA (the installable buy-online app)
 
-`travel-insurance-calculator.html` is installable as a Progressive Web App:
-`manifest.json` (start URL is the calculator; scope is the whole site) plus
-`sw.js`, registered from the calculator page. App icons live in `images/`
-(`icon-192.png`, `icon-512.png`, `icon-maskable-512.png`,
-`apple-touch-icon.png`), generated in the brand style. The service worker is
-network-first for page navigations (deploys show immediately) and cache-first
-for static assets, same-origin GET only — it never touches Formspree posts or
-analytics. If you change what the calculator page loads, update `PRECACHE` in
-`sw.js` and bump its `CACHE_VERSION` so installed clients refresh.
+`app.html` is the installable Progressive Web App, and its only job is getting
+someone from "I need coverage" to a paid policy. It asks two questions — who the
+coverage is for, and whether there are pre-existing conditions — and returns the
+single matching insurer plan with an apply-and-pay button, instead of making the
+visitor choose from the eight options listed on `buy-online.html`.
+
+The "not sure" answer deliberately leads to a phone call rather than a checkout:
+guessing on the medical questions is the most common reason a large claim is
+denied, so that path must never be turned into a direct purchase link.
+
+**Keep the plan matrix in sync.** The `MATCH` table in `app.html` mirrors the
+provider list on `buy-online.html`. If a TruStone plan code changes in one place,
+change it in the other.
+
+`manifest.json` sets the app name, `start_url` (`/app.html?source=pwa`), scope
+(the whole site) and three launcher shortcuts (buy online, calculator, instant
+quote). Its `id` is deliberately still `/travel-insurance-calculator.html`: that
+was the app's identity when the PWA was the calculator, and changing `id` would
+orphan every existing install as a separate app rather than upgrading it. Leave
+it alone. App icons live in `images/` (`icon-192.png`, `icon-512.png`,
+`icon-maskable-512.png`, `apple-touch-icon.png`), generated in the brand style.
+
+`sw.js` is registered from `app.html`, `buy-online.html` and
+`travel-insurance-calculator.html`. It is network-first for page navigations
+(deploys show immediately) and cache-first for static assets, same-origin GET
+only — it never touches Formspree posts, insurer checkout portals or analytics.
+Precache entries are added one at a time, so a single bad URL cannot abort the
+install and leave the app with no offline support. If you change what the app
+loads, update `PRECACHE` in `sw.js` and bump its `CACHE_VERSION` so installed
+clients refresh.
+
+Because the installed app now opens `app.html`, the install copy on the
+calculator page promotes the app rather than the calculator. Keep it that way.
 
 ## Forms and lead capture
 
@@ -226,8 +274,20 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
   owner's lead email shows which campaign/click produced the lead — this ad-click
   metadata goes only into that lead email, never to analytics.
 - Auto-fires events: `phone_click`, `email_click`, `whatsapp_click`,
-  `truestone_click` (TruStone Health application links), `tugo_click` (TuGo online
-  store / B2C links), `form_start`, `campaign_landing`, and `generate_lead`.
+  `booking_click`, `truestone_click` (TruStone Health application links),
+  `tugo_click` (TuGo online store / B2C links), `form_start`, `campaign_landing`,
+  and `generate_lead`.
+- **Online-purchase funnel.** `select_item` fires when a visitor moves toward
+  buying somewhere on our own site (the buy-online hub, the app, the instant
+  quote, the calculator). `begin_checkout` fires when they open an insurer's own
+  application and payment portal — TruStone, the TuGo store, or the 21st Century
+  quote API — which is the closest signal the site has to a real purchase. Both
+  are deduplicated per link per page view. A link can opt in explicitly with
+  `data-buy-step="checkout"` and `data-provider="…"`. **Mark `begin_checkout` as
+  a conversion in GA4 alongside `generate_lead`** so Google Ads can bid toward
+  people who buy, not only people who fill in a form.
+- `app.html` additionally sends `app_step`, `app_plan_matched`,
+  `app_install_prompt`, `app_install_choice` and `app_installed`.
 - `generate_lead` is the conversion — fired on a successful Formspree `fetch`
   response and on the `thankyou.html?lead=1` page (guarded against
   refresh/back-navigation double-counting via a `sessionStorage` flag). **Mark
@@ -237,7 +297,7 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 - **Privacy:** only engagement metadata is sent to GA4 — never form field values
   or contact details. Preserve this; do not add code that sends PII to analytics.
 
-The script is included with a cache-busting query (`tracking.js?v=6`). **If you
+The script is included with a cache-busting query (`tracking.js?v=9`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
 clients fetch the new file.
 

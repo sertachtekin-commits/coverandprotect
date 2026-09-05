@@ -1193,7 +1193,7 @@
 @media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
 @media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open,.cpbot-typing span{transition:none;animation:none;}}
 </style>
-<script src="tracking.js?v=8" defer></script>
+<script src="tracking.js?v=9" defer></script>
 </head>
 <body>
 <!-- MOBILE MENU -->
@@ -1211,6 +1211,7 @@
   <a href="long-term-care.html" onclick="closeMobileMenu()">Long-Term Care</a>
   <a href="savings-plans.html" onclick="closeMobileMenu()">RESP & RRSP</a>
   <a href="buy-online.html" onclick="closeMobileMenu()">Buy Online</a>
+  <a href="app.html" onclick="closeMobileMenu()">Buy-Online App</a>
   <a href="#quote" class="mob-cta" onclick="closeMobileMenu()">Get a Free Quote</a>
 </div>
 
@@ -1779,6 +1780,8 @@
     </div>
   </div>
   <div style="margin:14px 0;font-size:0.9rem;line-height:2;">
+    <a href="buy-online.html" style="color:#e5b657;text-decoration:none;font-weight:700;">⚡ Buy Insurance Online — Super Visa, Visitor &amp; Travel Plans</a><br>
+    <a href="app.html" style="color:#e5b657;text-decoration:none;font-weight:700;">📱 Buy-Online App — Install It On Your Phone</a><br>
     <a href="travel-insurance-calculator.html" style="color:#e5b657;text-decoration:none;font-weight:600;">🧮 Travel Insurance Cost Calculator — Super Visa, Visitor &amp; Trips Abroad</a><br>
     <a href="super-visa-insurance-ontario.html" style="color:#e5b657;text-decoration:none;font-weight:600;">🛡️ Super Visa Insurance Ontario — Quotes for Parents &amp; Grandparents</a><br>
     <a href="visitor-insurance-canada.html" style="color:#e5b657;text-decoration:none;font-weight:600;">🛡️ Visitor to Canada Insurance — Emergency Medical Coverage</a><br>
@@ -2175,5 +2178,6 @@ document.addEventListener('keydown', function(e) {
 })();
 </script>
 <div class="cp-policy-links" style="background:#071323;color:#d6deea;text-align:center;padding:14px 20px;font-size:.8rem"><a href="/privacy-policy.html" style="color:#e5b657">Privacy Policy</a> · <a href="/terms.html" style="color:#e5b657">Terms &amp; Insurance Disclaimer</a></div>
+{% include buy-bar.html %}
 </body>
 </html>

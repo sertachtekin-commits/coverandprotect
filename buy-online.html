@@ -12,6 +12,9 @@
 <meta name="robots" content="index, follow">
 <meta name="geo.region" content="CA-ON">
 <meta name="geo.placename" content="Toronto, Ontario">
+<meta name="theme-color" content="#0a1628">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="canonical" href="https://coverandprotect.ca/buy-online.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://coverandprotect.ca/buy-online.html">
@@ -26,6 +29,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="travel-landing.css">
+<style>
+  /* Buy-online app promo. Self-styled under the cp-appcard-* prefix so it does
+     not depend on, or collide with, travel-landing.css. */
+  .cp-appcard {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: rgba(20,168,167,0.10);
+    border: 1px solid rgba(20,168,167,0.32);
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 18px;
+  }
+  .cp-appcard-badge {
+    flex: none; width: 46px; height: 46px; border-radius: 12px;
+    background: linear-gradient(160deg, #0a1628, #0d1f3c);
+    border: 1px solid rgba(201,151,58,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900; font-size: 1rem; color: #ffffff;
+  }
+  .cp-appcard-badge span { color: #e5b657; }
+  .cp-appcard-text { flex: 1 1 220px; min-width: 0; line-height: 1.4; }
+  .cp-appcard-text strong { display: block; font-size: .98rem; }
+  .cp-appcard-text span { display: block; font-size: .84rem; opacity: .82; margin-top: 2px; }
+  .cp-appcard-btn {
+    flex: none; display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 20px; border-radius: 9px; min-height: 44px;
+    background: #0e7c7b; color: #ffffff; font-weight: 700;
+    font-size: .9rem; text-decoration: none; white-space: nowrap;
+  }
+  .cp-appcard-btn:hover { background: #14a8a7; }
+  @media (max-width: 520px) { .cp-appcard-btn { width: 100%; } }
+</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","@id":"https://coverandprotect.ca/buy-online.html#service","name":"Buy Insurance Online","serviceType":"Online purchase of Super Visa, visitor and travel medical insurance","description":"Secure online application and purchase links for Super Visa insurance, visitor to Canada insurance and travel medical insurance for Canadians, offered through Cover & Protect, an Ontario-licensed independent insurance advisory.","provider":{"@type":"InsuranceAgency","@id":"https://coverandprotect.ca/#business","name":"Cover & Protect","url":"https://coverandprotect.ca/","telephone":"+16473669495","email":"contact@coverandprotect.ca","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.facebook.com/share/1HAGzGYSun/","https://www.instagram.com/coverandprotect.ca"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"15","bestRating":"5"}},"areaServed":[{"@type":"AdministrativeArea","name":"Ontario"},{"@type":"City","name":"Toronto"}],"availableChannel":{"@type":"ServiceChannel","serviceUrl":"https://coverandprotect.ca/buy-online.html","availableLanguage":["en","tr"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I buy Super Visa insurance online?","acceptedAnswer":{"@type":"Answer","text":"Yes. Super Visa applicants can apply online through the secure insurer portals on this page and receive confirmation of insurance by email, usually within minutes. The policy must meet IRCC requirements — at least $100,000 in emergency medical coverage from a Canadian insurer, valid for one year from entry."}},{"@type":"Question","name":"Is it cheaper to buy insurance online than through an advisor?","acceptedAnswer":{"@type":"Answer","text":"No. The insurer sets the premium, so the price is the same whether you buy online yourself or have a licensed advisor arrange it. The only difference is how much help you get comparing the wording."}},{"@type":"Question","name":"How quickly do I get my policy documents?","acceptedAnswer":{"@type":"Answer","text":"Online applications normally issue confirmation of insurance and full policy documents by email immediately after payment. Check your junk folder if the email has not arrived within a few minutes."}},{"@type":"Question","name":"Should I buy online if I have pre-existing medical conditions?","acceptedAnswer":{"@type":"Answer","text":"You can, but it is worth a phone call first. Stability periods differ between insurers and an inaccurate answer on the medical questions is the single most common reason a large claim is denied. Advice costs nothing and the premium is identical."}},{"@type":"Question","name":"Can I pay monthly instead of all at once?","acceptedAnswer":{"@type":"Answer","text":"Some plans offer monthly installments rather than a single up-front premium. Availability depends on the insurer, the plan and the length of coverage, and is shown during the online application."}},{"@type":"Question","name":"Is the online application secure?","acceptedAnswer":{"@type":"Answer","text":"Yes. The application and payment happen on the insurer's own secure portal, not on this website. Cover & Protect never sees or stores your card details, and your answers to the medical questions are not sent to analytics."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://coverandprotect.ca/"},{"@type":"ListItem","position":2,"name":"Buy Online","item":"https://coverandprotect.ca/buy-online.html"}]}</script>
@@ -93,6 +126,15 @@
     <p class="eyebrow">Buy online</p>
     <h2>Secure application portals</h2>
     <p>The first option quotes and applies right here on our site; the rest are live insurer portals that open in a new window. Either way the application and payment happen on the insurer's own secure page — choose the option matching your situation, and if you are not sure which applies, <a href="#quote">ask us first</a> rather than guessing on the medical questions.</p>
+
+    <div class="cp-appcard">
+      <div class="cp-appcard-badge" aria-hidden="true">C<span>&amp;</span>P</div>
+      <div class="cp-appcard-text">
+        <strong>Not sure which of these applies to you?</strong>
+        <span>The app asks two questions and takes you straight to the one plan that matches &mdash; no reading the list below.</span>
+      </div>
+      <a class="cp-appcard-btn" href="app.html">Open the app &rarr;</a>
+    </div>
 
     <div class="providers">
       <a class="prov" href="instant-quote.html">
@@ -286,6 +328,7 @@
       </div>
       <div>
         <strong style="color:#fff;display:block;margin-bottom:8px">Buy online</strong>
+        <div><a href="app.html">Buy-online app</a></div>
         <div><a href="super-visa-insurance-ontario.html">Super Visa</a></div>
         <div><a href="visitor-insurance-canada.html">Visitor to Canada</a></div>
         <div><a href="travel-insurance.html">Travel insurance</a></div>
@@ -308,6 +351,17 @@
   </div>
 </footer>
 
-<script src="tracking.js?v=8" defer></script>
+<script src="tracking.js?v=9" defer></script>
+<script>
+  /* Same service worker as app.html — registering it here means a visitor who
+     lands on the Buy Online hub first still gets the offline cache and the
+     browser's install prompt. */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").catch(function () {});
+    });
+  }
+</script>
+{% include buy-bar.html %}
 </body>
 </html>

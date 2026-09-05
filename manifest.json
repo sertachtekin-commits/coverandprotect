@@ -1,16 +1,40 @@
 {
-  "name": "Cover & Protect Insurance Calculator",
-  "short_name": "C&P Calculator",
-  "description": "Estimate Super Visa, visitor-to-Canada and travel insurance premiums in seconds, then request an exact quote from an FSRA-licensed Ontario advisor.",
+  "name": "Cover & Protect — Buy Insurance Online",
+  "short_name": "Buy Insurance",
+  "description": "Answer two questions, get the Super Visa, visitor or travel plan that matches, and buy it on the insurer's secure portal in minutes. From Cover & Protect, an FSRA-licensed Ontario insurance advisory.",
   "id": "/travel-insurance-calculator.html",
-  "start_url": "/travel-insurance-calculator.html?source=pwa",
+  "start_url": "/app.html?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0a1628",
   "theme_color": "#0a1628",
   "lang": "en-CA",
-  "categories": ["finance", "utilities"],
+  "dir": "ltr",
+  "categories": ["finance", "business", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Buy insurance online",
+      "short_name": "Buy online",
+      "description": "Pick the matching plan and open the insurer's secure checkout",
+      "url": "/app.html?source=pwa_shortcut",
+      "icons": [{ "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Estimate the premium",
+      "short_name": "Calculator",
+      "description": "Estimate Super Visa, visitor and travel insurance costs",
+      "url": "/travel-insurance-calculator.html?source=pwa_shortcut",
+      "icons": [{ "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Instant quote",
+      "short_name": "Quote",
+      "description": "Price every visitor plan yourself without leaving the site",
+      "url": "/instant-quote.html?source=pwa_shortcut",
+      "icons": [{ "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
   "icons": [
     { "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
