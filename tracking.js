@@ -176,11 +176,16 @@
       checkoutProvider = "TruStone Health";
     } else if (/tugo\.com/i.test(href) || link.dataset.tugoStore) {
       checkoutProvider = "TuGo";
-    } else if (/21stcenturytips\.com/i.test(href)) {
-      checkoutProvider = "21st Century";
     } else if (link.dataset.buyStep === "checkout") {
       checkoutProvider = link.dataset.provider || "insurer portal";
     }
+
+    // 21st Century is deliberately NOT begin_checkout. That tool prices the
+    // coverage and submits a request; the advisor then reviews it and the
+    // insurer emails a secure payment link, so no purchase happens in the
+    // session. Counting it as a checkout would train Google Ads bidding on a
+    // softer signal than TruStone and TuGo, where the visitor actually pays.
+    var isQuoteStart = /21stcenturytips\.com/i.test(href) || link.dataset.buyStep === "quote";
 
     if (checkoutProvider) {
       once("checkout-" + href, "begin_checkout", Object.assign({}, details, {
@@ -189,13 +194,24 @@
         application_type: link.dataset.applicationType || "online_application",
         buy_channel: "online_self_serve"
       }));
-    } else if (/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i.test(href) &&
-               !/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i.test(window.location.pathname)) {
-      var stepMatch = href.match(/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i);
-      once("select-" + href, "select_item", Object.assign({}, details, {
-        item_list_name: stepMatch ? stepMatch[1] : "",
-        buy_channel: "online_self_serve"
+    } else if (isQuoteStart) {
+      once("quote-" + href, "quote_start", Object.assign({}, details, {
+        provider: link.dataset.provider || "21st Century",
+        application_type: "advisor_reviewed_quote",
+        buy_channel: "online_quote_then_payment_link"
       }));
+    } else {
+      // Moving toward a buy path elsewhere on our own site. Compare against the
+      // current path rather than the whole set of buy pages, so a real step
+      // between them — the app sending someone to the instant quote, say —
+      // still counts instead of being swallowed as same-page noise.
+      var stepMatch = href.match(/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i);
+      if (stepMatch && stepMatch[0].toLowerCase() !== window.location.pathname.toLowerCase()) {
+        once("select-" + href, "select_item", Object.assign({}, details, {
+          item_list_name: stepMatch[1],
+          buy_channel: "online_self_serve"
+        }));
+      }
     }
   }, true);
 
