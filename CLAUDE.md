@@ -216,6 +216,15 @@ denied, so that path must never be turned into a direct purchase link.
 provider list on `buy-online.html`. If a TruStone plan code changes in one place,
 change it in the other.
 
+The visitor branch also offers **21st Century** (`instant-quote.html`), for
+monthly payments, up to six travellers on one quote, and Pending-status policies
+that can be filed with a Super Visa application. It is styled as a plain
+secondary link, never as an apply-and-pay button, because that flow ends in an
+emailed payment link rather than a completed purchase — two buttons that look
+alike but behave differently is how someone ends up believing they are covered
+before the premium is paid. It is absent from the outbound branch on purpose:
+the insurer covers visitors to Canada only, with outbound due in 2026.
+
 `manifest.json` sets the app name, `start_url` (`/app.html?source=pwa`), scope
 (the whole site) and three launcher shortcuts (buy online, calculator, instant
 quote). Its `id` is deliberately still `/travel-insurance-calculator.html`: that
@@ -277,15 +286,25 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
   `booking_click`, `truestone_click` (TruStone Health application links),
   `tugo_click` (TuGo online store / B2C links), `form_start`, `campaign_landing`,
   and `generate_lead`.
-- **Online-purchase funnel.** `select_item` fires when a visitor moves toward
-  buying somewhere on our own site (the buy-online hub, the app, the instant
-  quote, the calculator). `begin_checkout` fires when they open an insurer's own
-  application and payment portal — TruStone, the TuGo store, or the 21st Century
-  quote API — which is the closest signal the site has to a real purchase. Both
-  are deduplicated per link per page view. A link can opt in explicitly with
-  `data-buy-step="checkout"` and `data-provider="…"`. **Mark `begin_checkout` as
-  a conversion in GA4 alongside `generate_lead`** so Google Ads can bid toward
-  people who buy, not only people who fill in a form.
+- **Online-purchase funnel**, three tiers, all deduplicated per link per page
+  view:
+  - `select_item` — moving toward a buy path elsewhere on our own site (the
+    hub, the app, the instant quote, the calculator). The target is compared
+    against the *current* path, so a real step between two buy pages still
+    counts.
+  - `quote_start` — opening the 21st Century quote tool. That flow prices the
+    coverage and submits a request; the advisor reviews it and the insurer
+    emails a secure payment link, so **no purchase happens in the session**.
+    Opt in with `data-buy-step="quote"`.
+  - `begin_checkout` — opening an insurer's own application *and payment*
+    portal (TruStone, the TuGo store), where the visitor actually pays. Opt in
+    with `data-buy-step="checkout"` and `data-provider="…"`.
+
+  Keep 21st Century out of `begin_checkout`. Counting a quote request as a
+  checkout trains Google Ads bidding on a softer signal than the portals where
+  money changes hands. **Mark `begin_checkout` as a conversion in GA4 alongside
+  `generate_lead`** so Ads bids toward people who buy, not only people who fill
+  in a form.
 - `app.html` additionally sends `app_step`, `app_plan_matched`,
   `app_install_prompt`, `app_install_choice` and `app_installed`.
 - `generate_lead` is the conversion — fired on a successful Formspree `fetch`
@@ -297,7 +316,7 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 - **Privacy:** only engagement metadata is sent to GA4 — never form field values
   or contact details. Preserve this; do not add code that sends PII to analytics.
 
-The script is included with a cache-busting query (`tracking.js?v=9`). **If you
+The script is included with a cache-busting query (`tracking.js?v=10`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
 clients fetch the new file.
 

@@ -339,7 +339,7 @@
   </div>
 </footer>
 
-<script src="tracking.js?v=9" defer></script>
+<script src="tracking.js?v=10" defer></script>
 <script>
 (function () {
   "use strict";
@@ -450,6 +450,24 @@
       if (m.valueCode) {
         html += '<div class="alt"><h4>Cheaper option</h4><p>' + m.valueNote + '</p>' +
           applyButton(m.valueCode, "Apply &mdash; Value plan &rarr;") + '</div>';
+      }
+
+      if (state.who === "visitor") {
+        // 21st Century covers visitors to Canada only (outbound is due from the
+        // insurer in 2026), and it does not complete a purchase in one sitting:
+        // you price it, we review it, then the insurer's secure payment link is
+        // emailed to you. Kept visually distinct from the apply-and-pay buttons
+        // above for exactly that reason — same-looking buttons that behave
+        // differently is how people end up thinking they are covered when the
+        // premium has not been paid.
+        html += '<div class="alt"><h4>Monthly payments, or a policy for the visa application</h4>' +
+          '<p>Price every 21st Century plan yourself, without leaving our site. Worth using when you want to ' +
+          'pay monthly rather than all at once, cover up to six travellers on one quote, or need a policy issued ' +
+          'in <strong>Pending</strong> status so the confirmation can be filed with a Super Visa application before arrival. ' +
+          'You price it, we check it with you, then the insurer emails a secure payment link &mdash; you are not ' +
+          'covered until that premium is paid.</p>' +
+          '<a class="btn btn-out" href="instant-quote.html" data-buy-step="quote" data-provider="21st Century">' +
+          'Price it yourself &rarr;</a></div>';
       }
 
       html += '<div class="alt"><h4>Compare more plans</h4>' +
