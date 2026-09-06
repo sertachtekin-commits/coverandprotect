@@ -1,0 +1,56 @@
+<!--
+  Shared mobile buy bar: call · buy online · instant quote.
+  Self-styled under the cp-buybar-* prefix so it can drop into any page
+  regardless of that page's CSS, and it never collides with the hand-written
+  .sticky-call bar on the travel / Super Visa / visitor / calculator pages —
+  those four pages keep their own bar and must NOT also include this one.
+  Sits at z-index 120, below the mobile menus (z-index 150), so an open menu
+  still covers it. Hidden on desktop and when the PWA is running standalone,
+  where app.html already provides the buy path.
+  tracking.js fires phone_click and begin_checkout for these links.
+-->
+<style>
+  .cp-buybar { display: none; }
+  @media (max-width: 900px) {
+    .cp-buybar {
+      display: flex;
+      position: fixed; bottom: 12px; left: 12px; right: 12px;
+      z-index: 120; gap: 6px;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .cp-buybar a {
+      flex: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 12px 4px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700; font-size: 0.8rem; white-space: nowrap;
+      line-height: 1.2;
+    }
+    .cp-buybar .cp-buybar-call,
+    .cp-buybar .cp-buybar-quote {
+      background: rgba(10,22,40,0.92);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+    .cp-buybar .cp-buybar-call { border: 1px solid rgba(255,255,255,0.28); color: #ffffff; }
+    .cp-buybar .cp-buybar-quote { border: 1px solid rgba(255,255,255,0.28); color: #ffffff; }
+    .cp-buybar .cp-buybar-buy { background: #c9973a; color: #0a1628; border: 1px solid #c9973a; }
+    /* leave room for the bar so it never covers the policy links */
+    body { padding-bottom: 82px; }
+  }
+  @media (max-width: 360px) {
+    .cp-buybar { flex-wrap: wrap; }
+    .cp-buybar a { flex: 1 1 46%; }
+    body { padding-bottom: 134px; }
+  }
+  @media (display-mode: standalone) {
+    .cp-buybar { display: none !important; }
+    body { padding-bottom: 0; }
+  }
+</style>
+<div class="cp-buybar">
+  <a class="cp-buybar-call" href="tel:6473669495">Call</a>
+  <a class="cp-buybar-buy" href="/buy-online.html">Buy Online</a>
+  <a class="cp-buybar-quote" href="/instant-quote.html">Get a Quote</a>
+</div>

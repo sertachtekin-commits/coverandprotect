@@ -1,24 +1,31 @@
 /* Cover & Protect service worker.
- * Registered from travel-insurance-calculator.html (scope "/") so the
- * calculator works offline once visited. Navigations are network-first so
- * fresh deploys show immediately; the cached calculator page is the offline
- * fallback. Only same-origin GET requests are ever cached — Formspree posts,
- * analytics and fonts pass straight through to the network.
+ * Registered from app.html and travel-insurance-calculator.html (scope "/") so
+ * the buy-online app and the calculator work offline once visited. Navigations
+ * are network-first so fresh deploys show immediately; the cached app page is
+ * the offline fallback. Only same-origin GET requests are ever cached —
+ * Formspree posts, insurer checkout portals, analytics and fonts pass straight
+ * through to the network.
  * Bump CACHE_VERSION when precached assets change. */
-var CACHE_VERSION = "cp-pwa-v9";
+var CACHE_VERSION = "cp-pwa-v10";
 var PRECACHE = [
+  "/app.html",
+  "/buy-online.html",
   "/travel-insurance-calculator.html",
-  "/tracking.js?v=8",
+  "/tracking.js?v=9",
   "/manifest.json",
   "/images/icon-192.png",
   "/images/icon-512.png"
 ];
-var OFFLINE_FALLBACK = "/travel-insurance-calculator.html";
+var OFFLINE_FALLBACK = "/app.html";
 
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE_VERSION).then(function (cache) {
-      return cache.addAll(PRECACHE);
+      // Cached one at a time: addAll rejects the whole install if a single URL
+      // fails, which would leave the app with no offline support at all.
+      return Promise.all(PRECACHE.map(function (url) {
+        return cache.add(url)["catch"](function () {});
+      }));
     }).then(function () { return self.skipWaiting(); })
   );
 });

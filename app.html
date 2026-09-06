@@ -1,0 +1,581 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+{% include analytics.html %}
+<title>Buy Insurance App | Cover &amp; Protect</title>
+<meta name="description" content="The Cover &amp; Protect buy-online app. Answer two questions, get the right Super Visa, visitor or travel plan, and buy it on the insurer's secure portal in minutes. Install it on your phone.">
+<meta name="keywords" content="buy insurance app Canada, super visa insurance app, visitor insurance app Ontario, travel insurance app Toronto, buy travel insurance online app">
+<meta name="robots" content="index, follow">
+<meta name="geo.region" content="CA-ON">
+<meta name="geo.placename" content="Toronto, Ontario">
+<meta name="theme-color" content="#0a1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Buy Insurance">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="canonical" href="https://coverandprotect.ca/app.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://coverandprotect.ca/app.html">
+<meta property="og:title" content="Buy Insurance App | Cover &amp; Protect">
+<meta property="og:description" content="Two questions, the right plan, and a secure checkout. Install the Cover &amp; Protect buy-online app on your phone.">
+<meta property="og:site_name" content="Cover &amp; Protect">
+<meta property="og:locale" content="en_CA">
+<meta property="og:image" content="https://coverandprotect.ca/images/hero-travel.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://coverandprotect.ca/images/hero-travel.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","@id":"https://coverandprotect.ca/app.html#app","name":"Cover & Protect — Buy Insurance","url":"https://coverandprotect.ca/app.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires a modern web browser","description":"Guided buy-online app for Super Visa, visitor to Canada and travel medical insurance. Answer two questions to reach the matching plan, then apply and pay on the insurer's secure portal.","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD","description":"The app is free to use; insurance premiums are set by each insurer."},"publisher":{"@type":"InsuranceAgency","@id":"https://coverandprotect.ca/#business","name":"Cover & Protect","url":"https://coverandprotect.ca/","telephone":"+16473669495","email":"contact@coverandprotect.ca","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.facebook.com/share/1HAGzGYSun/","https://www.instagram.com/coverandprotect.ca"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://coverandprotect.ca/"},{"@type":"ListItem","position":2,"name":"Buy Online","item":"https://coverandprotect.ca/buy-online.html"},{"@type":"ListItem","position":3,"name":"Buy Insurance App","item":"https://coverandprotect.ca/app.html"}]}</script>
+<style>
+  :root {
+    --navy: #0a1628;   --deep: #0d1f3c;
+    --teal: #0e7c7b;   --teal-light: #14a8a7;
+    --gold: #c9973a;   --gold-light: #e5b657;
+    --cream: #f5f0e8;  --white: #ffffff;
+    --text-muted: #8a9ab5;
+    --border: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  a { color: var(--gold-light); }
+  .shell { width: 100%; max-width: 560px; margin: 0 auto; padding: 0 18px; }
+
+  /* ---- App bar ---- */
+  .appbar {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(10,22,40,0.95);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding-top: env(safe-area-inset-top);
+  }
+  .appbar .row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    /* Only the vertical padding here — the padding shorthand would override
+       .shell's 18px horizontal inset and push the logo to the screen edge. */
+    padding-top: 14px; padding-bottom: 14px;
+  }
+  .logo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem; font-weight: 700; color: var(--white);
+    text-decoration: none; letter-spacing: .2px;
+  }
+  .logo span { color: var(--gold); }
+  .lic {
+    font-size: .68rem; color: var(--text-muted); text-align: right;
+    line-height: 1.35; letter-spacing: .2px;
+  }
+
+  /* ---- Intro ---- */
+  .intro { padding: 26px 0 6px; }
+  .intro h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.75rem; line-height: 1.2; margin: 0 0 10px; font-weight: 700;
+  }
+  .intro h1 em { color: var(--gold-light); font-style: italic; }
+  .intro p { margin: 0; color: #c8d3e4; font-size: .96rem; }
+
+  /* ---- Steps ---- */
+  .step { padding: 22px 0 4px; }
+  .step[hidden] { display: none; }
+  .steplabel {
+    display: inline-block; font-size: .7rem; font-weight: 700;
+    letter-spacing: 1.4px; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 8px;
+  }
+  .step h2 {
+    font-size: 1.18rem; margin: 0 0 4px; font-weight: 700; line-height: 1.35;
+  }
+  .step .hint { color: var(--text-muted); font-size: .86rem; margin: 0 0 16px; }
+
+  .choices { display: grid; gap: 10px; }
+  .choice {
+    display: flex; align-items: center; gap: 14px; width: 100%;
+    text-align: left; cursor: pointer;
+    background: var(--deep); color: var(--white);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; font: inherit;
+    transition: border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .choice:hover, .choice:focus-visible { border-color: var(--gold); background: #12294b; }
+  .choice:active { transform: scale(.99); }
+  .choice[aria-pressed="true"] { border-color: var(--gold); background: #12294b; }
+  .choice .ico { font-size: 1.5rem; line-height: 1; flex: 0 0 auto; }
+  .choice .t { font-weight: 700; font-size: .98rem; display: block; }
+  .choice .s { color: var(--text-muted); font-size: .82rem; display: block; margin-top: 2px; }
+
+  .back {
+    background: none; border: 0; color: var(--text-muted);
+    font: inherit; font-size: .85rem; cursor: pointer;
+    padding: 10px 0; margin-top: 4px;
+  }
+  .back:hover { color: var(--white); }
+
+  /* ---- Result ---- */
+  .result { padding: 20px 0 6px; }
+  .result[hidden] { display: none; }
+  .pick {
+    background: linear-gradient(160deg, #12294b 0%, var(--deep) 100%);
+    border: 1px solid rgba(201,151,58,0.45); border-radius: 14px;
+    padding: 20px; margin-bottom: 14px;
+  }
+  .pick .tag {
+    display: inline-block; font-size: .68rem; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--navy); background: var(--gold-light);
+    border-radius: 999px; padding: 4px 11px; margin-bottom: 10px;
+  }
+  .pick h3 { margin: 0 0 6px; font-size: 1.1rem; line-height: 1.35; }
+  .pick p { margin: 0 0 14px; color: #c8d3e4; font-size: .9rem; }
+  .pick .plancode {
+    font-size: .74rem; color: var(--text-muted);
+    letter-spacing: .4px; margin-top: 12px;
+  }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 15px 18px; border-radius: 10px;
+    font-weight: 700; font-size: 1rem; text-decoration: none;
+    border: 1px solid transparent; cursor: pointer; font-family: inherit;
+    text-align: center;
+  }
+  .btn-gold { background: linear-gradient(135deg, var(--gold-light), var(--gold)); color: var(--navy); }
+  .btn-teal { background: var(--teal); color: var(--white); }
+  .btn-out { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.22); color: var(--white); }
+  .btn + .btn { margin-top: 9px; }
+
+  .alt {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; margin-bottom: 14px;
+  }
+  .alt h4 { margin: 0 0 4px; font-size: .92rem; }
+  .alt p { margin: 0 0 12px; color: var(--text-muted); font-size: .84rem; }
+
+  .warn {
+    background: rgba(201,151,58,0.09);
+    border-left: 3px solid var(--gold); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 14px;
+    font-size: .87rem; color: #e8ddc7;
+  }
+  .warn strong { color: var(--gold-light); }
+
+  /* ---- Quick actions ---- */
+  .quick { padding: 8px 0 4px; }
+  .quick h2 { font-size: 1rem; margin: 0 0 12px; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile {
+    display: block; text-decoration: none; color: var(--white);
+    background: var(--deep); border: 1px solid var(--border);
+    border-radius: 12px; padding: 15px;
+  }
+  .tile:hover { border-color: var(--teal-light); }
+  .tile .ico { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+  .tile .t { font-weight: 700; font-size: .89rem; display: block; }
+  .tile .s { color: var(--text-muted); font-size: .78rem; display: block; margin-top: 2px; }
+
+  /* ---- Install ---- */
+  .install {
+    margin: 22px 0 4px; padding: 18px;
+    background: rgba(14,124,123,0.12);
+    border: 1px solid rgba(20,168,167,0.32); border-radius: 12px;
+  }
+  .install[hidden] { display: none; }
+  .install h2 { margin: 0 0 6px; font-size: 1rem; }
+  .install p { margin: 0 0 12px; color: #bfd3d8; font-size: .87rem; }
+  .install ol { margin: 0; padding-left: 20px; color: #bfd3d8; font-size: .87rem; }
+  .install li { margin-bottom: 5px; }
+
+  .offline {
+    display: none; margin: 14px 0 0; padding: 12px 14px;
+    background: rgba(201,151,58,0.12); border: 1px solid rgba(201,151,58,0.4);
+    border-radius: 10px; font-size: .85rem; color: #e8ddc7;
+  }
+  body.is-offline .offline { display: block; }
+
+  /* ---- Footer ---- */
+  footer.app {
+    margin-top: auto; padding: 26px 0 30px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted); font-size: .78rem; line-height: 1.6;
+  }
+  footer.app a { color: var(--gold-light); text-decoration: none; }
+  footer.app .links { margin-bottom: 12px; }
+  footer.app .links a { margin-right: 14px; display: inline-block; }
+
+  @media (min-width: 600px) {
+    .intro h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="shell row">
+    <a class="logo" href="/">Cover<span>&amp;</span>Protect</a>
+    <div class="lic">FSRA #10112782<br>Ontario Licensed</div>
+  </div>
+</header>
+
+<main class="shell">
+
+  <div class="intro">
+    <h1>Buy your insurance <em>in minutes</em></h1>
+    <p>Two questions, the plan that matches, and a secure checkout on the insurer's own portal. Same premium as buying through an advisor.</p>
+  </div>
+
+  <div class="offline">You are offline right now. The app still works, but the insurer checkout pages need a connection.</div>
+
+  <!-- STEP 1 -->
+  <section class="step" id="step1">
+    <span class="steplabel">Step 1 of 2</span>
+    <h2>Who is the coverage for?</h2>
+    <p class="hint">This decides which insurer product applies.</p>
+    <div class="choices">
+      <button class="choice" type="button" data-who="visitor">
+        <span class="ico">&#127464;&#127462;</span>
+        <span><span class="t">Someone visiting Canada</span><span class="s">Parents, grandparents, Super Visa applicants, other visitors</span></span>
+      </button>
+      <button class="choice" type="button" data-who="outbound">
+        <span class="ico">&#9992;&#65039;</span>
+        <span><span class="t">A Canadian travelling abroad</span><span class="s">Single trips, snowbird winters, annual multi-trip plans</span></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step" id="step2" hidden>
+    <span class="steplabel">Step 2 of 2</span>
+    <h2>Any pre-existing medical conditions?</h2>
+    <p class="hint">Anything diagnosed, treated or medicated before the trip &mdash; including a condition that is well controlled.</p>
+    <div class="choices">
+      <button class="choice" type="button" data-med="no">
+        <span class="ico">&#9989;</span>
+        <span><span class="t">No conditions</span><span class="s">In good health, no regular medication</span></span>
+      </button>
+      <button class="choice" type="button" data-med="yes">
+        <span class="ico">&#128138;</span>
+        <span><span class="t">Yes, there are conditions</span><span class="s">Stable conditions can usually still be covered</span></span>
+      </button>
+      <button class="choice" type="button" data-med="unsure">
+        <span class="ico">&#129300;</span>
+        <span><span class="t">I am not sure</span><span class="s">A recent medication change, a pending test, or unclear history</span></span>
+      </button>
+    </div>
+    <button class="back" type="button" id="back2">&larr; Change who it is for</button>
+  </section>
+
+  <!-- RESULT -->
+  <section class="result" id="result" hidden>
+    <span class="steplabel">Your match</span>
+    <div id="resultBody"></div>
+    <button class="back" type="button" id="restart">&larr; Start over</button>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section class="quick">
+    <h2>Other things you can do</h2>
+    <div class="tiles">
+      <a class="tile" href="travel-insurance-calculator.html">
+        <span class="ico">&#129518;</span>
+        <span class="t">Estimate the price</span>
+        <span class="s">Cost calculator</span>
+      </a>
+      <a class="tile" href="instant-quote.html">
+        <span class="ico">&#9889;</span>
+        <span class="t">Instant quote</span>
+        <span class="s">Price every plan yourself</span>
+      </a>
+      <a class="tile" href="tel:6473669495">
+        <span class="ico">&#128222;</span>
+        <span class="t">Call an advisor</span>
+        <span class="s">647-366-9495</span>
+      </a>
+      <a class="tile" href="https://wa.me/16473669495" target="_blank" rel="noopener">
+        <span class="ico">&#128172;</span>
+        <span class="t">WhatsApp</span>
+        <span class="s">Message us</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section class="install" id="installCard" hidden>
+    <h2 id="installTitle">Install this app on your phone</h2>
+    <p id="installText">Add it to your home screen so buying coverage is one tap away, even with a weak connection.</p>
+    <button class="btn btn-teal" type="button" id="installBtn" hidden>Install the app</button>
+    <ol id="installSteps" hidden></ol>
+  </section>
+
+</main>
+
+<footer class="app">
+  <div class="shell">
+    <div class="links">
+      <a href="buy-online.html">All buy-online options</a>
+      <a href="blog.html">Guides</a>
+      <a href="about-sertac-tekin.html">About</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </div>
+    <div>Cover &amp; Protect &middot; Sertac Tekin, Ontario-Licensed Independent Insurance Advisor &middot; FSRA Licence #10112782 &middot; Toronto, Ontario</div>
+    <div style="margin-top:10px">General information only, not insurance advice for any specific person. Coverage amounts, deductibles, stability periods, eligibility and pricing are set by each insurer and subject to the policy wording. Applications and payments are completed on the insurer's own secure portal &mdash; Cover &amp; Protect never sees or stores your card details.</div>
+  </div>
+</footer>
+
+<script src="tracking.js?v=9" defer></script>
+<script>
+(function () {
+  "use strict";
+
+  var TRUSTONE = "https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765&xxx:Plan=";
+  var TRUSTONE_TAIL = "&xxx:UserLang=english&xxx:AgentID=0&uid=U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==";
+  var TUGO = "https://shop.tugo.com/store/TEK200";
+
+  function plan(code) { return TRUSTONE + code + TRUSTONE_TAIL; }
+
+  // Plan matrix mirrors the option list on buy-online.html. Keep the two in
+  // sync: if a plan code changes there, change it here as well.
+  var MATCH = {
+    "visitor:no": {
+      tag: "Visiting Canada",
+      title: "Visitor to Canada &mdash; no pre-existing conditions",
+      body: "Super Visa eligible. Meets the IRCC minimum of $100,000 in emergency medical coverage from a Canadian insurer, valid for one year from entry.",
+      code: "ELVTC"
+    },
+    "visitor:yes": {
+      tag: "Visiting Canada",
+      title: "Visitor to Canada &mdash; with pre-existing conditions",
+      body: "A medical questionnaire applies. Conditions that have been stable for the period the policy requires can usually still be covered.",
+      code: "ELVTCUW"
+    },
+    "outbound:no": {
+      tag: "Travelling abroad",
+      title: "Travel outside Canada &mdash; no pre-existing conditions",
+      body: "Premier benefits for travellers in good health. Coverage should start on your departure date, not the day you buy.",
+      code: "ELOOCNP",
+      valueCode: "ELOOCVNP",
+      valueNote: "A lower-premium Value version of the same plan, for travellers in good health who want a smaller bill."
+    },
+    "outbound:yes": {
+      tag: "Travelling abroad",
+      title: "Travel outside Canada &mdash; with pre-existing conditions",
+      body: "Premier plan with a medical questionnaire. Read the stability period carefully &mdash; it is where two similarly priced plans differ most.",
+      code: "ELOOC",
+      valueCode: "ELOOCV",
+      valueNote: "A lower-premium Value version, also with a medical questionnaire."
+    }
+  };
+
+  var state = { who: "", med: "" };
+
+  var step1 = document.getElementById("step1");
+  var step2 = document.getElementById("step2");
+  var result = document.getElementById("result");
+  var resultBody = document.getElementById("resultBody");
+
+  function show(el) { el.hidden = false; }
+  function hide(el) { el.hidden = true; }
+
+  function track(name, params) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, params || {});
+    } else {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(["event", name, params || {}]);
+    }
+  }
+
+  function esc(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function applyButton(code, label) {
+    return '<a class="btn btn-gold" href="' + esc(plan(code)) + '" target="_blank" rel="noopener"' +
+      ' data-trustone-plan="' + esc(code) + '" data-application-type="online_application"' +
+      ' data-buy-step="checkout" data-provider="TruStone Health">' + label + '</a>';
+  }
+
+  function render() {
+    var key = state.who + ":" + state.med;
+    var html = "";
+
+    if (state.med === "unsure") {
+      // Guessing on the medical questions is the most common reason a large
+      // claim is denied, so this path leads to a person, not a checkout.
+      var pick = MATCH[state.who + ":yes"];
+      html += '<div class="warn"><strong>Worth a phone call first.</strong> ' +
+        'An inaccurate answer on the medical questions is the single most common reason a large claim is denied. ' +
+        'Advice costs nothing and the premium is exactly the same, so let us confirm which plan fits before you pay.</div>';
+      html += '<div class="pick">' +
+        '<span class="tag">' + esc(pick.tag) + '</span>' +
+        '<h3>Talk it through, then buy</h3>' +
+        '<p>Call or message and we will confirm whether the standard or the underwritten plan applies, and what the stability period means for your situation.</p>' +
+        '<a class="btn btn-gold" href="tel:6473669495">Call 647-366-9495</a>' +
+        '<a class="btn btn-teal" href="https://wa.me/16473669495" target="_blank" rel="noopener">Message on WhatsApp</a>' +
+        '<a class="btn btn-out" href="https://calendly.com/contact-coverandprotect/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>' +
+        '</div>';
+      html += '<div class="alt"><h4>Rather go ahead on your own?</h4>' +
+        '<p>The plan with the medical questionnaire is the one that applies when there are any conditions at all.</p>' +
+        applyButton(pick.code, "Apply anyway &rarr;") + '</div>';
+    } else {
+      var m = MATCH[key];
+      if (!m) { return; }
+      html += '<div class="pick">' +
+        '<span class="tag">' + esc(m.tag) + '</span>' +
+        '<h3>' + m.title + '</h3>' +
+        '<p>' + m.body + '</p>' +
+        applyButton(m.code, "Apply and pay &rarr;") +
+        '<div class="plancode">TruStone Health &middot; plan ' + esc(m.code) + ' &middot; opens on the insurer’s secure site</div>' +
+        '</div>';
+
+      if (m.valueCode) {
+        html += '<div class="alt"><h4>Cheaper option</h4><p>' + m.valueNote + '</p>' +
+          applyButton(m.valueCode, "Apply &mdash; Value plan &rarr;") + '</div>';
+      }
+
+      html += '<div class="alt"><h4>Compare more plans</h4>' +
+        '<p>The TuGo online store carries Super Visa, visitor and travel plans, with monthly installments on some of them.</p>' +
+        '<a class="btn btn-out" href="' + TUGO + '" target="_blank" rel="noopener"' +
+        ' data-tugo-store="TEK200" data-application-type="online_store"' +
+        ' data-buy-step="checkout" data-provider="TuGo">Open the TuGo store &rarr;</a></div>';
+
+      html += '<div class="warn">Before you pay, check the <strong>effective date</strong> (it cannot be backdated once travel has begun), the <strong>stability period</strong>, the <strong>deductible</strong>, and that names and dates of birth match the passport exactly.</div>';
+
+      html += '<div class="alt"><h4>Want it checked first?</h4>' +
+        '<p>We compare 10+ Canadian insurers with one set of details. The premium is identical either way.</p>' +
+        '<a class="btn btn-teal" href="buy-online.html#quote">Have an advisor compare &rarr;</a></div>';
+    }
+
+    resultBody.innerHTML = html;
+    hide(step1); hide(step2); show(result);
+    result.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    track("app_plan_matched", {
+      traveller_type: state.who,
+      medical_conditions: state.med,
+      plan_code: (MATCH[key] && MATCH[key].code) || "",
+      buy_channel: "online_self_serve"
+    });
+  }
+
+  Array.prototype.forEach.call(step1.querySelectorAll("[data-who]"), function (btn) {
+    btn.addEventListener("click", function () {
+      state.who = btn.dataset.who;
+      hide(step1); show(step2);
+      step2.scrollIntoView({ behavior: "smooth", block: "start" });
+      track("app_step", { step: 1, traveller_type: state.who });
+    });
+  });
+
+  Array.prototype.forEach.call(step2.querySelectorAll("[data-med]"), function (btn) {
+    btn.addEventListener("click", function () {
+      state.med = btn.dataset.med;
+      track("app_step", { step: 2, medical_conditions: state.med });
+      render();
+    });
+  });
+
+  document.getElementById("back2").addEventListener("click", function () {
+    hide(step2); show(step1);
+    step1.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.getElementById("restart").addEventListener("click", function () {
+    state.who = ""; state.med = "";
+    resultBody.innerHTML = "";
+    hide(result); hide(step2); show(step1);
+    step1.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // ---- Offline banner ----
+  function syncOnline() {
+    document.body.classList.toggle("is-offline", navigator.onLine === false);
+  }
+  window.addEventListener("online", syncOnline);
+  window.addEventListener("offline", syncOnline);
+  syncOnline();
+
+  // ---- Service worker ----
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").catch(function () {});
+    });
+  }
+
+  // ---- Install ----
+  var card = document.getElementById("installCard");
+  var installBtn = document.getElementById("installBtn");
+  var stepsEl = document.getElementById("installSteps");
+  var titleEl = document.getElementById("installTitle");
+  var textEl = document.getElementById("installText");
+  var deferred = null;
+
+  var standalone = window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  if (standalone) {
+    // Already installed — nothing to promote.
+    card.hidden = true;
+  } else if (isIOS) {
+    stepsEl.innerHTML =
+      "<li>Tap the Share button in Safari.</li>" +
+      "<li>Choose “Add to Home Screen”.</li>" +
+      "<li>Tap Add. The app appears on your home screen.</li>";
+    stepsEl.hidden = false;
+    card.hidden = false;
+  }
+
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    deferred = event;
+    if (standalone) { return; }
+    stepsEl.hidden = true;
+    installBtn.hidden = false;
+    card.hidden = false;
+  });
+
+  installBtn.addEventListener("click", function () {
+    if (!deferred) { return; }
+    deferred.prompt();
+    track("app_install_prompt", { platform: "web" });
+    deferred.userChoice.then(function (choice) {
+      track("app_install_choice", { outcome: (choice && choice.outcome) || "unknown" });
+      deferred = null;
+      installBtn.hidden = true;
+    });
+  });
+
+  window.addEventListener("appinstalled", function () {
+    track("app_installed", { platform: "web" });
+    titleEl.textContent = "App installed";
+    textEl.textContent = "Open it from your home screen next time you need coverage.";
+    installBtn.hidden = true;
+    stepsEl.hidden = true;
+  });
+}());
+</script>
+</body>
+</html>

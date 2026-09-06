@@ -159,6 +159,44 @@
         application_type: link.dataset.applicationType || "online_store"
       }));
     }
+
+    // ---- Online-purchase funnel -------------------------------------------
+    // select_item  — the visitor moved toward buying somewhere on our own site
+    //                (the Buy Online hub, the app, the instant quote, the
+    //                calculator). This is the top of the funnel.
+    // begin_checkout — the visitor opened an insurer's own application and
+    //                payment portal. This is the closest signal the site has to
+    //                a real purchase, and the one worth importing into Google
+    //                Ads next to generate_lead so bidding optimises toward
+    //                people who buy, not only people who fill in a form.
+    // Both are deduplicated per link per page view so one visitor opening the
+    // same plan twice is not counted twice.
+    var checkoutProvider = "";
+    if (/trustonehealth\.ca/i.test(href) || link.dataset.trustonePlan) {
+      checkoutProvider = "TruStone Health";
+    } else if (/tugo\.com/i.test(href) || link.dataset.tugoStore) {
+      checkoutProvider = "TuGo";
+    } else if (/21stcenturytips\.com/i.test(href)) {
+      checkoutProvider = "21st Century";
+    } else if (link.dataset.buyStep === "checkout") {
+      checkoutProvider = link.dataset.provider || "insurer portal";
+    }
+
+    if (checkoutProvider) {
+      once("checkout-" + href, "begin_checkout", Object.assign({}, details, {
+        provider: checkoutProvider,
+        plan_code: link.dataset.trustonePlan || link.dataset.tugoStore || "",
+        application_type: link.dataset.applicationType || "online_application",
+        buy_channel: "online_self_serve"
+      }));
+    } else if (/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i.test(href) &&
+               !/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i.test(window.location.pathname)) {
+      var stepMatch = href.match(/\/(buy-online|app|instant-quote|travel-insurance-calculator)\.html/i);
+      once("select-" + href, "select_item", Object.assign({}, details, {
+        item_list_name: stepMatch ? stepMatch[1] : "",
+        buy_channel: "online_self_serve"
+      }));
+    }
   }, true);
 
   document.addEventListener("DOMContentLoaded", function () {
