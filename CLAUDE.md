@@ -61,7 +61,9 @@ Everything lives at the repository root (flat structure):
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
 | `robots.txt` | Crawler directives; points to the sitemap |
 | `CNAME` | GitHub Pages custom domain |
-| `_config.yml` | Jekyll config (no theme/layout; just includes) |
+| `_config.yml` | Jekyll config (no theme/layout; includes, and `.well-known`) |
+| `.well-known/assetlinks.json` | Digital Asset Links for a Play Store TWA (see `PLAY-STORE.md`) |
+| `PLAY-STORE.md` | How to publish the app to Google Play |
 | `googledb2fcfa7efcf42c9.html` | Google Search Console HTML-file verification token (leave as-is) |
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
@@ -244,6 +246,25 @@ clients refresh.
 
 Because the installed app now opens `app.html`, the install copy on the
 calculator page promotes the app rather than the calculator. Keep it that way.
+
+### Google Play (Trusted Web Activity)
+
+The app can also ship on Google Play as a TWA — an Android wrapper around the
+live site, so deploys reach app users with no Play release. `PLAY-STORE.md` has
+the full procedure; three things in this repo exist for it:
+
+- `.well-known/assetlinks.json` proves the domain and the Play app share an
+  owner. **Its fingerprint is a placeholder** until someone pastes in the real
+  SHA-256 from Play Console; until then a TWA build shows a browser address bar.
+- `_config.yml` carries `include: [.well-known]`. Jekyll skips dot-directories
+  by default, so removing this silently drops the file from the built site —
+  the failure is invisible locally and only shows up as an address bar in the
+  shipped app.
+- `manifest.json` declares `related_applications` (package `ca.coverandprotect.app`,
+  which must match `assetlinks.json`) and `prefer_related_applications: false`.
+  Leave that `false` until a Play listing actually exists: `true` makes Chrome
+  promote the Play app *instead of* the web install, so flipping it early breaks
+  the one install path that currently works.
 
 ## Forms and lead capture
 

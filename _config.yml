@@ -5,10 +5,16 @@
 title: Cover & Protect
 description: Ontario-licensed independent insurance advisor — Toronto.
 
+# Jekyll skips dot-directories by default, which would silently drop the Digital
+# Asset Links file and leave a Play Store TWA showing a browser address bar.
+include:
+  - .well-known
+
 # Keep build output predictable; don't sweep in tooling/backup files.
 exclude:
   - README.md
   - CLAUDE.md
+  - PLAY-STORE.md
   - "*.log"
   - vendor
   - Gemfile
