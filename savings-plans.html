@@ -272,6 +272,19 @@
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -752,6 +765,27 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>How much is the RESP government grant in Canada?</summary>
+    <p>The Canada Education Savings Grant (CESG) adds 20% on the first $2,500 you contribute per year — that&#x27;s $500 per year in free government money. The maximum lifetime CESG per child is $7,200. Lower-income families may also qualify for the Canada Learning Bond (up to $2,000) and an additional 10-20% CESG on the first $500 contributed annually.</p>
+  </details>
+  <details>
+    <summary>What is the RRSP contribution limit for 2026 in Ontario?</summary>
+    <p>The RRSP contribution limit is 18% of your previous year&#x27;s earned income, up to the annual maximum set by CRA. Your exact contribution room is shown on your CRA My Account or Notice of Assessment. Unused room carries forward indefinitely and can be used in any future year.</p>
+  </details>
+  <details>
+    <summary>Should I use RESP or TFSA to save for my child&#x27;s education?</summary>
+    <p>An RESP is generally better for education savings because of the Canada Education Savings Grant — free government money you don&#x27;t get in a TFSA. However, TFSAs offer more flexibility since the money isn&#x27;t restricted to education use. For most families, maximizing RESP first (to capture grants) then using TFSA for additional savings is the recommended approach.</p>
+  </details>
+  <details>
+    <summary>Can newcomers to Canada open an RESP for their children?</summary>
+    <p>Yes. Permanent residents and Canadian citizens can open an RESP for any child under 18 with a Social Insurance Number (SIN). Children must have a SIN to receive the CESG grant. We help newcomers navigate RESP setup and ensure they don&#x27;t miss out on available government grants.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

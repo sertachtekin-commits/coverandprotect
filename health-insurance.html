@@ -326,6 +326,19 @@
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -952,6 +965,27 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>Do I need private health insurance if I have OHIP in Ontario?</summary>
+    <p>Yes, for many people. OHIP covers basic medical services but does not cover prescription drugs, dental care, vision care, physiotherapy, massage therapy, mental health counselling, or private hospital rooms. Individual health insurance covers these gaps, which is especially important for self-employed Ontarians, newcomers, or those without employer benefits.</p>
+  </details>
+  <details>
+    <summary>How much does individual health insurance cost in Ontario?</summary>
+    <p>Basic health plans in Ontario start around $80-120 per month for a single adult. Enhanced plans with dental, drugs, and paramedical coverage range from $130-200 per month. Comprehensive family plans can range from $300-500+ per month. The exact cost depends on age, coverage level, and insurer.</p>
+  </details>
+  <details>
+    <summary>Can I get health insurance without a medical exam in Ontario?</summary>
+    <p>Yes. Most individual health insurance plans in Ontario do not require a medical exam. You answer a health questionnaire, and coverage typically begins within 30 days of approval. Some pre-existing conditions may be excluded or have waiting periods.</p>
+  </details>
+  <details>
+    <summary>What is the best health insurance for self-employed people in Ontario?</summary>
+    <p>For self-employed Ontarians, we typically recommend Manulife Flexcare or Canada Life personal health plans, which offer flexible coverage options. A Health Spending Account (HSA) is also a tax-efficient option for incorporated business owners, allowing you to deduct health expenses as a business expense.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

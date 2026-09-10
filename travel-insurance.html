@@ -425,6 +425,19 @@
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -1330,6 +1343,27 @@
     </div>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>What is Super Visa insurance and how much does it cost?</summary>
+    <p>Super Visa insurance is mandatory medical insurance required by Immigration, Refugees and Citizenship Canada (IRCC) for parents and grandparents visiting Canada on a Super Visa. It must provide minimum $100,000 in coverage, be valid for at least one year, and be from a Canadian insurance company. Costs typically range from $1,200 to $3,000+ per year depending on age, health history, and coverage amount.</p>
+  </details>
+  <details>
+    <summary>Which is the best Super Visa insurance provider in Ontario?</summary>
+    <p>TrustStone Health consistently offers some of the most competitive Super Visa insurance rates in Ontario, with flexible monthly payment options and no deductible plans. We also compare Manulife CoverMe, 21st Century, TuGo, and Canada Life to find the best option for each client&#x27;s specific situation.</p>
+  </details>
+  <details>
+    <summary>Can parents with pre-existing conditions get Super Visa insurance?</summary>
+    <p>Yes. Several insurers including TrustStone Health and 21st Century offer Super Visa plans that cover stable pre-existing medical conditions. Coverage eligibility depends on the specific condition, stability period, and insurer guidelines. We help you find the right plan regardless of health history.</p>
+  </details>
+  <details>
+    <summary>Does travel insurance cover COVID-19 in Canada?</summary>
+    <p>Many Canadian travel insurance policies now include COVID-19 emergency medical coverage. Coverage varies by insurer and plan. We compare all available options and clearly explain what is and isn&#x27;t covered before you purchase.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
