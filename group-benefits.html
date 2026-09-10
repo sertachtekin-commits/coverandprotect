@@ -248,6 +248,19 @@
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -705,6 +718,27 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>How many employees do I need to set up a group benefits plan in Ontario?</summary>
+    <p>Most insurers require a minimum of 2 eligible full-time employees to set up a group benefits plan. Some insurers will consider plans for businesses with as few as 1 employee if the owner has at least 1 arm&#x27;s-length employee. We work with all major group benefit providers and can find options for very small businesses.</p>
+  </details>
+  <details>
+    <summary>Are group benefit premiums tax deductible for Ontario businesses?</summary>
+    <p>Yes. Group benefit premiums paid by an employer are a fully deductible business expense in Canada. Most employee benefits are also received tax-free by employees, making group benefits one of the most tax-efficient forms of employee compensation available to small businesses.</p>
+  </details>
+  <details>
+    <summary>How long does it take to set up a group benefits plan?</summary>
+    <p>Typically 2-4 weeks from quote approval to employee enrollment. The process includes employer application, insurer underwriting, plan design confirmation, employee enrollment forms, and plan activation. We handle all the paperwork and coordinate with the insurer on your behalf.</p>
+  </details>
+  <details>
+    <summary>Can a small business in Toronto afford group benefits?</summary>
+    <p>Yes. Group benefit plans for small businesses in Toronto start as low as $150-200 per month for a team of 2-3 employees. The cost is tax deductible, and having benefits helps attract and retain staff — often saving money on recruitment and turnover costs in the long run.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

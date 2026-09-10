@@ -937,6 +937,19 @@
     html { scroll-behavior: auto; }
   }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">
 {
@@ -1770,6 +1783,27 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>What insurance services does Cover &amp; Protect offer in Toronto?</summary>
+    <p>Cover &amp; Protect offers travel insurance, Super Visa insurance, individual health insurance, group benefits for small businesses, critical illness insurance with return of premium, estate planning, life insurance, RESP and RRSP savings plans. We are an independent advisor contracted with 10+ major Canadian insurers including Manulife, Canada Life, TuGo, TrustStone, RBC Life, and more.</p>
+  </details>
+  <details>
+    <summary>Is Cover &amp; Protect licensed to sell insurance in Ontario?</summary>
+    <p>Yes. Cover &amp; Protect is licensed and regulated by the Financial Services Regulatory Authority of Ontario (FSRA). Our licence number is 10112782. You can verify this at the FSRA public registry at fsrao.ca.</p>
+  </details>
+  <details>
+    <summary>How do I get a free insurance quote in Toronto?</summary>
+    <p>You can get a free quote by calling 647-366-9495, emailing contact@coverandprotect.ca, booking a free 30-minute consultation at calendly.com/contact-coverandprotect/30min, or filling out the quote form on our website at coverandprotect.ca.</p>
+  </details>
+  <details>
+    <summary>What areas of Ontario does Cover &amp; Protect serve?</summary>
+    <p>We serve clients across the Greater Toronto Area including Toronto, Etobicoke, Mississauga, Brampton, Vaughan, Markham, Scarborough, and North York. As a licensed Ontario advisor, we can also serve clients across all of Ontario remotely.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

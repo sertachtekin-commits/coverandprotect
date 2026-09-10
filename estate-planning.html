@@ -249,6 +249,19 @@
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   @media (max-width:768px){ .photo-band{height:220px!important;} .photo-band > div:last-child{padding:20px!important;} .photo-band div[style*="1.9rem"]{font-size:1.3rem!important;} }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -685,6 +698,23 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>Do I need estate planning if I&#x27;m not wealthy in Ontario?</summary>
+    <p>Yes. Estate planning is important for anyone who has a family, owns property, runs a business, or has savings. Without a will in Ontario, your estate is distributed according to provincial law — which may not match your wishes. A proper estate plan ensures your children are protected, your assets go where you want them, and your family avoids costly legal complications.</p>
+  </details>
+  <details>
+    <summary>How does life insurance help with estate planning in Ontario?</summary>
+    <p>Life insurance is the most powerful estate planning tool available to Canadians. Death benefits are paid tax-free directly to your beneficiaries, bypassing probate entirely. This provides immediate liquidity for your estate, pays off debts, replaces lost income, and maximizes the inheritance you leave behind — all without the delays and costs of probate.</p>
+  </details>
+  <details>
+    <summary>What is corporate-owned life insurance (COLI) in Ontario?</summary>
+    <p>Corporate-owned life insurance allows business owners to purchase life insurance inside their corporation, paying premiums with pre-tax corporate dollars. The death benefit can be paid to shareholders through the Capital Dividend Account (CDA), largely tax-free. This is one of the most tax-efficient wealth transfer strategies available to incorporated business owners in Ontario.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

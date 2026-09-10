@@ -508,6 +508,19 @@
   .hero-photo { z-index: 0 !important; pointer-events: none; }
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
   picture{display:contents;}
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">
 {
@@ -1415,6 +1428,27 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>What is Return of Premium on a critical illness policy?</summary>
+    <p>Return of Premium (ROP) is an optional rider that returns 100% of your premiums if you reach the end of the policy term without making a critical illness claim. It&#x27;s available as &#x27;Return of Premium on Expiry&#x27; (premiums returned at term end) or &#x27;Return of Premium on Death&#x27; (premiums returned to your estate). With ROP, you&#x27;re protected if you get sick and refunded if you stay healthy.</p>
+  </details>
+  <details>
+    <summary>What is child critical illness insurance in Ontario?</summary>
+    <p>Child critical illness insurance provides a tax-free lump-sum benefit if a child is diagnosed with a covered serious condition such as cancer, Type 1 Diabetes, Cerebral Palsy, Cystic Fibrosis, or heart conditions. Insuring children at birth or as toddlers locks in the lowest possible premiums for life and, with the Return of Premium rider, returns all premiums when the policy matures if no claim is made.</p>
+  </details>
+  <details>
+    <summary>How much does critical illness insurance cost in Ontario?</summary>
+    <p>Critical illness insurance premiums vary by age, health status, coverage amount, and whether you add the Return of Premium rider. For a healthy 40-year-old non-smoker, a $100,000 standard CI policy may cost $80-120 per month. A child CI policy for a newborn can cost as little as $25-35 per month for $100,000 coverage.</p>
+  </details>
+  <details>
+    <summary>What conditions are covered under critical illness insurance in Canada?</summary>
+    <p>Most Canadian critical illness policies cover 25+ conditions including cancer, heart attack, stroke, coronary artery bypass surgery, multiple sclerosis, major organ transplant, kidney failure, paralysis, blindness, Alzheimer&#x27;s disease, Parkinson&#x27;s disease, ALS, and more. Child-specific policies also cover conditions like Type 1 Diabetes, Cerebral Palsy, Cystic Fibrosis, and Muscular Dystrophy.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

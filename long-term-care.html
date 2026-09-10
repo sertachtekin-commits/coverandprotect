@@ -507,6 +507,19 @@
   /* click safety */
   .hero-photo { z-index: 0 !important; pointer-events: none; }
   nav, .nav-links, .nav-links a { position: relative; z-index: 101; }
+
+  /* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+     requires it to be visible for the markup to be valid, and AI assistants
+     read the rendered text rather than the JSON-LD. */
+  .faq-block{max-width:900px;margin:0 auto;padding:56px 24px;}
+  .faq-block h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 18px;color:var(--white);}
+  .faq-block details{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq-block summary{cursor:pointer;font-weight:700;color:var(--white);list-style:none;}
+  .faq-block summary::-webkit-details-marker{display:none;}
+  .faq-block summary::after{content:"+";float:right;color:var(--gold-light);font-size:1.3rem;line-height:1;}
+  .faq-block details[open] summary::after{content:"\2013";}
+  .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
+
 </style>
 <script type="application/ld+json">
 {
@@ -908,6 +921,27 @@
     </a>
   </div>
 </div>
+
+
+<section class="faq-block" aria-label="Frequently asked questions">
+  <h2>Frequently asked questions</h2>
+  <details>
+    <summary>Can you still buy long-term care insurance in Canada?</summary>
+    <p>Standalone long-term care (LTC) insurance has largely disappeared from the Canadian market, as most major insurers stopped offering new policies in recent years. Canadians now plan for care costs using a combination of critical illness insurance, life insurance with living benefits, disability coverage, and dedicated savings and investments.</p>
+  </details>
+  <details>
+    <summary>How do Canadians pay for long-term care now?</summary>
+    <p>Most long-term care costs in Canada are paid out of pocket, since provincial coverage is limited and subsidized spots have long waitlists. Families typically fund care through a mix of insurance benefits (critical illness, life insurance riders), savings and investments, and home equity, coordinated as part of an overall financial and estate plan.</p>
+  </details>
+  <details>
+    <summary>When should I start planning for care costs?</summary>
+    <p>The best time to plan is before you need care. Coverage like critical illness and life insurance is generally less expensive and easier to qualify for when you are younger and healthier, typically in your 40s, 50s, or early 60s. Planning early also gives you more flexibility in how you fund future care.</p>
+  </details>
+  <details>
+    <summary>How much does long-term care cost in Ontario?</summary>
+    <p>Long-term care costs in Ontario vary widely by the type and level of care. Home care, private retirement residences, and long-term care homes each carry significant monthly costs, much of it paid out of pocket. A licensed advisor can help you estimate potential costs and build a plan to cover them.</p>
+  </details>
+</section>
 
 <footer>
   <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;">

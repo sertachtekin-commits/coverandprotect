@@ -59,3 +59,18 @@
   .author-box strong{color:var(--navy);}
   .author-box a{color:var(--teal);font-weight:600;}
   @media(max-width:600px){.site-header{align-items:flex-start;flex-direction:column}.site-header nav{gap:12px}.post-wrap{padding-top:32px}}
+
+/* Visible FAQ. The same Q&A also ships as FAQPage structured data; Google
+   requires the content to be visible on the page for that markup to be valid,
+   and AI assistants read the rendered text rather than the JSON-LD. */
+.faq-block{max-width:760px;margin:0 auto;padding:34px 24px 8px;}
+.faq-block h2{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--navy);margin:0 0 16px;}
+.faq-block details{border:1px solid var(--border);border-radius:10px;padding:15px 18px;margin-bottom:10px;background:var(--white);}
+.faq-block summary{cursor:pointer;font-weight:700;color:var(--navy);list-style:none;}
+.faq-block summary::-webkit-details-marker{display:none;}
+.faq-block summary::after{content:"+";float:right;color:var(--gold);font-size:1.25rem;line-height:1;}
+.faq-block details[open] summary::after{content:"\2013";}
+.faq-block details p{margin:11px 0 0;color:var(--ink);}
+
+/* Article tables scroll on their own rather than widening the page. */
+.wrap table{display:block;overflow-x:auto;max-width:100%;}
