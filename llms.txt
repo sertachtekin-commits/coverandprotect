@@ -1,7 +1,7 @@
 # Cover & Protect — Independent Insurance Advisor in Toronto, Ontario
 
 > Canonical website: https://coverandprotect.ca/
-> Last reviewed: 2026-08-16
+> Last reviewed: 2026-09-12
 
 Cover & Protect is an Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario. The advisor is Sertac Tekin (FSRA licence #10112782). The practice helps individuals, families, newcomers, parents and grandparents visiting Canada, self-employed professionals, and small businesses compare insurance and savings options from multiple Canadian providers.
 
@@ -13,7 +13,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - Regulator: Financial Services Regulatory Authority of Ontario (FSRA)
 - Licence number: 10112782
 - Primary service area: Toronto, Greater Toronto Area, and Ontario
-- Phone: +1-647-366-9495
+- Phone: +16473669495 (written locally as 647-366-9495)
 - Email: contact@coverandprotect.ca
 - Website: https://coverandprotect.ca/
 - Consultation: free and without obligation
@@ -40,6 +40,7 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [Annual Multi-Trip Travel Insurance](https://coverandprotect.ca/annual-multi-trip-travel-insurance.html): One policy covering unlimited trips within a per-trip day limit, for frequent leisure and business travellers, plus a direct buy-online path.
 - [Buy Insurance Online](https://coverandprotect.ca/buy-online.html): Central page listing the secure insurer portals for buying Super Visa, visitor to Canada, and travel medical insurance online, with guidance on choosing between the plans and when to speak to the advisor first.
 - [Instant Visitor to Canada Quote](https://coverandprotect.ca/instant-quote.html): Self-serve quoting tool hosted on the Cover & Protect site and powered by 21st Century Travel Insurance; visitors compare plans, coverage limits and deductibles for Visitor to Canada and Super Visa coverage, then the licensed advisor reviews the quote and sends a secure payment link. Policies cannot be bought directly from the insurer without the advisor.
+- [Buy Insurance App](https://coverandprotect.ca/app.html): Installable web app (Progressive Web App) whose only purpose is buying coverage. It asks two questions — who the coverage is for, and whether there are pre-existing medical conditions — and returns the single matching insurer plan with an apply-and-pay link, instead of presenting the full list of options. Answering "not sure" about medical conditions deliberately routes the visitor to a phone call with the advisor rather than a checkout, because an inaccurate answer on the medical questions is the most common reason a large claim is denied.
 - [Individual Health Insurance](https://coverandprotect.ca/health-insurance.html): Health and dental plans for individuals, families, and self-employed people.
 - [Group Benefits](https://coverandprotect.ca/group-benefits.html): Health, dental, disability, and life benefits for Ontario employers.
 - [Critical Illness Insurance](https://coverandprotect.ca/critical-illness.html): Lump-sum protection following a covered critical illness diagnosis.

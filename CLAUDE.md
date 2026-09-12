@@ -64,6 +64,9 @@ Everything lives at the repository root (flat structure):
 | `_config.yml` | Jekyll config (no theme/layout; includes, and `.well-known`) |
 | `.well-known/assetlinks.json` | Digital Asset Links for a Play Store TWA (see `PLAY-STORE.md`) |
 | `PLAY-STORE.md` | How to publish the app to Google Play |
+| `llms.txt` | Machine-readable site + business summary for AI crawlers |
+| `entity.json` | Schema.org entity graph (website, business, advisor, app) |
+| `feed.xml` | RSS feed of the guides — add new articles here |
 | `googledb2fcfa7efcf42c9.html` | Google Search Console HTML-file verification token (leave as-is) |
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
@@ -192,6 +195,12 @@ hub is what routes organic blog traffic to a purchase.
 - Business: **Cover & Protect**, advisor **Sertac Tekin**, Toronto, Ontario.
 - Regulator: **FSRA Licence #10112782** (shown in disclaimers/forms).
 - Phone: `tel:6473669495` · WhatsApp: `wa.me/16473669495`
+  - **In JSON-LD and the machine-readable files, the telephone is always
+    `+16473669495`** (E.164, no punctuation). Visible page text stays
+    human-readable ("647-366-9495"). Entity resolution in search and AI systems
+    matches on the literal string, so a second format splits the entity. The
+    three `telephone` fields in `_includes/analytics.html` are in every page's
+    head — change those and you change the whole site.
 - Email: `contact@coverandprotect.ca` / `info@coverandprotect.ca`
 - Social: Facebook `https://www.facebook.com/share/1HAGzGYSun/` · Instagram
   `https://www.instagram.com/coverandprotect.ca`. These appear both as visible
