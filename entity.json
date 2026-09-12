@@ -13,6 +13,10 @@
       "inLanguage": "en-CA",
       "publisher": {
         "@id": "https://coverandprotect.ca/#business"
+      },
+      "dateModified": "2026-09-12",
+      "hasPart": {
+        "@id": "https://coverandprotect.ca/#app"
       }
     },
     {
@@ -42,7 +46,7 @@
         "propertyID": "FSRA licence",
         "value": "10112782"
       },
-      "telephone": "+1-647-366-9495",
+      "telephone": "+16473669495",
       "email": "contact@coverandprotect.ca",
       "founder": {
         "@id": "https://coverandprotect.ca/#sertac-tekin"
@@ -72,7 +76,7 @@
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+1-647-366-9495",
+        "telephone": "+16473669495",
         "email": "contact@coverandprotect.ca",
         "contactType": "customer service",
         "areaServed": "CA-ON",
@@ -177,7 +181,8 @@
         "ratingValue": "5.0",
         "reviewCount": "15",
         "bestRating": "5"
-      }
+      },
+      "dateModified": "2026-09-12"
     },
     {
       "@type": "Person",
@@ -188,7 +193,7 @@
       "worksFor": {
         "@id": "https://coverandprotect.ca/#business"
       },
-      "telephone": "+1-647-366-9495",
+      "telephone": "+16473669495",
       "email": "contact@coverandprotect.ca",
       "knowsAbout": [
         "Super Visa insurance",
@@ -214,6 +219,28 @@
       "sameAs": [
         "https://www.linkedin.com/in/sertac-tekin-9a42653b2"
       ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://coverandprotect.ca/#app",
+      "name": "Cover & Protect — Buy Insurance",
+      "url": "https://coverandprotect.ca/app.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser; installable as a Progressive Web App",
+      "description": "Guided buy-online app for Super Visa, visitor to Canada and travel medical insurance. Two questions return the single matching insurer plan with an apply-and-pay link. Answering \"not sure\" about pre-existing medical conditions routes to the licensed advisor rather than a checkout.",
+      "isPartOf": {
+        "@id": "https://coverandprotect.ca/#website"
+      },
+      "publisher": {
+        "@id": "https://coverandprotect.ca/#business"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CAD",
+        "description": "The app is free to use; insurance premiums are set by each insurer."
+      }
     }
   ]
 }

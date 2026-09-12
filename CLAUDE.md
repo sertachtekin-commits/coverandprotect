@@ -61,7 +61,12 @@ Everything lives at the repository root (flat structure):
 | `sitemap.xml` | XML sitemap (must be kept in sync with pages) |
 | `robots.txt` | Crawler directives; points to the sitemap |
 | `CNAME` | GitHub Pages custom domain |
-| `_config.yml` | Jekyll config (no theme/layout; just includes) |
+| `_config.yml` | Jekyll config (no theme/layout; includes, and `.well-known`) |
+| `.well-known/assetlinks.json` | Digital Asset Links for a Play Store TWA (see `PLAY-STORE.md`) |
+| `PLAY-STORE.md` | How to publish the app to Google Play |
+| `llms.txt` | Machine-readable site + business summary for AI crawlers |
+| `entity.json` | Schema.org entity graph (website, business, advisor, app) |
+| `feed.xml` | RSS feed of the guides — add new articles here |
 | `googledb2fcfa7efcf42c9.html` | Google Search Console HTML-file verification token (leave as-is) |
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
@@ -190,6 +195,12 @@ hub is what routes organic blog traffic to a purchase.
 - Business: **Cover & Protect**, advisor **Sertac Tekin**, Toronto, Ontario.
 - Regulator: **FSRA Licence #10112782** (shown in disclaimers/forms).
 - Phone: `tel:6473669495` · WhatsApp: `wa.me/16473669495`
+  - **In JSON-LD and the machine-readable files, the telephone is always
+    `+16473669495`** (E.164, no punctuation). Visible page text stays
+    human-readable ("647-366-9495"). Entity resolution in search and AI systems
+    matches on the literal string, so a second format splits the entity. The
+    three `telephone` fields in `_includes/analytics.html` are in every page's
+    head — change those and you change the whole site.
 - Email: `contact@coverandprotect.ca` / `info@coverandprotect.ca`
 - Social: Facebook `https://www.facebook.com/share/1HAGzGYSun/` · Instagram
   `https://www.instagram.com/coverandprotect.ca`. These appear both as visible
@@ -244,6 +255,25 @@ clients refresh.
 
 Because the installed app now opens `app.html`, the install copy on the
 calculator page promotes the app rather than the calculator. Keep it that way.
+
+### Google Play (Trusted Web Activity)
+
+The app can also ship on Google Play as a TWA — an Android wrapper around the
+live site, so deploys reach app users with no Play release. `PLAY-STORE.md` has
+the full procedure; three things in this repo exist for it:
+
+- `.well-known/assetlinks.json` proves the domain and the Play app share an
+  owner. **Its fingerprint is a placeholder** until someone pastes in the real
+  SHA-256 from Play Console; until then a TWA build shows a browser address bar.
+- `_config.yml` carries `include: [.well-known]`. Jekyll skips dot-directories
+  by default, so removing this silently drops the file from the built site —
+  the failure is invisible locally and only shows up as an address bar in the
+  shipped app.
+- `manifest.json` declares `related_applications` (package `ca.coverandprotect.app`,
+  which must match `assetlinks.json`) and `prefer_related_applications: false`.
+  Leave that `false` until a Play listing actually exists: `true` makes Chrome
+  promote the Play app *instead of* the web install, so flipping it early breaks
+  the one install path that currently works.
 
 ## Forms and lead capture
 
