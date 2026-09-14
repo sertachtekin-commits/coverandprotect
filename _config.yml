@@ -9,6 +9,7 @@ description: Ontario-licensed independent insurance advisor — Toronto.
 exclude:
   - README.md
   - CLAUDE.md
+  - docs
   - "*.log"
   - vendor
   - Gemfile

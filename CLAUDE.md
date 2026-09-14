@@ -67,6 +67,8 @@ Everything lives at the repository root (flat structure):
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
 | `images/` | All image assets (hero images, illustrations) |
+| `.mcp.json` | Project MCP servers (Google Analytics; see `docs/`) |
+| `docs/` | Internal notes — excluded from the Jekyll build, not published |
 
 `_site/` (the Jekyll build output) is git-ignored — never commit it; GitHub Pages
 builds it server-side.
@@ -319,6 +321,21 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 The script is included with a cache-busting query (`tracking.js?v=10`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
 clients fetch the new file.
+
+### Querying GA4 from Claude Code (MCP)
+
+`.mcp.json` configures the official Google Analytics MCP server
+(`analytics-mcp`) as a **project-scoped** server, so a session in this repo can
+read live GA4 data for the property — traffic, events, campaigns, and the
+`generate_lead` / `begin_checkout` conversions defined above. It is read-only
+(`analytics.readonly` scope) and cannot change the property.
+
+It needs `GOOGLE_APPLICATION_CREDENTIALS` and `GOOGLE_PROJECT_ID` in the
+environment; `.mcp.json` reads both via `${...}` expansion so **no credential
+path or project ID is committed**. Setup is one-time and documented in
+`docs/google-analytics-mcp.md` — send people there rather than re-deriving it.
+Note that the site's `G-J7F01SWCLW` is a *measurement* ID; the MCP tools take
+the numeric property ID, which `get_account_summaries` returns.
 
 ## Common tasks
 
