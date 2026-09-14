@@ -330,12 +330,15 @@ read live GA4 data for the property — traffic, events, campaigns, and the
 `generate_lead` / `begin_checkout` conversions defined above. It is read-only
 (`analytics.readonly` scope) and cannot change the property.
 
-It needs `GOOGLE_APPLICATION_CREDENTIALS` and `GOOGLE_PROJECT_ID` in the
-environment; `.mcp.json` reads both via `${...}` expansion so **no credential
-path or project ID is committed**. Setup is one-time and documented in
-`docs/google-analytics-mcp.md` — send people there rather than re-deriving it.
-Note that the site's `G-J7F01SWCLW` is a *measurement* ID; the MCP tools take
-the numeric property ID, which `get_account_summaries` returns.
+`.mcp.json` runs it with `uvx` (from [uv](https://docs.astral.sh/uv/), which
+installs in one line with no Python/pip prerequisite) and deliberately carries
+**no `env` block** — credentials are picked up from the ambient environment or
+the standard ADC location, so nothing sensitive is committed and a missing
+credential degrades to a failed query rather than a server that won't start.
+Setup is one-time and documented in `docs/google-analytics-mcp.md` — send people
+there rather than re-deriving it. Note that the site's `G-J7F01SWCLW` is a
+*measurement* ID; the MCP tools take the numeric property ID, which
+`get_account_summaries` returns.
 
 ## Common tasks
 

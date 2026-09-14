@@ -6,3 +6,6 @@ _site/
 .env
 *client_secret*.json
 application_default_credentials.json
+# Google service account keys — keep these outside the repo entirely
+*-key.json
+*service-account*.json
