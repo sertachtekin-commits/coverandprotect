@@ -126,7 +126,7 @@ Each page generally follows: `---\n---` front matter →
 `{% include analytics.html %}` in `<head>` → SEO meta tags (title, description,
 keywords, geo, Open Graph, Twitter Card, canonical) → JSON-LD structured data →
 inline `<style>` (or `blog.css` link) → fixed `<nav>` → page sections →
-`<footer>` → `<script src="tracking.js?v=6" defer></script>` before `</body>`.
+`<footer>` → `<script src="tracking.js?v=11" defer></script>` before `</body>`.
 
 When creating a new page, **copy an existing page** (e.g. a service page) as the
 template rather than starting from scratch, so the nav, footer, palette, and
@@ -216,6 +216,21 @@ denied, so that path must never be turned into a direct purchase link.
 provider list on `buy-online.html`. If a TruStone plan code changes in one place,
 change it in the other.
 
+The two answers are **deep-linkable and remembered**. They are mirrored into the
+query string (`app.html?who=visitor&med=no`) with `history.replaceState`, so a
+match survives a refresh, can be bookmarked, and can be sent to whoever is
+actually paying — the "Send this plan" button uses the Web Share API, falling
+back to the clipboard and then to WhatsApp. The same two answers are kept in
+`localStorage` for 30 days and offered back as a "pick up where you left off"
+card. Only the two answers are ever stored; never a name, a date of birth, or
+anything medical beyond the yes/no already on screen.
+
+When someone comes back to the app after opening an insurer's portal, a
+**follow-up card** asks whether the application went through and offers help if
+they got stuck — most people who fail to buy online drop out on the insurer's
+form, not on ours. It appears once per checkout, and only after 15 seconds, so a
+mis-tap does not trigger it.
+
 The visitor branch also offers **21st Century** (`instant-quote.html`), for
 monthly payments, up to six travellers on one quote, and Pending-status policies
 that can be filed with a Super Visa application. It is styled as a plain
@@ -233,10 +248,23 @@ orphan every existing install as a separate app rather than upgrading it. Leave
 it alone. App icons live in `images/` (`icon-192.png`, `icon-512.png`,
 `icon-maskable-512.png`, `apple-touch-icon.png`), generated in the brand style.
 
+It also carries **screenshots** (`images/screenshot-*.jpg`), which are what make
+Chrome show the full install dialog instead of a one-line bar. The three
+`narrow` entries must all share one aspect ratio (currently 1080x1920) or Chrome
+ignores the set. They are only fetched when the install dialog opens, so they
+never touch page load. Regenerate them from a real render of the page after a
+visual change, not by hand. `launch_handler` is `navigate-existing` so a
+launcher shortcut re-uses the open window rather than starting a second copy and
+losing the answers on screen.
+
 `sw.js` is registered from `app.html`, `buy-online.html` and
 `travel-insurance-calculator.html`. It is network-first for page navigations
 (deploys show immediately) and cache-first for static assets, same-origin GET
 only — it never touches Formspree posts, insurer checkout portals or analytics.
+Navigations give up on the network after `NAVIGATION_TIMEOUT_MS` and serve the
+cached page instead, so a weak mobile connection shows a slightly stale page
+rather than a spinner — unless nothing is cached yet, in which case the network
+request is still what resolves, however long it takes.
 Precache entries are added one at a time, so a single bad URL cannot abort the
 install and leave the app with no offline support. If you change what the app
 loads, update `PRECACHE` in `sw.js` and bump its `CACHE_VERSION` so installed
@@ -305,8 +333,20 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
   money changes hands. **Mark `begin_checkout` as a conversion in GA4 alongside
   `generate_lead`** so Ads bids toward people who buy, not only people who fill
   in a form.
-- `app.html` additionally sends `app_step`, `app_plan_matched`,
-  `app_install_prompt`, `app_install_choice` and `app_installed`.
+- `app.html` additionally sends `app_open` (with `launch_source` and
+  `display_mode`, so the installed app can be told apart from the web page),
+  `app_step`, `app_plan_matched`, `app_plan_shared`, `app_checkout_return`,
+  `app_checkout_help`, `app_application_reported`, `app_install_prompt`,
+  `app_install_choice` and `app_installed`. `app_application_reported` is the
+  visitor saying they bought it — useful to the advisor, but self-reported, so
+  keep it out of the conversions imported into Google Ads; `begin_checkout`
+  stays the purchase-side signal.
+- Page-level scripts send their events through **`window.cpTrack(name, params)`**,
+  which `tracking.js` exports. It stamps the same campaign attribution and page
+  context onto them as the automatic events get — calling `gtag` directly loses
+  the `utm_*`/`gclid` that connects an ad click to the plan someone matched
+  with. `tracking.js` is deferred, so events raised before it executes are
+  queued on `window.cpTrackQueue` and flushed when it loads.
 - `generate_lead` is the conversion — fired on a successful Formspree `fetch`
   response and on the `thankyou.html?lead=1` page (guarded against
   refresh/back-navigation double-counting via a `sessionStorage` flag). **Mark
@@ -316,7 +356,7 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 - **Privacy:** only engagement metadata is sent to GA4 — never form field values
   or contact details. Preserve this; do not add code that sends PII to analytics.
 
-The script is included with a cache-busting query (`tracking.js?v=10`). **If you
+The script is included with a cache-busting query (`tracking.js?v=11`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
 clients fetch the new file.
 

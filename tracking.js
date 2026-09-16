@@ -67,6 +67,19 @@
     }
   }
 
+  // Shared entry point for page-level scripts (app.html) so the events they
+  // send carry the same campaign attribution and page context as the automatic
+  // ones — without it an ad click that ends in an app_plan_matched is invisible
+  // to Google Ads. tracking.js is deferred, so a page that fires an event before
+  // this file executes pushes it onto window.cpTrackQueue and it is flushed here.
+  window.cpTrack = function (name, details) { sendEvent(name, details); };
+
+  var queuedEvents = window.cpTrackQueue;
+  window.cpTrackQueue = null;
+  if (queuedEvents && queuedEvents.length) {
+    queuedEvents.forEach(function (item) { sendEvent(item[0], item[1]); });
+  }
+
   function sendLead(details) {
     sendEvent("generate_lead", details);
     // Direct Google Ads conversion tag (optional): set

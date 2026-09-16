@@ -132,6 +132,12 @@
   /* ---- Result ---- */
   .result { padding: 20px 0 6px; }
   .result[hidden] { display: none; }
+  /* Both panels are focused programmatically so a screen reader announces the
+     new content. Neither is in the tab order, so the only way to focus them is
+     that call — a focus ring would never mean "you are here" to a keyboard
+     user, it would just draw a box round half the screen. */
+  .result:focus, .followup:focus,
+  .result:focus-visible, .followup:focus-visible { outline: none; }
   .pick {
     background: linear-gradient(160deg, #12294b 0%, var(--deep) 100%);
     border: 1px solid rgba(201,151,58,0.45); border-radius: 14px;
@@ -219,6 +225,59 @@
   footer.app .links { margin-bottom: 12px; }
   footer.app .links a { margin-right: 14px; display: inline-block; }
 
+  /* ---- Button rows ---- */
+  .btnrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+  .btnrow .btn { width: auto; margin-top: 0; }
+  .btn-sm { width: auto; display: inline-flex; padding: 11px 16px; font-size: .9rem; }
+
+  /* ---- Resume a previous answer ---- */
+  .resume {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    background: rgba(14,124,123,0.14);
+    border: 1px solid rgba(20,168,167,0.34);
+    border-radius: 12px; padding: 14px 16px; margin-top: 18px;
+  }
+  .resume[hidden] { display: none; }
+  .resume p { margin: 0; flex: 1 1 220px; font-size: .88rem; color: #cfe0e3; }
+  .resume .btn { width: auto; flex: 0 0 auto; padding: 11px 16px; font-size: .9rem; }
+  .resume .back { padding: 0; }
+
+  /* ---- Send the match to whoever is paying ---- */
+  .share {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 14px;
+  }
+  .share p { margin: 0; flex: 1 1 200px; font-size: .86rem; color: var(--text-muted); }
+  .share .btn { width: auto; flex: 0 0 auto; padding: 11px 16px; font-size: .9rem; }
+
+  /* ---- What the insurer's form will ask for ---- */
+  .need {
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; margin-top: 12px;
+  }
+  .need summary { cursor: pointer; font-weight: 700; font-size: .87rem; }
+  .need ul { margin: 10px 0 0; padding-left: 18px; color: #c8d3e4; font-size: .85rem; }
+  .need li { margin-bottom: 5px; }
+
+  /* ---- Secondary buy options, kept visually below the matched plan ---- */
+  .altgroup { margin-top: 18px; }
+  .altgroup-h {
+    font-size: .7rem; font-weight: 700; letter-spacing: 1.3px;
+    text-transform: uppercase; color: var(--text-muted); margin: 0 0 10px;
+  }
+
+  /* ---- Follow-up after an insurer checkout was opened ---- */
+  .followup {
+    background: linear-gradient(160deg, #12294b 0%, var(--deep) 100%);
+    border: 1px solid rgba(201,151,58,0.45); border-radius: 14px;
+    padding: 20px; margin: 22px 0 4px;
+  }
+  .followup[hidden] { display: none; }
+  .followup h2 { margin: 0 0 8px; font-size: 1.05rem; line-height: 1.35; }
+  .followup p { margin: 0 0 12px; color: #c8d3e4; font-size: .89rem; }
+  .followup p:last-of-type { margin-bottom: 14px; }
+
   @media (min-width: 600px) {
     .intro h1 { font-size: 2rem; }
   }
@@ -241,6 +300,12 @@
   </div>
 
   <div class="offline">You are offline right now. The app still works, but the insurer checkout pages need a connection.</div>
+
+  <div class="resume" id="resumeCard" hidden>
+    <p id="resumeText"></p>
+    <button class="btn btn-teal" type="button" id="resumeBtn">Show my plan again</button>
+    <button class="back" type="button" id="resumeDismiss">Start fresh</button>
+  </div>
 
   <!-- STEP 1 -->
   <section class="step" id="step1">
@@ -282,10 +347,21 @@
   </section>
 
   <!-- RESULT -->
-  <section class="result" id="result" hidden>
+  <section class="result" id="result" tabindex="-1" hidden>
     <span class="steplabel">Your match</span>
     <div id="resultBody"></div>
-    <button class="back" type="button" id="restart">&larr; Start over</button>
+    <div class="btnrow">
+      <button class="back" type="button" id="changeAnswers">&larr; Change my answers</button>
+      <button class="back" type="button" id="restart">Start over</button>
+    </div>
+  </section>
+
+  <!-- AFTER AN INSURER CHECKOUT WAS OPENED -->
+  <!-- Shown when someone comes back to the app after opening an insurer's
+       application. Most people who do not buy online drop out on the insurer's
+       form, not on ours, and until now that was invisible and unrecoverable. -->
+  <section class="followup" id="followup" tabindex="-1" hidden>
+    <div id="followupBody"></div>
   </section>
 
   <!-- QUICK ACTIONS -->
@@ -339,7 +415,7 @@
   </div>
 </footer>
 
-<script src="tracking.js?v=10" defer></script>
+<script src="tracking.js?v=11" defer></script>
 <script>
 (function () {
   "use strict";
@@ -347,6 +423,13 @@
   var TRUSTONE = "https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765&xxx:Plan=";
   var TRUSTONE_TAIL = "&xxx:UserLang=english&xxx:AgentID=0&uid=U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==";
   var TUGO = "https://shop.tugo.com/store/TEK200";
+
+  var ANSWER_STORE = "cp_app_answers";
+  var ANSWER_MAX_AGE_DAYS = 30;
+  var CHECKOUT_STORE = "cp_app_checkout";
+  // Long enough that a mis-tap, or a portal that fails to open at all, does not
+  // trigger the "did it go through?" card.
+  var FOLLOWUP_MIN_MS = 15000;
 
   function plan(code) { return TRUSTONE + code + TRUSTONE_TAIL; }
 
@@ -383,24 +466,61 @@
     }
   };
 
+  var WHO_LABEL = {
+    visitor: "someone visiting Canada",
+    outbound: "a Canadian travelling abroad"
+  };
+  var MED_VALUES = { no: 1, yes: 1, unsure: 1 };
+
+  function isAnswer(who, med) { return !!(WHO_LABEL[who] && MED_VALUES[med]); }
+
   var state = { who: "", med: "" };
 
   var step1 = document.getElementById("step1");
   var step2 = document.getElementById("step2");
   var result = document.getElementById("result");
   var resultBody = document.getElementById("resultBody");
+  var followup = document.getElementById("followup");
+  var followupBody = document.getElementById("followupBody");
+  var resumeCard = document.getElementById("resumeCard");
+  var resumeText = document.getElementById("resumeText");
 
   function show(el) { el.hidden = false; }
   function hide(el) { el.hidden = true; }
 
-  function track(name, params) {
-    if (typeof window.gtag === "function") {
-      window.gtag("event", name, params || {});
-    } else {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(["event", name, params || {}]);
+  var standalone = window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
+
+  // ---- Tracking -----------------------------------------------------------
+  // tracking.js is deferred, so it executes after this inline script. Events
+  // raised before then are queued and flushed through window.cpTrack, which
+  // stamps the campaign attribution (utm_*, gclid) that Google Ads needs to
+  // connect an ad click to the plan someone actually matched with. gtag is only
+  // used as a fallback once the page has loaded without tracking.js appearing.
+  var queue = [];
+  var pageLoaded = false;
+
+  function flush() {
+    var send = null;
+    if (typeof window.cpTrack === "function") {
+      send = window.cpTrack;
+    } else if (pageLoaded && typeof window.gtag === "function") {
+      send = function (name, params) { window.gtag("event", name, params); };
+    }
+    if (!send) { return; }
+    while (queue.length) {
+      var item = queue.shift();
+      send(item[0], item[1]);
     }
   }
+
+  function track(name, params) {
+    queue.push([name, params || {}]);
+    flush();
+  }
+
+  document.addEventListener("DOMContentLoaded", flush);
+  window.addEventListener("load", function () { pageLoaded = true; flush(); });
 
   function esc(value) {
     return String(value == null ? "" : value)
@@ -408,20 +528,93 @@
       .replace(/"/g, "&quot;");
   }
 
-  function applyButton(code, label) {
-    return '<a class="btn btn-gold" href="' + esc(plan(code)) + '" target="_blank" rel="noopener"' +
+  // ---- Remembering the answers --------------------------------------------
+  // Two questions is not much to re-answer, but a visitor who closes the app on
+  // the insurer's portal and comes back an hour later should not have to. Only
+  // the two answers are stored — never a name, a date of birth or anything
+  // medical beyond the yes/no already on screen.
+  function saveAnswers() {
+    try {
+      localStorage.setItem(ANSWER_STORE, JSON.stringify({
+        who: state.who, med: state.med, ts: Date.now()
+      }));
+    } catch (e) {}
+  }
+
+  function readAnswers() {
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(ANSWER_STORE) || "null"); } catch (e) { return null; }
+    if (!saved || !isAnswer(saved.who, saved.med)) { return null; }
+    if (!saved.ts || (Date.now() - saved.ts) > ANSWER_MAX_AGE_DAYS * 864e5) { return null; }
+    return saved;
+  }
+
+  function forgetAnswers() {
+    try { localStorage.removeItem(ANSWER_STORE); } catch (e) {}
+  }
+
+  // Keeping the answers in the address bar makes the match shareable: the
+  // family member who is actually paying can be sent a link that opens straight
+  // on the right plan, and a refresh or a back-navigation does not reset it.
+  function syncUrl() {
+    if (!window.history || !window.history.replaceState) { return; }
+    var params = new URLSearchParams(window.location.search);
+    if (state.who) { params.set("who", state.who); } else { params.delete("who"); }
+    if (state.med) { params.set("med", state.med); } else { params.delete("med"); }
+    var qs = params.toString();
+    try {
+      window.history.replaceState(null, "",
+        window.location.pathname + (qs ? "?" + qs : "") + window.location.hash);
+    } catch (e) {}
+  }
+
+  function shareUrl() {
+    return window.location.origin + window.location.pathname +
+      "?who=" + encodeURIComponent(state.who) + "&med=" + encodeURIComponent(state.med);
+  }
+
+  // ---- Choice highlighting ------------------------------------------------
+  function markChoices(container, attr, value) {
+    Array.prototype.forEach.call(container.querySelectorAll("[" + attr + "]"), function (btn) {
+      btn.setAttribute("aria-pressed", btn.getAttribute(attr) === value ? "true" : "false");
+    });
+  }
+
+  // ---- Result -------------------------------------------------------------
+  function applyButton(code, label, extraClass) {
+    return '<a class="btn btn-gold' + (extraClass ? " " + extraClass : "") + '" href="' + esc(plan(code)) + '" target="_blank" rel="noopener"' +
       ' data-trustone-plan="' + esc(code) + '" data-application-type="online_application"' +
       ' data-buy-step="checkout" data-provider="TruStone Health">' + label + '</a>';
   }
 
-  function render() {
+  function needList() {
+    return '<details class="need"><summary>What the insurer’s form will ask for</summary><ul>' +
+      '<li>Each traveller’s name and date of birth, spelled exactly as on the passport</li>' +
+      '<li>The arrival or departure date the coverage should start on</li>' +
+      '<li>A Canadian address for the policy documents, if there is one</li>' +
+      '<li>Current medication and any conditions, for the medical questions</li>' +
+      '<li>A credit card &mdash; the payment is taken on the insurer’s page, never on ours</li>' +
+      '</ul></details>';
+  }
+
+  function shareBlock() {
+    return '<div class="share">' +
+      '<p>Buying this for a parent or someone else? Send them this exact plan instead of explaining it.</p>' +
+      '<button class="btn btn-out" type="button" id="shareBtn">Send this plan</button>' +
+      '</div>';
+  }
+
+  function render(options) {
+    options = options || {};
     var key = state.who + ":" + state.med;
+    var matched = MATCH[key];
     var html = "";
 
     if (state.med === "unsure") {
       // Guessing on the medical questions is the most common reason a large
       // claim is denied, so this path leads to a person, not a checkout.
       var pick = MATCH[state.who + ":yes"];
+      if (!pick) { return; }
       html += '<div class="warn"><strong>Worth a phone call first.</strong> ' +
         'An inaccurate answer on the medical questions is the single most common reason a large claim is denied. ' +
         'Advice costs nothing and the premium is exactly the same, so let us confirm which plan fits before you pay.</div>';
@@ -435,21 +628,28 @@
         '</div>';
       html += '<div class="alt"><h4>Rather go ahead on your own?</h4>' +
         '<p>The plan with the medical questionnaire is the one that applies when there are any conditions at all.</p>' +
-        applyButton(pick.code, "Apply anyway &rarr;") + '</div>';
+        applyButton(pick.code, "Apply anyway &rarr;", "btn-sm") + '</div>';
     } else {
-      var m = MATCH[key];
-      if (!m) { return; }
+      if (!matched) { return; }
       html += '<div class="pick">' +
-        '<span class="tag">' + esc(m.tag) + '</span>' +
-        '<h3>' + m.title + '</h3>' +
-        '<p>' + m.body + '</p>' +
-        applyButton(m.code, "Apply and pay &rarr;") +
-        '<div class="plancode">TruStone Health &middot; plan ' + esc(m.code) + ' &middot; opens on the insurer’s secure site</div>' +
+        '<span class="tag">' + esc(matched.tag) + '</span>' +
+        '<h3>' + matched.title + '</h3>' +
+        '<p>' + matched.body + '</p>' +
+        applyButton(matched.code, "Apply and pay &rarr;") +
+        '<div class="plancode">TruStone Health &middot; plan ' + esc(matched.code) +
+        ' &middot; opens on the insurer’s secure site &middot; confirmation emailed within minutes</div>' +
+        needList() +
         '</div>';
 
-      if (m.valueCode) {
-        html += '<div class="alt"><h4>Cheaper option</h4><p>' + m.valueNote + '</p>' +
-          applyButton(m.valueCode, "Apply &mdash; Value plan &rarr;") + '</div>';
+      html += '<div class="warn">Before you pay, check the <strong>effective date</strong> (it cannot be backdated once travel has begun), the <strong>stability period</strong>, the <strong>deductible</strong>, and that names and dates of birth match the passport exactly.</div>';
+
+      html += shareBlock();
+
+      html += '<div class="altgroup"><h4 class="altgroup-h">Other ways to buy this</h4>';
+
+      if (matched.valueCode) {
+        html += '<div class="alt"><h4>Same coverage, lower premium</h4><p>' + matched.valueNote + '</p>' +
+          applyButton(matched.valueCode, "Apply &mdash; Value plan &rarr;", "btn-sm") + '</div>';
       }
 
       if (state.who === "visitor") {
@@ -466,62 +666,279 @@
           'in <strong>Pending</strong> status so the confirmation can be filed with a Super Visa application before arrival. ' +
           'You price it, we check it with you, then the insurer emails a secure payment link &mdash; you are not ' +
           'covered until that premium is paid.</p>' +
-          '<a class="btn btn-out" href="instant-quote.html" data-buy-step="quote" data-provider="21st Century">' +
+          '<a class="btn btn-out btn-sm" href="instant-quote.html" data-buy-step="quote" data-provider="21st Century">' +
           'Price it yourself &rarr;</a></div>';
       }
 
       html += '<div class="alt"><h4>Compare more plans</h4>' +
         '<p>The TuGo online store carries Super Visa, visitor and travel plans, with monthly installments on some of them.</p>' +
-        '<a class="btn btn-out" href="' + TUGO + '" target="_blank" rel="noopener"' +
+        '<a class="btn btn-out btn-sm" href="' + TUGO + '" target="_blank" rel="noopener"' +
         ' data-tugo-store="TEK200" data-application-type="online_store"' +
         ' data-buy-step="checkout" data-provider="TuGo">Open the TuGo store &rarr;</a></div>';
 
-      html += '<div class="warn">Before you pay, check the <strong>effective date</strong> (it cannot be backdated once travel has begun), the <strong>stability period</strong>, the <strong>deductible</strong>, and that names and dates of birth match the passport exactly.</div>';
-
       html += '<div class="alt"><h4>Want it checked first?</h4>' +
         '<p>We compare 10+ Canadian insurers with one set of details. The premium is identical either way.</p>' +
-        '<a class="btn btn-teal" href="buy-online.html#quote">Have an advisor compare &rarr;</a></div>';
+        '<a class="btn btn-teal btn-sm" href="buy-online.html#quote">Have an advisor compare &rarr;</a></div>';
+
+      html += '</div>';
     }
 
     resultBody.innerHTML = html;
-    hide(step1); hide(step2); show(result);
-    result.scrollIntoView({ behavior: "smooth", block: "start" });
+    hide(resumeCard); hide(step1); hide(step2); show(result);
+
+    var shareBtn = document.getElementById("shareBtn");
+    if (shareBtn) { shareBtn.addEventListener("click", sharePlan); }
+
+    saveAnswers();
+    syncUrl();
+
+    if (options.scroll !== false) {
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    try { result.focus({ preventScroll: true }); } catch (e) { result.focus(); }
 
     track("app_plan_matched", {
       traveller_type: state.who,
       medical_conditions: state.med,
-      plan_code: (MATCH[key] && MATCH[key].code) || "",
+      plan_code: (matched && matched.code) || "",
+      entry: options.entry || "answered",
       buy_channel: "online_self_serve"
     });
   }
 
+  // ---- Sharing the match --------------------------------------------------
+  function sharePlan() {
+    var url = shareUrl();
+    var button = document.getElementById("shareBtn");
+    var text = "Here is the insurance plan that matches — you can apply and pay on the insurer's own page:";
+
+    function confirmCopy() {
+      if (!button) { return; }
+      var original = button.textContent;
+      button.textContent = "Link copied";
+      window.setTimeout(function () { button.textContent = original; }, 2500);
+    }
+
+    if (navigator.share) {
+      navigator.share({ title: "Cover & Protect — your matching plan", text: text, url: url })
+        .then(function () { track("app_plan_shared", { method: "web_share", traveller_type: state.who }); })
+        ["catch"](function () {});
+      return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        confirmCopy();
+        track("app_plan_shared", { method: "clipboard", traveller_type: state.who });
+      })["catch"](openWhatsAppShare);
+      return;
+    }
+
+    openWhatsAppShare();
+
+    function openWhatsAppShare() {
+      window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + url), "_blank", "noopener");
+      track("app_plan_shared", { method: "whatsapp", traveller_type: state.who });
+    }
+  }
+
+  // ---- Follow-up after an insurer checkout --------------------------------
+  function noteCheckout(link) {
+    try {
+      sessionStorage.setItem(CHECKOUT_STORE, JSON.stringify({
+        href: link.href,
+        provider: link.getAttribute("data-provider") || "",
+        plan: link.getAttribute("data-trustone-plan") || "",
+        ts: Date.now()
+      }));
+    } catch (e) {}
+  }
+
+  function readCheckout() {
+    try { return JSON.parse(sessionStorage.getItem(CHECKOUT_STORE) || "null"); } catch (e) { return null; }
+  }
+
+  function clearCheckout() {
+    try { sessionStorage.removeItem(CHECKOUT_STORE); } catch (e) {}
+  }
+
+  resultBody.addEventListener("click", function (event) {
+    var link = event.target.closest ? event.target.closest('a[data-buy-step="checkout"]') : null;
+    if (link) { noteCheckout(link); }
+  });
+
+  function renderFollowup(record) {
+    var provider = record.provider ? esc(record.provider) + "’s application" : "the insurer’s application";
+    var reopen = record.href
+      ? '<a class="btn btn-out btn-sm" href="' + esc(record.href) + '" target="_blank" rel="noopener"' +
+        ' data-buy-step="checkout" data-provider="' + esc(record.provider) + '">Reopen the application &rarr;</a>'
+      : '';
+    followupBody.innerHTML =
+      '<h2>Did the application go through?</h2>' +
+      '<p>You opened ' + provider + '. If something on that form stopped you, it usually takes a couple of minutes to sort out &mdash; and the premium does not change either way.</p>' +
+      '<div class="btnrow">' +
+        '<button class="btn btn-gold btn-sm" type="button" data-followup="done">Yes, I applied</button>' +
+        '<button class="btn btn-teal btn-sm" type="button" data-followup="stuck">I got stuck</button>' +
+        reopen +
+      '</div>';
+    show(followup);
+    followup.scrollIntoView({ behavior: "smooth", block: "start" });
+    try { followup.focus({ preventScroll: true }); } catch (e) {}
+  }
+
+  followupBody.addEventListener("click", function (event) {
+    var button = event.target.closest ? event.target.closest("[data-followup]") : null;
+    if (!button) {
+      // The reopen link is a checkout in its own right — record it so the
+      // follow-up can appear again if they come back a second time.
+      var link = event.target.closest ? event.target.closest('a[data-buy-step="checkout"]') : null;
+      if (link) { noteCheckout(link); hide(followup); }
+      return;
+    }
+
+    var answer = button.getAttribute("data-followup");
+    if (answer === "done") {
+      // Self-reported, so deliberately a separate event from begin_checkout and
+      // generate_lead — useful to the advisor, but not a signal to bid on.
+      track("app_application_reported", {
+        traveller_type: state.who,
+        medical_conditions: state.med,
+        buy_channel: "online_self_serve"
+      });
+      followupBody.innerHTML =
+        '<h2>Good &mdash; here is what happens next</h2>' +
+        '<p>Confirmation of insurance and the full policy wording are normally emailed within minutes. If nothing has arrived in fifteen, check the junk folder before applying again &mdash; a duplicate policy is a nuisance to unwind.</p>' +
+        '<p>Send us the confirmation and we will keep it on file, check the dates and coverage against what you actually needed, and help if you ever have to claim.</p>' +
+        '<div class="btnrow">' +
+          '<a class="btn btn-teal btn-sm" href="mailto:contact@coverandprotect.ca?subject=' +
+          encodeURIComponent("My policy confirmation") + '">Email us the confirmation</a>' +
+          '<a class="btn btn-out btn-sm" href="https://wa.me/16473669495" target="_blank" rel="noopener">Send it on WhatsApp</a>' +
+        '</div>';
+    } else {
+      track("app_checkout_help", {
+        traveller_type: state.who,
+        medical_conditions: state.med
+      });
+      followupBody.innerHTML =
+        '<h2>Tell us where it stopped</h2>' +
+        '<p>Nearly always it is one of three things: a medical question you are not sure how to answer, a date the form will not accept, or a card the insurer declines. We can finish it with you on the phone at the same premium.</p>' +
+        '<div class="btnrow">' +
+          '<a class="btn btn-gold btn-sm" href="tel:6473669495">Call 647-366-9495</a>' +
+          '<a class="btn btn-teal btn-sm" href="https://wa.me/16473669495" target="_blank" rel="noopener">WhatsApp</a>' +
+          '<a class="btn btn-out btn-sm" href="buy-online.html#quote">Send the details instead</a>' +
+        '</div>';
+    }
+  });
+
+  function maybeFollowup() {
+    if (document.visibilityState === "hidden") { return; }
+    if (!followup.hidden) { return; }
+    var record = readCheckout();
+    if (!record || !record.ts || (Date.now() - record.ts) < FOLLOWUP_MIN_MS) { return; }
+    clearCheckout();
+    renderFollowup(record);
+    track("app_checkout_return", {
+      provider: record.provider || "",
+      plan_code: record.plan || ""
+    });
+  }
+
+  document.addEventListener("visibilitychange", maybeFollowup);
+  window.addEventListener("pageshow", maybeFollowup);
+  window.addEventListener("focus", maybeFollowup);
+
+  // ---- Steps --------------------------------------------------------------
+  function goToStep2(scroll) {
+    hide(resumeCard); hide(result); hide(step1); show(step2);
+    markChoices(step1, "data-who", state.who);
+    markChoices(step2, "data-med", state.med);
+    if (scroll !== false) { step2.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  }
+
   Array.prototype.forEach.call(step1.querySelectorAll("[data-who]"), function (btn) {
     btn.addEventListener("click", function () {
-      state.who = btn.dataset.who;
-      hide(step1); show(step2);
-      step2.scrollIntoView({ behavior: "smooth", block: "start" });
+      state.who = btn.getAttribute("data-who");
+      state.med = "";
+      syncUrl();
+      goToStep2();
       track("app_step", { step: 1, traveller_type: state.who });
     });
   });
 
   Array.prototype.forEach.call(step2.querySelectorAll("[data-med]"), function (btn) {
     btn.addEventListener("click", function () {
-      state.med = btn.dataset.med;
+      state.med = btn.getAttribute("data-med");
       track("app_step", { step: 2, medical_conditions: state.med });
       render();
     });
   });
 
   document.getElementById("back2").addEventListener("click", function () {
+    state.who = "";
+    syncUrl();
     hide(step2); show(step1);
+    markChoices(step1, "data-who", "");
     step1.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.getElementById("changeAnswers").addEventListener("click", function () {
+    hide(followup);
+    goToStep2();
   });
 
   document.getElementById("restart").addEventListener("click", function () {
     state.who = ""; state.med = "";
     resultBody.innerHTML = "";
-    hide(result); hide(step2); show(step1);
+    forgetAnswers();
+    syncUrl();
+    hide(followup); hide(result); hide(step2); show(step1);
+    markChoices(step1, "data-who", "");
+    markChoices(step2, "data-med", "");
     step1.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.getElementById("resumeBtn").addEventListener("click", function () {
+    var saved = readAnswers();
+    if (!saved) { hide(resumeCard); return; }
+    state.who = saved.who; state.med = saved.med;
+    render({ entry: "resumed" });
+  });
+
+  document.getElementById("resumeDismiss").addEventListener("click", function () {
+    forgetAnswers();
+    hide(resumeCard);
+  });
+
+  // ---- Entry point --------------------------------------------------------
+  var params = new URLSearchParams(window.location.search);
+  var linkedWho = params.get("who");
+  var linkedMed = params.get("med");
+  var entry = "fresh";
+
+  if (isAnswer(linkedWho, linkedMed)) {
+    // Opened on a shared or bookmarked link that already carries both answers.
+    state.who = linkedWho;
+    state.med = linkedMed;
+    entry = "shared_link";
+    render({ scroll: false, entry: entry });
+  } else if (WHO_LABEL[linkedWho]) {
+    state.who = linkedWho;
+    entry = "shared_link";
+    goToStep2(false);
+  } else {
+    var saved = readAnswers();
+    if (saved) {
+      resumeText.textContent = "Last time you were looking at coverage for " +
+        WHO_LABEL[saved.who] + ". Pick up where you left off?";
+      show(resumeCard);
+      entry = "resume_offered";
+    }
+  }
+
+  track("app_open", {
+    launch_source: params.get("source") || "web",
+    display_mode: standalone ? "standalone" : "browser",
+    entry: entry
   });
 
   // ---- Offline banner ----
@@ -546,9 +963,6 @@
   var titleEl = document.getElementById("installTitle");
   var textEl = document.getElementById("installText");
   var deferred = null;
-
-  var standalone = window.matchMedia("(display-mode: standalone)").matches ||
-    window.navigator.standalone === true;
 
   var ua = navigator.userAgent || "";
   var isIOS = /iPad|iPhone|iPod/.test(ua) ||
