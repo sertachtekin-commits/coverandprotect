@@ -42,7 +42,7 @@
         "propertyID": "FSRA licence",
         "value": "10112782"
       },
-      "telephone": "+1-647-366-9495",
+      "telephone": "+1-437-385-6173",
       "email": "contact@coverandprotect.ca",
       "founder": {
         "@id": "https://coverandprotect.ca/#sertac-tekin"
@@ -72,7 +72,7 @@
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+1-647-366-9495",
+        "telephone": "+1-437-385-6173",
         "email": "contact@coverandprotect.ca",
         "contactType": "customer service",
         "areaServed": "CA-ON",
@@ -188,7 +188,7 @@
       "worksFor": {
         "@id": "https://coverandprotect.ca/#business"
       },
-      "telephone": "+1-647-366-9495",
+      "telephone": "+1-437-385-6173",
       "email": "contact@coverandprotect.ca",
       "knowsAbout": [
         "Super Visa insurance",
