@@ -1,7 +1,7 @@
 # Cover & Protect — Independent Insurance Advisor in Toronto, Ontario
 
 > Canonical website: https://coverandprotect.ca/
-> Last reviewed: 2026-08-16
+> Last reviewed: 2026-09-22
 
 Cover & Protect is an Ontario-licensed independent insurance advisory practice serving Toronto, the Greater Toronto Area, and clients across Ontario. The advisor is Sertac Tekin (FSRA licence #10112782). The practice helps individuals, families, newcomers, parents and grandparents visiting Canada, self-employed professionals, and small businesses compare insurance and savings options from multiple Canadian providers.
 
@@ -40,6 +40,8 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [Annual Multi-Trip Travel Insurance](https://coverandprotect.ca/annual-multi-trip-travel-insurance.html): One policy covering unlimited trips within a per-trip day limit, for frequent leisure and business travellers, plus a direct buy-online path.
 - [Buy Insurance Online](https://coverandprotect.ca/buy-online.html): Central page listing the secure insurer portals for buying Super Visa, visitor to Canada, and travel medical insurance online, with guidance on choosing between the plans and when to speak to the advisor first.
 - [Instant Visitor to Canada Quote](https://coverandprotect.ca/instant-quote.html): Self-serve quoting tool hosted on the Cover & Protect site and powered by 21st Century Travel Insurance; visitors compare plans, coverage limits and deductibles for Visitor to Canada and Super Visa coverage, then the licensed advisor reviews the quote and sends a secure payment link. Policies cannot be bought directly from the insurer without the advisor.
+- [Travel Insurance Cost Calculator](https://coverandprotect.ca/travel-insurance-calculator.html): Illustrative cost estimates for Canadian travel, visitor and Super Visa insurance by age, destination, trip length and coverage amount, before requesting a personalised comparison. Estimates only; the insurer sets the premium.
+- [Buy Online App](https://coverandprotect.ca/app.html): Installable web app that asks who the coverage is for and whether there are pre-existing conditions, then returns the single matching insurer plan with an apply-and-pay link.
 - [Individual Health Insurance](https://coverandprotect.ca/health-insurance.html): Health and dental plans for individuals, families, and self-employed people.
 - [Group Benefits](https://coverandprotect.ca/group-benefits.html): Health, dental, disability, and life benefits for Ontario employers.
 - [Critical Illness Insurance](https://coverandprotect.ca/critical-illness.html): Lump-sum protection following a covered critical illness diagnosis.
@@ -67,11 +69,15 @@ Cover & Protect is an Ontario-licensed independent insurance advisory practice s
 - [How Much Life Insurance Do I Need?](https://coverandprotect.ca/blog-how-much-life-insurance.html)
 - [RESP and CESG Explained](https://coverandprotect.ca/blog-resp-cesg-explained.html)
 - [RRSP vs. TFSA](https://coverandprotect.ca/blog-rrsp-vs-tfsa.html)
+- [Super Visa Insurance Guide for Families](https://coverandprotect.ca/super-visa-guide.html): Plain-language walkthrough of the four rules a Super Visa policy must meet, typical cost by age, and the legitimate ways to pay less.
+- [Group Benefits for Ontario Small Businesses](https://coverandprotect.ca/blog-group-benefits-small-business.html): How a small Ontario employer compares health, dental, disability, life and retirement benefits by team needs, budget and tax treatment.
+- [Why Ontario Families Need a Will](https://coverandprotect.ca/blog-will-ontario.html): What happens to an Ontario estate without a will, including estate administration and guardianship.
+- [Power of Attorney in Ontario](https://coverandprotect.ca/blog-power-of-attorney-ontario.html): The two types of Ontario power of attorney, what happens without one, and the common spousal misconception.
 - [All Insurance Guides](https://coverandprotect.ca/blog.html)
 
 ## Insurer access described on the website
 
-The website identifies access to insurers and providers including Manulife, Canada Life, TuGo, RBC Insurance, Desjardins, iA Financial Group, BMO Insurance, Empire Life, 21st Century Travel Insurance, and TrustStone Health. Product availability, underwriting, eligibility, pricing, exclusions, and policy wording remain subject to the applicable insurer.
+The website identifies access to insurers and providers including Manulife, Canada Life, TuGo, RBC Insurance, Desjardins, iA Financial Group, BMO Insurance, Empire Life, 21st Century Travel Insurance, and TruStone Health. Product availability, underwriting, eligibility, pricing, exclusions, and policy wording remain subject to the applicable insurer.
 
 ## Citation and interpretation notes
 
