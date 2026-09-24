@@ -21,6 +21,16 @@ const stub = (choice, confidence = 0.95) => {
   const ask = (state) => { calls.push(state); return { type: 'choice', choice, confidence }; };
   return { ask, calls };
 };
+// A Formspree notification body, laid out exactly as Formspree sends it
+// (checked against real lead emails; the people and values here are made up).
+const formspree = (pairs) => [
+  "You've received a new form submission. --", '', '*New form submission on Cover & Protect Leads*', '',
+  "Someone just submitted a form on coverandprotect.ca/. Here's what they had", 'to say:', '',
+  pairs.map(([k, v]) => (v ? `${k}\n${v}` : k)).join('\n\n'), '',
+  'Submitted 11:45 PM - 21 September 2026', 'Mark as spam', '<https://formspree.io/mark-spam?id=abc>', '',
+  '[image: Formspree logo] <https://formspree.io>', '',
+  'You are receiving this because you confirmed this email address on', 'Formspree.',
+].join('\n');
 const neverAsk = () => { throw new Error('TypeSafe should not be called'); };
 
 await test('request body matches what the official SDK sends', async () => {
@@ -49,49 +59,50 @@ await test('every product the model can pick has a Gmail label', () => {
 });
 
 await test('no message: page decides, no API call', () => {
-  const body = 'fname: Ana\nemail: ana@example.com\nphone: 416-555-0100\nnotes: \n';
+  const body = formspree([['fname', 'Ana'], ['email', 'ana@example.com'], ['phone', '416-555-0100'], ['notes', ''], ['source_page', '/critical-illness.html']]);
   same(cs.decideLabels('New Lead - Critical Illness Quote - Cover&Protect', body, 'k', neverAsk), [L.critical_illness]);
 });
 
 await test('buy-online dropdown decides when there is no message', () => {
-  const body = 'coverage: Snowbird / long-stay coverage\nnotes: ok\n';
+  const body = formspree([['coverage', 'Snowbird / long-stay coverage'], ['notes', 'ok']]);
   same(cs.decideLabels('New Lead - Buy Online Page - Cover&amp;Protect', body, 'k', neverAsk), [L.travel]);
 });
 
 await test('generic form with no message goes to review', () => {
-  const body = 'coverage: Not sure — need advice\n';
+  const body = formspree([['coverage', 'Not sure — need advice']]);
   same(cs.decideLabels('New Lead - Buy Online Page - Cover&amp;Protect', body, 'k', neverAsk), [cs.REVIEW_LABEL]);
 });
 
 await test('message overrides the page, and both labels show', () => {
   const { ask } = stub('super_visa');
-  const body = 'notes: My parents are applying for the Super Visa next month\n';
+  const body = formspree([['ages', '66, 68'], ['notes', 'My parents are applying for the Super Visa next month']]);
   same(cs.decideLabels('New Lead - Travel Insurance - Cover&amp;Protect', body, 'k', ask), [L.super_visa, L.travel]);
 });
 
 await test('message agrees with the page: one label', () => {
   const { ask } = stub('visitor');
-  const body = 'message: My sister is visiting from Turkey for 3 months\n';
+  const body = formspree([['visitor_age', '61'], ['message', 'My sister is visiting from Turkey for 3 months'], ['product_interest', 'Visitor insurance']]);
   same(cs.decideLabels('New Visitor Insurance landing page lead - Cover & Protect', body, 'k', ask), [L.visitor]);
 });
 
 await test('low confidence falls back to the page', () => {
   const { ask } = stub('life_estate', 0.4);
-  same(cs.decideLabels('New Lead - Health Insurance - Cover&amp;Protect', 'notes: what options do I have for my family?', 'k', ask), [L.health_dental]);
+  same(cs.decideLabels('New Lead - Health Insurance - Cover&amp;Protect', formspree([['notes', 'what options do I have for my family?']]), 'k', ask), [L.health_dental]);
 });
 
 await test('unclear on a generic form goes to review', () => {
   const { ask } = stub('unclear', 0.99);
-  same(cs.decideLabels('New Lead - Travel Insurance Calculator Quote Request', 'message: please call me back tomorrow', 'k', ask), [cs.REVIEW_LABEL]);
+  same(cs.decideLabels('New Lead - Travel Insurance Calculator Quote Request', formspree([['message', 'please call me back tomorrow']]), 'k', ask), [cs.REVIEW_LABEL]);
 });
 
 await test('contact details and attribution never reach TypeSafe', () => {
   const { ask, calls } = stub('savings');
-  const body = [
-    'fname: Ana', 'lname: Silva', 'email: ana@example.com', 'phone: (416) 555-0100',
-    'utm_source: google', 'gclid: abc123', '_next: https://coverandprotect.ca/thankyou.html?lead=1',
-    'notes: Want to open an RESP. Reach me at ana.s@example.org or 647 555 0199.',
-  ].join('\n');
+  const body = formspree([
+    ['fname', 'Ana'], ['lname', 'Silva'], ['email', 'ana@example.com'], ['phone', '(416) 555-0100'],
+    ['utm_source', 'google'], ['gclid', 'abc123'], ['_next', 'https://coverandprotect.ca/thankyou.html?lead=1'],
+    ['notes', 'Want to open an RESP. Reach me at ana.s@example.org or 6475550199.'],
+    ['source_page', '/savings-plans.html'],
+  ]);
   cs.decideLabels('New Lead - Savings Plans - Cover&amp;Protect', body, 'k', ask);
   const sent = JSON.stringify(calls[0]);
   for (const secret of ['Ana', 'Silva', 'example', '555', 'google', 'abc123', 'thankyou']) {
@@ -100,12 +111,29 @@ await test('contact details and attribution never reach TypeSafe', () => {
   assert.match(calls[0].fields.notes, /RESP.*\[email\].*\[phone\]/);
 });
 
-await test('value on the line after its field name is parsed', () => {
-  same(cs.parseFields('notes:\nNeed coverage for\nmy two kids\n\nages: 34'), { notes: 'Need coverage for my two kids', ages: '34' });
+await test('parses the real Formspree layout, including empty fields', () => {
+  same(cs.parseFields(formspree([
+    ['fname', 'Ana'], ['ages', '65'], ['notes', ''], ['source_page', '/annual-multi-trip-travel-insurance.html'], ['product_interest', ''],
+  ])), { fname: 'Ana', ages: '65', notes: '', source_page: '/annual-multi-trip-travel-insurance.html', product_interest: '' });
+});
+
+await test('multi-line and multi-paragraph messages stay in one field', () => {
+  const f = cs.parseFields(formspree([['message', 'Hello,\nmy parents arrive in May.\n\nThey need the Super Visa policy.'], ['source_page', '/x.html']]));
+  same(f.message, 'Hello, my parents arrive in May. They need the Super Visa policy.');
+  same(f.source_page, '/x.html');
+});
+
+await test('Windows line endings parse the same', () => {
+  same(cs.parseFields(formspree([['notes', 'need dental'], ['ages', '40']]).replace(/\n/g, '\r\n')), { notes: 'need dental', ages: '40' });
+});
+
+await test('unrecognised email layout: nothing parsed, page label, no API call', () => {
+  same(cs.parseFields('notes: my parents need Super Visa cover'), {});
+  same(cs.decideLabels('New Lead - Health Insurance - Cover&amp;Protect', 'Hi, my parents need Super Visa cover', 'k', neverAsk), [L.health_dental]);
 });
 
 await test('missing API key throws so the lead is retried later', () => {
-  assert.throws(() => cs.decideLabels('New Lead - Health Insurance - Cover&amp;Protect', 'notes: need dental for my whole family', '', neverAsk), /TYPESAFE_API_KEY/);
+  assert.throws(() => cs.decideLabels('New Lead - Health Insurance - Cover&amp;Protect', formspree([['notes', 'need dental for my whole family']]), '', neverAsk), /TYPESAFE_API_KEY/);
 });
 
 await test('every page subject on the site maps as intended', () => {

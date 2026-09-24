@@ -214,31 +214,35 @@ function productFromForm(subject, fields) {
 }
 
 /**
- * Parses a Formspree notification body into { field: value }. Formspree lists
- * each field as "name: value" or as the name on one line and the value on the
- * following line(s); both are handled. Unrecognised text is kept under
- * "email_text" so a format change degrades to less structure, not lost input.
+ * Parses a Formspree notification body into { field: value }.
+ *
+ * Formspree lists the submission between "Here's what they had to say:" and
+ * "Submitted <time>", one field per block: the field name alone on a line,
+ * the value on the following line(s), and a blank line before the next field.
+ * An empty field is just its name. Field names on this site are lowercase
+ * identifiers (fname, source_page), so a block that starts any other way,
+ * such as a second paragraph of a message, is joined to the previous field.
+ *
+ * If the layout isn't recognised this returns {}, so the lead is labelled by
+ * its page and no raw email text is sent anywhere.
  */
 function parseFields(body) {
-  const known = /^(_?[a-z][a-z0-9_]*)\s*:\s*(.*)$/i;
+  const text = String(body || '').replace(/\r\n?/g, '\n');
+  const m = text.match(/what they had\s+to say:[^\n]*\n([\s\S]*?)(?:\n\s*Submitted \d|$)/i);
   const fields = {};
-  const loose = [];
-  let current = null;
+  if (!m) return fields;
 
-  String(body || '').split(/\r?\n/).forEach(function (raw) {
-    const line = raw.trim();
-    if (!line) { current = null; return; }
-    const m = line.match(known);
-    if (m && !/^https?$/i.test(m[1])) {
-      current = m[1].toLowerCase();
-      fields[current] = m[2].trim();
+  let current = null;
+  m[1].split(/\n\s*\n/).forEach(function (block) {
+    const lines = block.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+    if (!lines.length) return;
+    if (/^_?[a-z][a-z0-9_]*$/.test(lines[0])) {
+      current = lines[0];
+      fields[current] = lines.slice(1).join(' ');
     } else if (current) {
-      fields[current] = (fields[current] ? fields[current] + ' ' : '') + line;
-    } else {
-      loose.push(line);
+      fields[current] = (fields[current] ? fields[current] + ' ' : '') + lines.join(' ');
     }
   });
-  if (loose.length && Object.keys(fields).length === 0) fields.email_text = loose.join(' ');
   return fields;
 }
 
