@@ -67,6 +67,7 @@ Everything lives at the repository root (flat structure):
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
 | `images/` | All image assets (hero images, illustrations) |
+| `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
 
 `_site/` (the Jekyll build output) is git-ignored — never commit it; GitHub Pages
 builds it server-side.
@@ -256,6 +257,13 @@ Lead forms post to **Formspree** endpoint `https://formspree.io/f/mdajwykn`
 `tracking.js` additionally injects hidden `utm_*`/`gclid`/etc. attribution fields
 into each Formspree form at runtime (see "Analytics & tracking"), so the owner's
 lead email carries the campaign that produced it — you don't hand-author those.
+
+**Lead sorting.** `tools/lead-sorter/Code.gs` runs in the inbox that receives
+these emails and labels each lead by product. It maps each form's `_subject` to a
+product in `SUBJECT_RULES`, so when you add a form or change a `_subject`, update
+that table and run `node test.mjs` there. `tools/` is excluded from the Jekyll
+build. The script never sends contact details or ad-click IDs to TypeSafe;
+keep it that way.
 
 `thankyou.html` reads `?lead=1` and fires the conversion event, then
 auto-redirects home after a few seconds. When adding a form, mirror this exact
