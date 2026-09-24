@@ -1,0 +1,16 @@
+{
+  "name": "coverandprotect-search-audit",
+  "private": true,
+  "type": "module",
+  "description": "Search & AI-visibility audit for coverandprotect.ca using TypeSafe",
+  "scripts": {
+    "audit": "node audit.mjs",
+    "test": "node test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@typesafe-ai/sdk": "0.6.0"
+  }
+}
