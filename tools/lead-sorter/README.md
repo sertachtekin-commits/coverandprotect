@@ -35,8 +35,8 @@ this on.
 
 ## Setup (about 10 minutes, once)
 
-1. Sign in to the Google account that **receives** the lead emails, and open
-   <https://script.google.com> → **New project**. Name it "Lead sorter".
+1. Sign in to **sertach.tekin@gmail.com**, the account that receives the
+   Cover & Protect lead emails. Then open <https://script.google.com> → **New project**. Name it "Lead sorter".
 2. Replace the contents of `Code.gs` with this folder's `Code.gs`, then save.
 3. **Project Settings** (gear icon) → **Script properties** → add
    `TYPESAFE_API_KEY` = your key from TypeSafe. The key stays in the script
