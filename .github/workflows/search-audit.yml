@@ -1,0 +1,55 @@
+name: Search & AI visibility audit
+
+# Run by hand: Actions → "Search & AI visibility audit" → Run workflow.
+# Needs the TYPESAFE_API_KEY repository secret. The report appears on the run's
+# summary page and as a downloadable report.md.
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Check only the first N searches in queries.txt (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: search-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: tools/search-audit
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Audit
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          LIMIT: ${{ inputs.limit }}
+        run: node audit.mjs ${LIMIT:+--limit "$LIMIT"}
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-audit-report
+          path: tools/search-audit/report.md
+          if-no-files-found: ignore

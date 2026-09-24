@@ -68,6 +68,7 @@ Everything lives at the repository root (flat structure):
 | `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
 | `images/` | All image assets (hero images, illustrations) |
 | `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
+| `tools/search-audit/` | TypeSafe search & AI-visibility audit of the sitemap pages, run from GitHub Actions (not published; see its README) |
 
 `_site/` (the Jekyll build output) is git-ignored — never commit it; GitHub Pages
 builds it server-side.
@@ -340,6 +341,17 @@ clients fetch the new file.
   `tracking.js` behavior changes, edit the script and bump `?v=` on all pages.
 - **Always update `sitemap.xml`** (add/remove `<url>` entries, refresh
   `<lastmod>`) when pages are added, removed, or substantially changed.
+
+## Search & AI visibility audit
+
+`tools/search-audit/` checks the searches in its `queries.txt` against every
+page in `sitemap.xml`. For each search it reports whether one page answers it,
+and how directly. Run it from **Actions → Search & AI visibility audit**; it
+needs the `TYPESAFE_API_KEY` repository secret. When you fix a page the report
+flags, put a direct, specific answer to the search in the page's first
+paragraph, one that could be quoted on its own. Keep the page's FAQ JSON-LD in
+sync with its visible FAQ. New pages are picked up from `sitemap.xml`
+automatically.
 
 ## Workflow notes
 

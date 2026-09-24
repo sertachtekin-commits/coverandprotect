@@ -1,0 +1,65 @@
+# Searches to check, one per line. Lines starting with # are ignored.
+#
+# This starter list is an educated guess at what Cover & Protect's clients
+# search for. Replace or extend it with real searches from Google Search Console:
+# Performance → Search results → Queries → Export, then paste the queries here.
+# Questions people ask AI assistants belong here too, phrased the way people ask them.
+
+# Super Visa
+super visa insurance
+super visa insurance cost
+super visa insurance monthly payment
+cheapest super visa insurance
+best super visa insurance company
+super visa insurance requirements 2026
+can I get a refund on super visa insurance
+does super visa insurance cover pre-existing conditions
+can I buy super visa insurance from a foreign insurer
+super visa vs visitor visa insurance
+
+# Visitors to Canada
+visitor insurance canada
+visitor insurance for parents
+insurance for visitors to canada with pre-existing conditions
+can I buy visitor insurance after arrival in canada
+health insurance for new immigrants waiting for ohip
+how long is the ohip waiting period
+international student health insurance ontario
+
+# Travel (outbound)
+travel insurance for seniors canada
+snowbird travel insurance
+annual multi-trip travel insurance
+travel insurance with pre-existing conditions
+how to make a travel insurance claim
+do I need travel insurance to go to the us from canada
+
+# Health, dental, disability
+private health insurance ontario
+health and dental insurance for self-employed
+dental insurance without employer ontario
+disability insurance for self-employed ontario
+
+# Business
+group benefits for small business ontario
+how much do employee benefits cost per employee
+
+# Critical illness, life, estate
+critical illness insurance
+is critical illness insurance worth it
+term vs whole life insurance
+how much life insurance do I need
+mortgage life insurance vs term life insurance
+life insurance for seniors over 70 canada
+do I need a will in ontario
+power of attorney ontario
+
+# Long-term care, savings
+long term care insurance ontario
+rrsp vs tfsa
+resp grant how much
+segregated funds vs mutual funds
+
+# Local
+insurance broker toronto
+independent insurance advisor near me
