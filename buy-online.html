@@ -363,6 +363,56 @@
     });
   }
 </script>
+<style>
+  /* Phase 2 pickup banner — quote context bridge from the chat assistant. */
+  .cp-pickup{background:linear-gradient(160deg,rgba(20,168,167,.14),rgba(20,168,167,.05));border:1px solid rgba(20,168,167,.45);border-radius:14px;padding:16px 18px;margin:0 0 18px;}
+  .cp-pickup-t{font-weight:800;font-size:1rem;color:#fff;margin-bottom:4px;}
+  .cp-pickup-s{font-size:.86rem;opacity:.85;margin-bottom:4px;}
+  .cp-pickup-r{font-size:.86rem;opacity:.9;margin-bottom:12px;}
+  .cp-pickup-r b{color:#e5b657;}
+  .cp-pickup-a{display:flex;gap:10px;flex-wrap:wrap;}
+  .cp-pickup-a button{cursor:pointer;border:none;border-radius:9px;min-height:44px;padding:12px 20px;font-weight:700;font-size:.9rem;}
+  #cp-pickup-go{background:#0e7c7b;color:#fff;}
+  #cp-pickup-go:hover{background:#14a8a7;}
+  #cp-pickup-x{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);}
+  .cp-pick{outline:2px solid #e5b657 !important;outline-offset:3px;border-radius:12px;}
+</style>
+<script>
+(function(){
+  var KEY="cpq_v1",ctx=null;
+  try{ctx=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}
+  if(!ctx||!ctx.rec||Date.now()-ctx.ts>864e5)return;
+  var SEL={"instant":'a.prov[href^="instant-quote"]',"tugo":'a.prov[data-tugo-store]',
+    "trustone-ELVTC":'a.prov[data-trustone-plan="ELVTC"]',"trustone-ELVTCUW":'a.prov[data-trustone-plan="ELVTCUW"]',
+    "trustone-ELOOCNP":'a.prov[data-trustone-plan="ELOOCNP"]',"trustone-ELOOC":'a.prov[data-trustone-plan="ELOOC"]'};
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  var sec=document.querySelector("#providers .wrap");
+  if(!sec)return;
+  var list=sec.querySelector(".providers");
+  var card=SEL[ctx.rec.key]?document.querySelector(SEL[ctx.rec.key]):null;
+  var b=document.createElement("div");
+  b.className="cp-pickup";b.id="cp-pickup";
+  var est=ctx.est?(' &middot; est. <b>$'+ctx.est.low.toLocaleString()+"&ndash;$"+ctx.est.high.toLocaleString()+" CAD</b>"):"";
+  b.innerHTML='<div class="cp-pickup-t">Your chat quote is ready</div>'+
+    '<div class="cp-pickup-s">'+esc(ctx.summary)+est+'</div>'+
+    '<div class="cp-pickup-r">Recommended: <b>'+esc(ctx.rec.title)+'</b>'+(card?" — highlighted below.":"")+'</div>'+
+    '<div class="cp-pickup-a"><button id="cp-pickup-go" type="button">Continue to this option</button>'+
+    '<button id="cp-pickup-x" type="button">Dismiss</button></div>';
+  if(list){sec.insertBefore(b,list);}else{sec.appendChild(b);}
+  if(card){card.classList.add("cp-pick");}
+  document.getElementById("cp-pickup-go").onclick=function(){
+    if(card){card.scrollIntoView({behavior:"smooth",block:"center"});card.focus&&card.focus();}
+    else if(list){list.scrollIntoView({behavior:"smooth"});}
+  };
+  document.getElementById("cp-pickup-x").onclick=function(){
+    b.remove();
+    var c=document.querySelector(".cp-pick");
+    if(c)c.classList.remove("cp-pick");
+    try{localStorage.removeItem(KEY);}catch(e){}
+  };
+})();
+</script>
+
 {% include buy-bar.html %}
 {% include cpbot.html %}
 </body>

@@ -267,7 +267,7 @@
   function startQuote(){
     typingThen(function(){
       bot("Which quote would you like to start? It takes under a minute.");
-      chips([{label:"Super Visa",key:"@supervisa"},{label:"Visitor to Canada",key:"@visitor"},{label:"Travel (abroad)",key:"@travel"},{label:"Life insurance",key:"@life"},{label:"Group benefits",key:"@group"},{label:"Health / dental",key:"@health"},{label:"RESP / RRSP",key:"@savings"},{label:"Mortgage protection",key:"@mortgage"}]);
+      chips([{label:"Super Visa",key:"@supervisa"},{label:"Visitor to Canada",key:"@visitor"},{label:"Travel (abroad)",key:"@travel"},{label:"Top-up past my plan",key:"@topup"},{label:"Annual multi-trip",key:"@annual"},{label:"Life insurance",key:"@life"},{label:"Group benefits",key:"@group"},{label:"Health / dental",key:"@health"},{label:"RESP / RRSP",key:"@savings"},{label:"Mortgage protection",key:"@mortgage"}]);
     });
   }
 
@@ -285,6 +285,7 @@
     var st=session.flow.steps[session.step];
     if(st.t==="contact"){renderContact();return;}
     if(st.t==="estimate"){showEstimate();return;}
+    if(st.t==="recommend"){showRecommend();return;}
     typingThen(function(){
       bot(st.q);
       if(st.t==="choice"){
@@ -326,12 +327,13 @@
       r=estSupervisa(age,stable);days=365;
       label="1 year &middot; $100,000 coverage";
     }
-    var extra=stable?" &middot; stable conditions":"";
+    var n=normalizeCtx("estimate",session.data);
+    var rec=recommendFor(n);
     typingThen(function(){
-      bot("Illustrative estimate: <b>"+money(r.low)+" &ndash; "+money(r.high)+" CAD</b><br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+label+" &middot; age "+age+extra+". Not a quote &mdash; actual rates depend on the insurer and your details (assumptions v2026.07).</span>");
+      handoffCard(n,rec,{r:r,label:label+" &middot; age "+age+(stable?" &middot; stable conditions":"")});
       setTimeout(function(){
-        chips([{label:"Open the full calculator",href:CALC},{label:"Start a real quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
-      },300);
+        chips([{label:"Open the full calculator",href:CALC},{label:"Get a fresh quote",key:"#quote"}]);
+      },1200);
     });
     session.flow=null;session.fkey=null;session.step=0;session.data={};input.placeholder=DEFAULT_PH;
   }
@@ -441,6 +443,8 @@
     if(key==="#covisit"){copilotVisit();return;}
     if(key==="#coabroad"){copilotAbroad();return;}
     if(key==="#stuck"){stuckHelp();return;}
+    if(key.indexOf("#walk-")===0){walkThrough(key.slice(6));return;}
+    if(key==="#tocontact"){session.step++;nextStep();return;}
     if(key[0]==="@"){startFlow(key.slice(1));return;}
     if(key[0]==="="){advance(key.slice(1));return;}
     if(KB[key]){ if(key==="quote"){leadForm("");} else {answerFaq(key);} return; }
@@ -470,7 +474,10 @@
   function greet(){
     var h=new Date().getHours();var g=h<12?'Good morning':(h<18?'Good afternoon':'Good evening');
     var p=location.pathname||"";
-    if(/buy-online/i.test(p)){copilotGreet(g);return;}
+    if(/buy-online/i.test(p)){
+      if(/[(?&]pickup=1/.test(location.search||"")){pickupGreet();return;}
+      copilotGreet(g);return;
+    }
     if(/instant-quote/i.test(p)){
       bot(g+"! Working on your instant quote? Quick heads-up: the tool runs on the insurer's system - if it looks stuck or says the session expired, open it in its own tab. Tell me where you're stuck and I'll point you the right way.");
       chips([{label:"Tool looks stuck",key:"#stuck"},{label:"Get a quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
@@ -484,6 +491,187 @@
     bot(g+"! I'm the Cover &amp; Protect assistant. Ask me anything, get a quote in under a minute, or pick a topic below.");
     chips(MENU);
   }
+
+
+  /* ================= PHASE 2 — smarter quoting: guided flows + deep buy-online integration =================
+     - saveCtx/loadCtx: quote context bridge (localStorage, 24h). buy-online.html reads it and shows a
+       "pick up your quote" banner with the recommended provider card highlighted.
+     - recommendFor: picks the best buy path from collected facts (real product rules, no invented prices).
+     - {t:"recommend"} flow step: estimate + "your best path" handoff card with Continue-to-buy / walkthrough.
+     - New flows: topup (top-up past another plan), annual (annual multi-trip).
+     - WALK walkthroughs: per-provider step-by-step buying guidance, incl. hard-won gotchas. */
+  var CTX_KEY="cpq_v1", BUY_ONLINE="buy-online.html";
+  function saveCtx(o){try{o.ts=Date.now();localStorage.setItem(CTX_KEY,JSON.stringify(o));}catch(e){}}
+  function loadCtx(){try{var o=JSON.parse(localStorage.getItem(CTX_KEY)||"null");if(o&&Date.now()-o.ts<864e5)return o;}catch(e){}return null;}
+  function clearCtx(){try{localStorage.removeItem(CTX_KEY);}catch(e){}}
+  function firstAge(s){var m=String(s||"").match(/\d{1,3}/);return m?parseInt(m[0],10):NaN;}
+  function parseDays(s){
+    s=String(s||"");
+    var m=s.match(/(\d+)\s*days?/i);if(m)return parseInt(m[1],10);
+    m=s.match(/(\d+)\s*(?:months?|mos?)\b/i);if(m)return parseInt(m[1],10)*30;
+    m=s.match(/[A-Za-z]{3,9}\s*(\d{1,2})\s*[-–]\s*(\d{1,2})/);if(m){var d=parseInt(m[2],10)-parseInt(m[1],10)+1;return d>0&&d<=365?d:NaN;}
+    m=s.match(/(\d+)\s*(?:years?|yrs?)\b/i);if(m)return parseInt(m[1],10)*365;
+    return NaN;
+  }
+  function normCond(v){v=String(v||"").toLowerCase();return /stable|recent|yes/.test(v)?"stable":"none";}
+  /* Recommend the best buy path. Prices are never invented here — only the route + reasoning. */
+  function recommendFor(n){
+    var usa=/yes/.test(String(n.usa||"").toLowerCase());
+    var cond=normCond(n.cond)==="stable";
+    var r={key:"instant",title:"Instant quote (21st Century)",url:INSTANT_QUOTE,ext:false,walk:"instant",why:""};
+    if(n.ptype==="topup"){
+      r.why="Top-ups are priced as single-trip top-up coverage starting the day after your current plan ends. The on-site instant quote handles top-up dates directly.";
+      return r;
+    }
+    if(n.ptype==="annual"){
+      if(n.days>35||/yes/.test(String(n.long||"").toLowerCase())){
+        r.why="You need more than 35 days per trip, so TuGo's annual (35-day max, $5M limit) won't cover it — the 21st Century annual goes to 60 days per trip with a $10M limit.";
+        return r;
+      }
+      r={key:"tugo",title:"TuGo annual multi-trip",url:BUY_ONLINE+"?pickup=1",ext:false,walk:"tugo",
+         why:"For annual plans TuGo is usually the value pick — just note the $5M benefit limit (no $10M option on TuGo annuals)."};
+      return r;
+    }
+    if(n.ptype==="visitor"||n.ptype==="supervisa"){
+      if(/yes/.test(String(n.monthly||"").toLowerCase())){
+        var plan=cond?"ELVTCUW":"ELVTC";
+        return {key:"trustone-"+plan,title:"TruStone application ("+plan+")",url:BUY_ONLINE+"?pickup=1",ext:false,walk:"trustone",
+          why:"You want monthly payments — TruStone bills monthly on this plan, and the card below is highlighted for you."};
+      }
+      r.why="For visitor/Super Visa the on-site instant quote prices every plan side by side — fastest way to compare.";
+      return r;
+    }
+    /* abroad single-trip */
+    r={key:"tugo",title:"TuGo online store",url:BUY_ONLINE+"?pickup=1",ext:false,walk:"tugo",
+       why:"TuGo's store quotes and sells single-trip emergency medical in one flow"+(usa?", including USA coverage":"")+"."};
+    return r;
+  }
+  function ctxSummary(n){
+    var bits=[];
+    if(n.ptype==="supervisa")bits.push("Super Visa");
+    else if(n.ptype==="visitor")bits.push("Visitor to Canada");
+    else if(n.ptype==="annual")bits.push("Annual multi-trip");
+    else if(n.ptype==="topup")bits.push("Top-up coverage");
+    else bits.push("Travel abroad");
+    if(!isNaN(n.age))bits.push("age "+n.age);
+    if(n.days&&!isNaN(n.days)&&n.ptype!=="annual")bits.push(n.days+" days");
+    if(n.dest)bits.push(esc(String(n.dest).slice(0,40)));
+    return bits.join(" · ");
+  }
+  function normalizeCtx(fkey,d){
+    var n={ptype:d.ptype||fkey};
+    if(fkey==="estimate"){n.age=parseInt(d.age,10);n.days=parseInt(d.days,10);n.usa=d.usa;n.cond=d.cond;}
+    else if(fkey==="travel"){n.age=firstAge(d.ages);n.days=parseDays(d.dates);n.dest=d.dest;n.usa=/usa|united states|america/i.test(d.dest||"")?"yes":"no";n.cond="none";n.plan=d.plan;
+      if(/multi/i.test(d.plan||""))n.ptype="annual";}
+    else if(fkey==="supervisa"){n.age=firstAge(d.ages);n.days=/2/.test(d.term||"")?730:365;n.cond=d.pre;n.count=d.count;}
+    else if(fkey==="visitor"){n.age=firstAge(d.ages);n.days=parseDays(d.length);n.cond=d.pre;}
+    else if(fkey==="topup"){n.age=parseInt(d.age,10);n.days=parseInt(d.days,10);n.usa=d.usa;n.cond=d.pre;n.baseEnd=d.baseEnd;}
+    else if(fkey==="annual"){n.age=firstAge(d.ages);n.days=parseInt(d.longest,10);n.long=d.longest;n.usa=d.usa;n.cond=d.pre;}
+    return n;
+  }
+  function estimateFor(n){
+    if(isNaN(n.age)||isNaN(n.days)||n.days<1)return null;
+    var stable=normCond(n.cond)==="stable";
+    if(n.ptype==="visitor")return {r:estVisitor(n.age,n.days,stable),label:n.days+"-day stay · $100,000 coverage"};
+    if(n.ptype==="supervisa")return {r:estSupervisa(n.age,stable),label:"1 year · $100,000 coverage"};
+    if(n.ptype==="topup"||n.ptype==="abroad"||n.ptype==="travel"){
+      var usa=/yes/.test(String(n.usa||"").toLowerCase());
+      return {r:estAbroad(n.age,n.days,usa,stable),label:n.days+"-day top-up · emergency medical"+(usa?" · incl. USA":"")};
+    }
+    return null;
+  }
+  function handoffCard(n,rec,est){
+    var html="";
+    if(est){
+      html+="Illustrative estimate: <b>"+money(est.r.low)+" &ndash; "+money(est.r.high)+" CAD</b><br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+est.label+" · age "+n.age+". Not a quote — actual rates depend on the insurer and your details (assumptions v2026.07).</span><br><br>";
+    }
+    html+="Your best path: <b>"+esc(rec.title)+"</b><br><span style='font-size:.85rem;color:rgba(255,255,255,.75)'>"+esc(rec.why)+"</span>";
+    bot(html+"<br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+esc(ctxSummary(n))+"</span>");
+    saveCtx({kind:"handoff",n:n,rec:rec,est:est?{low:est.r.low,high:est.r.high,label:est.label}:null,summary:ctxSummary(n)});
+    setTimeout(function(){
+      chips([
+        {label:"Continue to buy →",href:rec.url,ext:rec.ext},
+        {label:"Walk me through it",key:"#walk-"+rec.walk},
+        {label:"Talk to Sertac",key:"#lead"}
+      ]);
+    },300);
+  }
+  function showRecommend(){
+    var n=normalizeCtx(session.fkey,session.data);
+    var rec=recommendFor(n);
+    var est=estimateFor(n);
+    typingThen(function(){
+      bot("Here's what I'll send Sertac if you'd rather have him handle it:"+summaryHtml());
+      handoffCard(n,rec,est);
+      setTimeout(function(){
+        chips([{label:"Send my details to Sertac",key:"#tocontact"},{label:"Start over",key:"#cancel"}]);
+      },900);
+    });
+  }
+  /* ---- walkthroughs: per-provider buying guidance ---- */
+  var WALK={
+    instant:{title:"21st Century instant quote",steps:[
+      "Open the instant quote tool — it runs right on this site, no new tab needed.",
+      "Pick the plan type (visitor, Super Visa, travel), then enter ages and dates.",
+      "Answer the health questions carefully — your answers unlock the real price, and accuracy is what a claim gets checked against.",
+      "Compare deductibles: a higher deductible lowers the premium. $500 is the sweet spot for most travellers.",
+      "Happy with a price? Pay by secure link — confirmation lands by email within minutes."]},
+    tugo:{title:"TuGo online store",steps:[
+      "Open the TuGo store — it opens in a new tab on TuGo's secure site.",
+      "Heads-up: save that tab. If the page sits idle, TuGo's session can expire and you'll start the quote over.",
+      "Choose single-trip or annual multi-trip, then enter your dates.",
+      "Annual plans top out at a $5M benefit limit with 35 days max per trip — there is no $10M TuGo annual. Need more? The 21st Century annual covers it.",
+      "Answer the medical questions honestly — stability periods are the first thing checked on a large claim."]},
+    trustone:{title:"TruStone application",steps:[
+      "Open the TruStone application — it runs on the insurer's own secure site.",
+      "Pick the plan matching your situation (it's the one highlighted on the buy page).",
+      "On the payment screen you can choose monthly installments instead of paying everything up front.",
+      "Double-check names and birthdates before paying — fixing them after the policy is issued is a hassle.",
+      "Confirmation and full policy documents arrive by email within minutes — check junk mail if they don't."]}
+  };
+  function walkThrough(wkey){
+    var w=WALK[wkey]||WALK.instant;
+    typingThen(function(){
+      bot("Buying walkthrough — <b>"+esc(w.title)+"</b>:<br>"+w.steps.map(function(s,i){return (i+1)+". "+esc(s);}).join("<br>"));
+      setTimeout(function(){
+        chips([{label:"Open it now",href:wkey==="instant"?INSTANT_QUOTE:BUY_ONLINE+"?pickup=1",ext:false},{label:"Talk to Sertac",key:"#lead"}]);
+      },300);
+    });
+  }
+  function pickupGreet(){
+    var ctx=loadCtx();
+    if(ctx&&ctx.rec){
+      bot("Welcome back — I've got your quote details right here: <b>"+esc(ctx.summary)+"</b>"+(ctx.est?" · est. <b>"+money(ctx.est.low)+"–"+money(ctx.est.high)+" CAD</b>":"")+". Your recommended path is <b>"+esc(ctx.rec.title)+"</b> — it's highlighted on this page.");
+      setTimeout(function(){
+        chips([{label:"Walk me through buying",key:"#walk-"+ctx.rec.walk},{label:"Get a fresh quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
+      },300);
+      return;
+    }
+    copilotGreet("Welcome");
+  }
+  /* ---- new guided flows ---- */
+  FLOWS.topup={title:"Top-up quote",steps:[
+    {t:"text",k:"baseEnd",L:"Current plan ends",q:"When does your current coverage end? (the top-up starts the next day) e.g. Feb 13, 2027",p:"Date..."},
+    {t:"text",k:"days",L:"Top-up days",q:"How many extra days do you need?",p:"Days..."},
+    {t:"text",k:"age",L:"Age",q:"Traveller's age?",p:"Age..."},
+    {t:"text",k:"dest",L:"Destination",q:"Where are you travelling?",p:"Destination..."},
+    {t:"choice",k:"usa",L:"USA",q:"Does the trip include the USA?",o:[["No","no"],["Yes","yes"]]},
+    {t:"choice",k:"pre",L:"Pre-existing",q:"Any stable pre-existing conditions?",o:[["No","No"],["Yes, stable","Yes, stable"]]},
+    {t:"recommend"}
+  ]};
+  FLOWS.annual={title:"Annual multi-trip quote",steps:[
+    {t:"choice",k:"count",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
+    {t:"text",k:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
+    {t:"text",k:"longest",L:"Longest trip",q:"Longest single trip in days? (per-trip max decides the plan) e.g. 35",p:"Days..."},
+    {t:"choice",k:"usa",L:"USA",q:"Do trips include the USA?",o:[["No","no"],["Yes","yes"]]},
+    {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing conditions needing coverage?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+    {t:"recommend"}
+  ]};
+  /* wire recommend step + new menu entries into existing flows */
+  ["supervisa","visitor","travel"].forEach(function(fk){
+    var st=FLOWS[fk].steps;
+    for(var i=0;i<st.length;i++){if(st[i].t==="contact"){st.splice(i,0,{t:"recommend"});break;}}
+  });
 
   document.getElementById('cpbot-send').onclick=send;
   input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
