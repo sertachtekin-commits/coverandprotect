@@ -1,0 +1,491 @@
+{% comment %}
+  COVER & PROTECT ASSISTANT (cpbot) — shared chatbot include.
+  Drop `{% include cpbot.html %}` just before </body> on any page.
+  Self-styled (cpbot-* prefix); position:fixed so DOM position is irrelevant.
+  Page-aware greeting: buy-online.html gets copilot mode, instant-quote.html
+  gets quote-tool help, travel-insurance-calculator.html gets estimate help.
+{% endcomment %}
+<style>
+/* ===== COVER & PROTECT ASSISTANT ===== */
+#cpbot-launch{position:fixed;right:20px;bottom:20px;z-index:99998;width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;background:var(--teal,#0e7c7b);color:#fff;box-shadow:0 10px 30px rgba(14,124,123,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s ease,background .2s ease;}
+#cpbot-launch:hover{transform:translateY(-3px) scale(1.04);background:var(--teal-light,#14a8a7);}
+#cpbot-launch svg{width:28px;height:28px;}
+#cpbot-launch .cpbot-dot{position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:var(--gold,#c9973a);border:2px solid #fff;}
+#cpbot-panel{position:fixed;right:20px;bottom:94px;z-index:99999;width:374px;max-width:calc(100vw - 32px);height:566px;max-height:calc(100vh - 130px);background:#0a1628;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;display:none;flex-direction:column;font-family:'DM Sans',sans-serif;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+#cpbot-panel.cpbot-open{display:flex;animation:cpbotIn .22s ease;}
+@keyframes cpbotIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.cpbot-header{background:linear-gradient(135deg,#0e2138,#0a1628);padding:16px 18px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(201,151,58,.25);}
+.cpbot-badge{width:40px;height:40px;border-radius:50%;background:var(--teal,#0e7c7b);display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 40px;}
+.cpbot-badge svg{width:20px;height:20px;}
+.cpbot-title{font-family:'Playfair Display',serif;color:#fff;font-size:1.05rem;font-weight:700;line-height:1.1;}
+.cpbot-title span{color:var(--gold-light,#e5b657);}
+.cpbot-status{color:rgba(255,255,255,.55);font-size:.74rem;margin-top:2px;}
+.cpbot-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.6);font-size:1.4rem;cursor:pointer;line-height:1;padding:4px;}
+.cpbot-body{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px;}
+.cpbot-msg{max-width:86%;padding:11px 14px;border-radius:14px;font-size:.92rem;line-height:1.5;}
+.cpbot-bot{align-self:flex-start;background:rgba(255,255,255,.06);color:#e7edf3;border-bottom-left-radius:4px;}
+.cpbot-user{align-self:flex-end;background:var(--teal,#0e7c7b);color:#fff;border-bottom-right-radius:4px;}
+.cpbot-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;}
+.cpbot-chip{background:rgba(201,151,58,.10);border:1px solid rgba(201,151,58,.4);color:var(--gold-light,#e5b657);font-size:.82rem;padding:8px 13px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s ease;}
+.cpbot-chip:hover{background:rgba(201,151,58,.22);}
+.cpbot-chip.cpbot-cancel{background:transparent;border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.6);}
+.cpbot-chips a.cpbot-chip{text-decoration:none;display:inline-block;}
+.cpbot-cta{display:inline-flex;align-items:center;gap:7px;margin-top:8px;margin-right:8px;background:var(--teal,#0e7c7b);color:#fff;text-decoration:none;font-size:.85rem;font-weight:600;padding:9px 15px;border-radius:10px;}
+.cpbot-cta.alt{background:transparent;border:1px solid rgba(255,255,255,.3);}
+.cpbot-typing{display:flex;gap:5px;align-items:center;}
+.cpbot-typing span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);animation:cpblink 1.2s infinite;}
+.cpbot-typing span:nth-child(2){animation-delay:.18s;}
+.cpbot-typing span:nth-child(3){animation-delay:.36s;}
+@keyframes cpblink{0%,60%,100%{opacity:.25;transform:translateY(0);}30%{opacity:1;transform:translateY(-3px);}}
+.cpbot-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.cpbot-form input,.cpbot-form textarea{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;color:#fff;padding:10px 11px;font-size:.86rem;font-family:'DM Sans',sans-serif;outline:none;width:100%;}
+.cpbot-form input::placeholder,.cpbot-form textarea::placeholder{color:rgba(255,255,255,.4);}
+.cpbot-form textarea{resize:vertical;min-height:46px;}
+.cpbot-form button{background:var(--gold,#c9973a);color:#0a1628;border:none;border-radius:9px;padding:11px;font-weight:700;cursor:pointer;font-size:.88rem;}
+.cpbot-err{color:#ffb4a8;font-size:.78rem;}
+.cpbot-sum{margin-top:6px;font-size:.86rem;line-height:1.6;color:#dfe7ef;}
+.cpbot-foot{padding:10px 14px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:8px;}
+.cpbot-input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:#fff;padding:11px 13px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;}
+.cpbot-input::placeholder{color:rgba(255,255,255,.4);}
+.cpbot-send{background:var(--gold,#c9973a);border:none;border-radius:10px;color:#0a1628;font-weight:700;padding:0 15px;cursor:pointer;font-size:1.1rem;}
+.cpbot-disclaimer{color:rgba(255,255,255,.4);font-size:.68rem;text-align:center;padding:6px 14px 10px;line-height:1.4;}
+@media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
+@media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open,.cpbot-typing span{transition:none;animation:none;}}
+</style>
+<!-- COVER & PROTECT ASSISTANT -->
+<button id="cpbot-launch" aria-label="Chat with Cover and Protect"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cpbot-dot"></span></button>
+<div id="cpbot-panel" role="dialog" aria-label="Cover and Protect assistant">
+  <div class="cpbot-header">
+    <div class="cpbot-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div>
+      <div class="cpbot-title">Cover<span>&amp;</span>Protect Assistant</div>
+      <div class="cpbot-status">Ask a question or get a quote</div>
+    </div>
+    <button class="cpbot-close" id="cpbot-close" aria-label="Close">&times;</button>
+  </div>
+  <div class="cpbot-body" id="cpbot-body"></div>
+  <div class="cpbot-foot">
+    <input class="cpbot-input" id="cpbot-input" type="text" placeholder="Ask a question, e.g. Super Visa cost..." autocomplete="off">
+    <button class="cpbot-send" id="cpbot-send" aria-label="Send">&#10148;</button>
+  </div>
+  <div class="cpbot-disclaimer">Informational only. For personalized advice, Sertac (FSRA-licensed advisor) will assist you.</div>
+</div>
+<script>
+(function(){
+  var panel=document.getElementById('cpbot-panel');
+  var body=document.getElementById('cpbot-body');
+  var input=document.getElementById('cpbot-input');
+  var DEFAULT_PH="Ask a question, e.g. Super Visa cost...";
+  var greeted=false;
+  var session={flow:null,fkey:null,step:0,data:{}};
+
+  function open(){panel.classList.add('cpbot-open');if(!greeted){greet();greeted=true;}setTimeout(function(){input.focus();},250);}
+  function close(){panel.classList.remove('cpbot-open');}
+  document.getElementById('cpbot-launch').onclick=function(){panel.classList.contains('cpbot-open')?close():open();};
+  document.getElementById('cpbot-close').onclick=close;
+
+  function el(cls,html){var d=document.createElement('div');d.className=cls;if(html!=null)d.innerHTML=html;return d;}
+  function bot(html){body.appendChild(el('cpbot-msg cpbot-bot',html));body.scrollTop=body.scrollHeight;}
+  function user(text){var d=el('cpbot-msg cpbot-user',null);d.textContent=text;body.appendChild(d);body.scrollTop=body.scrollHeight;}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function typingThen(cb){var t=el('cpbot-msg cpbot-bot cpbot-typing','<span></span><span></span><span></span>');body.appendChild(t);body.scrollTop=body.scrollHeight;setTimeout(function(){t.remove();cb();},560);}
+  function chips(items){var wrap=el('cpbot-chips',null);items.forEach(function(it){
+    var c;
+    if(it.href){c=document.createElement('a');c.className='cpbot-chip';c.href=it.href;if(it.ext){c.target='_blank';c.rel='noopener';}c.textContent=it.label;
+      if(it.ds){for(var k in it.ds){c.setAttribute('data-'+k,it.ds[k]);}}
+      c.onclick=function(){user(it.label);};}
+    else{c=document.createElement('button');c.className='cpbot-chip'+(it.cancel?' cpbot-cancel':'');c.textContent=it.label;c.onclick=function(){user(it.label);setTimeout(function(){route(it.key);},180);};}
+    wrap.appendChild(c);});body.appendChild(wrap);body.scrollTop=body.scrollHeight;}
+
+  var CTA='<div><a class="cpbot-cta" href="tel:4373856173">Call 437-385-6173</a></div>';
+  var BOOK='<div><a class="cpbot-cta" href="https://calendly.com/contact-coverandprotect/30min" target="_blank" rel="noopener">Book a free consult</a><a class="cpbot-cta alt" href="tel:4373856173">Call now</a></div>';
+  var TS_UID="U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==";
+  function tsUrl(code){return "https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765&xxx:Plan="+code+"&xxx:UserLang=english&xxx:AgentID=0&uid="+TS_UID;}
+  var TUGO_STORE="https://shop.tugo.com/store/TEK200";
+  var INSTANT_QUOTE="instant-quote.html";
+  var CALC="travel-insurance-calculator.html";
+
+  /* ---- Illustrative estimate engine.
+     Same bands as travel-insurance-calculator.html (rate assumptions v2026.07).
+     Estimates only — never presented as a quote. ---- */
+  var SV_BANDS=[{max:54,low:1000,high:1500},{max:59,low:1200,high:2000},{max:64,low:1500,high:2800},{max:69,low:2000,high:3800},{max:74,low:2800,high:5000},{max:200,low:4000,high:6000}];
+  var AB_BANDS=[{max:39,shortLow:2.1,shortHigh:5.0,longLow:1.5,longHigh:3.0},{max:54,shortLow:3.6,shortHigh:7.9,longLow:2.3,longHigh:5.0},{max:64,shortLow:5.7,shortHigh:12.9,longLow:4.0,longHigh:9.3},{max:74,shortLow:10.0,shortHigh:22.9,longLow:7.3,longHigh:16.7},{max:200,shortLow:18.6,shortHigh:42.9,longLow:13.3,longHigh:30.0}];
+  function pickBand(bands,age){for(var i=0;i<bands.length;i++){if(age<=bands[i].max)return bands[i];}return bands[bands.length-1];}
+  function money(n){return "$"+Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
+  function rStep(n,s){return Math.max(s,Math.round(n/s)*s);}
+  function estAbroad(age,days,usa,stable){
+    var b=pickBand(AB_BANDS,age);
+    var blend=Math.min(1,Math.max(0,(days-7)/23));
+    var dl=b.shortLow+(b.longLow-b.shortLow)*blend, dh=b.shortHigh+(b.longHigh-b.shortHigh)*blend;
+    var f=(stable?1.25:1)*(usa?1.25:1);
+    return {low:rStep(dl*days*f,5),high:rStep(dh*days*f,5)};
+  }
+  function estVisitor(age,days,stable){
+    var b=pickBand(SV_BANDS,age);
+    var f=(stable?1.25:1)*(age<40?0.85:1);
+    return {low:rStep(b.low/365*days*f,10),high:rStep(b.high/365*days*f,10)};
+  }
+  function estSupervisa(age,stable){
+    var b=pickBand(SV_BANDS,age);
+    var f=(stable?1.25:1);
+    return {low:rStep(b.low*f,50),high:rStep(b.high*f,50)};
+  }
+
+  var KB={
+    supervisa:{k:["what is super visa","super visa insurance","explain super visa","super visa mean","about super visa","super visa work"],c:CTA,a:"Super Visa insurance is the mandatory emergency medical coverage required for parents and grandparents visiting Canada on a Super Visa. It must provide at least $100,000 in coverage, stay valid for a full year from entry, and cover emergency healthcare, hospitalization, and repatriation."},
+    cost:{k:["super visa cost","super visa price","how much super visa","cost","how much","premium","rate"],c:CTA,a:"Super Visa pricing varies by the applicant's age, the coverage amount, the deductible, and any pre-existing conditions. As a general guide, $100,000 coverage often runs roughly $90 to $180+ per month, but your exact price depends on the details. I can start a quote so Sertac gives you an accurate number — or run a quick estimate right here in the chat."},
+    requirements:{k:["requirement","minimum","ircc rules","qualify","criteria","mandatory","what do i need"],c:CTA,a:"To meet IRCC rules, a Super Visa policy must provide at least $100,000 in coverage, be valid for one year from entry, cover emergency medical care, hospitalization and repatriation, and come from a Canadian or IRCC-approved insurer. Proof of paid coverage is required with the application."},
+    duration:{k:["how long","valid","duration","how many years","renew","expire","length of stay"],c:null,a:"A Super Visa lets parents and grandparents stay up to 5 years per visit, and the visa is valid up to 10 years. Your insurance must be valid for at least one year from your entry date; many families renew annually for longer stays."},
+    monthly:{k:["monthly","installment","instalment","pay monthly","payment plan","split payment"],c:CTA,a:"Yes - many Super Visa and travel plans offer monthly payment options instead of paying the full year upfront, as long as the insurer has valid proof of coverage for the application. Monthly usually costs a little more over the full year."},
+    refund:{k:["refund","refuse","refused","denied","rejection","money back","visa rejected"],c:null,a:"Most Super Visa policies offer a full refund if the visa is refused and the person never travels to Canada, as long as you submit the refusal letter before the policy start date. Terms vary by insurer."},
+    preexisting:{k:["pre existing","preexisting","existing condition","medical condition","diabetes","heart","blood pressure","medication","health issue"],c:CTA,a:"Many Super Visa plans can cover pre-existing conditions if they've been stable for a set period (often 90 to 180 days), usually with a higher premium or a stability clause. The right plan depends on the specific condition."},
+    coverage:{k:["what does it cover","cover","include","benefit","ambulance","prescription","hospital","dental emergency"],c:null,a:"Super Visa and visitor insurance typically cover emergency medical treatment, hospital stays, ambulance, doctor visits, emergency prescriptions, and repatriation. Some plans add dental emergencies and follow-up care."},
+    age:{k:["age","how old","senior","elderly","year old","age limit"],c:CTA,a:"Coverage is available for most ages, including seniors. Premiums rise with age and some plans have age bands or limits on the highest coverage amounts."},
+    apply:{k:["how to apply","how do i apply","document","process","invitation letter","lico","income","proof of insurance","application"],c:CTA,a:"For a Super Visa you'll need proof of paid Canadian medical insurance meeting IRCC rules, a letter of invitation from your Canadian child or grandchild, and proof they meet the minimum income. Sertac can prepare the insurance proof."},
+    visitor:{k:["visitor","tourist","visiting canada","returning resident","ohip wait","visitor insurance","work permit"],c:CTA,a:"Visitor to Canada insurance covers emergency medical costs for visitors who aren't on a Super Visa - tourists, visa holders, new residents waiting for provincial coverage, and more. Plans are flexible by length of stay and coverage amount."},
+    travel:{k:["travel insurance","trip","abroad","vacation","leaving canada","multi-trip","travelling","outside canada"],c:CTA,a:"We offer travel insurance for Canadians heading abroad - single-trip or multi-trip annual plans covering emergency medical, trip cancellation, lost baggage, and more."},
+    health:{k:["health insurance","individual health","family health","drug plan","vision","dental plan","health coverage"],c:CTA,a:"We offer individual and family health and dental plans for people without group coverage - helping with prescriptions, dental, vision, and paramedical costs."},
+    group:{k:["group","group benefits","business benefits","employee","team benefits","company plan","staff"],c:CTA,a:"We set up group benefits for businesses of all sizes - health, dental, disability, and life - designed around your team and budget. Even small teams can qualify."},
+    life:{k:["life insurance","term life","permanent life","whole life","universal life","death benefit","protect my family"],c:BOOK,a:"We offer term and permanent life insurance from Canada's top carriers. Term gives affordable coverage for a set period; permanent lasts for life and builds cash value. We also offer critical illness coverage."},
+    critical:{k:["critical illness","cancer","heart attack","stroke","lump sum","serious illness"],c:BOOK,a:"Critical illness insurance pays a tax-free lump sum if you're diagnosed with a covered condition such as cancer, heart attack, or stroke - money you can use however you need during recovery."},
+    resp:{k:["resp","rrsp","savings","education savings","retirement","investment","grant","tfsa"],c:BOOK,a:"We help with RESP (education savings, boosted by government grants) and RRSP (retirement savings) to grow your family's future tax-efficiently."},
+    estate:{k:["estate","inheritance","beneficiary","will","legacy","estate planning"],c:BOOK,a:"Estate planning helps protect and pass on your assets efficiently using life insurance, beneficiary planning, and tax strategies."},
+    ltc:{k:["long term care","ltc","nursing home","assisted living","in-home care","elderly care"],c:BOOK,a:"Long-term care insurance helps cover in-home care, assisted living, or a nursing home if you can no longer care for yourself - protecting your savings and family."},
+    newcomer:{k:["newcomer","new immigrant","new to canada","immigrant","just arrived","permanent resident","pr card"],c:BOOK,a:"Sertac works closely with newcomer and immigrant families across the GTA, guiding you through Super Visa, visitor, health, and life coverage step by step."},
+    nomedical:{k:["no medical","without medical","no exam","simplified issue","guaranteed issue","no health questions"],c:BOOK,a:"Yes - we offer no-medical and simplified-issue life insurance for coverage without a full medical exam. Approval is faster, with only a few health questions or none at all."},
+    mortgage:{k:["mortgage","mortgage insurance","mortgage protection"],c:BOOK,a:"Instead of bank mortgage insurance, a personal term life policy can protect your mortgage and stay with you even if you move or refinance - often at a better rate."},
+    free:{k:["is it free","free consultation","consultation free","free","no cost","obligation","do you charge","your fee","free advice","cost to talk"],c:BOOK,a:"Yes - consultations are completely free with no obligation. As an independent advisor, Sertac is paid by the insurers, so his guidance costs you nothing."},
+    claims:{k:["claim","make a claim","file a claim","claims help","reimburse"],c:BOOK,a:"If you need to make a claim, Sertac helps you through the process and works with the insurer so you're not on your own."},
+    about:{k:["who is sertac","about sertac","advisor experience","licensed","fsra","broker","who are you"],c:BOOK,a:"Sertac Tekin is an Ontario-licensed, FSRA-regulated insurance advisor serving families and businesses across the Greater Toronto Area. He is independent, comparing plans from many top Canadian insurers to find your best fit."},
+    areas:{k:["area","location","where are you","toronto","gta","ontario","etobicoke","near me","do you serve"],c:BOOK,a:"Cover & Protect serves clients across the Greater Toronto Area and throughout Ontario, in person and remotely."},
+    topup:{k:["top up","top-up","topup","extend my trip","extra days","already have insurance","group plan","sun life","employer plan","first 60 days","beyond 60","extend coverage"],c:CTA,a:"Yes - that's called a top-up. You buy coverage for just the extra days. 21st Century (Manulife) lets you top up another insurer's plan - even a group plan - by buying their Single Trip Emergency Medical for the remaining days only. TuGo has a dedicated top-up option where you enter your base plan's days and insurer. The key rule: the top-up must start the day your base coverage ends, with no gap."},
+    annual:{k:["annual","multi trip","multi-trip","yearly plan","frequent travel"],c:CTA,a:"Annual multi-trip plans cover unlimited trips for 12 months, each trip capped at a per-trip day limit. 21st Century's Travelling Canadians annual covers up to $10,000,000 with 60-day trips. TuGo's annual goes up to $5,000,000 - they don't offer $10M on annual plans."},
+    deductible:{k:["deductible","deductable"],c:null,a:"A higher deductible lowers your premium. 21st Century single-trip offers $0 / $500 / $1,000 / $5,000 / $10,000 deductibles - the $500 option typically saves about 10% versus $0. TuGo quotes deductibles in USD. For most travellers, $500 is the sweet spot."},
+    refund_ohip:{k:["ohip","provincial coverage","early start","refund unused","partial refund","ohip started"],c:BOOK,a:"If your provincial coverage (like OHIP) starts before your Visitors to Canada policy ends, Manulife refunds the unused days - as long as no claim was started and no assistance services were used. There's a $25 minimum refund, and you'll need proof of your OHIP effective date. Sertac can file it for you."},
+    svincome:{k:["minimum income","sponsor income","parent income","pension income","rental income","income requirement"],c:CTA,a:"Since March 2026, IRCC gives you two ways to meet the income requirement: meet the full minimum in either of the last 2 tax years, or reach at least 75% of it in the year before applying - with the parent's own continuing income (pension, rental) covering up to 25% of the target."},
+    stability:{k:["stable","stability period","stable period","how long stable"],c:CTA,a:"Most insurers need pre-existing conditions to be 'stable' - no new symptoms, tests, medication changes, or doctor visits about the condition - usually for 90 to 180 days before you travel. If anything changed recently, tell Sertac before you buy; the right plan depends on the details."},
+    usaworld:{k:["usa","united states","america","worldwide excluding"],c:null,a:"Trips including the USA cost more - insurers typically add about 25% for USA coverage because American medical costs are so high. If you're not going to the States, a worldwide-excluding-USA plan saves real money."},
+    tripcancel:{k:["trip cancellation","cancel my trip","cancellation","trip interruption","cancel for any reason"],c:CTA,a:"Trip cancellation/interruption is separate from emergency medical - it reimburses prepaid, non-refundable trip costs if you must cancel or cut a trip short for a covered reason. All-inclusive plans bundle it with emergency medical and baggage."},
+    snowbird:{k:["snowbird","florida","winter in florida","arizona","south for winter"],c:CTA,a:"Snowbirds usually choose between a long single trip (60-180+ days) or an annual multi-trip plan for several shorter trips. The two big watch-outs: the stability period for pre-existing conditions, and topping up if a group plan only covers the first 60 days."},
+    quote:{k:["quote","talk to sertac","talk to someone","speak to someone","speak to","reach someone","human","representative","agent","contact","call you","reach you","email","consult","book appointment","get started"],c:null,a:""}
+  };
+
+  var LBL={supervisa:"Super Visa basics",cost:"Cost",requirements:"Requirements",duration:"How long it lasts",monthly:"Monthly payments",refund:"Refund if refused",preexisting:"Pre-existing conditions",coverage:"What's covered",age:"Age limits",apply:"How to apply",visitor:"Visitor insurance",travel:"Travel insurance",health:"Health & dental",group:"Group benefits",life:"Life insurance",critical:"Critical illness",resp:"RESP & RRSP",estate:"Estate planning",ltc:"Long-term care",newcomer:"New to Canada",nomedical:"No-medical life",mortgage:"Mortgage protection",free:"Is it free?",claims:"Claims help",about:"About Sertac",areas:"Areas served",topup:"Top-up coverage",annual:"Annual multi-trip",deductible:"Deductibles",refund_ohip:"OHIP early-start refund",svincome:"Income requirement",stability:"Stability period",usaworld:"USA vs worldwide",tripcancel:"Trip cancellation",snowbird:"Snowbird trips"};
+  var REL={supervisa:["cost","requirements","preexisting"],cost:["monthly","requirements","preexisting"],requirements:["cost","apply","duration","svincome"],duration:["cost","requirements"],monthly:["cost","refund"],refund:["cost","requirements"],preexisting:["cost","coverage","stability"],coverage:["cost","preexisting"],age:["cost","preexisting"],apply:["requirements","cost","svincome"],visitor:["cost","coverage","refund_ohip"],travel:["annual","topup","tripcancel"],health:["group"],group:["health"],life:["critical","nomedical"],critical:["life"],resp:["estate"],estate:["life"],ltc:["life"],newcomer:["supervisa","health"],nomedical:["life"],mortgage:["life"],free:["about"],claims:["about"],about:["areas"],areas:["about"],topup:["annual","travel"],annual:["topup","travel","deductible"],deductible:["cost","annual"],refund_ohip:["visitor","claims"],svincome:["requirements","apply"],stability:["preexisting","cost"],usaworld:["travel","cost"],tripcancel:["travel"],snowbird:["annual","topup","stability"]};
+  var QSTART={supervisa:"supervisa",cost:"supervisa",requirements:"supervisa",duration:"supervisa",monthly:"supervisa",refund:"supervisa",preexisting:"supervisa",coverage:"supervisa",age:"supervisa",apply:"supervisa",svincome:"supervisa",stability:"supervisa",visitor:"visitor",refund_ohip:"visitor",travel:"travel",topup:"travel",annual:"travel",usaworld:"travel",tripcancel:"travel",snowbird:"travel",health:"health",group:"group",life:"life",critical:"life",nomedical:"life",mortgage:"mortgage",resp:"savings",estate:"life",ltc:"life"};
+  var QNAME={supervisa:"Start my Super Visa quote",visitor:"Start visitor quote",travel:"Start travel quote",health:"Start health quote",group:"Start group quote",life:"Talk about life insurance",savings:"Start RESP / RRSP enquiry",mortgage:"Start mortgage protection"};
+
+  var MENU=[{label:"Get a quote",key:"#quote"},{label:"Quick estimate",key:"@estimate"},{label:"Super Visa insurance",key:"supervisa"},{label:"Travel / visitor",key:"visitor"},{label:"Life & critical illness",key:"life"},{label:"Talk to Sertac",key:"#lead"}];
+
+  var FLOWS={
+    supervisa:{title:"Super Visa quote",steps:[
+      {t:"choice",k:"whom",L:"For",q:"Who is the coverage for?",o:[["Parent","Parent"],["Grandparent","Grandparent"],["Multiple people","Multiple"]]},
+      {t:"choice",k:"count",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
+      {t:"text",k:"ages",L:"Age(s)",q:"What are their age(s)? e.g. 62, 65",p:"Age(s)..."},
+      {t:"text",k:"arrival",L:"Arrival",q:"Approximate arrival date in Canada? e.g. Aug 2026",p:"Arrival date..."},
+      {t:"choice",k:"term",L:"Term",q:"How long do you need coverage?",o:[["1 year","1 year"],["2 years","2 years"],["Not sure","Not sure"]]},
+      {t:"choice",k:"amount",L:"Amount",q:"Coverage amount?",o:[["$100,000","$100,000"],["$150,000","$150,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
+      {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing medical conditions?",o:[["No","No"],["Yes - stable","Yes, stable"],["Yes - recent","Yes, recent changes"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    visitor:{title:"Visitor to Canada quote",steps:[
+      {t:"choice",k:"count",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
+      {t:"text",k:"ages",L:"Age(s)",q:"Age(s) of the visitor(s)?",p:"Age(s)..."},
+      {t:"text",k:"arrival",L:"Arrival",q:"Arrival date in Canada?",p:"Arrival date..."},
+      {t:"text",k:"length",L:"Length",q:"How long is coverage needed? e.g. 3 months",p:"e.g. 3 months"},
+      {t:"choice",k:"amount",L:"Amount",q:"Coverage amount?",o:[["$50,000","$50,000"],["$100,000","$100,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
+      {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing conditions?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    travel:{title:"Travel insurance quote (abroad)",steps:[
+      {t:"choice",k:"count",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
+      {t:"text",k:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
+      {t:"text",k:"dest",L:"Destination",q:"Where are you travelling to?",p:"Destination..."},
+      {t:"text",k:"dates",L:"Dates",q:"Travel dates? e.g. Jul 1-15",p:"Travel dates..."},
+      {t:"choice",k:"plan",L:"Plan",q:"Single trip or multi-trip annual?",o:[["Single trip","Single"],["Multi-trip annual","Multi-trip"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    life:{title:"Life insurance enquiry",steps:[
+      {t:"choice",k:"goal",L:"Goal",q:"What's the main goal?",o:[["Protect family income","Income"],["Cover mortgage/debts","Mortgage"],["Final expenses","Final expenses"],["Wealth / estate","Estate"]]},
+      {t:"choice",k:"type",L:"Type",q:"Term or permanent coverage?",o:[["Term","Term"],["Permanent","Permanent"],["Not sure","Not sure"]]},
+      {t:"text",k:"amount",L:"Amount",q:"Coverage amount in mind? e.g. $500,000",p:"Amount..."},
+      {t:"text",k:"age",L:"Age",q:"Your age?",p:"Age..."},
+      {t:"choice",k:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
+      {t:"contact"}
+    ]},
+    group:{title:"Group benefits enquiry",steps:[
+      {t:"text",k:"company",L:"Company",q:"Company name?",p:"Company..."},
+      {t:"text",k:"size",L:"Employees",q:"How many employees?",o:[["1-5","1-5"],["6-20","6-20"],["21-50","21-50"],["50+","50+"]]},
+      {t:"choice",k:"current",L:"Current plan",q:"Do you have benefits now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
+      {t:"text",k:"want",L:"Priorities",q:"What matters most? e.g. health, dental, disability",p:"Priorities..."},
+      {t:"contact"}
+    ]},
+    health:{title:"Health & dental enquiry",steps:[
+      {t:"choice",k:"who",L:"For",q:"Who is the coverage for?",o:[["Just me","Individual"],["Family","Family"]]},
+      {t:"choice",k:"current",L:"Current",q:"Do you have any coverage now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
+      {t:"text",k:"need",L:"Needs",q:"Main needs? e.g. prescriptions, dental, vision",p:"Needs..."},
+      {t:"contact"}
+    ]},
+    savings:{title:"RESP / RRSP enquiry",steps:[
+      {t:"choice",k:"goal",L:"Goal",q:"What are you saving for?",o:[["Children's education (RESP)","RESP"],["Retirement (RRSP)","RRSP"],["General / TFSA","TFSA"],["Not sure","Not sure"]]},
+      {t:"choice",k:"horizon",L:"Timeframe",q:"When will you need the money?",o:[["Within 5 years","Under 5y"],["5-15 years","5-15y"],["15+ years","15+ y"]]},
+      {t:"text",k:"monthly",L:"Monthly",q:"Roughly how much could you set aside monthly? e.g. $200",p:"Monthly amount..."},
+      {t:"choice",k:"risk",L:"Risk comfort",q:"Comfort with investment risk?",o:[["Low / safe","Low"],["Balanced","Balanced"],["Growth","Growth"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    mortgage:{title:"Mortgage protection enquiry",steps:[
+      {t:"text",k:"balance",L:"Mortgage balance",q:"Approximate mortgage balance? e.g. $450,000",p:"Balance..."},
+      {t:"text",k:"years",L:"Years left",q:"Years left on the mortgage? e.g. 22",p:"Years remaining..."},
+      {t:"text",k:"age",L:"Age",q:"Your age?",p:"Age..."},
+      {t:"choice",k:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
+      {t:"choice",k:"bank",L:"Bank coverage now",q:"Do you currently have bank mortgage insurance?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+      {t:"contact"}
+    ]},
+    estimate:{title:"Quick estimate",steps:[
+      {t:"choice",k:"ptype",L:"Plan",q:"What should I estimate?",o:[["Travel abroad","abroad"],["Visitor to Canada","visitor"],["Super Visa","supervisa"]]},
+      {t:"text",k:"age",L:"Age",q:"Traveller's age?",p:"Age..."},
+      {t:"text",k:"days",L:"Days",q:"How many days of coverage? (Super Visa = 365)",p:"Days..."},
+      {t:"choice",k:"cond",L:"Conditions",q:"Any stable pre-existing conditions?",o:[["No","none"],["Yes, stable","stable"]]},
+      {t:"choice",k:"usa",L:"USA",q:"Does the trip include the USA?",o:[["No","no"],["Yes","yes"]]},
+      {t:"estimate"}
+    ]}
+  };
+
+  function answerFaq(id){
+    var e=KB[id];
+    typingThen(function(){
+      bot(e.a+(e.c||''));
+      setTimeout(function(){
+        var rel=(REL[id]||[]).map(function(r){return {label:LBL[r],key:r};});
+        if(id==="cost"||id==="topup"||id==="annual"){rel.push({label:"Quick estimate",key:"@estimate"});}
+        var qs=QSTART[id]; if(qs){rel.push({label:QNAME[qs]||"Get a quote",key:"@"+qs});} else {rel.push({label:"Talk to Sertac",key:"#lead"});}
+        if(rel.length)chips(rel);
+      },300);
+    });
+  }
+
+  function startQuote(){
+    typingThen(function(){
+      bot("Which quote would you like to start? It takes under a minute.");
+      chips([{label:"Super Visa",key:"@supervisa"},{label:"Visitor to Canada",key:"@visitor"},{label:"Travel (abroad)",key:"@travel"},{label:"Life insurance",key:"@life"},{label:"Group benefits",key:"@group"},{label:"Health / dental",key:"@health"},{label:"RESP / RRSP",key:"@savings"},{label:"Mortgage protection",key:"@mortgage"}]);
+    });
+  }
+
+  function startFlow(fk){
+    session.flow=FLOWS[fk];session.fkey=fk;session.step=0;session.data={};
+    typingThen(function(){bot("Great - let's start your "+FLOWS[fk].title+". You can type 'cancel' anytime.");nextStep();});
+  }
+  function cancelFlow(){
+    session.flow=null;session.fkey=null;session.step=0;session.data={};input.placeholder=DEFAULT_PH;
+    typingThen(function(){bot("No problem - we can pick up anywhere. What would you like to do?");chips(MENU);});
+  }
+  function nextStep(){
+    if(!session.flow)return;
+    if(session.step>=session.flow.steps.length){return;}
+    var st=session.flow.steps[session.step];
+    if(st.t==="contact"){renderContact();return;}
+    if(st.t==="estimate"){showEstimate();return;}
+    typingThen(function(){
+      bot(st.q);
+      if(st.t==="choice"){
+        var items=st.o.map(function(p){return {label:p[0],key:"="+p[1]};});
+        items.push({label:"Cancel",key:"#cancel",cancel:true});
+        chips(items);input.placeholder="Or tap an option above...";
+      } else {
+        input.placeholder=st.p||"Type your answer...";setTimeout(function(){input.focus();},60);
+      }
+    });
+  }
+  function advance(val){
+    var st=session.flow.steps[session.step];
+    session.data[st.k]=val;session.step++;input.placeholder=DEFAULT_PH;nextStep();
+  }
+  function summaryHtml(){
+    var rows=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){rows.push("&bull; "+esc(st.L)+": "+esc(session.data[st.k]));}});
+    return '<div class="cpbot-sum">'+rows.join("<br>")+'</div>';
+  }
+  function showEstimate(){
+    var d=session.data;
+    var age=parseInt(d.age,10), days=parseInt(d.days,10);
+    if(isNaN(age)||age<18||age>99||isNaN(days)||days<1||days>365){
+      typingThen(function(){
+        bot("I need a valid age (18-99) and trip length (1-365 days) for an estimate. Let's try again.");
+        startFlow("estimate");
+      });
+      return;
+    }
+    var r,label;
+    var stable=d.cond==="stable";
+    if(d.ptype==="abroad"){
+      r=estAbroad(age,days,d.usa==="yes",stable);
+      label=days+"-day trip &middot; emergency medical"+(d.usa==="yes"?" &middot; incl. USA":"");
+    } else if(d.ptype==="visitor"){
+      r=estVisitor(age,days,stable);
+      label=days+"-day stay &middot; $100,000 coverage";
+    } else {
+      r=estSupervisa(age,stable);days=365;
+      label="1 year &middot; $100,000 coverage";
+    }
+    var extra=stable?" &middot; stable conditions":"";
+    typingThen(function(){
+      bot("Illustrative estimate: <b>"+money(r.low)+" &ndash; "+money(r.high)+" CAD</b><br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+label+" &middot; age "+age+extra+". Not a quote &mdash; actual rates depend on the insurer and your details (assumptions v2026.07).</span>");
+      setTimeout(function(){
+        chips([{label:"Open the full calculator",href:CALC},{label:"Start a real quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
+      },300);
+    });
+    session.flow=null;session.fkey=null;session.step=0;session.data={};input.placeholder=DEFAULT_PH;
+  }
+  function renderContact(){
+    typingThen(function(){
+      bot("Here's what I'll send Sertac:"+summaryHtml());
+      bot("Where should he send your quote?");
+      buildForm(false,"",function(name,contact,note,f,er,btn){submitFlow(name,contact,f,er,btn);});
+    });
+  }
+  function buildForm(showNote,prefill,onSubmit){
+    var wrap=el('cpbot-msg cpbot-bot',null);
+    var f=el('cpbot-form',null);
+    var nm=document.createElement('input');nm.placeholder='Your name';nm.setAttribute('aria-label','Your name');
+    var ct=document.createElement('input');ct.placeholder='Phone or email';ct.setAttribute('aria-label','Phone or email');
+    var ms=null;
+    if(showNote){ms=document.createElement('textarea');ms.placeholder='What do you need help with?';ms.setAttribute('aria-label','What do you need help with?');ms.value=prefill||'';}
+    var btn=document.createElement('button');btn.textContent='Send to Sertac';
+    var er=el('cpbot-err',null);
+    f.appendChild(nm);f.appendChild(ct);if(ms)f.appendChild(ms);f.appendChild(btn);f.appendChild(er);
+    wrap.appendChild(f);body.appendChild(wrap);body.scrollTop=body.scrollHeight;
+    btn.onclick=function(){
+      var name=nm.value.trim(),contact=ct.value.trim(),note=ms?ms.value.trim():"";
+      if(!name||!contact){er.style.color='';er.textContent='Please add your name and a phone or email.';return;}
+      btn.disabled=true;er.style.color='rgba(255,255,255,.6)';er.textContent='Sending...';
+      onSubmit(name,contact,note,f,er,btn);
+    };
+  }
+  function post(fd,onOk,er,btn){
+    fetch('https://formspree.io/f/mdajwykn',{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+      .then(function(r){if(r.ok){onOk();}else{btn.disabled=false;er.style.color='';er.textContent="That didn't send. Please call 437-385-6173.";}})
+      .catch(function(){btn.disabled=false;er.style.color='';er.textContent="Network issue - please call 437-385-6173.";});
+  }
+  function submitFlow(name,contact,f,er,btn){
+    var fd=new FormData();fd.append('name',name);
+    if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
+    var lines=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){fd.append(st.k,session.data[st.k]);lines.push(st.L+': '+session.data[st.k]);}});
+    fd.append('details',session.flow.title+" -- "+lines.join(' | '));
+    fd.append('source','Website Chat - '+session.flow.title);
+    fd.append('_subject','New quote request - '+session.flow.title);
+    var nm=name;
+    post(fd,function(){f.remove();bot("Perfect, "+esc(nm)+"! Your "+esc(session.flow.title)+" is on its way to Sertac - he'll reach out within 24 hours with options."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');session.flow=null;session.fkey=null;},er,btn);
+  }
+  function leadForm(prefill){
+    typingThen(function(){
+      bot("Leave your details and Sertac will reach out personally:");
+      buildForm(true,prefill,function(name,contact,note,f,er,btn){
+        var fd=new FormData();fd.append('name',name);
+        if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
+        fd.append('message',note||'(from website chat)');
+        fd.append('source','Website Chat Assistant');fd.append('_subject','New chat lead - Cover & Protect');
+        post(fd,function(){f.remove();bot("Thank you, "+esc(name)+"! Your message is on its way to Sertac - he'll reach out within 24 hours."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');},er,btn);
+      });
+    });
+  }
+
+  /* ---- Buy-online copilot: guided path finder for buy-online.html ---- */
+  function copilotGreet(g){
+    bot(g+"! Looking to buy online? I'll get you to the right tool in about 20 seconds.");
+    chips([{label:"I'm visiting Canada",key:"#covisit"},{label:"I'm a Canadian travelling abroad",key:"#coabroad"},{label:"Not sure - help me choose",key:"#lead"}]);
+  }
+  function copilotVisit(){
+    typingThen(function(){
+      bot("For visitors to Canada you've got two strong paths:<br>1. <b>Instant quote</b> - Super Visa &amp; visitor plans from 21st Century, priced right on this site.<br>2. <b>TruStone application</b> - apply and pay directly on the insurer's secure site.");
+      setTimeout(function(){
+        chips([
+          {label:"Open instant quote",href:INSTANT_QUOTE,ds:{"buy-step":"quote"}},
+          {label:"TruStone application",href:tsUrl("ELVTC"),ext:true,ds:{"buy-step":"checkout","provider":"TruStone Health","trustone-plan":"ELVTC"}},
+          {label:"Quick estimate first",key:"@estimate"},
+          {label:"Talk to Sertac",key:"#lead"}
+        ]);
+      },300);
+    });
+  }
+  function copilotAbroad(){
+    typingThen(function(){
+      bot("For Canadians heading abroad:<br>1. <b>TuGo store</b> - quote and buy single-trip or annual plans online.<br>2. <b>TruStone Travel Outside Canada</b> - direct application on the insurer's site.<br>3. Or get a quick estimate right here first.");
+      setTimeout(function(){
+        chips([
+          {label:"Open TuGo store",href:TUGO_STORE,ext:true,ds:{"buy-step":"checkout","provider":"TuGo"}},
+          {label:"TruStone Travel Outside Canada",href:tsUrl("ELOOCNP"),ext:true,ds:{"buy-step":"checkout","provider":"TruStone Health","trustone-plan":"ELOOCNP"}},
+          {label:"Quick estimate",key:"@estimate"},
+          {label:"Talk to Sertac",key:"#lead"}
+        ]);
+      },300);
+    });
+  }
+  function stuckHelp(){
+    typingThen(function(){
+      bot("Three quick fixes that solve it 9 times out of 10:<br>1. Open the tool in its own tab - there's a link for that on this page.<br>2. If it says the session expired, press <b>Start New Quote</b> again - nothing is lost.<br>3. Still blank? Call 437-385-6173 and we'll run the quote with you.");
+      setTimeout(function(){
+        chips([
+          {label:"Open tool in its own tab",href:"https://www.21stcenturytips.com/QuoteAPI/B560E473-ABC7-4316-8556-67AAC12113B9",ext:true},
+          {label:"Talk to Sertac",key:"#lead"}
+        ]);
+      },300);
+    });
+  }
+
+  function norm(s){return ' '+s.toLowerCase().replace(/super\s*visa/g,'super visa').replace(/grand\s*parents?/g,'parents').replace(/\b(price|prices|pricing|priced|expensive|afford|affordable|cheap|fee|fees|rates?)\b/g,'cost').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ')+' ';}
+  function rank(text){var t=norm(text);var arr=[];for(var id in KB){var s=0;KB[id].k.forEach(function(p){var pp=' '+p.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()+' ';if(t.indexOf(pp)!==-1)s+=pp.length;});if(s>0)arr.push([id,s]);}arr.sort(function(a,b){return b[1]-a[1];});return arr;}
+
+  function route(key){
+    if(key==="#quote"){startQuote();return;}
+    if(key==="#lead"){leadForm("");return;}
+    if(key==="#cancel"){cancelFlow();return;}
+    if(key==="#covisit"){copilotVisit();return;}
+    if(key==="#coabroad"){copilotAbroad();return;}
+    if(key==="#stuck"){stuckHelp();return;}
+    if(key[0]==="@"){startFlow(key.slice(1));return;}
+    if(key[0]==="="){advance(key.slice(1));return;}
+    if(KB[key]){ if(key==="quote"){leadForm("");} else {answerFaq(key);} return; }
+  }
+
+  function send(){
+    var v=input.value.trim();if(!v)return;input.value='';
+    if(session.flow){
+      var low=v.toLowerCase();
+      if(low==="cancel"||low==="stop"||low==="restart"||low==="start over"||low==="menu"){user(v);cancelFlow();return;}
+      user(v);advance(v);return;
+    }
+    user(v);
+    var r=rank(v);
+    if(r.length&&r[0][1]>=4){ if(r[0][0]==="quote"){leadForm(v);} else {answerFaq(r[0][0]);} return; }
+    typingThen(function(){
+      if(r.length){
+        bot("I want to get this right - did you mean one of these?");
+        chips(r.slice(0,3).map(function(x){return {label:LBL[x[0]]||"Talk to Sertac",key:x[0]};}).concat([{label:"Get a quote",key:"#quote"}]));
+      } else {
+        bot("Great question - let me connect you with Sertac for a precise answer.");
+        leadForm(v);
+      }
+    });
+  }
+
+  function greet(){
+    var h=new Date().getHours();var g=h<12?'Good morning':(h<18?'Good afternoon':'Good evening');
+    var p=location.pathname||"";
+    if(/buy-online/i.test(p)){copilotGreet(g);return;}
+    if(/instant-quote/i.test(p)){
+      bot(g+"! Working on your instant quote? Quick heads-up: the tool runs on the insurer's system - if it looks stuck or says the session expired, open it in its own tab. Tell me where you're stuck and I'll point you the right way.");
+      chips([{label:"Tool looks stuck",key:"#stuck"},{label:"Get a quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
+      return;
+    }
+    if(/travel-insurance-calculator/i.test(p)){
+      bot(g+"! This calculator gives illustrative estimates - not quotes. Want a quick estimate right here in the chat, or help understanding what moves the price?");
+      chips([{label:"Quick estimate",key:"@estimate"},{label:"What affects the price?",key:"cost"},{label:"Talk to Sertac",key:"#lead"}]);
+      return;
+    }
+    bot(g+"! I'm the Cover &amp; Protect assistant. Ask me anything, get a quote in under a minute, or pick a topic below.");
+    chips(MENU);
+  }
+
+  document.getElementById('cpbot-send').onclick=send;
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+})();
+</script>

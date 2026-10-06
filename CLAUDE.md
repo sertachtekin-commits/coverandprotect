@@ -66,6 +66,7 @@ Everything lives at the repository root (flat structure):
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
+| `_includes/cpbot.html` | Shared Cover & Protect assistant chatbot (markup + styles + script). Include with `{% include cpbot.html %}` just before `</body>`. Page-aware greeting: buy-online.html gets copilot mode (guided path finder), instant-quote.html gets quote-tool help, travel-insurance-calculator.html gets estimate help. Knowledge base (KB), quote flows (FLOWS) and the illustrative estimate engine live here — keep the estimate bands in sync with `travel-insurance-calculator.html` (rate assumptions v2026.07). Outbound portal links carry `data-buy-step`/`data-trustone-plan` so `tracking.js` fires the funnel events. |
 | `images/` | All image assets (hero images, illustrations) |
 | `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
 | `tools/search-audit/` | TypeSafe search & AI-visibility audit of the sitemap pages, run from GitHub Actions (not published; see its README) |
