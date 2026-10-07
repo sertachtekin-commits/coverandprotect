@@ -193,7 +193,7 @@ hub is what routes organic blog traffic to a purchase.
 - Business: **Cover & Protect**, advisor **Sertac Tekin**, Toronto, Ontario.
 - Regulator: **FSRA Licence #10112782** (shown in disclaimers/forms).
 - Phone: `tel:4373856173` · WhatsApp: `wa.me/14373856173`
-- Email: `contact@coverandprotect.ca` / `info@coverandprotect.ca`
+- Email: `contact@coverandprotect.ca` (canonical — use everywhere; do not use `info@coverandprotect.ca`)
 - Social: Facebook `https://www.facebook.com/share/1HAGzGYSun/` · Instagram
   `https://www.instagram.com/coverandprotect.ca`. These appear both as visible
   icon links in the page footers (inline SVG, gold `--gold-light`, opening in a
