@@ -1,0 +1,218 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% include analytics.html %}
+<title>60-Day Split Calculator | Annual vs Single-Trip Snowbird Insurance</title>
+<meta name="description" content="Should you split a long snowbird stay into 60-day trips on an annual multi-trip plan? Enter your trip length and age band to see the structure, your OHIP day budget, and illustrative costs.">
+<meta name="keywords" content="snowbird 60 day split, annual multi-trip vs single trip, snowbird travel insurance calculator, split long stay travel insurance, 60 day multi-trip plan Canada">
+<meta name="robots" content="index, follow">
+<meta name="geo.region" content="CA-ON">
+<meta name="geo.placename" content="Toronto, Ontario">
+<link rel="canonical" href="https://coverandprotect.ca/snowbird-60-day-split-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://coverandprotect.ca/snowbird-60-day-split-calculator.html">
+<meta property="og:title" content="60-Day Split Calculator for Snowbirds | Cover &amp; Protect">
+<meta property="og:description" content="Annual multi-trip or single long-stay policy? Run your trip length through the 60-day split calculator and see the structure, OHIP day budget and illustrative costs.">
+<meta property="og:site_name" content="Cover &amp; Protect">
+<meta property="og:locale" content="en_CA">
+<meta property="og:image" content="https://coverandprotect.ca/images/hero-travel.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://coverandprotect.ca/images/hero-travel.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="travel-landing.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","@id":"https://coverandprotect.ca/snowbird-60-day-split-calculator.html#service","name":"Snowbird 60-Day Split Calculator","serviceType":"Interactive comparison of annual multi-trip vs single-trip long-stay travel insurance structures for Canadian snowbirds","description":"Free calculator that shows how a long snowbird stay splits into 60-day segments on an annual multi-trip plan, checks the trip against Ontario's 212-day OHIP guideline, and shows illustrative single-trip costs from published 2026 rate data.","provider":{"@type":"InsuranceAgency","@id":"https://coverandprotect.ca/#business","name":"Cover & Protect","url":"https://coverandprotect.ca/","telephone":"+14373856173","email":"contact@coverandprotect.ca","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8","https://www.facebook.com/share/1HAGzGYSun/","https://www.instagram.com/coverandprotect.ca"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"16","bestRating":"5"}},"areaServed":[{"@type":"AdministrativeArea","name":"Ontario"},{"@type":"City","name":"Toronto"}],"audience":{"@type":"Audience","audienceType":"Canadian snowbirds and retirees"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 60-day split strategy for snowbirds?","acceptedAnswer":{"@type":"Answer","text":"Instead of buying one long single-trip policy for the whole winter, you structure the stay as multiple trips of 60 days or less on an annual multi-trip plan, returning to Canada between segments. Each return starts a new trip under the plan's per-trip limit."}},{"@type":"Question","name":"Does splitting a long stay into 60-day trips save money?","acceptedAnswer":{"@type":"Answer","text":"It can. Annual multi-trip plans are priced per year rather than per day, so two or three 60-day segments sometimes cost less than a single 180-day policy. Whether it wins depends on your age, health, destination and the insurer, so compare both structures with real quotes before deciding."}},{"@type":"Question","name":"Do I have to return to Canada between 60-day segments?","acceptedAnswer":{"@type":"Answer","text":"Generally yes. For the annual plan's per-trip limit to reset, each segment generally needs to be a new trip departing from Canada. Check your policy wording, because some plans define this differently."}},{"@type":"Question","name":"How do pre-existing conditions work with split trips?","acceptedAnswer":{"@type":"Answer","text":"Stability clauses are typically measured from each departure date. A medication change or new symptom mid-winter can therefore affect coverage for the next segment, so disclose any health changes before each departure."}},{"@type":"Question","name":"Can I top up a multi-trip plan instead of splitting?","acceptedAnswer":{"@type":"Answer","text":"Top-ups extend a single trip rather than splitting it, and multi-trip top-ups generally must be purchased before departure. If you want one continuous stay without returning to Canada, a top-up or a long single-trip policy is usually the cleaner structure."}},{"@type":"Question","name":"Does splitting trips affect my OHIP eligibility?","acceptedAnswer":{"@type":"Answer","text":"No. Ontario counts total days outside the province, not number of trips. The guideline is no more than 212 days away in any 12-month period, and at least 153 days physically present in Ontario, regardless of how you structure your travel insurance."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://coverandprotect.ca/"},{"@type":"ListItem","position":2,"name":"Travel Insurance","item":"https://coverandprotect.ca/travel-insurance.html"},{"@type":"ListItem","position":3,"name":"Snowbird Travel Insurance","item":"https://coverandprotect.ca/snowbird-travel-insurance.html"},{"@type":"ListItem","position":4,"name":"60-Day Split Calculator","item":"https://coverandprotect.ca/snowbird-60-day-split-calculator.html"}]}</script>
+<style>
+.calc{background:#fff;border:1px solid #e7e2d6;border-radius:14px;padding:28px;box-shadow:0 8px 30px rgba(20,40,60,.06)}
+.calc label{display:block;font-weight:700;margin:18px 0 6px}
+.calc input[type=range]{width:100%}
+.calc select,.calc input[type=number]{width:100%;max-width:320px;padding:10px 12px;border:1px solid #cfc8b4;border-radius:8px;font-size:16px}
+.calc .hint{font-size:13px;color:#6b6353;margin-top:4px}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:24px}
+.result{background:#f7f4ec;border:1px solid #e7e2d6;border-radius:10px;padding:16px}
+.result .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#8a7f66;font-weight:700}
+.result .v{font-size:22px;font-weight:800;margin:6px 0}
+.result .d{font-size:14px;color:#4c4638}
+.result.warn{border-color:#c0392b;background:#fdf0ee}
+.result.warn .v{color:#c0392b}
+.days-out{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="logo" href="/">Cover<span>&amp;</span>Protect</a>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="travel-insurance.html">Travel</a>
+      <a href="annual-multi-trip-travel-insurance.html">Multi-Trip</a>
+      <a href="visitor-insurance-canada.html">Visitor</a>
+      <a href="super-visa-insurance-ontario.html">Super Visa</a>
+      <a href="travel-insurance-calculator.html">Calculator</a>
+      <a class="buy" href="buy-online.html">Buy Online</a>
+      <a href="tel:4373856173" class="btn btn-out">437-385-6173</a>
+      <a href="#quote" class="btn btn-gold">Free Quote</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="badge">FSRA Licensed · Ontario Advisor</div>
+    <h1>The snowbird <em>60-day split</em> calculator</h1>
+    <p class="lead">One long single-trip policy, or an annual multi-trip plan split into 60-day segments? Enter your trip below to see the structure, check it against your OHIP day budget, and compare illustrative costs from published 2026 rate data.</p>
+    <div class="trust"><span class="stars">★★★★★</span><span class="who">5.0 — <a href="https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">rated by clients on Google</a></span></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="calc" id="calc">
+      <label for="ageBand">Your age band</label>
+      <select id="ageBand">
+        <option value="65-69">65 to 69</option>
+        <option value="70-74">70 to 74</option>
+        <option value="75-79">75 to 79</option>
+        <option value="80-84" selected>80 to 84</option>
+        <option value="85+">85+</option>
+      </select>
+
+      <label for="tripDays">Trip length: <span class="days-out" id="tripDaysOut">180</span> days</label>
+      <input type="range" id="tripDays" min="30" max="212" step="1" value="180">
+      <p class="hint">The full winter stay you are planning, in days.</p>
+
+      <label for="daysAway">Days already spent outside Ontario in the last 12 months</label>
+      <input type="number" id="daysAway" min="0" max="365" value="0">
+      <p class="hint">Include every trip abroad this year. Ontario's guideline is no more than 212 days away in any 12-month period.</p>
+
+      <div class="results" id="results" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow">How the strategy works</p>
+    <h2>One winter, several trips</h2>
+    <p>An annual multi-trip plan covers an unlimited number of trips for a year, up to a per-trip day limit you choose (commonly 30, 60 or 90 days). The 60-day split structures a long winter as back-to-back 60-day trips: you return to Canada between segments, and each return starts a fresh trip under the plan. Because annual plans are priced per year rather than per day, the total can come in below a single 180-day policy, and the plan also covers every other trip you take that year.</p>
+    <div class="callout">
+      <p><strong>When the split does not fit:</strong> if you do not want to fly home mid-winter, the split cannot work as separate trips. In that case compare a long single-trip policy against a single-trip policy plus a <a href="top-up-travel-insurance-canada.html">top-up</a> instead. Top-ups extend one continuous trip and generally must be arranged before the original policy expires.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><span class="ico">✈️</span><h3>Return resets the trip</h3><p>Each segment generally needs to be a new trip departing from Canada for the per-trip limit to reset. Check your policy wording.</p></div>
+      <div class="card"><span class="ico">💊</span><h3>Stability resets too</h3><p>Pre-existing condition stability is typically measured from each departure date. A mid-winter medication change can affect the next segment.</p></div>
+      <div class="card"><span class="ico">🧾</span><h3>OHIP counts total days</h3><p>Splitting changes your insurance structure, not your residency math. Ontario still counts every day away toward the 212-day guideline.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Common questions</p>
+    <h2>60-day split questions</h2>
+    <details><summary>What is the 60-day split strategy for snowbirds?</summary><p>Instead of buying one long single-trip policy for the whole winter, you structure the stay as multiple trips of 60 days or less on an annual multi-trip plan, returning to Canada between segments. Each return starts a new trip under the plan's per-trip limit.</p></details>
+    <details><summary>Does splitting a long stay into 60-day trips save money?</summary><p>It can. Annual multi-trip plans are priced per year rather than per day, so two or three 60-day segments sometimes cost less than a single 180-day policy. Whether it wins depends on your age, health, destination and the insurer, so compare both structures with real quotes before deciding.</p></details>
+    <details><summary>Do I have to return to Canada between 60-day segments?</summary><p>Generally yes. For the annual plan's per-trip limit to reset, each segment generally needs to be a new trip departing from Canada. Check your policy wording, because some plans define this differently.</p></details>
+    <details><summary>How do pre-existing conditions work with split trips?</summary><p>Stability clauses are typically measured from each departure date. A medication change or new symptom mid-winter can therefore affect coverage for the next segment, so disclose any health changes before each departure.</p></details>
+    <details><summary>Can I top up a multi-trip plan instead of splitting?</summary><p>Top-ups extend a single trip rather than splitting it, and multi-trip top-ups generally must be purchased before departure. If you want one continuous stay without returning to Canada, a top-up or a long single-trip policy is usually the cleaner structure. See our <a href="top-up-travel-insurance-canada.html">top-up guide</a>.</p></details>
+    <details><summary>Does splitting trips affect my OHIP eligibility?</summary><p>No. Ontario counts total days outside the province, not number of trips. The guideline is no more than 212 days away in any 12-month period, and at least 153 days physically present in Ontario, regardless of how you structure your travel insurance. See our <a href="ohip-212-day-rule-snowbirds.html">OHIP 212-day rule guide</a>.</p></details>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow">Related guides</p>
+    <h2>Keep reading</h2>
+    <div class="cards">
+      <div class="card"><h3><a href="snowbird-travel-insurance.html">Snowbird travel insurance</a></h3><p>Long-stay and annual multi-trip plans for Ontario retirees wintering in Florida, Arizona or Texas.</p></div>
+      <div class="card"><h3><a href="annual-multi-trip-travel-insurance.html">Annual multi-trip plans</a></h3><p>How yearly plans work, per-trip limits, and who they suit best.</p></div>
+      <div class="card"><h3><a href="snowbird-travel-insurance-cost-by-age.html">What snowbird insurance costs by age</a></h3><p>Published 2026 rate data, the deductible sweet spot, and Florida vs Arizona costs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="quote">
+  <div class="wrap">
+    <p class="eyebrow">Free comparison</p>
+    <h2>Want the real numbers for your trip?</h2>
+    <p>The calculator shows the structure. For exact premiums we compare 10+ Canadian insurers with your actual dates, age band and health profile, both as a single-trip policy and as an annual plan, so you can see which wins. Free, no obligation.</p>
+    <div class="hero-actions">
+      <a href="https://calendly.com/contact-coverandprotect/30min" class="btn btn-gold">Book a free comparison →</a>
+      <a href="https://wa.me/14373856173?text=Hi%20Cover%20%26%20Protect%2C%20I%20used%20the%2060-day%20split%20calculator%20and%20would%20like%20a%20comparison%20of%20annual%20vs%20single-trip%20for%20my%20winter%20trip." target="_blank" rel="noopener" class="btn btn-teal">WhatsApp us</a>
+      <a href="tel:4373856173" class="btn btn-out">Call 437-385-6173</a>
+    </div>
+    <p class="hint">Prefer email? <a href="mailto:contact@coverandprotect.ca">contact@coverandprotect.ca</a> · FSRA Licence #10112782</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>© 2026 Cover &amp; Protect · FSRA Licence #10112782 · <a href="mailto:contact@coverandprotect.ca">contact@coverandprotect.ca</a> · <a href="tel:4373856173">437-385-6173</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DAILY = {"65-69": 8.47, "80-84": 29.36};
+  function fmt(n){ return "$" + Math.round(n).toLocaleString("en-CA"); }
+  function calc(){
+    var band = document.getElementById("ageBand").value;
+    var days = parseInt(document.getElementById("tripDays").value, 10);
+    var away = parseInt(document.getElementById("daysAway").value, 10);
+    if (isNaN(away) || away < 0) away = 0;
+    document.getElementById("tripDaysOut").textContent = days;
+
+    var totalAway = days + away;
+    var remaining = 212 - totalAway;
+    var inOntario = 365 - totalAway;
+    var segs = Math.ceil(days / 60);
+
+    var html = "";
+
+    // OHIP budget
+    var ohipCls = remaining < 0 ? "result warn" : "result";
+    var ohipVal = remaining < 0 ? (remaining + " days") : (remaining + " days left");
+    var ohipDesc = remaining < 0
+      ? "This plan exceeds Ontario's 212-day guideline for time outside the province. Speak with ServiceOntario before you book."
+      : "Total days away in a 12-month window: " + totalAway + " of 212. Days in Ontario: " + inOntario + " (guideline: at least 153).";
+    html += '<div class="' + ohipCls + '"><div class="k">OHIP day budget</div><div class="v">' + ohipVal + '</div><div class="d">' + ohipDesc + '</div></div>';
+
+    // Split structure
+    var segDesc = days <= 60
+      ? "Your trip fits inside one 60-day per-trip limit, so a standard annual multi-trip plan covers it with no splitting needed."
+      : "Structure: " + segs + " segments of up to 60 days (" + segs + " x 60 = " + (segs*60) + " days of headroom). You return to Canada between segments so each one starts as a new trip.";
+    html += '<div class="result"><div class="k">60-day split structure</div><div class="v">' + segs + " segment" + (segs>1?"s":"") + '</div><div class="d">' + segDesc + '</div></div>';
+
+    // Illustrative single-trip cost
+    if (DAILY[band]) {
+      var cost = DAILY[band] * days;
+      html += '<div class="result"><div class="k">Illustrative single-trip cost</div><div class="v">~' + fmt(cost) + '</div><div class="d">' + days + ' days x ' + fmt(DAILY[band]) + '/day, from vertis-direct\u2019s published Travel Choice rate card (151-212 day stays, age ' + band + '). Illustrative only: your quote depends on health, insurer and deductible.</div></div>';
+    } else {
+      html += '<div class="result"><div class="k">Illustrative single-trip cost</div><div class="v">Get a quote</div><div class="d">Published daily-rate data is not available for age ' + band + '. Send us your dates for a free comparison of single-trip vs annual pricing.</div></div>';
+    }
+
+    // Deductible note
+    html += '<div class="result"><div class="k">Deductible tip</div><div class="v">$500\u2013$1,000</div><div class="d">The sweet spot for most snowbirds: meaningful premium savings without a painful out-of-pocket bill mid-emergency.</div></div>';
+
+    document.getElementById("results").innerHTML = html;
+  }
+  document.getElementById("ageBand").addEventListener("change", calc);
+  document.getElementById("tripDays").addEventListener("input", calc);
+  document.getElementById("daysAway").addEventListener("input", calc);
+  calc();
+})();
+</script>
+
+</body>
+</html>
