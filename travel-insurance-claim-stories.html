@@ -40,6 +40,11 @@
     .faq{display:grid;gap:12px;margin-top:20px}.faq details{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:18px}.faq summary{cursor:pointer;font-weight:800;color:var(--white)}.faq p{margin-top:10px}
     .cta{background:linear-gradient(135deg,rgba(14,124,123,.22),rgba(201,151,58,.12));border-top:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center}.cta p{margin:0 auto 22px;max-width:720px}
     footer{padding:34px 0;color:var(--muted);font-size:.84rem;border-top:1px solid var(--border)}footer .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+    .videogrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
+    .videowrap{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:14px}
+    .videowrap iframe{width:100%;aspect-ratio:16/9;border-radius:10px;display:block}
+    .videocap{font-size:.88rem;margin:12px 2px 2px}
+    @media(max-width:700px){.videogrid{grid-template-columns:1fr}}
     @media(max-width:900px){.navlinks a:not(.btn){display:none}.navlinks a.buy{display:inline-block}.wrap{padding:0 18px}section{padding:40px 0}}
   </style>
   <script type="application/ld+json">
@@ -108,6 +113,24 @@
         <span><strong>95.3%</strong> of travel health claims paid (THIA / KPMG)</span>
         <span><strong>$138M+</strong> paid to 103,000+ travellers</span>
         <span>Free, no-obligation advice</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <p class="eyebrow">Watch the stories</p>
+      <h2>The claim files, on video</h2>
+      <p>Prefer to watch? These two short videos walk through the same published cases: the $342,741.25 Fort Myers hospital stay that was paid, and the two denied claims that teach the stability-clause lesson.</p>
+      <div class="videogrid">
+        <div class="videowrap">
+          <iframe src="https://www.youtube.com/embed/YOUTUBE_ID_VIDEO_1" title="The $342,741 Hospital Bill Travel Insurance Actually Paid" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          <p class="videocap"><strong>The $342,741 hospital bill travel insurance actually paid.</strong> Robert's 8-day cardiac stay in Fort Myers, and what it teaches about coverage limits.</p>
+        </div>
+        <div class="videowrap">
+          <iframe src="https://www.youtube.com/embed/YOUTUBE_ID_VIDEO_2" title="Two Denied Claims Every Snowbird Should Know About" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          <p class="videocap"><strong>Two denied claims every snowbird should know about.</strong> The $147,502 and $65,000 denials, and the stability clause behind both.</p>
+        </div>
       </div>
     </div>
   </section>
