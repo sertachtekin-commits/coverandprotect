@@ -201,7 +201,8 @@
       {t:"choice",k:"count",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
       {t:"text",k:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
       {t:"text",k:"dest",L:"Destination",q:"Where are you travelling to?",p:"Destination..."},
-      {t:"text",k:"dates",L:"Dates",q:"Travel dates? e.g. Jul 1-15",p:"Travel dates..."},
+      {t:"text",k:"dates",L:"Dates",q:"Travel dates? e.g. Nov 15 to Dec 10",p:"Travel dates..."},
+      {t:"choice",k:"days",L:"Trip length",q:"How long is the trip? (tap one, or type the number of days)",o:[["About 1 week","7"],["About 2 weeks","14"],["About 3 weeks","21"],["About a month","30"]]},
       {t:"choice",k:"plan",L:"Plan",q:"Single trip or multi-trip annual?",o:[["Single trip","Single"],["Multi-trip annual","Multi-trip"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
@@ -511,7 +512,7 @@
     var n={ptype:AIP.product, age:parseInt(AIP.age,10), days:parseInt(AIP.days,10)};
     if(AIP.product==="supervisa") n.days=n.days||365;
     n.dest=AIP.destination||"";
-    n.usa=/usa|united states|america|florida|arizona|texas|hawaii|california|vegas|new york/i.test(n.dest)?"yes":"no";
+    n.usa=isUSA(n.dest);
     n.cond=(AIP.pre_existing==="stable")?"stable":"none";
     n.monthly=AIP.wants_monthly?"yes":"no";
     n.long=AIP.days;
@@ -673,6 +674,29 @@
     return null;
   }
 
+  /* Type "ai status" in the chat to find out, in plain words, whether the AI
+     service is reachable. The customer-facing fallback is deliberately silent
+     about failures; this is how the owner checks without reading logs. */
+  function aiStatus(){
+    bot("Checking the AI service\u2026");
+    fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:"ping"})})
+    .then(function(r){return r.json().then(function(d){return {s:r.status,d:d};});})
+    .then(function(x){
+      var d=x.d||{};
+      if(d.reply||d.tool_calls){bot("\u2705 <b>AI is working.</b> The assistant can quote and recommend normally.");return;}
+      if(d.error==="not_configured"){bot("\u274c <b>No API key found.</b> In Cloudflare \u2192 your Worker \u2192 Settings \u2192 Variables and Secrets, add a secret named <b>OPENAI_API_KEY</b> with your OpenAI key.");return;}
+      if(d.error==="provider_error"&&d.provider_status===401){bot("\u274c <b>The API key is rejected.</b> It has been revoked or mistyped. Create a new key at platform.openai.com and paste it into Cloudflare.");return;}
+      if(d.error==="provider_error"&&d.provider_status===429){bot("\u274c <b>OpenAI says out of credit or rate limited.</b> Check the billing balance at platform.openai.com.");return;}
+      if(d.error==="provider_error"){bot("\u274c <b>OpenAI refused the request.</b> Status "+esc(String(d.provider_status))+", code "+esc(String(d.provider_code||"unknown"))+".");return;}
+      if(d.error==="rate_limited"){bot("\u23f3 <b>Too many requests</b> from this address in the last minute. Wait and retry.");return;}
+      bot("\u274c <b>Unexpected reply.</b> HTTP "+esc(String(x.s))+" \u2014 "+esc(JSON.stringify(d).slice(0,200)));
+    })
+    .catch(function(e){
+      bot("\u274c <b>Could not reach the AI service at all.</b> The Worker may not be deployed, or its address in the site code is wrong.<br><span style='font-size:.8rem;opacity:.7'>"+esc(String(e&&e.message||e))+"</span>");
+    });
+  }
+
   function send(){
     var v=input.value.trim();if(!v)return;input.value='';
     if(session.flow){
@@ -687,6 +711,7 @@
       advance(v);return;
     }
     user(v);
+    if(/^(ai status|\/status|ai test)$/i.test(v)){aiStatus();return;}
     rememberTravelFacts(v);
     aiFallback(v);
   }
@@ -725,12 +750,44 @@
   function loadCtx(){try{var o=JSON.parse(localStorage.getItem(CTX_KEY)||"null");if(o&&Date.now()-o.ts<864e5)return o;}catch(e){}return null;}
   function clearCtx(){try{localStorage.removeItem(CTX_KEY);}catch(e){}}
   function firstAge(s){var m=String(s||"").match(/\d{1,3}/);return m?parseInt(m[0],10):NaN;}
+  /* US destinations carry a materially higher premium, so this decides the price.
+     Keep it in ONE place — the AI path and the guided flows both call it, and a
+     Florida trip priced as non-US is understated by about a fifth. */
+  var USA_RE=/\busa\b|\bu\.?s\.?a?\b|united states|america|florida|arizona|texas|hawaii|california|nevada|vegas|new york|orlando|miami|tampa|phoenix|palm springs|myrtle beach|california/i;
+  function isUSA(dest){return USA_RE.test(String(dest||""))?"yes":"no";}
+  var MON={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  function monIdx(w){var k=String(w||"").slice(0,3).toLowerCase();return MON.hasOwnProperty(k)?MON[k]:-1;}
+  function spanDays(m1,d1,m2,d2){
+    if(m1<0||m2<0)return NaN;
+    var y=new Date().getFullYear(), a=new Date(y,m1,d1), b=new Date(y,m2,d2);
+    if(b<a)b=new Date(y+1,m2,d2);
+    var n=Math.round((b-a)/864e5)+1;
+    return n>0&&n<=730?n:NaN;
+  }
+  /* Visitors write trip length every which way. Understand the common ones —
+     an unparsed length means no estimate, and a silently missing price is the
+     one thing this assistant must not do. */
   function parseDays(s){
     s=String(s||"");
     var m=s.match(/(\d+)\s*days?/i);if(m)return parseInt(m[1],10);
+    m=s.match(/(\d+)\s*(?:weeks?|wks?)\b/i);if(m)return parseInt(m[1],10)*7;
     m=s.match(/(\d+)\s*(?:months?|mos?)\b/i);if(m)return parseInt(m[1],10)*30;
-    m=s.match(/[A-Za-z]{3,9}\s*(\d{1,2})\s*[-–]\s*(\d{1,2})/);if(m){var d=parseInt(m[2],10)-parseInt(m[1],10)+1;return d>0&&d<=365?d:NaN;}
     m=s.match(/(\d+)\s*(?:years?|yrs?)\b/i);if(m)return parseInt(m[1],10)*365;
+    /* "Nov 15 to Dec 10", "Nov 15 - Dec 10", "Nov 15 – Dec 10" */
+    m=s.match(/([A-Za-z]{3,9})\.?\s*(\d{1,2})\s*(?:to|until|till|through|thru|[-–—])\s*([A-Za-z]{3,9})\.?\s*(\d{1,2})/i);
+    if(m)return spanDays(monIdx(m[1]),parseInt(m[2],10),monIdx(m[3]),parseInt(m[4],10));
+    /* "15 Nov to 10 Dec" */
+    m=s.match(/(\d{1,2})\s*([A-Za-z]{3,9})\.?\s*(?:to|until|till|through|thru|[-–—])\s*(\d{1,2})\s*([A-Za-z]{3,9})/i);
+    if(m)return spanDays(monIdx(m[2]),parseInt(m[1],10),monIdx(m[4]),parseInt(m[3],10));
+    /* same month: "Jul 1-15" */
+    m=s.match(/[A-Za-z]{3,9}\.?\s*(\d{1,2})\s*(?:to|[-–—])\s*(\d{1,2})/i);
+    if(m){var d=parseInt(m[2],10)-parseInt(m[1],10)+1;return d>0&&d<=365?d:NaN;}
+    /* "2026-11-15 to 2026-12-10" */
+    m=s.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\s*(?:to|until|[-–—])\s*(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
+    if(m){var A=new Date(+m[1],+m[2]-1,+m[3]),B=new Date(+m[4],+m[5]-1,+m[6]);
+      var n=Math.round((B-A)/864e5)+1;return n>0&&n<=730?n:NaN;}
+    /* a bare number on its own, e.g. the trip-length question */
+    m=s.match(/^\s*(\d{1,3})\s*$/);if(m){var k=parseInt(m[1],10);return k>0&&k<=365?k:NaN;}
     return NaN;
   }
   function normCond(v){v=String(v||"").toLowerCase();return /stable|recent|yes/.test(v)?"stable":"none";}
@@ -785,7 +842,7 @@
   function normalizeCtx(fkey,d){
     var n={ptype:d.ptype||fkey};
     if(fkey==="estimate"){n.age=parseInt(d.age,10);n.days=parseInt(d.days,10);n.usa=d.usa;n.cond=d.cond;}
-    else if(fkey==="travel"){n.age=firstAge(d.ages);n.days=parseDays(d.dates);n.dest=d.dest;n.usa=/usa|united states|america/i.test(d.dest||"")?"yes":"no";n.cond="none";n.plan=d.plan;
+    else if(fkey==="travel"){n.age=firstAge(d.ages);n.days=parseDays(d.days)||parseDays(d.dates);n.dest=d.dest;n.usa=isUSA(d.dest);n.cond="none";n.plan=d.plan;
       if(/multi/i.test(d.plan||""))n.ptype="annual";}
     else if(fkey==="supervisa"){n.age=firstAge(d.ages);n.days=/2/.test(d.term||"")?730:365;n.cond=d.pre;n.count=d.count;}
     else if(fkey==="visitor"){n.age=firstAge(d.ages);n.days=parseDays(d.length);n.cond=d.pre;}
@@ -804,8 +861,23 @@
     }
     return null;
   }
+  /* Why an estimate could not be produced, in the visitor's words. */
+  function missingForEstimate(n){
+    var need=[];
+    if(isNaN(n.age))need.push("the traveller's age");
+    if(isNaN(n.days)||n.days<1)need.push("how many days the trip is");
+    return need;
+  }
   function handoffCard(n,rec,est){
     var html="";
+    if(!est){
+      /* A silently missing price is the one failure that loses the sale. Say why. */
+      var need=missingForEstimate(n);
+      if(need.length){
+        html+="<b>I can't price this yet</b> \u2014 I still need "+esc(need.join(" and "))+
+              ".<br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>Tell me and I'll give you an illustrative range.</span><br><br>";
+      }
+    }
     if(est){
       html+="Illustrative estimate: <b>"+money(est.r.low)+" &ndash; "+money(est.r.high)+" CAD</b><br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+est.label+" · age "+n.age+". Not a quote — actual rates depend on the insurer and your details (assumptions v2026.07).</span><br><br>";
     }
