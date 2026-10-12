@@ -470,41 +470,180 @@
     if(KB[key]){ if(key==="quote"){leadForm("");} else {answerFaq(key);} return; }
   }
 
-  /* ============ PHASE 3 — AI fallback via Cloudflare Worker (OpenAI) ============
-     When the rule-based matcher finds nothing, the question goes to a private
-     Cloudflare Worker that holds the OpenAI API key server-side. The key NEVER
-     appears in this file, on the website, or in the repo.
-     After the worker is deployed, set CPBOT_WORKER_URL to its https URL. */
+  /* ============ PHASE 3 — AI SALES AGENT via Cloudflare Worker (OpenAI tools) ====
+     The model no longer just talks. It calls tools that run HERE, in the page,
+     against the same estimate engine and recommendation logic the guided flows
+     already use. That is deliberate: the rate bands live in this file and must
+     match travel-insurance-calculator.html, so running them in the Worker too
+     would make a third copy to keep in sync. Drifting rate tables are how a
+     customer gets quoted one number and shown another.
+
+     Protocol: POST {message, history, profile} -> the Worker either answers or
+     returns {tool_calls, assistant}. We run the tools, POST the results back,
+     and the model writes the final answer. Up to AI_MAX_ROUNDS tool rounds.
+
+     The OpenAI key lives only as a Cloudflare secret. A GET on the Worker URL
+     returning "Method not allowed" is correct — it only accepts POST. */
   var CPBOT_WORKER_URL = "https://coverandprotect.sertach-tekin.workers.dev";
   var CPBOT_AI_HISTORY = [];
+  var AI_MAX_ROUNDS = 3;
+
+  /* What the agent has learned. Lives for the whole conversation so it never
+     re-asks, and feeds the same handoff context buy-online.html picks up. */
+  var AIP = {};
+  var AI_LAST_REC = null;
+
+  /* A recent medication, dosage or treatment change — or "not sure" — must never
+     end at a buy link. That is the single most common reason a large claim is
+     denied, so those visitors go to Sertac instead. */
+  function aiAdvisorRequired(){
+    return AIP.pre_existing==="recent_change" || AIP.pre_existing==="not_sure";
+  }
+  function aiMissing(){
+    var need=[];
+    if(!AIP.product) need.push("product");
+    if(!AIP.age) need.push("age");
+    if(AIP.product!=="supervisa" && AIP.product!=="annual" && !AIP.days) need.push("days");
+    return need;
+  }
+  /* Shape AIP the way estimateFor()/recommendFor() already expect. */
+  function aiNode(){
+    var n={ptype:AIP.product, age:parseInt(AIP.age,10), days:parseInt(AIP.days,10)};
+    if(AIP.product==="supervisa") n.days=n.days||365;
+    n.dest=AIP.destination||"";
+    n.usa=/usa|united states|america|florida|arizona|texas|hawaii|california|vegas|new york/i.test(n.dest)?"yes":"no";
+    n.cond=(AIP.pre_existing==="stable")?"stable":"none";
+    n.monthly=AIP.wants_monthly?"yes":"no";
+    n.long=AIP.days;
+    return n;
+  }
+  var AI_TOOLS={
+    save_profile:function(a){
+      ["product","age","days","destination","travel_dates","travellers","pre_existing","wants_monthly"]
+        .forEach(function(k){ if(a[k]!==undefined && a[k]!==null && a[k]!=="") AIP[k]=a[k]; });
+      if(AIP.product==="supervisa" && !AIP.days) AIP.days=365;
+      return {saved:true, profile:AIP, still_needed:aiMissing(),
+              advisor_required:aiAdvisorRequired()||undefined};
+    },
+    estimate_premium:function(){
+      var need=aiMissing();
+      if(need.length) return {error:"missing_fields", still_needed:need,
+        note:"Ask the visitor for these, one at a time, then call save_profile again."};
+      if(aiAdvisorRequired()) return {advisor_required:true, no_price:true,
+        reason:"The visitor reported a recent medical change or is unsure. Stability-period wording decides whether that condition is covered, so an estimate here would be misleading. Route them to Sertac on 437-385-6173."};
+      var est=estimateFor(aiNode());
+      if(!est) return {error:"no_band_for_product", product:AIP.product,
+        note:"No illustrative band exists for this product. Do not state a number. Offer the insurer quote tool or Sertac."};
+      return {illustrative_estimate:true, low:est.r.low, high:est.r.high, currency:"CAD",
+        basis:est.label, age:AIP.age,
+        say_exactly:money(est.r.low)+" - "+money(est.r.high)+" CAD",
+        disclaimer:"Illustrative range only, not a quote. The insurer sets the actual premium from the full application. Assumptions v2026.07."};
+    },
+    recommend_path:function(){
+      if(aiAdvisorRequired()){
+        AI_LAST_REC=null;
+        return {advisor_required:true, no_link:true, title:"Speak with Sertac first",
+          why:"A recent medication or treatment change can fall inside the insurer's stability period, which is what a denied claim usually turns on. Sertac checks the wording against the actual history before anything is bought."};
+      }
+      if(!AIP.product) return {error:"missing_fields", still_needed:["product"]};
+      var rec=recommendFor(aiNode());
+      AI_LAST_REC=rec;
+      return {title:rec.title, why:rec.why, url:rec.url, opens_new_tab:!!rec.ext,
+        walkthrough_available:!!rec.walk};
+    },
+    create_lead:function(a){
+      var name=String(a.name||"").trim(), contact=String(a.contact||"").trim();
+      if(!name||!contact) return {error:"missing_contact",
+        note:"Ask the visitor for their name and a phone number or email, then call this again."};
+      var fd=new FormData();
+      fd.append('name',name);
+      if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
+      var bits=[];
+      for(var k in AIP){ if(AIP.hasOwnProperty(k)) bits.push(k+': '+AIP[k]); }
+      if(a.note) fd.append('note',String(a.note).slice(0,500));
+      fd.append('details','Chat sales agent -- '+bits.join(' | '));
+      fd.append('source','Website Chat - AI sales agent');
+      fd.append('_subject','New quote request - Chat sales agent');
+      try{
+        fetch('https://formspree.io/f/mdajwykn',{method:'POST',body:fd,headers:{'Accept':'application/json'}});
+      }catch(e){}
+      return {sent:true, to:"Sertac Tekin", name:name,
+        note:"Confirm it is on its way, say he replies within 24 hours, and offer 437-385-6173 if it is urgent."};
+    }
+  };
+  function aiRunTool(name,args){
+    try{
+      var fn=AI_TOOLS[name];
+      if(!fn) return {error:"unknown_tool", name:name};
+      return fn(args||{});
+    }catch(e){ return {error:"tool_failed", name:name}; }
+  }
+
+  function aiPost(payload){
+    return fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)})
+      .then(function(r){ if(!r.ok) throw Error("ai_http_"+r.status); return r.json(); });
+  }
+  function aiTurn(payload,depth){
+    return aiPost(payload).then(function(d){
+      if(d && d.tool_calls && d.tool_calls.length && depth<AI_MAX_ROUNDS){
+        var results=d.tool_calls.map(function(c){
+          var args={};
+          try{ args=JSON.parse((c.function&&c.function.arguments)||"{}"); }catch(e){}
+          return {tool_call_id:c.id, content:JSON.stringify(aiRunTool(c.function&&c.function.name,args))};
+        });
+        return aiTurn({history:CPBOT_AI_HISTORY.slice(-12), profile:AIP,
+                       assistant:d.assistant, tool_results:results}, depth+1);
+      }
+      return d;
+    });
+  }
+  /* Chips reflect what the agent actually worked out, not a fixed menu. */
+  function aiChips(){
+    if(aiAdvisorRequired()){
+      chips([{label:"Talk to Sertac",key:"#lead"},
+             {label:"Why this matters",href:"/blog-travel-insurance-pre-existing-conditions.html"}]);
+      return;
+    }
+    if(AI_LAST_REC){
+      var items=[{label:"Continue to "+String(AI_LAST_REC.title).replace(/\s*\(.*\)$/,""),href:AI_LAST_REC.url,ext:AI_LAST_REC.ext}];
+      if(AI_LAST_REC.walk) items.push({label:"Walk me through it",key:"#walk-"+AI_LAST_REC.walk});
+      items.push({label:"Talk to Sertac",key:"#lead"});
+      chips(items); return;
+    }
+    chips([{label:"Get a quote",key:"@travel"},
+           {label:"Insurer quote tools",href:"/buy-online.html"},
+           {label:"Talk to Sertac",key:"#lead"}]);
+  }
   function aiFallback(question){
     var t=el('cpbot-msg cpbot-bot cpbot-typing','<span></span><span></span><span></span>');
     body.appendChild(t);body.scrollTop=body.scrollHeight;
-    var history=CPBOT_AI_HISTORY.slice(-6);
     CPBOT_AI_HISTORY.push({role:"user",content:String(question).slice(0,1000)});
+    AI_LAST_REC=null;
     function unavailable(){
       t.remove();
       var intent=detectQuoteIntent(question);
       if(intent==="travel"){
-        bot("I can help you find travel insurance for your trip. For a Florida trip, the main choices are emergency medical coverage for a single trip or an annual multi-trip plan. Your age, travel dates and trip length affect the options. What are your travel dates?");
+        bot("I can help you find travel insurance for your trip. The main choices are emergency medical for a single trip or an annual multi-trip plan, and your age, dates and trip length decide which fits. What are your travel dates?");
         chips([{label:"Continue travel quote",key:"@travel"},{label:"Compare insurer options",href:"/buy-online.html"},{label:"Speak with an advisor",key:"#lead"}]);
       }else if(intent==="supervisa"||intent==="visitor"){
-        bot("I can help with visitor-to-Canada and Super Visa coverage. Insurer premiums depend on the applicant's age, coverage amount and effective dates. You can compare available insurer options using our quote tool.");
+        bot("I can help with visitor-to-Canada and Super Visa coverage. Premiums depend on the applicant's age, the coverage amount and the dates. You can compare the insurer options with our quote tool.");
         chips([{label:"Visitor / Super Visa quote",href:"/instant-quote.html"},{label:"Speak with an advisor",key:"#lead"}]);
       }else{
-        bot("I can help you explore travel insurance, visitor-to-Canada coverage and Super Visa insurance. You can also use our insurer quote tools for current pricing. What type of coverage do you need?");
+        bot("I can help you explore travel insurance, visitor-to-Canada coverage and Super Visa insurance. What type of coverage do you need?");
         chips([{label:"Travel insurance",key:"@travel"},{label:"Visitor / Super Visa quote",href:"/instant-quote.html"},{label:"Compare insurer options",href:"/buy-online.html"}]);
       }
     }
-    fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:question,history:history})})
-    .then(function(r){if(!r.ok)throw Error("AI unavailable");return r.json();})
+    aiTurn({message:question, history:CPBOT_AI_HISTORY.slice(-12), profile:AIP}, 0)
     .then(function(d){
-      if(!d || !d.reply){unavailable();return;}
+      if(!d || !d.reply){ unavailable(); return; }
       t.remove();
       CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
       bot(esc(d.reply).replace(/\n/g,"<br>"));
-      chips([{label:"Continue quote",key:"@travel"},{label:"Insurer quote tools",href:"/buy-online.html"},{label:"Talk to Sertac",key:"#lead"}]);
+      if(AI_LAST_REC && AIP.product){
+        try{ saveCtx({kind:"agent", n:aiNode(), rec:AI_LAST_REC, est:null, summary:ctxSummary(aiNode())}); }catch(e){}
+      }
+      setTimeout(aiChips,250);
     }).catch(unavailable);
   }
 
@@ -595,6 +734,10 @@
     return NaN;
   }
   function normCond(v){v=String(v||"").toLowerCase();return /stable|recent|yes/.test(v)?"stable":"none";}
+  /* A recent medication/dosage/treatment change, or "not sure", must not end at a
+     checkout — the stability period is what a denied claim turns on. app.html
+     already routes "not sure" to a phone call; the chat now does the same. */
+  function needsAdvisor(v){v=String(v||"").toLowerCase();return /recent|not sure|unsure|don't know|dont know/.test(v);}
   /* Recommend the best buy path. Prices are never invented here — only the route + reasoning. */
   function recommendFor(n){
     var usa=/yes/.test(String(n.usa||"").toLowerCase());
@@ -679,6 +822,18 @@
   }
   function showRecommend(){
     var n=normalizeCtx(session.fkey,session.data);
+    if(needsAdvisor(n.cond)){
+      typingThen(function(){
+        bot("Here's what I have so far:"+summaryHtml());
+        bot("Because there's been a recent change (or you're not certain), I'm not going to put a price or a buy link in front of you. A medication, dosage or treatment change inside the insurer's stability period is the most common reason a large claim is refused, and which insurer you pick changes the answer. Sertac will check the wording against the actual history first — it's free and it takes one call.");
+        setTimeout(function(){
+          chips([{label:"Send my details to Sertac",key:"#tocontact"},
+                 {label:"Call 437-385-6173",href:"tel:4373856173"},
+                 {label:"Why this matters",href:"/blog-travel-insurance-pre-existing-conditions.html"}]);
+        },300);
+      });
+      return;
+    }
     var rec=recommendFor(n);
     var est=estimateFor(n);
     typingThen(function(){
