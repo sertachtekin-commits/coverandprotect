@@ -103,7 +103,7 @@ export default {
       : [];
 
     const apiKey = env.OPENAI_API_KEY;
-    if (!apiKey) return json({ error: "not_configured" }, 500, cors);
+    if (!apiKey) { console.error("AI diagnostic: missing OPENAI_API_KEY secret"); return json({ error: "not_configured", detail: "AI server configuration missing" }, 500, cors); }
     const model = env.OPENAI_MODEL || "gpt-4o-mini";
 
     let r;
@@ -126,19 +126,26 @@ export default {
         }),
       });
     } catch (e) {
-      return json({ error: "upstream_failed" }, 502, cors);
+      console.error("AI diagnostic: upstream network failure", String(e && e.name || "network_error"));
+      return json({ error: "upstream_failed", detail: "Unable to connect to AI provider" }, 502, cors);
     }
 
-    if (!r.ok) return json({ error: "provider_error" }, 502, cors);
+    if (!r.ok) {
+      let providerCode = "unknown";
+      try { const failure = await r.json(); providerCode = String(failure && failure.error && failure.error.code || failure && failure.error && failure.error.type || "unknown").slice(0,80); } catch (_) {}
+      console.error("AI diagnostic: provider rejected request", "http_status=" + r.status, "code=" + providerCode);
+      return json({ error: "provider_error", provider_status: r.status, provider_code: providerCode }, 502, cors);
+    }
 
     let data;
     try {
       data = await r.json();
     } catch (e) {
+      console.error("AI diagnostic: invalid provider JSON");
       return json({ error: "bad_response" }, 502, cors);
     }
     const reply = String((((data.choices || [])[0] || {}).message || {}).content || "").trim();
-    if (!reply) return json({ error: "empty_reply" }, 502, cors);
+    if (!reply) { console.error("AI diagnostic: empty model reply"); return json({ error: "empty_reply" }, 502, cors); }
     return json({ reply }, 200, cors);
   },
 };
