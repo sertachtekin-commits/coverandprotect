@@ -455,7 +455,7 @@
      Cloudflare Worker that holds the OpenAI API key server-side. The key NEVER
      appears in this file, on the website, or in the repo.
      After the worker is deployed, set CPBOT_WORKER_URL to its https URL. */
-  var CPBOT_WORKER_URL = "__CPBOT_WORKER_URL__";
+  var CPBOT_WORKER_URL = "https://coverandprotect.sertach-tekin.workers.dev";
   var CPBOT_AI_HISTORY = [];
   function aiFallback(question){
     if(CPBOT_WORKER_URL.indexOf("__CPBOT_WORKER_URL__")===0){ leadForm(question); return; }
@@ -463,7 +463,7 @@
     body.appendChild(t);body.scrollTop=body.scrollHeight;
     CPBOT_AI_HISTORY.push({role:"user",content:String(question).slice(0,1000)});
     fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:question,history:CPBOT_AI_HISTORY.slice(-6)})})
+      body:JSON.stringify({message:question,history:CPBOT_AI_HISTORY.slice(0,-1).slice(-6)})})
     .then(function(r){return r.json();})
     .then(function(d){
       t.remove();
@@ -510,18 +510,7 @@
       user(v);advance(v);return;
     }
     user(v);
-    var qi=detectQuoteIntent(v);
-    if(qi){ if(qi==="pick"){startQuote();} else {startFlow(qi);} return; }
-    var r=rank(v);
-    if(r.length&&r[0][1]>=4){ if(r[0][0]==="quote"){leadForm(v);} else {answerFaq(r[0][0]);} return; }
-    typingThen(function(){
-      if(r.length){
-        bot("I want to get this right - did you mean one of these?");
-        chips(r.slice(0,3).map(function(x){return {label:LBL[x[0]]||"Talk to Sertac",key:x[0]};}).concat([{label:"Get a quote",key:"#quote"}]));
-      } else {
-        aiFallback(v);
-      }
-    });
+    aiFallback(v);
   }
 
   function greet(){
