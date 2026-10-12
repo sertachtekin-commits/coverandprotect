@@ -79,10 +79,35 @@ the pre-existing-condition wording.
 
 The Worker is **not** deployed by the GitHub Pages build — it is separate.
 
+Normally Cloudflare Workers Builds deploys it automatically on every push to
+`main` (dashboard → the Worker → Settings → Builds). Its build config must be:
+
+| Setting | Value |
+|---|---|
+| Root directory | `workers/cpbot-ai` |
+| Build command | *(none)* |
+| Deploy command | `npx wrangler deploy` |
+
+`wrangler` is pinned in `package.json`, so the build's install step resolves it
+locally instead of `npx` fetching it mid-deploy — that fetch is non-interactive in
+CI and is a known way for the Deploying step to fail. `account_id` is set in
+`wrangler.toml` so wrangler never has to ask which account to use. (An account ID
+is an identifier, not a credential — it appears in every dashboard URL.)
+
+To deploy by hand instead:
+
 ```sh
 cd workers/cpbot-ai
-wrangler deploy
-wrangler secret put OPENAI_API_KEY      # never commit this, never screenshot it
+npm install
+npx wrangler login
+npm run deploy
+npx wrangler secret put OPENAI_API_KEY   # never commit this, never screenshot it
+```
+
+Validate a change without deploying:
+
+```sh
+npm install && npx wrangler deploy --dry-run
 ```
 
 Optional plain variables: `OPENAI_MODEL` (default `gpt-4o-mini`),
