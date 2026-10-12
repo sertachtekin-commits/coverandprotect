@@ -512,7 +512,7 @@
      returning "Method not allowed" is correct — it only accepts POST. */
   var CPBOT_WORKER_URL = "https://coverandprotect.sertach-tekin.workers.dev";
   var CPBOT_AI_HISTORY = [];
-  var AI_MAX_ROUNDS = 3;
+  var AI_MAX_ROUNDS = 4;
 
   /* What the agent has learned. Lives for the whole conversation so it never
      re-asks, and feeds the same handoff context buy-online.html picks up. */
@@ -610,16 +610,23 @@
       body:JSON.stringify(payload)})
       .then(function(r){ if(!r.ok) throw Error("ai_http_"+r.status); return r.json(); });
   }
-  function aiTurn(payload,depth){
+  /* The tool chain accumulates. Sending only the latest round meant the model
+     never saw its earlier results, re-called the same tool, ran out of rounds and
+     dropped to the canned fallback — looking exactly like the AI being offline. */
+  function aiTurn(payload,depth,chain){
     return aiPost(payload).then(function(d){
       if(d && d.tool_calls && d.tool_calls.length && depth<AI_MAX_ROUNDS){
-        var results=d.tool_calls.map(function(c){
+        var next=(chain||[]).slice();
+        next.push({role:"assistant",
+                   content:(d.assistant&&d.assistant.content)||"",
+                   tool_calls:(d.assistant&&d.assistant.tool_calls)||d.tool_calls});
+        d.tool_calls.forEach(function(c){
           var args={};
           try{ args=JSON.parse((c.function&&c.function.arguments)||"{}"); }catch(e){}
-          return {tool_call_id:c.id, content:JSON.stringify(aiRunTool(c.function&&c.function.name,args))};
+          next.push({role:"tool", tool_call_id:c.id,
+                     content:JSON.stringify(aiRunTool(c.function&&c.function.name,args))});
         });
-        return aiTurn({history:CPBOT_AI_HISTORY.slice(-12), profile:AIP,
-                       assistant:d.assistant, tool_results:results}, depth+1);
+        return aiTurn({history:CPBOT_AI_HISTORY.slice(-12), profile:AIP, chain:next}, depth+1, next);
       }
       return d;
     });
@@ -670,7 +677,19 @@
     }
     aiTurn({message:question, history:CPBOT_AI_HISTORY.slice(-12), profile:AIP}, 0)
     .then(function(d){
-      if(!d || !d.reply){ unavailable(); return; }
+      if(!d || !d.reply){
+        /* No sentence came back, but the tools ran here — so we already hold the
+           estimate and the recommendation. Show those rather than a canned reply. */
+        var est=null, rec=null;
+        try{ est=AI_TOOLS.estimate_premium(); rec=AI_TOOLS.recommend_path(); }catch(e){}
+        if(est && est.illustrative_estimate && rec && !rec.error){
+          t.remove();
+          handoffCard(aiNode(), rec, {r:{low:est.low,high:est.high}, label:est.basis});
+          setTimeout(aiChips,250);
+          return;
+        }
+        unavailable(); return;
+      }
       t.remove();
       CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
       bot(esc(d.reply).replace(/\n/g,"<br>"));

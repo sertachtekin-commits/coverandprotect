@@ -186,7 +186,41 @@ function buildMessages(body) {
   const message = String(body.message || "").slice(0, MAX_MESSAGE).trim();
   if (message) msgs.push({ role: "user", content: message });
 
-  /* Round 2: replay the assistant turn that asked for tools, then the results. */
+  /* The tool chain, in order: every assistant turn that asked for tools and every
+     result that answered it. This MUST accumulate across rounds. Sending only the
+     latest pair means the model never sees what it already learned, so it calls
+     the same tool again, loops until the round limit, and the page falls back to
+     canned answers — which is indistinguishable from the AI being down. */
+  const chain = Array.isArray(body.chain) ? body.chain.slice(0, 24) : null;
+  if (chain) {
+    for (const m of chain) {
+      if (!m || typeof m !== "object") continue;
+      if (m.role === "assistant" && Array.isArray(m.tool_calls) && m.tool_calls.length) {
+        msgs.push({
+          role: "assistant",
+          content: typeof m.content === "string" ? m.content.slice(0, MAX_MESSAGE) : "",
+          tool_calls: m.tool_calls.slice(0, 6).map((c) => ({
+            id: String((c && c.id) || "").slice(0, 80),
+            type: "function",
+            function: {
+              name: String((c && c.function && c.function.name) || "").slice(0, 60),
+              arguments: String((c && c.function && c.function.arguments) || "{}").slice(0, MAX_TOOL_RESULT),
+            },
+          })),
+        });
+      } else if (m.role === "tool") {
+        msgs.push({
+          role: "tool",
+          tool_call_id: String(m.tool_call_id || "").slice(0, 80),
+          content: String(m.content || "").slice(0, MAX_TOOL_RESULT),
+        });
+      }
+    }
+    return msgs;
+  }
+
+  /* Older page code sends a single {assistant, tool_results} pair. The Worker and
+     the website deploy separately, so accept both shapes during the overlap. */
   const assistant = body.assistant;
   const results = Array.isArray(body.tool_results) ? body.tool_results.slice(0, 6) : [];
   if (assistant && Array.isArray(assistant.tool_calls) && assistant.tool_calls.length && results.length) {
@@ -259,7 +293,8 @@ export default {
     }
 
     const isRound2 =
-      body.assistant && Array.isArray(body.assistant.tool_calls) && Array.isArray(body.tool_results);
+      (Array.isArray(body.chain) && body.chain.length > 0) ||
+      (body.assistant && Array.isArray(body.assistant.tool_calls) && Array.isArray(body.tool_results));
     if (!isRound2 && !String(body.message || "").trim())
       return json({ error: "empty_message" }, 400, cors);
 
