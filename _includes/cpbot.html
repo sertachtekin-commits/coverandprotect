@@ -484,8 +484,17 @@
     CPBOT_AI_HISTORY.push({role:"user",content:String(question).slice(0,1000)});
     function unavailable(){
       t.remove();
-      bot("I'm having trouble reaching the AI advisor right now. I can still collect the missing travel details and take you to an insurer's live quotation tool. No premium is calculated in this chat.");
-      chips([{label:"Continue quote questions",key:"@travel"},{label:"Insurer quote tools",href:"/buy-online.html"},{label:"Try AI again",key:"#retryai"},{label:"Talk to Sertac",key:"#lead"}]);
+      var intent=detectQuoteIntent(question);
+      if(intent==="travel"){
+        bot("I can help you find travel insurance for your trip. For a Florida trip, the main choices are emergency medical coverage for a single trip or an annual multi-trip plan. Your age, travel dates and trip length affect the options. What are your travel dates?");
+        chips([{label:"Continue travel quote",key:"@travel"},{label:"Compare insurer options",href:"/buy-online.html"},{label:"Speak with an advisor",key:"#lead"}]);
+      }else if(intent==="supervisa"||intent==="visitor"){
+        bot("I can help with visitor-to-Canada and Super Visa coverage. Insurer premiums depend on the applicant's age, coverage amount and effective dates. You can compare available insurer options using our quote tool.");
+        chips([{label:"Visitor / Super Visa quote",href:"/instant-quote.html"},{label:"Speak with an advisor",key:"#lead"}]);
+      }else{
+        bot("I can help you explore travel insurance, visitor-to-Canada coverage and Super Visa insurance. You can also use our insurer quote tools for current pricing. What type of coverage do you need?");
+        chips([{label:"Travel insurance",key:"@travel"},{label:"Visitor / Super Visa quote",href:"/instant-quote.html"},{label:"Compare insurer options",href:"/buy-online.html"}]);
+      }
     }
     fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({message:question,history:history})})
