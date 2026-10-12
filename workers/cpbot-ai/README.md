@@ -7,6 +7,47 @@ Two pieces that work together:
 - **`_includes/cpbot.html`** (in the site root) — the chat UI, the illustrative
   estimate engine, and the tool implementations the model calls.
 
+## Where the conversation's facts live
+
+One object: `PROFILE`, in `_includes/cpbot.html`, with one write path.
+
+```js
+setFact(field, value)   // normalise, store, and derive what follows
+getFact(field) / known(field)
+said(field)             // the visitor's own wording, for the lead email
+forgetFacts()           // only "start over" does this
+```
+
+There used to be three stores — `AIP` (what the AI tools saved), `cpKnownTravel`
+(facts read out of free text) and `session.data` (guided-flow answers) — holding
+the same information under different names, plus four bridges to copy between
+them (`seedFromAI`, `absorbKnown`, `normalizeCtx`, `aiNode`). Every
+repeat-question bug came from the same place: one store knew the answer and the
+store being read did not.
+
+Now:
+
+- each guided-flow step names the field it answers (`f:`), so a step whose field
+  is already known is skipped — wherever the answer came from;
+- `setFact` derives what an answer implies, so `"Dec 18 departure 2 weeks"` fills
+  the trip length and the next question is not asked;
+- the AI tools write through the same `setFact`, mapped from the model's own
+  field names by `AI_FIELD` (the Worker's tool schema is fixed and deploys
+  separately, so the mapping lives in the page);
+- `pricingNode()` is the single reader that shapes the facts for
+  `estimateFor()` / `recommendFor()`, so the guided flow and the agent cannot
+  price the same visitor differently;
+- pre-existing answers are normalised to one vocabulary (`none`, `stable`,
+  `recent_change`, `not_sure`) by `normPre()`, so the safety gate reads one form
+  instead of every path's wording.
+
+Steps in different flows that mean the same thing point at the same field —
+`travellers`, `ages`, `destination`, `days`, `preExisting` — which is what makes
+"you already told me this" true across the whole conversation.
+
+`cancel` stops the questions and keeps the answers ("we can pick up anywhere").
+`start over` (`#restart`) is the only thing that forgets.
+
 ## Why the tools run in the browser
 
 The model has four tools. They execute **in the page**, not in the Worker,
@@ -63,11 +104,21 @@ runs before pricing.
 No build step, no dependencies — plain Node.
 
 ```sh
-cd workers/cpbot-ai/test
-node worker.test.mjs    # protocol, OpenAI message shape, CORS/rate/secret guards
-node tools.test.mjs     # tool behaviour, the advisor gate, routing, lead capture
-node flow.test.mjs      # the guided flow's step sequence, driven for real
+cd workers/cpbot-ai && npm test
 ```
+
+runs all four:
+
+| Suite | What it covers |
+|---|---|
+| `worker.test.mjs` | protocol, OpenAI message shape, CORS/rate/secret guards |
+| `tools.test.mjs` | tool behaviour, the advisor gate, routing, lead capture |
+| `flow.test.mjs` | the guided flow's step sequence, driven for real |
+| `characterize.test.mjs` | every flow's question order, and that nothing is asked twice |
+
+`characterize.test.mjs` exists to make a change to the state model provable: it
+drives every flow and records the questions each one asks, in order. If a refactor
+changes what a visitor is asked, it fails.
 
 `worker.test.mjs` stubs `fetch`, so it never calls OpenAI and needs no key.
 `tools.test.mjs` evaluates the real script out of `_includes/cpbot.html` against a

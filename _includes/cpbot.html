@@ -77,7 +77,7 @@
   var input=document.getElementById('cpbot-input');
   var DEFAULT_PH="Ask a question, e.g. Super Visa cost...";
   var greeted=false;
-  var session={flow:null,fkey:null,step:0,data:{}};
+  var session={flow:null,fkey:null,step:0};
 
   function open(){panel.classList.add('cpbot-open');if(!greeted){greet();greeted=true;}setTimeout(function(){input.focus();},250);}
   function close(){panel.classList.remove('cpbot-open');}
@@ -195,75 +195,75 @@
 
   var FLOWS={
     supervisa:{title:"Super Visa quote",steps:[
-      {t:"choice",k:"whom",L:"For",q:"Who is the coverage for?",o:[["Parent","Parent"],["Grandparent","Grandparent"],["Multiple people","Multiple"]]},
-      {t:"choice",k:"count",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
-      {t:"text",k:"ages",L:"Age(s)",q:"What are their age(s)? e.g. 62, 65",p:"Age(s)..."},
-      {t:"text",k:"arrival",L:"Arrival",q:"Approximate arrival date in Canada? e.g. Aug 2026",p:"Arrival date..."},
-      {t:"choice",k:"term",L:"Term",q:"How long do you need coverage?",o:[["1 year","1 year"],["2 years","2 years"],["Not sure","Not sure"]]},
-      {t:"choice",k:"amount",L:"Amount",q:"Coverage amount?",o:[["$100,000","$100,000"],["$150,000","$150,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
-      {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing medical conditions?",o:[["No","No"],["Yes - stable","Yes, stable"],["Yes - recent","Yes, recent changes"],["Not sure","Not sure"]]},
+      {t:"choice",f:"whom",L:"For",q:"Who is the coverage for?",o:[["Parent","Parent"],["Grandparent","Grandparent"],["Multiple people","Multiple"]]},
+      {t:"choice",f:"travellers",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
+      {t:"text",f:"ages",L:"Age(s)",q:"What are their age(s)? e.g. 62, 65",p:"Age(s)..."},
+      {t:"text",f:"arrival",L:"Arrival",q:"Approximate arrival date in Canada? e.g. Aug 2026",p:"Arrival date..."},
+      {t:"choice",f:"term",L:"Term",q:"How long do you need coverage?",o:[["1 year","1 year"],["2 years","2 years"],["Not sure","Not sure"]]},
+      {t:"choice",f:"coverage",L:"Amount",q:"Coverage amount?",o:[["$100,000","$100,000"],["$150,000","$150,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
+      {t:"choice",f:"preExisting",L:"Pre-existing",q:"Any pre-existing medical conditions?",o:[["No","No"],["Yes - stable","Yes, stable"],["Yes - recent","Yes, recent changes"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
     visitor:{title:"Visitor to Canada quote",steps:[
-      {t:"choice",k:"count",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
-      {t:"text",k:"ages",L:"Age(s)",q:"Age(s) of the visitor(s)?",p:"Age(s)..."},
-      {t:"text",k:"arrival",L:"Arrival",q:"Arrival date in Canada?",p:"Arrival date..."},
-      {t:"text",k:"length",L:"Length",q:"How long is coverage needed? e.g. 3 months",p:"e.g. 3 months"},
-      {t:"choice",k:"amount",L:"Amount",q:"Coverage amount?",o:[["$50,000","$50,000"],["$100,000","$100,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
-      {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing conditions?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+      {t:"choice",f:"travellers",L:"People",q:"How many people need coverage?",o:[["1","1"],["2","2"],["3+","3+"]]},
+      {t:"text",f:"ages",L:"Age(s)",q:"Age(s) of the visitor(s)?",p:"Age(s)..."},
+      {t:"text",f:"arrival",L:"Arrival",q:"Arrival date in Canada?",p:"Arrival date..."},
+      {t:"text",f:"duration",L:"Length",q:"How long is coverage needed? e.g. 3 months",p:"e.g. 3 months"},
+      {t:"choice",f:"coverage",L:"Amount",q:"Coverage amount?",o:[["$50,000","$50,000"],["$100,000","$100,000"],["$300,000+","$300,000+"],["Not sure","Not sure"]]},
+      {t:"choice",f:"preExisting",L:"Pre-existing",q:"Any pre-existing conditions?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
     travel:{title:"Travel insurance quote (abroad)",steps:[
-      {t:"choice",k:"count",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
-      {t:"text",k:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
-      {t:"text",k:"dest",L:"Destination",q:"Where are you travelling to?",p:"Destination..."},
-      {t:"text",k:"dates",L:"Dates",q:"Travel dates? e.g. Nov 15 to Dec 10",p:"Travel dates..."},
-      {t:"choice",k:"days",L:"Trip length",q:"How long is the trip? (tap one, or type the number of days)",o:[["About 1 week","7"],["About 2 weeks","14"],["About 3 weeks","21"],["About a month","30"]]},
-      {t:"choice",k:"plan",L:"Plan",q:"Single trip or multi-trip annual?",o:[["Single trip","Single"],["Multi-trip annual","Multi-trip"],["Not sure","Not sure"]]},
+      {t:"choice",f:"travellers",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
+      {t:"text",f:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
+      {t:"text",f:"destination",L:"Destination",q:"Where are you travelling to?",p:"Destination..."},
+      {t:"text",f:"dates",L:"Dates",q:"Travel dates? e.g. Nov 15 to Dec 10",p:"Travel dates..."},
+      {t:"choice",f:"days",L:"Trip length",q:"How long is the trip? (tap one, or type the number of days)",o:[["About 1 week","7"],["About 2 weeks","14"],["About 3 weeks","21"],["About a month","30"]]},
+      {t:"choice",f:"plan",L:"Plan",q:"Single trip or multi-trip annual?",o:[["Single trip","Single"],["Multi-trip annual","Multi-trip"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
     life:{title:"Life insurance enquiry",steps:[
-      {t:"choice",k:"goal",L:"Goal",q:"What's the main goal?",o:[["Protect family income","Income"],["Cover mortgage/debts","Mortgage"],["Final expenses","Final expenses"],["Wealth / estate","Estate"]]},
-      {t:"choice",k:"type",L:"Type",q:"Term or permanent coverage?",o:[["Term","Term"],["Permanent","Permanent"],["Not sure","Not sure"]]},
-      {t:"text",k:"amount",L:"Amount",q:"Coverage amount in mind? e.g. $500,000",p:"Amount..."},
-      {t:"text",k:"age",L:"Age",q:"Your age?",p:"Age..."},
-      {t:"choice",k:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
+      {t:"choice",f:"lifeGoal",L:"Goal",q:"What's the main goal?",o:[["Protect family income","Income"],["Cover mortgage/debts","Mortgage"],["Final expenses","Final expenses"],["Wealth / estate","Estate"]]},
+      {t:"choice",f:"policyType",L:"Type",q:"Term or permanent coverage?",o:[["Term","Term"],["Permanent","Permanent"],["Not sure","Not sure"]]},
+      {t:"text",f:"coverage",L:"Amount",q:"Coverage amount in mind? e.g. $500,000",p:"Amount..."},
+      {t:"text",f:"age",L:"Age",q:"Your age?",p:"Age..."},
+      {t:"choice",f:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
       {t:"contact"}
     ]},
     group:{title:"Group benefits enquiry",steps:[
-      {t:"text",k:"company",L:"Company",q:"Company name?",p:"Company..."},
-      {t:"text",k:"size",L:"Employees",q:"How many employees?",o:[["1-5","1-5"],["6-20","6-20"],["21-50","21-50"],["50+","50+"]]},
-      {t:"choice",k:"current",L:"Current plan",q:"Do you have benefits now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
-      {t:"text",k:"want",L:"Priorities",q:"What matters most? e.g. health, dental, disability",p:"Priorities..."},
+      {t:"text",f:"company",L:"Company",q:"Company name?",p:"Company..."},
+      {t:"text",f:"employees",L:"Employees",q:"How many employees?",o:[["1-5","1-5"],["6-20","6-20"],["21-50","21-50"],["50+","50+"]]},
+      {t:"choice",f:"currentPlan",L:"Current plan",q:"Do you have benefits now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
+      {t:"text",f:"priorities",L:"Priorities",q:"What matters most? e.g. health, dental, disability",p:"Priorities..."},
       {t:"contact"}
     ]},
     health:{title:"Health & dental enquiry",steps:[
-      {t:"choice",k:"who",L:"For",q:"Who is the coverage for?",o:[["Just me","Individual"],["Family","Family"]]},
-      {t:"choice",k:"current",L:"Current",q:"Do you have any coverage now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
-      {t:"text",k:"need",L:"Needs",q:"Main needs? e.g. prescriptions, dental, vision",p:"Needs..."},
+      {t:"choice",f:"who",L:"For",q:"Who is the coverage for?",o:[["Just me","Individual"],["Family","Family"]]},
+      {t:"choice",f:"currentPlan",L:"Current",q:"Do you have any coverage now?",o:[["No","No"],["Yes - reviewing","Yes, reviewing"]]},
+      {t:"text",f:"needs",L:"Needs",q:"Main needs? e.g. prescriptions, dental, vision",p:"Needs..."},
       {t:"contact"}
     ]},
     savings:{title:"RESP / RRSP enquiry",steps:[
-      {t:"choice",k:"goal",L:"Goal",q:"What are you saving for?",o:[["Children's education (RESP)","RESP"],["Retirement (RRSP)","RRSP"],["General / TFSA","TFSA"],["Not sure","Not sure"]]},
-      {t:"choice",k:"horizon",L:"Timeframe",q:"When will you need the money?",o:[["Within 5 years","Under 5y"],["5-15 years","5-15y"],["15+ years","15+ y"]]},
-      {t:"text",k:"monthly",L:"Monthly",q:"Roughly how much could you set aside monthly? e.g. $200",p:"Monthly amount..."},
-      {t:"choice",k:"risk",L:"Risk comfort",q:"Comfort with investment risk?",o:[["Low / safe","Low"],["Balanced","Balanced"],["Growth","Growth"],["Not sure","Not sure"]]},
+      {t:"choice",f:"savingsGoal",L:"Goal",q:"What are you saving for?",o:[["Children's education (RESP)","RESP"],["Retirement (RRSP)","RRSP"],["General / TFSA","TFSA"],["Not sure","Not sure"]]},
+      {t:"choice",f:"horizon",L:"Timeframe",q:"When will you need the money?",o:[["Within 5 years","Under 5y"],["5-15 years","5-15y"],["15+ years","15+ y"]]},
+      {t:"text",f:"monthlyAmount",L:"Monthly",q:"Roughly how much could you set aside monthly? e.g. $200",p:"Monthly amount..."},
+      {t:"choice",f:"risk",L:"Risk comfort",q:"Comfort with investment risk?",o:[["Low / safe","Low"],["Balanced","Balanced"],["Growth","Growth"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
     mortgage:{title:"Mortgage protection enquiry",steps:[
-      {t:"text",k:"balance",L:"Mortgage balance",q:"Approximate mortgage balance? e.g. $450,000",p:"Balance..."},
-      {t:"text",k:"years",L:"Years left",q:"Years left on the mortgage? e.g. 22",p:"Years remaining..."},
-      {t:"text",k:"age",L:"Age",q:"Your age?",p:"Age..."},
-      {t:"choice",k:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
-      {t:"choice",k:"bank",L:"Bank coverage now",q:"Do you currently have bank mortgage insurance?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+      {t:"text",f:"balance",L:"Mortgage balance",q:"Approximate mortgage balance? e.g. $450,000",p:"Balance..."},
+      {t:"text",f:"yearsLeft",L:"Years left",q:"Years left on the mortgage? e.g. 22",p:"Years remaining..."},
+      {t:"text",f:"age",L:"Age",q:"Your age?",p:"Age..."},
+      {t:"choice",f:"smoker",L:"Smoker",q:"Smoker?",o:[["No","No"],["Yes","Yes"]]},
+      {t:"choice",f:"bankCover",L:"Bank coverage now",q:"Do you currently have bank mortgage insurance?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
     estimate:{title:"Quick estimate",steps:[
-      {t:"choice",k:"ptype",L:"Plan",q:"What should I estimate?",o:[["Travel abroad","abroad"],["Visitor to Canada","visitor"],["Super Visa","supervisa"]]},
-      {t:"text",k:"age",L:"Age",q:"Traveller's age?",p:"Age..."},
-      {t:"text",k:"days",L:"Days",q:"How many days of coverage? (Super Visa = 365)",p:"Days..."},
-      {t:"choice",k:"cond",L:"Conditions",q:"Any stable pre-existing conditions?",o:[["No","none"],["Yes, stable","stable"]]},
-      {t:"choice",k:"usa",L:"USA",q:"Does the trip include the USA?",o:[["No","no"],["Yes","yes"]]},
+      {t:"choice",f:"product",L:"Plan",q:"What should I estimate?",o:[["Travel abroad","abroad"],["Visitor to Canada","visitor"],["Super Visa","supervisa"]]},
+      {t:"text",f:"age",L:"Age",q:"Traveller's age?",p:"Age..."},
+      {t:"text",f:"days",L:"Days",q:"How many days of coverage? (Super Visa = 365)",p:"Days..."},
+      {t:"choice",f:"preExisting",L:"Conditions",q:"Any stable pre-existing conditions?",o:[["No","none"],["Yes, stable","stable"]]},
+      {t:"choice",f:"usa",L:"USA",q:"Does the trip include the USA?",o:[["No","no"],["Yes","yes"]]},
       {t:"estimate"}
     ]}
   };
@@ -330,58 +330,151 @@
     });
   }
 
-  // Reuse clearly stated travel facts when a visitor moves from AI chat to quote flow.
-  var cpKnownTravel={};
+  /* ================= THE CONVERSATION'S FACTS =================================
+     There used to be three stores holding the same information under different
+     names: AIP (what the AI tools saved), cpKnownTravel (facts picked out of
+     free text) and session.data (guided-flow answers). Age was "age" in one and
+     "ages" in another, destination was "destination" and "dest", pre-existing
+     conditions were "pre_existing" and "pre" — so every path that needed a fact
+     carried a bridge to fetch it from somewhere else: seedFromAI, absorbKnown,
+     normalizeCtx, aiNode. Twice a visitor was asked for something they had
+     already told us, both times because one store knew it and the store being
+     read did not.
+
+     One store, one write path. A fact set anywhere is visible everywhere, so
+     "the flow skips a question it already has an answer to" and "the agent does
+     not re-ask" are now the same mechanism instead of two that have to agree. */
+  var PROFILE={};   /* canonical values — what pricing and routing read */
+  var SAID={};      /* what the visitor actually typed or tapped — what the email shows */
+
+  /* The flows, the AI tools and the free-text reader all word the pre-existing
+     answer differently ("Yes, recent changes", "recent_change", "Not sure",
+     "not_sure"). The safety gate has to read one vocabulary, so normalise on
+     the way in rather than teaching every reader all of them. */
+  function normPre(v){
+    v=String(v||"").toLowerCase();
+    if(/recent|change/.test(v))return "recent_change";
+    if(/not.?sure|unsure|don'?t know|dont know/.test(v))return "not_sure";
+    if(/stable|^\s*yes/.test(v))return "stable";
+    return "none";
+  }
+  var NORM={
+    preExisting:normPre,
+    wantsMonthly:function(v){return /^(yes|true|1|y)$/i.test(String(v).trim())?"yes":"no";}
+  };
+
+  /* What one fact tells you about another. A derivation only fills a gap — an
+     answer the visitor actually gave is never overwritten by an inference. */
+  var DERIVE={
+    ages:function(v){var a=firstAge(v);if(!isNaN(a))fill("age",String(a));},
+    age:function(v){fill("ages",v);},
+    dates:function(v){var d=parseDays(v);if(!isNaN(d))fill("days",String(d));},
+    duration:function(v){var d=parseDays(v);if(!isNaN(d))fill("days",String(d));},
+    longestTrip:function(v){var d=parseInt(v,10);if(!isNaN(d))fill("days",String(d));},
+    /* A trip including the USA costs about 25% more. Inferring "yes" from the
+       destination is safe; inferring "no" is not — a stopover still counts — so
+       only the upgrade is derived and the question still gets asked otherwise. */
+    destination:function(v){if(isUSA(v)==="yes")PROFILE.usa="yes";}
+  };
+
+  function setFact(k,v){
+    if(!k||v===undefined||v===null||v==="")return;
+    SAID[k]=String(v);
+    PROFILE[k]=NORM[k]?NORM[k](v):String(v);
+    if(DERIVE[k])DERIVE[k](PROFILE[k]);
+  }
+  function fill(k,v){if(!known(k))setFact(k,v);}
+  function getFact(k){return k?PROFILE[k]:undefined;}
+  function known(k){return !!k&&PROFILE[k]!==undefined&&PROFILE[k]!=="";}
+  function forget(k){delete PROFILE[k];delete SAID[k];}
+  /* The visitor's own words where we have them: a lead email reading
+     "Pre-existing: Yes, recent changes" is more use than "recent_change". */
+  function said(k){return SAID[k]!==undefined?SAID[k]:PROFILE[k];}
+  function forgetFacts(){PROFILE={};SAID={};AI_LAST_REC=null;}
+
+  /* An explicit USA answer wins over the guess from the destination. */
+  function usaFlag(){return PROFILE.usa||isUSA(PROFILE.destination);}
+
+  /* One shape for the estimate engine and recommendFor(). There were two of
+     these — normalizeCtx() for the guided flows and aiNode() for the AI tools —
+     reading two different stores, which is how the same visitor could be given
+     two different prices depending on which path they came in through. */
+  function pricingNode(){
+    var p=PROFILE;
+    var ptype=p.product||"";
+    if(ptype==="travel"&&/multi/i.test(p.plan||""))ptype="annual";
+    var n={ptype:ptype,
+           age:parseInt(p.age,10),
+           days:parseInt(p.days,10),
+           dest:p.destination||"",
+           usa:usaFlag(),
+           cond:p.preExisting||"none",
+           monthly:p.wantsMonthly||"no",
+           count:p.travellers,
+           plan:p.plan,
+           baseEnd:p.baseEnd,
+           long:p.longestTrip||p.days};
+    if(ptype==="supervisa")n.days=/2/.test(p.term||"")?730:365;
+    if(ptype==="annual"){var lt=parseInt(p.longestTrip,10);if(!isNaN(lt))n.days=lt;}
+    return n;
+  }
+
+  /* A fact stated in passing is still a fact. Reading it into the one store is
+     what lets both the guided flow and the agent act on it. */
   function rememberTravelFacts(message){
     var s=String(message||"");
     var age=s.match(/\b(?:i am|i'm|aged?|age|years? old|yrs? old)\s*(\d{1,3})\b/i)
       ||s.match(/\b(\d{1,3})\s*(?:years?|yrs?)\s*old\b/i);
-    if(age){var n=parseInt(age[1],10);if(n>=18&&n<=110)cpKnownTravel.ages=String(n);}
-    if(/\b(?:florida|arizona|california|texas|hawaii)\b/i.test(s)){
-      var d=s.match(/\b(florida|arizona|california|texas|hawaii)\b/i);
-      cpKnownTravel.dest=d[1];
+    if(age){var n=parseInt(age[1],10);if(n>=18&&n<=110)setFact("ages",String(n));}
+    var d=s.match(/\b(florida|arizona|california|texas|hawaii)\b/i);
+    if(d)setFact("destination",d[1]);
+    /* A length only counts when it comes with a unit — parseDays returns NaN for
+       "I am 61", and a message that is nothing but a number is almost always an
+       answer to a question we just asked, not a trip length. */
+    if(!/^\s*\d+\s*$/.test(s)){
+      var td=parseDays(s);
+      if(!isNaN(td)&&td>=1&&td<=365)fill("days",String(td));
     }
-    if(/\b(?:just me|only me|travelling alone|traveling alone|solo)\b/i.test(s))cpKnownTravel.count="1";
-    if(/\b(?:single trip|one trip)\b/i.test(s))cpKnownTravel.plan="Single";
-    if(/\b(?:annual multi.trip|multi.trip annual)\b/i.test(s))cpKnownTravel.plan="Multi-trip";
+    if(/\b(?:just me|only me|travelling alone|traveling alone|solo)\b/i.test(s))setFact("travellers","1");
+    if(/\b(?:single trip|one trip)\b/i.test(s))setFact("plan","Single");
+    if(/\b(?:annual multi.trip|multi.trip annual)\b/i.test(s))setFact("plan","Multi-trip");
   }
-  /* Anything the AI already collected must carry into the guided flow. Asking a
-     visitor to repeat what they just typed is the fastest way to lose them. */
-  function seedFromAI(fk){
-    var d={};
-    if(fk==="travel"){
-      if(AIP.travellers)d.count=String(AIP.travellers);
-      if(AIP.age)d.ages=String(AIP.age);
-      if(AIP.destination)d.dest=String(AIP.destination);
-      if(AIP.travel_dates)d.dates=String(AIP.travel_dates);
-      if(AIP.days)d.days=String(AIP.days);
-      if(AIP.product==="annual")d.plan="Multi-trip";
-      else if(AIP.product==="travel")d.plan="Single";
-    }else if(fk==="supervisa"||fk==="visitor"){
-      if(AIP.travellers)d.count=String(AIP.travellers);
-      if(AIP.age)d.ages=String(AIP.age);
-      if(AIP.pre_existing==="none")d.pre="No";
-      else if(AIP.pre_existing==="stable")d.pre="Yes, stable";
-      else if(AIP.pre_existing==="recent_change")d.pre="Yes, recent changes";
-      else if(AIP.pre_existing==="not_sure")d.pre="Not sure";
-    }
-    return d;
-  }
+
+  /* ---- the guided flow engine ---------------------------------------------- */
+
+  /* Which product each flow is about. The estimate flow asks instead, so it is
+     deliberately absent here. */
+  var FLOW_PRODUCT={supervisa:"supervisa",visitor:"visitor",travel:"travel",annual:"annual",topup:"topup"};
   function startFlow(fk){
     session.flow=FLOWS[fk];session.fkey=fk;session.step=0;
-    session.data=Object.assign({}, fk==="travel"?cpKnownTravel:{}, seedFromAI(fk));
+    if(FLOW_PRODUCT[fk])setFact("product",FLOW_PRODUCT[fk]);
     typingThen(function(){bot("Great - let's start your "+FLOWS[fk].title+". You can type 'cancel' anytime.");nextStep();});
   }
+  /* Cancel stops the questions. It does not forget: "we can pick up anywhere"
+     has to be true, or the visitor types everything again. */
   function cancelFlow(){
-    session.flow=null;session.fkey=null;session.step=0;session.data={};input.placeholder=DEFAULT_PH;
+    session.flow=null;session.fkey=null;session.step=0;input.placeholder=DEFAULT_PH;
     typingThen(function(){bot("No problem - we can pick up anywhere. What would you like to do?");chips(MENU);});
+  }
+  /* Starting over is the one thing that forgets — a different trip, or a
+     different person holding the phone. */
+  function startOver(){
+    session.flow=null;session.fkey=null;session.step=0;input.placeholder=DEFAULT_PH;
+    forgetFacts();
+    typingThen(function(){bot("Starting fresh - I've cleared the earlier details.");startQuote();});
   }
   function nextStep(){
     if(!session.flow)return;
     if(session.step>=session.flow.steps.length){return;}
     var st=session.flow.steps[session.step];
-    if(st.k && session.data[st.k]){session.step++;nextStep();return;}
-    if(st.t==="contact"){if(session.fkey==="travel"){showRecommend();return;}renderContact();return;}
+    /* Already known, from anywhere: an earlier step, a sentence typed in chat,
+       or the AI agent's own tool call. */
+    if(known(st.f)){session.step++;nextStep();return;}
+    /* The travel flow used to be redirected to showRecommend() here, from before
+       it had its own {t:"recommend"} step. With that step in place the redirect
+       sent "Send my details to Sertac" straight back to the recommendation card
+       instead of the form, so the travel quote could never be submitted. */
+    if(st.t==="contact"){renderContact();return;}
     if(st.t==="estimate"){showEstimate();return;}
     if(st.t==="recommend"){showRecommend();return;}
     typingThen(function(){
@@ -395,68 +488,45 @@
       }
     });
   }
-  /* Facts mentioned in passing answer later questions too. Only fills steps we
-     have not reached yet, so it can never overwrite an answer just given. */
-  function absorbKnown(){
-    if(!session.flow)return;
-    for(var i=session.step+1;i<session.flow.steps.length;i++){
-      var k=session.flow.steps[i].k;
-      if(k && !session.data[k] && cpKnownTravel[k])session.data[k]=cpKnownTravel[k];
-    }
-  }
   function advance(val){
     var st=session.flow.steps[session.step];
     /* The only thing the price needs from this answer is a length. If we can get
        one, take it — rejecting "starting nov 15 for 2 weeks" is how the quote dies. */
-    if(st.k==="dates" && isNaN(parseDays(val)) && !/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}/i.test(val)){
+    if(st.f==="dates" && isNaN(parseDays(val)) && !/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}/i.test(val)){
       bot("Please provide the departure and return dates (for example, Nov 15 to Dec 15). I will not treat a correction as a date.");return;
     }
-    session.data[st.k]=val;
-    /* An answer often contains more than the question asked for. "Dec 18 departure
-       2 weeks" states the trip length, so the next step must not ask for it again —
-       being asked something you just said is the fastest way to lose a visitor. */
-    if(st.k==="dates" && !session.data.days){
-      var derived=parseDays(val);
-      if(!isNaN(derived))session.data.days=String(derived);
-    }
-    absorbKnown();
+    /* setFact records what the answer implies as well as the answer itself, so
+       "Dec 18 departure 2 weeks" fills the trip length and nextStep() skips it. */
+    setFact(st.f,val);
     session.step++;input.placeholder=DEFAULT_PH;nextStep();
   }
   function summaryHtml(){
-    var rows=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){rows.push("&bull; "+esc(st.L)+": "+esc(session.data[st.k]));}});
+    var rows=[];session.flow.steps.forEach(function(st){if(known(st.f)){rows.push("&bull; "+esc(st.L)+": "+esc(said(st.f)));}});
     return '<div class="cpbot-sum">'+rows.join("<br>")+'</div>';
   }
+  /* The estimate itself comes from estimateFor(), the same function the guided
+     flows and the AI tools call. This used to re-implement the dispatch and the
+     label, which is how it ended up printing the age twice. */
   function showEstimate(){
-    var d=session.data;
-    var age=parseInt(d.age,10), days=parseInt(d.days,10);
-    if(isNaN(age)||age<18||age>99||isNaN(days)||days<1||days>365){
+    var n=pricingNode();
+    if(isNaN(n.age)||n.age<18||n.age>99||isNaN(n.days)||n.days<1||n.days>365){
+      /* Clear only the two answers that failed. Clearing nothing would re-ask
+         with the same bad values; clearing everything would re-ask the product. */
+      forget("age");forget("ages");forget("days");forget("dates");forget("duration");
       typingThen(function(){
         bot("I need a valid age (18-99) and trip length (1-365 days) for an estimate. Let's try again.");
         startFlow("estimate");
       });
       return;
     }
-    var r,label;
-    var stable=d.cond==="stable";
-    if(d.ptype==="abroad"){
-      r=estAbroad(age,days,d.usa==="yes",stable);
-      label=days+"-day trip &middot; emergency medical"+(d.usa==="yes"?" &middot; incl. USA":"");
-    } else if(d.ptype==="visitor"){
-      r=estVisitor(age,days,stable);
-      label=days+"-day stay &middot; $100,000 coverage";
-    } else {
-      r=estSupervisa(age,stable);days=365;
-      label="1 year &middot; $100,000 coverage";
-    }
-    var n=normalizeCtx("estimate",session.data);
-    var rec=recommendFor(n);
+    var est=estimateFor(n), rec=recommendFor(n);
     typingThen(function(){
-      handoffCard(n,rec,{r:r,label:label+" &middot; age "+age+(stable?" &middot; stable conditions":"")});
+      handoffCard(n,rec,est);
       setTimeout(function(){
-        chips([{label:"Open the full calculator",href:CALC},{label:"Get a fresh quote",key:"#quote"}]);
+        chips([{label:"Open the full calculator",href:CALC},{label:"Get a fresh quote",key:"#restart"}]);
       },1200);
     });
-    session.flow=null;session.fkey=null;session.step=0;session.data={};input.placeholder=DEFAULT_PH;
+    session.flow=null;session.fkey=null;session.step=0;input.placeholder=DEFAULT_PH;
   }
   function renderContact(){
     typingThen(function(){
@@ -491,7 +561,7 @@
   function submitFlow(name,contact,f,er,btn){
     var fd=new FormData();fd.append('name',name);
     if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
-    var lines=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){fd.append(st.k,session.data[st.k]);lines.push(st.L+': '+session.data[st.k]);}});
+    var lines=[];session.flow.steps.forEach(function(st){if(known(st.f)){fd.append(st.f,said(st.f));lines.push(st.L+': '+said(st.f));}});
     fd.append('details',session.flow.title+" -- "+lines.join(' | '));
     fd.append('source','Website Chat - '+session.flow.title);
     if(transcript())fd.append('conversation',transcript());
@@ -564,6 +634,7 @@
     if(key==="#retryai"){aiFallback("Please continue helping me find suitable travel insurance and ask for missing details.");return;}
     if(key==="#lead"){leadForm("");return;}
     if(key==="#cancel"){cancelFlow();return;}
+    if(key==="#restart"){startOver();return;}
     if(key==="#covisit"){copilotVisit();return;}
     if(key==="#coabroad"){copilotAbroad();return;}
     if(key==="#stuck"){stuckHelp();return;}
@@ -592,41 +663,37 @@
   var CPBOT_AI_HISTORY = [];
   var AI_MAX_ROUNDS = 4;
 
-  /* What the agent has learned. Lives for the whole conversation so it never
-     re-asks, and feeds the same handoff context buy-online.html picks up. */
-  var AIP = {};
+  /* The agent writes into PROFILE, the same store the guided flows use. That is
+     the whole point: there is nothing to copy between them, so there is nothing
+     to get out of step and no reason to ask the visitor twice. */
   var AI_LAST_REC = null;
+
+  /* The model's own field names, mapped onto the store. These are fixed by the
+     Worker's tool schema and the Worker deploys separately, so the mapping lives
+     here rather than renaming the schema. */
+  var AI_FIELD={product:"product", age:"age", days:"days", destination:"destination",
+    travel_dates:"dates", travellers:"travellers", pre_existing:"preExisting",
+    wants_monthly:"wantsMonthly"};
 
   /* A recent medication, dosage or treatment change — or "not sure" — must never
      end at a buy link. That is the single most common reason a large claim is
-     denied, so those visitors go to Sertac instead. */
-  function aiAdvisorRequired(){
-    return AIP.pre_existing==="recent_change" || AIP.pre_existing==="not_sure";
-  }
+     denied, so those visitors go to Sertac instead. One gate now, reading the one
+     canonical answer, instead of the AI path and the flows each testing their own
+     wording. */
+  function aiAdvisorRequired(){ return needsAdvisor(PROFILE.preExisting); }
   function aiMissing(){
     var need=[];
-    if(!AIP.product) need.push("product");
-    if(!AIP.age) need.push("age");
-    if(AIP.product!=="supervisa" && AIP.product!=="annual" && !AIP.days) need.push("days");
+    if(!PROFILE.product) need.push("product");
+    if(!PROFILE.age) need.push("age");
+    if(PROFILE.product!=="supervisa" && PROFILE.product!=="annual" && !PROFILE.days) need.push("days");
     return need;
-  }
-  /* Shape AIP the way estimateFor()/recommendFor() already expect. */
-  function aiNode(){
-    var n={ptype:AIP.product, age:parseInt(AIP.age,10), days:parseInt(AIP.days,10)};
-    if(AIP.product==="supervisa") n.days=n.days||365;
-    n.dest=AIP.destination||"";
-    n.usa=isUSA(n.dest);
-    n.cond=(AIP.pre_existing==="stable")?"stable":"none";
-    n.monthly=AIP.wants_monthly?"yes":"no";
-    n.long=AIP.days;
-    return n;
   }
   var AI_TOOLS={
     save_profile:function(a){
-      ["product","age","days","destination","travel_dates","travellers","pre_existing","wants_monthly"]
-        .forEach(function(k){ if(a[k]!==undefined && a[k]!==null && a[k]!=="") AIP[k]=a[k]; });
-      if(AIP.product==="supervisa" && !AIP.days) AIP.days=365;
-      return {saved:true, profile:AIP, still_needed:aiMissing(),
+      for(var k in AI_FIELD){
+        if(AI_FIELD.hasOwnProperty(k) && a[k]!==undefined && a[k]!==null && a[k]!=="") setFact(AI_FIELD[k],a[k]);
+      }
+      return {saved:true, profile:PROFILE, still_needed:aiMissing(),
               advisor_required:aiAdvisorRequired()||undefined};
     },
     estimate_premium:function(){
@@ -635,11 +702,11 @@
         note:"Ask the visitor for these, one at a time, then call save_profile again."};
       if(aiAdvisorRequired()) return {advisor_required:true, no_price:true,
         reason:"The visitor reported a recent medical change or is unsure. Stability-period wording decides whether that condition is covered, so an estimate here would be misleading. Route them to Sertac on 437-385-6173."};
-      var est=estimateFor(aiNode());
-      if(!est) return {error:"no_band_for_product", product:AIP.product,
+      var est=estimateFor(pricingNode());
+      if(!est) return {error:"no_band_for_product", product:PROFILE.product,
         note:"No illustrative band exists for this product. Do not state a number. Offer the insurer quote tool or Sertac."};
       return {illustrative_estimate:true, low:est.r.low, high:est.r.high, currency:"CAD",
-        basis:est.label, age:AIP.age,
+        basis:est.label, age:PROFILE.age,
         say_exactly:money(est.r.low)+" - "+money(est.r.high)+" CAD",
         disclaimer:"Illustrative range only, not a quote. The insurer sets the actual premium from the full application. Assumptions v2026.07."};
     },
@@ -649,8 +716,8 @@
         return {advisor_required:true, no_link:true, title:"Speak with Sertac first",
           why:"A recent medication or treatment change can fall inside the insurer's stability period, which is what a denied claim usually turns on. Sertac checks the wording against the actual history before anything is bought."};
       }
-      if(!AIP.product) return {error:"missing_fields", still_needed:["product"]};
-      var rec=recommendFor(aiNode());
+      if(!PROFILE.product) return {error:"missing_fields", still_needed:["product"]};
+      var rec=recommendFor(pricingNode());
       AI_LAST_REC=rec;
       return {title:rec.title, why:rec.why, url:rec.url, opens_new_tab:!!rec.ext,
         walkthrough_available:!!rec.walk};
@@ -663,7 +730,7 @@
       fd.append('name',name);
       if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
       var bits=[];
-      for(var k in AIP){ if(AIP.hasOwnProperty(k)) bits.push(k+': '+AIP[k]); }
+      for(var k in PROFILE){ if(PROFILE.hasOwnProperty(k)) bits.push(k+': '+said(k)); }
       if(a.note) fd.append('note',String(a.note).slice(0,500));
       fd.append('details','Chat sales agent -- '+bits.join(' | '));
       fd.append('source','Website Chat - AI sales agent');
@@ -721,7 +788,7 @@
           next.push({role:"tool", tool_call_id:c.id,
                      content:JSON.stringify(aiRunTool(c.function&&c.function.name,args))});
         });
-        return aiTurn({history:CPBOT_AI_HISTORY.slice(-12), profile:AIP, chain:next}, depth+1, next);
+        return aiTurn({history:CPBOT_AI_HISTORY.slice(-12), profile:PROFILE, chain:next}, depth+1, next);
       }
       return d;
     });
@@ -743,7 +810,7 @@
        here restarts the guided flow and throws that away — the visitor taps it,
        gets asked everything again, and gives up. While the agent is still
        gathering, the right move is to answer it, so only show an escape hatch. */
-    if(AIP.product||AIP.age||AIP.days||AIP.destination){
+    if(PROFILE.product||PROFILE.age||PROFILE.days||PROFILE.destination){
       chips([{label:"Talk to Sertac",key:"#lead"}]);
       return;
     }
@@ -770,7 +837,7 @@
         chips([{label:"Travel insurance",key:"@travel"},{label:"Visitor / Super Visa quote",href:"/instant-quote.html"},{label:"Compare insurer options",href:"/buy-online.html"}]);
       }
     }
-    aiTurn({message:question, history:CPBOT_AI_HISTORY.slice(-12), profile:AIP}, 0)
+    aiTurn({message:question, history:CPBOT_AI_HISTORY.slice(-12), profile:PROFILE}, 0)
     .then(function(d){
       if(!d || !d.reply){
         /* No sentence came back, but the tools ran here — so we already hold the
@@ -779,7 +846,7 @@
         try{ est=AI_TOOLS.estimate_premium(); rec=AI_TOOLS.recommend_path(); }catch(e){}
         if(est && est.illustrative_estimate && rec && !rec.error){
           t.remove();
-          handoffCard(aiNode(), rec, {r:{low:est.low,high:est.high}, label:est.basis});
+          handoffCard(pricingNode(), rec, {r:{low:est.low,high:est.high}, label:est.basis});
           setTimeout(aiChips,250);
           return;
         }
@@ -788,8 +855,8 @@
       t.remove();
       CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
       bot(aiFormat(d.reply));
-      if(AI_LAST_REC && AIP.product){
-        try{ saveCtx({kind:"agent", n:aiNode(), rec:AI_LAST_REC, est:null, summary:ctxSummary(aiNode())}); }catch(e){}
+      if(AI_LAST_REC && PROFILE.product){
+        try{ var an=pricingNode(); saveCtx({kind:"agent", n:an, rec:AI_LAST_REC, est:null, summary:ctxSummary(an)}); }catch(e){}
       }
       setTimeout(aiChips,250);
     }).catch(unavailable);
@@ -848,15 +915,16 @@
     var v=input.value.trim();if(!v)return;input.value='';
     if(session.flow){
       var low=v.toLowerCase();
-      if(low==="cancel"||low==="stop"||low==="restart"||low==="start over"||low==="menu"){user(v);cancelFlow();return;}
+      if(low==="cancel"||low==="stop"||low==="menu"){user(v);cancelFlow();return;}
+      if(low==="restart"||low==="start over"){user(v);startOver();return;}
       user(v);
       rememberTravelFacts(v);
       if(session.fkey==="travel" && /\b(?:told|already|said|mentioned|previously)\b/i.test(v)){
         /* They are repeating themselves because we failed to listen. If the repeat
            contains what this step needs, just take it instead of scolding them. */
         var stc=session.flow.steps[session.step];
-        if(stc && (stc.k==="dates"||stc.k==="days") && !isNaN(parseDays(v))){advance(v);return;}
-        if(stc && stc.k==="ages" && /\d{1,3}/.test(v)){advance(v);return;}
+        if(stc && (stc.f==="dates"||stc.f==="days") && !isNaN(parseDays(v))){advance(v);return;}
+        if(stc && stc.f==="ages" && /\d{1,3}/.test(v)){advance(v);return;}
         bot("Sorry \u2014 you are right, you did. I just need <b>"+esc(stc&&stc.q?stc.q:"the remaining detail")+"</b> Or tap Cancel to go back to the conversation.");
         return;
       }
@@ -949,7 +1017,7 @@
   /* A recent medication/dosage/treatment change, or "not sure", must not end at a
      checkout — the stability period is what a denied claim turns on. app.html
      already routes "not sure" to a phone call; the chat now does the same. */
-  function needsAdvisor(v){v=String(v||"").toLowerCase();return /recent|not sure|unsure|don't know|dont know/.test(v);}
+  function needsAdvisor(v){v=String(v||"").toLowerCase();return /recent|not.?sure|unsure|don'?t know/.test(v);}
   /* Recommend the best buy path. Prices are never invented here — only the route + reasoning. */
   function recommendFor(n){
     var usa=/yes/.test(String(n.usa||"").toLowerCase());
@@ -994,17 +1062,6 @@
     if(n.dest)bits.push(esc(String(n.dest).slice(0,40)));
     return bits.join(" · ");
   }
-  function normalizeCtx(fkey,d){
-    var n={ptype:d.ptype||fkey};
-    if(fkey==="estimate"){n.age=parseInt(d.age,10);n.days=parseInt(d.days,10);n.usa=d.usa;n.cond=d.cond;}
-    else if(fkey==="travel"){n.age=firstAge(d.ages);n.days=parseDays(d.days)||parseDays(d.dates);n.dest=d.dest;n.usa=isUSA(d.dest);n.cond="none";n.plan=d.plan;
-      if(/multi/i.test(d.plan||""))n.ptype="annual";}
-    else if(fkey==="supervisa"){n.age=firstAge(d.ages);n.days=/2/.test(d.term||"")?730:365;n.cond=d.pre;n.count=d.count;}
-    else if(fkey==="visitor"){n.age=firstAge(d.ages);n.days=parseDays(d.length);n.cond=d.pre;}
-    else if(fkey==="topup"){n.age=parseInt(d.age,10);n.days=parseInt(d.days,10);n.usa=d.usa;n.cond=d.pre;n.baseEnd=d.baseEnd;}
-    else if(fkey==="annual"){n.age=firstAge(d.ages);n.days=parseInt(d.longest,10);n.long=d.longest;n.usa=d.usa;n.cond=d.pre;}
-    return n;
-  }
   function estimateFor(n){
     if(isNaN(n.age)||isNaN(n.days)||n.days<1)return null;
     var stable=normCond(n.cond)==="stable";
@@ -1012,7 +1069,8 @@
     if(n.ptype==="supervisa")return {r:estSupervisa(n.age,stable),label:"1 year · $100,000 coverage"};
     if(n.ptype==="topup"||n.ptype==="abroad"||n.ptype==="travel"){
       var usa=/yes/.test(String(n.usa||"").toLowerCase());
-      return {r:estAbroad(n.age,n.days,usa,stable),label:n.days+"-day top-up · emergency medical"+(usa?" · incl. USA":"")};
+      return {r:estAbroad(n.age,n.days,usa,stable),
+              label:n.days+"-day "+(n.ptype==="topup"?"top-up":"trip")+" · emergency medical"+(usa?" · incl. USA":"")};
     }
     return null;
   }
@@ -1048,7 +1106,7 @@
     },300);
   }
   function showRecommend(){
-    var n=normalizeCtx(session.fkey,session.data);
+    var n=pricingNode();
     if(needsAdvisor(n.cond)){
       typingThen(function(){
         bot("Here's what I have so far:"+summaryHtml());
@@ -1067,7 +1125,7 @@
       bot("Here's what I'll send Sertac if you'd rather have him handle it:"+summaryHtml());
       handoffCard(n,rec,est);
       setTimeout(function(){
-        chips([{label:"Send my details to Sertac",key:"#tocontact"},{label:"Start over",key:"#cancel"}]);
+        chips([{label:"Send my details to Sertac",key:"#tocontact"},{label:"Start over",key:"#restart"}]);
       },900);
     });
   }
@@ -1106,7 +1164,7 @@
     if(ctx&&ctx.rec){
       bot("Welcome back — I've got your quote details right here: <b>"+esc(ctx.summary)+"</b>"+(ctx.est?" · est. <b>"+money(ctx.est.low)+"–"+money(ctx.est.high)+" CAD</b>":"")+". Your recommended path is <b>"+esc(ctx.rec.title)+"</b> — it's highlighted on this page.");
       setTimeout(function(){
-        chips([{label:"Walk me through buying",key:"#walk-"+ctx.rec.walk},{label:"Get a fresh quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
+        chips([{label:"Walk me through buying",key:"#walk-"+ctx.rec.walk},{label:"Get a fresh quote",key:"#restart"},{label:"Talk to Sertac",key:"#lead"}]);
       },300);
       return;
     }
@@ -1114,20 +1172,20 @@
   }
   /* ---- new guided flows ---- */
   FLOWS.topup={title:"Top-up quote",steps:[
-    {t:"text",k:"baseEnd",L:"Current plan ends",q:"When does your current coverage end? (the top-up starts the next day) e.g. Feb 13, 2027",p:"Date..."},
-    {t:"text",k:"days",L:"Top-up days",q:"How many extra days do you need?",p:"Days..."},
-    {t:"text",k:"age",L:"Age",q:"Traveller's age?",p:"Age..."},
-    {t:"text",k:"dest",L:"Destination",q:"Where are you travelling?",p:"Destination..."},
-    {t:"choice",k:"usa",L:"USA",q:"Does the trip include the USA?",o:[["No","no"],["Yes","yes"]]},
-    {t:"choice",k:"pre",L:"Pre-existing",q:"Any stable pre-existing conditions?",o:[["No","No"],["Yes, stable","Yes, stable"]]},
+    {t:"text",f:"baseEnd",L:"Current plan ends",q:"When does your current coverage end? (the top-up starts the next day) e.g. Feb 13, 2027",p:"Date..."},
+    {t:"text",f:"days",L:"Top-up days",q:"How many extra days do you need?",p:"Days..."},
+    {t:"text",f:"age",L:"Age",q:"Traveller's age?",p:"Age..."},
+    {t:"text",f:"destination",L:"Destination",q:"Where are you travelling?",p:"Destination..."},
+    {t:"choice",f:"usa",L:"USA",q:"Does the trip include the USA?",o:[["No","no"],["Yes","yes"]]},
+    {t:"choice",f:"preExisting",L:"Pre-existing",q:"Any stable pre-existing conditions?",o:[["No","No"],["Yes, stable","Yes, stable"]]},
     {t:"recommend"}
   ]};
   FLOWS.annual={title:"Annual multi-trip quote",steps:[
-    {t:"choice",k:"count",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
-    {t:"text",k:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
-    {t:"text",k:"longest",L:"Longest trip",q:"Longest single trip in days? (per-trip max decides the plan) e.g. 35",p:"Days..."},
-    {t:"choice",k:"usa",L:"USA",q:"Do trips include the USA?",o:[["No","no"],["Yes","yes"]]},
-    {t:"choice",k:"pre",L:"Pre-existing",q:"Any pre-existing conditions needing coverage?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
+    {t:"choice",f:"travellers",L:"Travellers",q:"How many travellers?",o:[["1","1"],["2","2"],["Family","Family"]]},
+    {t:"text",f:"ages",L:"Age(s)",q:"Traveller age(s)?",p:"Age(s)..."},
+    {t:"text",f:"longestTrip",L:"Longest trip",q:"Longest single trip in days? (per-trip max decides the plan) e.g. 35",p:"Days..."},
+    {t:"choice",f:"usa",L:"USA",q:"Do trips include the USA?",o:[["No","no"],["Yes","yes"]]},
+    {t:"choice",f:"preExisting",L:"Pre-existing",q:"Any pre-existing conditions needing coverage?",o:[["No","No"],["Yes","Yes"],["Not sure","Not sure"]]},
     {t:"recommend"}
   ]};
   /* wire recommend step + new menu entries into existing flows */

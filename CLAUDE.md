@@ -66,7 +66,7 @@ Everything lives at the repository root (flat structure):
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
-| `_includes/cpbot.html` | Shared Cover & Protect assistant chatbot (markup + styles + script). Include with `{% include cpbot.html %}` just before `</body>`. Page-aware greeting: buy-online.html gets copilot mode (guided path finder), instant-quote.html gets quote-tool help, travel-insurance-calculator.html gets estimate help. Knowledge base (KB), quote flows (FLOWS) and the illustrative estimate engine live here — keep the estimate bands in sync with `travel-insurance-calculator.html` (rate assumptions v2026.07). Outbound portal links carry `data-buy-step`/`data-trustone-plan` so `tracking.js` fires the funnel events. Phase 2 (2026-10-06): guided quote flows now end in a `{t:"recommend"}` step that saves quote context to localStorage (`cpq_v1`, 24h) and shows a "best path" handoff card (Continue to buy / walkthrough / talk to Sertac). `buy-online.html` reads that context and shows a pickup banner highlighting the recommended provider card. New flows: `topup`, `annual`. Per-provider buying walkthroughs in `WALK`. LESSON (2026-10-05): when extracting a `<style>` block, remove from the opening tag — a regex starting at an inner comment left an orphaned `<style>` that swallowed page content as CSS. |
+| `_includes/cpbot.html` | Shared Cover & Protect assistant chatbot (markup + styles + script). Include with `{% include cpbot.html %}` just before `</body>`. Page-aware greeting: buy-online.html gets copilot mode (guided path finder), instant-quote.html gets quote-tool help, travel-insurance-calculator.html gets estimate help. Knowledge base (KB), quote flows (FLOWS) and the illustrative estimate engine live here — keep the estimate bands in sync with `travel-insurance-calculator.html` (rate assumptions v2026.07). Outbound portal links carry `data-buy-step`/`data-trustone-plan` so `tracking.js` fires the funnel events. State: one `PROFILE` object, written only through `setFact()`; each step names its field as `f:`. Phase 2 (2026-10-06): guided quote flows now end in a `{t:"recommend"}` step that saves quote context to localStorage (`cpq_v1`, 24h) and shows a "best path" handoff card (Continue to buy / walkthrough / talk to Sertac). `buy-online.html` reads that context and shows a pickup banner highlighting the recommended provider card. New flows: `topup`, `annual`. Per-provider buying walkthroughs in `WALK`. LESSON (2026-10-05): when extracting a `<style>` block, remove from the opening tag — a regex starting at an inner comment left an orphaned `<style>` that swallowed page content as CSS. |
 | `images/` | All image assets (hero images, illustrations) |
 | `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
 | `tools/search-audit/` | TypeSafe search & AI-visibility audit of the sitemap pages, run from GitHub Actions (not published; see its README) |
@@ -228,6 +228,21 @@ them to qualify, price and hand off:
 | `recommend_path` | Returns insurer/tool, reason and URL from the same `recommendFor()` the guided flows use. |
 | `create_lead` | Posts the profile to Formspree; refuses without a name and a phone or email. |
 
+**The conversation's facts live in one object.** `PROFILE` in
+`_includes/cpbot.html`, written only through `setFact()`. There used to be three
+stores — `AIP`, `cpKnownTravel` and `session.data` — holding the same fact under
+different names with bridges copying between them, and every "it asked me
+something I already said" bug traced back to one store knowing the answer and
+the store being read not knowing it. Each guided-flow step names the field it
+answers (`f:`) and is skipped when that field is known, from any source;
+`setFact` derives what an answer implies (dates → trip length, ages → age,
+a US destination → the USA loading); the AI tools write through the same
+`setFact` via the `AI_FIELD` mapping; and `pricingNode()` is the single reader
+that shapes the facts for `estimateFor()`/`recommendFor()`. Do not add a second
+store or a bridge — add a field and, if an answer implies another, a `DERIVE`
+rule. `cancel` keeps the answers; `#restart` ("start over") is the only thing
+that clears them.
+
 **The tools execute in the browser, not in the Worker.** The rate bands live in
 `_includes/cpbot.html` and must match `travel-insurance-calculator.html`; running
 them in the Worker as well would be a third copy to keep in sync, and drifting
@@ -250,8 +265,14 @@ both after changing the Worker, the tools, the rate bands, or the
 pre-existing wording:
 
 ```sh
-cd workers/cpbot-ai/test && node worker.test.mjs && node tools.test.mjs
+cd workers/cpbot-ai && npm test
 ```
+
+That runs four suites: `worker.test.mjs` (protocol and guards),
+`tools.test.mjs` (tool behaviour, the advisor gate, routing),
+`flow.test.mjs` (the guided flow's step sequence) and
+`characterize.test.mjs` (every flow's question order — it fails if a change
+alters what a visitor is asked).
 
 `tools.test.mjs` evaluates the real script out of `_includes/cpbot.html`, so it
 tests the shipped code rather than a copy.
