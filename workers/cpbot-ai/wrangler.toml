@@ -1,3 +1,4 @@
 name = "coverandprotect"
+account_id = "fe61806c30b88b822bb271b4f3c7db66"
 main = "worker.js"
 compatibility_date = "2026-10-11"
