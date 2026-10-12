@@ -454,6 +454,7 @@
 
   function route(key){
     if(key==="#quote"){startQuote();return;}
+    if(key==="#retryai"){aiFallback("Please continue helping me find suitable travel insurance and ask for missing details.");return;}
     if(key==="#lead"){leadForm("");return;}
     if(key==="#cancel"){cancelFlow();return;}
     if(key==="#covisit"){copilotVisit();return;}
@@ -474,22 +475,25 @@
   var CPBOT_WORKER_URL = "https://coverandprotect.sertach-tekin.workers.dev";
   var CPBOT_AI_HISTORY = [];
   function aiFallback(question){
-    if(CPBOT_WORKER_URL.indexOf("__CPBOT_WORKER_URL__")===0){ leadForm(question); return; }
     var t=el('cpbot-msg cpbot-bot cpbot-typing','<span></span><span></span><span></span>');
     body.appendChild(t);body.scrollTop=body.scrollHeight;
+    var history=CPBOT_AI_HISTORY.slice(-6);
     CPBOT_AI_HISTORY.push({role:"user",content:String(question).slice(0,1000)});
-    fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({message:question,history:CPBOT_AI_HISTORY.slice(0,-1).slice(-6)})})
-    .then(function(r){return r.json();})
-    .then(function(d){
+    function unavailable(){
       t.remove();
-      if(d && d.reply){
-        CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
-        bot(esc(d.reply).replace(/\n/g,"<br>"));
-        chips([{label:"Get a quote",key:"#quote"},{label:"Talk to Sertac",key:"#lead"}]);
-      } else { leadForm(question); }
-    })
-    .catch(function(){ t.remove(); leadForm(question); });
+      bot("I'm having trouble reaching the AI advisor right now. I can still collect the missing travel details and take you to an insurer's live quotation tool. No premium is calculated in this chat.");
+      chips([{label:"Continue quote questions",key:"@travel"},{label:"Insurer quote tools",href:"/buy-online.html"},{label:"Try AI again",key:"#retryai"},{label:"Talk to Sertac",key:"#lead"}]);
+    }
+    fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({message:question,history:history})})
+    .then(function(r){if(!r.ok)throw Error("AI unavailable");return r.json();})
+    .then(function(d){
+      if(!d || !d.reply){unavailable();return;}
+      t.remove();
+      CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
+      bot(esc(d.reply).replace(/\n/g,"<br>"));
+      chips([{label:"Get insurer quote",key:"@travel"},{label:"Insurer quote tools",href:"/buy-online.html"},{label:"Talk to Sertac",key:"#lead"}]);
+    }).catch(unavailable);
   }
 
   /* Quote-intent detection: when the visitor is making a REQUEST (not asking a
