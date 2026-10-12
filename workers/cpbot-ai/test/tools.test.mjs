@@ -23,7 +23,7 @@ const sandbox = `
 const probe = `
   ;globalThis.__T = {AI_TOOLS, get AIP(){return AIP;}, set AIP(v){AIP=v;},
     aiAdvisorRequired, aiMissing, aiNode, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
-    parseDays, normalizeCtx, missingForEstimate, isUSA, seedFromAI};
+    parseDays, normalizeCtx, missingForEstimate, isUSA, seedFromAI, aiFormat};
 `;
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
 new Function(sandbox + patched)();
@@ -138,6 +138,24 @@ ok(T.seedFromAI("supervisa").pre==="Yes, recent changes", "pre-existing answer c
 console.log("\n--- a repeated answer is usable, not an error ---");
 ok(T.parseDays("i told already starting nov 15 2 weeks")===14, "the exact sentence from the screenshot -> 14 days");
 ok(T.parseDays("starting nov 15 for 2 weeks")===14, "'starting nov 15 for 2 weeks' -> 14");
+
+console.log("\n--- AI replies render as text, not raw markdown ---");
+const F = T.aiFormat;
+ok(F("check it [here](buy-online.html?pickup=1)").includes('<a href="buy-online.html?pickup=1">here</a>'),
+   "the exact link from the screenshot becomes a real link");
+ok(!F("check it [here](buy-online.html?pickup=1)").includes("[here]"), "no raw markdown left on screen");
+ok(F("**$55 - $125**").includes("<b>$55 - $125</b>"), "bold renders");
+ok(F("a\nb").includes("<br>"), "newlines still break lines");
+
+console.log("\n--- a reply can never link somewhere we did not intend ---");
+ok(F("go [here](https://evil.example/pay)")==="go here", "foreign link is stripped to plain text");
+ok(!F("go [here](javascript:alert(1))").includes("<a"), "javascript: URL produces no link");
+ok(!F("go [x](data:text/html,y)").includes("<a"), "data: URL produces no link");
+ok(!F("[a](//evil.example/x)").includes("<a"), "protocol-relative //host is rejected — it resolves off-site");
+ok(!F("[a](https://coverandprotect.ca.evil.example/x)").includes("<a"), "a lookalike domain is rejected");
+ok(F("[x](https://coverandprotect.ca/buy-online.html)").includes("<a href="), "our own https pages are allowed");
+ok(F("[x](/instant-quote.html)").includes("<a href="), "root-relative pages are allowed");
+ok(!F("<img src=x onerror=alert(1)>").includes("<img"), "raw HTML in a reply is still escaped");
 
 console.log(fail? "\n"+fail+" FAILED" : "\nall tool tests passed");
 process.exit(fail?1:0);
