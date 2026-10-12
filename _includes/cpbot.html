@@ -299,7 +299,7 @@
     if(session.step>=session.flow.steps.length){return;}
     var st=session.flow.steps[session.step];
     if(st.k && session.data[st.k]){session.step++;nextStep();return;}
-    if(st.t==="contact"){renderContact();return;}
+    if(st.t==="contact"){if(session.fkey==="travel"){showRecommend();return;}renderContact();return;}
     if(st.t==="estimate"){showEstimate();return;}
     if(st.t==="recommend"){showRecommend();return;}
     typingThen(function(){
@@ -492,7 +492,7 @@
       t.remove();
       CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
       bot(esc(d.reply).replace(/\n/g,"<br>"));
-      chips([{label:"Get insurer quote",key:"@travel"},{label:"Insurer quote tools",href:"/buy-online.html"},{label:"Talk to Sertac",key:"#lead"}]);
+      chips([{label:"Continue quote",key:"@travel"},{label:"Insurer quote tools",href:"/buy-online.html"},{label:"Talk to Sertac",key:"#lead"}]);
     }).catch(unavailable);
   }
 
@@ -531,6 +531,8 @@
     }
     user(v);
     rememberTravelFacts(v);
+    var intent=detectQuoteIntent(v);
+    if(intent==="travel"){startFlow("travel");return;}
     aiFallback(v);
   }
 
