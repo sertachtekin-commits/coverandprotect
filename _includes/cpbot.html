@@ -455,7 +455,7 @@
      Cloudflare Worker that holds the OpenAI API key server-side. The key NEVER
      appears in this file, on the website, or in the repo.
      After the worker is deployed, set CPBOT_WORKER_URL to its https URL. */
-  var CPBOT_WORKER_URL = "__CPBOT_WORKER_URL__";
+  var CPBOT_WORKER_URL = "https://coverandprotect.sertach-tekin.workers.dev";
   var CPBOT_AI_HISTORY = [];
   function aiFallback(question){
     if(CPBOT_WORKER_URL.indexOf("__CPBOT_WORKER_URL__")===0){ leadForm(question); return; }
