@@ -1,5 +1,5 @@
 import fs from 'fs';
-const src = fs.readFileSync('../../../_includes/cpbot.html','utf8');
+const src = fs.readFileSync(new URL('../../../_includes/cpbot.html', import.meta.url),'utf8');
 const js = src.match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Minimal stubs so the IIFE can define itself without a DOM.
@@ -21,9 +21,11 @@ const sandbox = `
 `;
 // Export the internals we want to exercise.
 const probe = `
-  ;globalThis.__T = {AI_TOOLS, get AIP(){return AIP;}, set AIP(v){AIP=v;},
-    aiAdvisorRequired, aiMissing, aiNode, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
-    parseDays, normalizeCtx, missingForEstimate, isUSA, seedFromAI, aiFormat,
+  ;globalThis.__T = {AI_TOOLS, get PROFILE(){return PROFILE;}, get SAID(){return SAID;},
+    setFact, getFact, said, forgetFacts, pricingNode, usaFlag, normPre,
+    startFlow, advance, get session(){return session;},
+    aiAdvisorRequired, aiMissing, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
+    parseDays, missingForEstimate, isUSA, aiFormat,
     logLine, transcript, SRC, srcLink, get CPLOG(){return CPLOG;}};
 `;
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
@@ -31,7 +33,9 @@ new Function(sandbox + patched)();
 const T = globalThis.__T;
 
 let fail=0; const ok=(c,m)=>{console.log((c?"  PASS  ":"  FAIL  ")+m); if(!c)fail++;};
-const reset=(o)=>{ for(const k of Object.keys(T.AIP)) delete T.AIP[k]; Object.assign(T.AIP,o||{}); };
+/* The AI's field names go in through save_profile, exactly as the model sends
+   them, so these tests exercise the real mapping rather than poking the store. */
+const reset=(o)=>{ T.forgetFacts(); if(o&&Object.keys(o).length) T.AI_TOOLS.save_profile(o); };
 
 console.log("--- the agent can actually quote ---");
 reset({}); 
@@ -45,7 +49,7 @@ ok(/not a quote/i.test(r.disclaimer), "band carries the not-a-quote disclaimer")
 
 console.log("\n--- memory: never re-ask ---");
 r = T.AI_TOOLS.save_profile({destination:"India"});
-ok(T.AIP.age===68 && T.AIP.product==="supervisa", "earlier fields survive a later partial save");
+ok(T.PROFILE.age==="68" && T.PROFILE.product==="supervisa", "earlier fields survive a later partial save");
 
 console.log("\n--- SAFETY: recent medical change must never reach a buy link ---");
 reset({product:"visitor", age:70, days:180, pre_existing:"recent_change"});
@@ -79,7 +83,7 @@ ok(/TruStone/i.test(r.title), "monthly payment routes to TruStone: "+r.title);
 reset({product:"travel", age:45, days:14, destination:"Florida", pre_existing:"none"});
 r = T.AI_TOOLS.recommend_path();
 ok(!!r.url, "travel abroad gets a buy path: "+r.title);
-ok(T.aiNode().usa==="yes", "Florida is detected as USA coverage");
+ok(T.pricingNode().usa==="yes", "Florida is detected as USA coverage");
 
 console.log("\n--- create_lead requires real contact details ---");
 reset({product:"supervisa", age:68});
@@ -107,34 +111,51 @@ ok(D("14")===14, "a bare '14' -> 14 (the new trip-length question)");
 ok(isNaN(D("next winter")), "unparseable stays unparseable rather than guessing");
 
 console.log("\n--- the exact conversation from the screenshots now prices ---");
-let ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15", plan:"Single"});
+const facts=(o)=>{ T.forgetFacts(); for(const k of Object.keys(o)) T.setFact(k,o[k]); return T.pricingNode(); };
+let ctx = facts({product:"travel", ages:"53", destination:"florida", dates:"nov 15", plan:"Single"});
 ok(isNaN(ctx.days), "before: 'nov 15' gave no trip length, so no price");
 ok(T.estimateFor(ctx)===null, "…and estimateFor returned null — the silent failure");
 ok(T.missingForEstimate(ctx).join()==="how many days the trip is", "…now it says what is missing: "+T.missingForEstimate(ctx).join());
-ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15", days:"14", plan:"Single"});
+ctx = facts({product:"travel", ages:"53", destination:"florida", dates:"nov 15", days:"14", plan:"Single"});
 ok(ctx.days===14, "after: the trip-length answer supplies the days");
 const e = T.estimateFor(ctx);
 ok(e && e.r.low>0, "after: a real estimate comes back — "+(e?("$"+e.r.low+" - $"+e.r.high):"none"));
 ok(ctx.usa==="yes", "Florida is priced as USA coverage (was understated ~20% before)");
+ok(/trip/.test(e.label) && !/top-up/.test(e.label), "a single trip is not labelled a top-up: "+e.label);
 ok(T.isUSA("florida")==="yes" && T.isUSA("Orlando")==="yes" && T.isUSA("Arizona")==="yes", "US destinations detected by name");
 ok(T.isUSA("Mexico")==="no" && T.isUSA("Portugal")==="no", "non-US destinations are not loaded");
-ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15 to dec 10", plan:"Single"});
+ctx = facts({product:"travel", ages:"53", destination:"florida", dates:"nov 15 to dec 10", plan:"Single"});
 ok(ctx.days===26, "dates alone still work when they are a real range");
+ctx = facts({product:"travel", ages:"53", destination:"Mexico", days:"14", usa:"yes"});
+ok(ctx.usa==="yes", "an explicit USA answer wins over the guess from the destination");
 
-console.log("\n--- switching to the guided flow must not lose what the AI learned ---");
+console.log("\n--- ONE STORE: there is nothing to copy into the guided flow ---");
 reset({product:"travel", age:53, days:14, destination:"florida", travel_dates:"nov 15", pre_existing:"none", travellers:1});
-let seed = T.seedFromAI("travel");
-ok(seed.ages==="53", "age carries over");
-ok(seed.dest==="florida", "destination carries over");
-ok(seed.days==="14", "trip length carries over — this is what was being thrown away");
-ok(seed.dates==="nov 15", "the dates they typed carry over");
-ok(seed.count==="1", "traveller count carries over");
-ok(seed.plan==="Single", "single-trip plan inferred");
-const seeded = T.normalizeCtx("travel", seed);
-ok(seeded.days===14 && seeded.age===53, "the seeded flow can price immediately");
-ok(T.estimateFor(seeded)!==null, "…and produces an estimate without re-asking anything");
-reset({product:"supervisa", age:68, pre_existing:"recent_change"});
-ok(T.seedFromAI("supervisa").pre==="Yes, recent changes", "pre-existing answer carries over verbatim");
+/* The guided flow asks a step only when its field is unknown, so "what would
+   the travel flow still ask?" is exactly the set of its fields the agent's save
+   did not reach. (The step sequence itself is driven for real in flow.test.mjs
+   and characterize.test.mjs, which stub timers; this file has none.) */
+const wouldAsk = [];
+T.startFlow("travel");
+for (const st of T.session.flow.steps) { if (st.f && !T.getFact(st.f)) wouldAsk.push(st.f); }
+ok(!wouldAsk.includes("ages") && !wouldAsk.includes("age"), "the flow would not ask the age the agent already saved");
+ok(!wouldAsk.includes("days") && !wouldAsk.includes("dates"), "nor the dates or the trip length");
+ok(!wouldAsk.includes("travellers"), "nor the traveller count");
+ok(wouldAsk.join()==="plan", "the only thing left to ask is the one thing not yet known: "+(wouldAsk.join()||"nothing"));
+const seeded = T.pricingNode();
+ok(seeded.days===14 && seeded.age===53, "and it can price straight away");
+ok(T.estimateFor(seeded)!==null, "…producing an estimate without re-asking anything");
+
+console.log("\n--- the visitor's own wording survives for the lead email ---");
+reset({product:"supervisa", age:68});
+T.setFact("preExisting","Yes, recent changes");
+ok(T.PROFILE.preExisting==="recent_change", "the answer is stored in one canonical form for the safety gate");
+ok(T.said("preExisting")==="Yes, recent changes", "…and in the visitor's words for the email");
+ok(T.aiAdvisorRequired()===true, "…and the gate fires on it");
+ok(T.normPre("Not sure")==="not_sure" && T.needsAdvisor(T.normPre("Not sure"))===true,
+   "'Not sure' normalises to not_sure and still fires the gate");
+ok(T.normPre("Yes, stable")==="stable" && T.needsAdvisor(T.normPre("Yes, stable"))===false,
+   "'Yes, stable' normalises to stable and does not");
 
 console.log("\n--- a repeated answer is usable, not an error ---");
 ok(T.parseDays("i told already starting nov 15 2 weeks")===14, "the exact sentence from the screenshot -> 14 days");
