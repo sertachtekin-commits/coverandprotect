@@ -54,6 +54,29 @@ ok(res.status === 500 && (await res.json()).error === "not_configured", "missing
 res = await worker.fetch(post({ message: "hi" }), env);
 ok(!(await res.text()).includes("sk-test"), "API key never appears in a response");
 
+// --- the tool chain must accumulate, or the model loops and the chat dies
+sent = null;
+const chain = [
+  { role: "assistant", content: "", tool_calls: [{ id: "c1", type: "function", function: { name: "save_profile", arguments: "{}" } }] },
+  { role: "tool", tool_call_id: "c1", content: '{"saved":true}' },
+  { role: "assistant", content: "", tool_calls: [{ id: "c2", type: "function", function: { name: "estimate_premium", arguments: "{}" } }] },
+  { role: "tool", tool_call_id: "c2", content: '{"low":55,"high":125}' },
+];
+res = await worker.fetch(post({ history: [{ role: "user", content: "53" }], profile: { product: "travel" }, chain }), env);
+ok(res.status === 200, "a multi-round chain is accepted");
+let cm = sent.messages;
+let asst = cm.filter(x => x.role === "assistant" && x.tool_calls);
+let tools = cm.filter(x => x.role === "tool");
+ok(asst.length === 2, "BOTH assistant tool turns are replayed (got " + asst.length + ") — only 1 was the bug");
+ok(tools.length === 2, "both tool results are replayed (got " + tools.length + ")");
+ok(tools.some(x => x.content.includes("55")), "the earlier round's result survives, so the model stops re-asking");
+for (let i = 0; i < cm.length; i++) {
+  if (cm[i].role === "assistant" && cm[i].tool_calls) {
+    ok(cm[i + 1] && cm[i + 1].role === "tool" && cm[i + 1].tool_call_id === cm[i].tool_calls[0].id,
+       "each assistant tool turn is immediately answered (OpenAI 400s otherwise)");
+  }
+}
+
 // --- the secret may be named with hyphens; Cloudflare cannot rename one
 sent = null;
 res = await worker.fetch(post({ message: "hi" }), { "OPENAI-API-KEY": "sk-hyphen", ALLOWED_ORIGIN: env.ALLOWED_ORIGIN });
