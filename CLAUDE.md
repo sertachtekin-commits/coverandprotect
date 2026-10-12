@@ -70,6 +70,7 @@ Everything lives at the repository root (flat structure):
 | `images/` | All image assets (hero images, illustrations) |
 | `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
 | `tools/search-audit/` | TypeSafe search & AI-visibility audit of the sitemap pages, run from GitHub Actions (not published; see its README) |
+| `workers/cpbot-ai/` | Cloudflare Worker behind the chat assistant — holds the OpenAI key and runs the tool-calling loop (not published; see its README) |
 
 `_site/` (the Jekyll build output) is git-ignored — never commit it; GitHub Pages
 builds it server-side.
@@ -214,6 +215,49 @@ visitor choose from the eight options listed on `buy-online.html`.
 The "not sure" answer deliberately leads to a phone call rather than a checkout:
 guessing on the medical questions is the most common reason a large claim is
 denied, so that path must never be turned into a direct purchase link.
+
+## The chat sales assistant (`_includes/cpbot.html` + `workers/cpbot-ai/`)
+
+The assistant is a **sales agent, not an FAQ**. The model has four tools and uses
+them to qualify, price and hand off:
+
+| Tool | Purpose |
+|------|---------|
+| `save_profile` | Remembers product, age, days, destination, dates, travellers, pre-existing status, monthly preference; returns what is still missing. This is why it stops re-asking. |
+| `estimate_premium` | Returns an illustrative band from the page's estimate engine — **the only number the model may state.** |
+| `recommend_path` | Returns insurer/tool, reason and URL from the same `recommendFor()` the guided flows use. |
+| `create_lead` | Posts the profile to Formspree; refuses without a name and a phone or email. |
+
+**The tools execute in the browser, not in the Worker.** The rate bands live in
+`_includes/cpbot.html` and must match `travel-insurance-calculator.html`; running
+them in the Worker as well would be a third copy to keep in sync, and drifting
+rate tables are how a customer is quoted one number and shown another. The Worker
+is the conversation brain, the page is the calculator. The two-round protocol and
+the tool contracts are documented in `workers/cpbot-ai/README.md`.
+
+**The pre-existing-condition gate is a safety rule, not a nicety.** A visitor who
+reports a recent medication, dosage or treatment change — or says they are not
+sure — must never be shown a price or a buy link, because a change inside the
+insurer's stability period is the most common reason a large claim is refused.
+`aiAdvisorRequired()` gates the AI path and `needsAdvisor()` gates `showRecommend()`
+in the guided flows. This matches the rule `app.html` already follows for its
+"not sure" answer. Note `normCond()` still maps `recent` → `stable` for the
+*pricing* factor; the advisor gate runs first and is what keeps that off a
+customer's screen. Do not remove it.
+
+**Tests** (plain Node, no dependencies) live in `workers/cpbot-ai/test/`. Run
+both after changing the Worker, the tools, the rate bands, or the
+pre-existing wording:
+
+```sh
+cd workers/cpbot-ai/test && node worker.test.mjs && node tools.test.mjs
+```
+
+`tools.test.mjs` evaluates the real script out of `_includes/cpbot.html`, so it
+tests the shipped code rather than a copy.
+
+A `GET` on the Worker URL returning `Method not allowed` is correct — it accepts
+`POST` only.
 
 **Keep the plan matrix in sync.** The `MATCH` table in `app.html` mirrors the
 provider list on `buy-online.html`. If a TruStone plan code changes in one place,

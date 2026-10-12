@@ -14,3 +14,4 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - tools
+  - workers
