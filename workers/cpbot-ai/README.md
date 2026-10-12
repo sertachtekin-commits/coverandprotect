@@ -66,6 +66,7 @@ No build step, no dependencies — plain Node.
 cd workers/cpbot-ai/test
 node worker.test.mjs    # protocol, OpenAI message shape, CORS/rate/secret guards
 node tools.test.mjs     # tool behaviour, the advisor gate, routing, lead capture
+node flow.test.mjs      # the guided flow's step sequence, driven for real
 ```
 
 `worker.test.mjs` stubs `fetch`, so it never calls OpenAI and needs no key.

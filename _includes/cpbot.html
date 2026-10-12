@@ -395,6 +395,15 @@
       }
     });
   }
+  /* Facts mentioned in passing answer later questions too. Only fills steps we
+     have not reached yet, so it can never overwrite an answer just given. */
+  function absorbKnown(){
+    if(!session.flow)return;
+    for(var i=session.step+1;i<session.flow.steps.length;i++){
+      var k=session.flow.steps[i].k;
+      if(k && !session.data[k] && cpKnownTravel[k])session.data[k]=cpKnownTravel[k];
+    }
+  }
   function advance(val){
     var st=session.flow.steps[session.step];
     /* The only thing the price needs from this answer is a length. If we can get
@@ -402,7 +411,16 @@
     if(st.k==="dates" && isNaN(parseDays(val)) && !/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}/i.test(val)){
       bot("Please provide the departure and return dates (for example, Nov 15 to Dec 15). I will not treat a correction as a date.");return;
     }
-    session.data[st.k]=val;session.step++;input.placeholder=DEFAULT_PH;nextStep();
+    session.data[st.k]=val;
+    /* An answer often contains more than the question asked for. "Dec 18 departure
+       2 weeks" states the trip length, so the next step must not ask for it again —
+       being asked something you just said is the fastest way to lose a visitor. */
+    if(st.k==="dates" && !session.data.days){
+      var derived=parseDays(val);
+      if(!isNaN(derived))session.data.days=String(derived);
+    }
+    absorbKnown();
+    session.step++;input.placeholder=DEFAULT_PH;nextStep();
   }
   function summaryHtml(){
     var rows=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){rows.push("&bull; "+esc(st.L)+": "+esc(session.data[st.k]));}});
