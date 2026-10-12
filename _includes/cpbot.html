@@ -315,6 +315,9 @@
   }
   function advance(val){
     var st=session.flow.steps[session.step];
+    if(st.k==="dates" && !/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}/i.test(val)){
+      bot("Please provide the departure and return dates (for example, Nov 15 to Dec 15). I will not treat a correction as a date.");return;
+    }
     session.data[st.k]=val;session.step++;input.placeholder=DEFAULT_PH;nextStep();
   }
   function summaryHtml(){
@@ -527,12 +530,16 @@
     if(session.flow){
       var low=v.toLowerCase();
       if(low==="cancel"||low==="stop"||low==="restart"||low==="start over"||low==="menu"){user(v);cancelFlow();return;}
-      user(v);advance(v);return;
+      user(v);
+      rememberTravelFacts(v);
+      if(session.fkey==="travel" && /\b(?:told|already|said|mentioned|previously)\b/i.test(v)){
+        bot("You are right. I should use the details you already gave me. Please tell me only the missing information, or choose Cancel to return to the AI conversation.");
+        return;
+      }
+      advance(v);return;
     }
     user(v);
     rememberTravelFacts(v);
-    var intent=detectQuoteIntent(v);
-    if(intent==="travel"){startFlow("travel");return;}
     aiFallback(v);
   }
 
