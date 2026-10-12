@@ -23,7 +23,7 @@ const sandbox = `
 const probe = `
   ;globalThis.__T = {AI_TOOLS, get AIP(){return AIP;}, set AIP(v){AIP=v;},
     aiAdvisorRequired, aiMissing, aiNode, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
-    parseDays, normalizeCtx, missingForEstimate, isUSA};
+    parseDays, normalizeCtx, missingForEstimate, isUSA, seedFromAI};
 `;
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
 new Function(sandbox + patched)();
@@ -119,6 +119,25 @@ ok(T.isUSA("florida")==="yes" && T.isUSA("Orlando")==="yes" && T.isUSA("Arizona"
 ok(T.isUSA("Mexico")==="no" && T.isUSA("Portugal")==="no", "non-US destinations are not loaded");
 ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15 to dec 10", plan:"Single"});
 ok(ctx.days===26, "dates alone still work when they are a real range");
+
+console.log("\n--- switching to the guided flow must not lose what the AI learned ---");
+reset({product:"travel", age:53, days:14, destination:"florida", travel_dates:"nov 15", pre_existing:"none", travellers:1});
+let seed = T.seedFromAI("travel");
+ok(seed.ages==="53", "age carries over");
+ok(seed.dest==="florida", "destination carries over");
+ok(seed.days==="14", "trip length carries over — this is what was being thrown away");
+ok(seed.dates==="nov 15", "the dates they typed carry over");
+ok(seed.count==="1", "traveller count carries over");
+ok(seed.plan==="Single", "single-trip plan inferred");
+const seeded = T.normalizeCtx("travel", seed);
+ok(seeded.days===14 && seeded.age===53, "the seeded flow can price immediately");
+ok(T.estimateFor(seeded)!==null, "…and produces an estimate without re-asking anything");
+reset({product:"supervisa", age:68, pre_existing:"recent_change"});
+ok(T.seedFromAI("supervisa").pre==="Yes, recent changes", "pre-existing answer carries over verbatim");
+
+console.log("\n--- a repeated answer is usable, not an error ---");
+ok(T.parseDays("i told already starting nov 15 2 weeks")===14, "the exact sentence from the screenshot -> 14 days");
+ok(T.parseDays("starting nov 15 for 2 weeks")===14, "'starting nov 15 for 2 weeks' -> 14");
 
 console.log(fail? "\n"+fail+" FAILED" : "\nall tool tests passed");
 process.exit(fail?1:0);

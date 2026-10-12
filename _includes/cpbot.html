@@ -287,8 +287,31 @@
     if(/\b(?:single trip|one trip)\b/i.test(s))cpKnownTravel.plan="Single";
     if(/\b(?:annual multi.trip|multi.trip annual)\b/i.test(s))cpKnownTravel.plan="Multi-trip";
   }
+  /* Anything the AI already collected must carry into the guided flow. Asking a
+     visitor to repeat what they just typed is the fastest way to lose them. */
+  function seedFromAI(fk){
+    var d={};
+    if(fk==="travel"){
+      if(AIP.travellers)d.count=String(AIP.travellers);
+      if(AIP.age)d.ages=String(AIP.age);
+      if(AIP.destination)d.dest=String(AIP.destination);
+      if(AIP.travel_dates)d.dates=String(AIP.travel_dates);
+      if(AIP.days)d.days=String(AIP.days);
+      if(AIP.product==="annual")d.plan="Multi-trip";
+      else if(AIP.product==="travel")d.plan="Single";
+    }else if(fk==="supervisa"||fk==="visitor"){
+      if(AIP.travellers)d.count=String(AIP.travellers);
+      if(AIP.age)d.ages=String(AIP.age);
+      if(AIP.pre_existing==="none")d.pre="No";
+      else if(AIP.pre_existing==="stable")d.pre="Yes, stable";
+      else if(AIP.pre_existing==="recent_change")d.pre="Yes, recent changes";
+      else if(AIP.pre_existing==="not_sure")d.pre="Not sure";
+    }
+    return d;
+  }
   function startFlow(fk){
-    session.flow=FLOWS[fk];session.fkey=fk;session.step=0;session.data=fk==="travel"?Object.assign({},cpKnownTravel):{};
+    session.flow=FLOWS[fk];session.fkey=fk;session.step=0;
+    session.data=Object.assign({}, fk==="travel"?cpKnownTravel:{}, seedFromAI(fk));
     typingThen(function(){bot("Great - let's start your "+FLOWS[fk].title+". You can type 'cancel' anytime.");nextStep();});
   }
   function cancelFlow(){
@@ -316,7 +339,9 @@
   }
   function advance(val){
     var st=session.flow.steps[session.step];
-    if(st.k==="dates" && !/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}/i.test(val)){
+    /* The only thing the price needs from this answer is a length. If we can get
+       one, take it — rejecting "starting nov 15 for 2 weeks" is how the quote dies. */
+    if(st.k==="dates" && isNaN(parseDays(val)) && !/\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\b|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}/i.test(val)){
       bot("Please provide the departure and return dates (for example, Nov 15 to Dec 15). I will not treat a correction as a date.");return;
     }
     session.data[st.k]=val;session.step++;input.placeholder=DEFAULT_PH;nextStep();
@@ -612,6 +637,14 @@
       items.push({label:"Talk to Sertac",key:"#lead"});
       chips(items); return;
     }
+    /* Mid-conversation the AI has already gathered things. Offering "Get a quote"
+       here restarts the guided flow and throws that away — the visitor taps it,
+       gets asked everything again, and gives up. While the agent is still
+       gathering, the right move is to answer it, so only show an escape hatch. */
+    if(AIP.product||AIP.age||AIP.days||AIP.destination){
+      chips([{label:"Talk to Sertac",key:"#lead"}]);
+      return;
+    }
     chips([{label:"Get a quote",key:"@travel"},
            {label:"Insurer quote tools",href:"/buy-online.html"},
            {label:"Talk to Sertac",key:"#lead"}]);
@@ -705,7 +738,12 @@
       user(v);
       rememberTravelFacts(v);
       if(session.fkey==="travel" && /\b(?:told|already|said|mentioned|previously)\b/i.test(v)){
-        bot("You are right. I should use the details you already gave me. Please tell me only the missing information, or choose Cancel to return to the AI conversation.");
+        /* They are repeating themselves because we failed to listen. If the repeat
+           contains what this step needs, just take it instead of scolding them. */
+        var stc=session.flow.steps[session.step];
+        if(stc && (stc.k==="dates"||stc.k==="days") && !isNaN(parseDays(v))){advance(v);return;}
+        if(stc && stc.k==="ages" && /\d{1,3}/.test(v)){advance(v);return;}
+        bot("Sorry \u2014 you are right, you did. I just need <b>"+esc(stc&&stc.q?stc.q:"the remaining detail")+"</b> Or tap Cancel to go back to the conversation.");
         return;
       }
       advance(v);return;
