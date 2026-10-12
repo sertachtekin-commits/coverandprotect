@@ -23,7 +23,8 @@ const sandbox = `
 const probe = `
   ;globalThis.__T = {AI_TOOLS, get AIP(){return AIP;}, set AIP(v){AIP=v;},
     aiAdvisorRequired, aiMissing, aiNode, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
-    parseDays, normalizeCtx, missingForEstimate, isUSA, seedFromAI, aiFormat};
+    parseDays, normalizeCtx, missingForEstimate, isUSA, seedFromAI, aiFormat,
+    logLine, transcript, SRC, srcLink, get CPLOG(){return CPLOG;}};
 `;
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
 new Function(sandbox + patched)();
@@ -156,6 +157,31 @@ ok(!F("[a](https://coverandprotect.ca.evil.example/x)").includes("<a"), "a looka
 ok(F("[x](https://coverandprotect.ca/buy-online.html)").includes("<a href="), "our own https pages are allowed");
 ok(F("[x](/instant-quote.html)").includes("<a href="), "root-relative pages are allowed");
 ok(!F("<img src=x onerror=alert(1)>").includes("<img"), "raw HTML in a reply is still escaped");
+
+console.log("\n--- (1) the conversation is recorded for the lead email ---");
+T.CPLOG.length = 0;
+T.logLine("Visitor", "my mother is 68");
+T.logLine("Assistant", "<b>Great</b> \u2014 what are the dates?");
+let tr = T.transcript();
+ok(tr.includes("Visitor: my mother is 68"), "what the visitor said is captured");
+ok(tr.includes("Assistant: Great"), "what the assistant said is captured");
+ok(!tr.includes("<b>"), "markup is stripped so the email is readable");
+T.CPLOG.length = 0;
+ok(T.transcript() === "", "an empty conversation adds nothing to the lead");
+for (let i = 0; i < 200; i++) T.logLine("Visitor", "line " + i);
+ok(T.CPLOG.length <= 80, "the log is capped (" + T.CPLOG.length + ") so a long chat cannot bloat the email");
+ok(T.transcript().length <= 6000, "and the attached text is capped at 6000 chars");
+T.CPLOG.length = 0;
+T.logLine("Visitor", "x".repeat(900));
+ok(T.CPLOG[0].length <= 420, "a single huge paste is truncated");
+
+console.log("\n--- (3) answers cite the page they came from ---");
+ok(T.srcLink("preexisting").includes("blog-travel-insurance-pre-existing-conditions.html"),
+   "pre-existing answer cites the stability-period guide");
+ok(T.srcLink("monthly").includes("super-visa-monthly-payment.html"), "monthly answer cites the monthly page");
+ok(T.srcLink("quote") === "", "topics with no natural source cite nothing rather than guessing");
+ok(T.srcLink("preexisting").startsWith("<div"), "the citation renders as markup, not raw text");
+ok(Object.keys(T.SRC).length >= 30, "most topics have a source (" + Object.keys(T.SRC).length + ")");
 
 console.log(fail? "\n"+fail+" FAILED" : "\nall tool tests passed");
 process.exit(fail?1:0);

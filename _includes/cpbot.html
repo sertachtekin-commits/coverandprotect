@@ -59,7 +59,7 @@
     <div class="cpbot-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div>
       <div class="cpbot-title">Cover<span>&amp;</span>Protect Assistant</div>
-      <div class="cpbot-status">Ask a question or get a quote</div>
+      <div class="cpbot-status">Automated assistant · Sertac is the licensed advisor</div>
     </div>
     <button class="cpbot-close" id="cpbot-close" aria-label="Close">&times;</button>
   </div>
@@ -85,8 +85,24 @@
   document.getElementById('cpbot-close').onclick=close;
 
   function el(cls,html){var d=document.createElement('div');d.className=cls;if(html!=null)d.innerHTML=html;return d;}
-  function bot(html){body.appendChild(el('cpbot-msg cpbot-bot',html));body.scrollTop=body.scrollHeight;}
-  function user(text){var d=el('cpbot-msg cpbot-user',null);d.textContent=text;body.appendChild(d);body.scrollTop=body.scrollHeight;}
+  /* Conversation log, attached to the lead email.
+     FSRA's Fair Treatment of Customers guidance expects a licensed advisor to
+     stand behind what a client was told. If a client later says "your assistant
+     told me X", this is the record. It goes only to the advisor's own lead inbox
+     via Formspree — never to analytics, exactly as contact details already do. */
+  var CPLOG=[];
+  function logLine(who,text){
+    var t=String(text||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();
+    if(!t)return;
+    CPLOG.push(who+": "+t.slice(0,400));
+    if(CPLOG.length>80)CPLOG.splice(0,CPLOG.length-80);
+  }
+  function transcript(){
+    if(!CPLOG.length)return "";
+    return CPLOG.join("\n").slice(0,6000);
+  }
+  function bot(html){logLine('Assistant',html);body.appendChild(el('cpbot-msg cpbot-bot',html));body.scrollTop=body.scrollHeight;}
+  function user(text){logLine('Visitor',text);var d=el('cpbot-msg cpbot-user',null);d.textContent=text;body.appendChild(d);body.scrollTop=body.scrollHeight;}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function typingThen(cb){var t=el('cpbot-msg cpbot-bot cpbot-typing','<span></span><span></span><span></span>');body.appendChild(t);body.scrollTop=body.scrollHeight;setTimeout(function(){t.remove();cb();},560);}
   function chips(items){var wrap=el('cpbot-chips',null);items.forEach(function(it){
@@ -252,10 +268,52 @@
     ]}
   };
 
+  /* Where each answer comes from. Showing the source lets a client verify what
+     they were told on a page that carries the full wording and the disclaimers,
+     rather than taking a chat bubble on trust. */
+  var SRC={
+    about:"about-sertac-tekin.html",
+    age:"blog-supervisa-cost.html",
+    annual:"annual-multi-trip-travel-insurance.html",
+    apply:"buy-online.html",
+    areas:"insurance-services-toronto-gta.html",
+    claims:"blog-how-to-make-travel-insurance-claim.html",
+    cost:"blog-supervisa-cost.html",
+    coverage:"best-super-visa-insurance.html",
+    critical:"critical-illness.html",
+    deductible:"best-super-visa-insurance.html",
+    duration:"super-visa-guide.html",
+    estate:"blog-will-ontario.html",
+    group:"group-benefits.html",
+    health:"health-insurance.html",
+    life:"estate-planning.html",
+    ltc:"long-term-care.html",
+    monthly:"super-visa-monthly-payment.html",
+    newcomer:"visitor-insurance-canada.html",
+    preexisting:"blog-travel-insurance-pre-existing-conditions.html",
+    refund:"blog-supervisa-refund.html",
+    refund_ohip:"blog-ohip-visitors.html",
+    requirements:"super-visa-guide.html",
+    resp:"blog-resp-cesg-explained.html",
+    snowbird:"snowbird-travel-insurance.html",
+    stability:"travel-insurance-stability-period.html",
+    supervisa:"super-visa-insurance-ontario.html",
+    svincome:"super-visa-guide.html",
+    topup:"annual-multi-trip-travel-insurance.html",
+    travel:"travel-insurance.html",
+    tripcancel:"travel-insurance.html",
+    usaworld:"blog-usa-vs-worldwide-travel-insurance.html",
+    visitor:"visitor-insurance-canada.html"
+  };
+  function srcLink(id){
+    var u=SRC[id]; if(!u) return "";
+    return '<div style="margin-top:10px;font-size:.8rem;opacity:.75">Read the full detail: '+
+           '<a href="/'+u+'" style="color:#e5b657">'+esc(u.replace(/^blog-/,"").replace(/\.html$/,"").replace(/-/g," "))+'</a></div>';
+  }
   function answerFaq(id){
     var e=KB[id];
     typingThen(function(){
-      bot(e.a+(e.c||''));
+      bot(e.a+srcLink(id)+(e.c||''));
       setTimeout(function(){
         var rel=(REL[id]||[]).map(function(r){return {label:LBL[r],key:r};});
         if(id==="cost"||id==="topup"||id==="annual"){rel.push({label:"Quick estimate",key:"@estimate"});}
@@ -418,6 +476,7 @@
     var lines=[];session.flow.steps.forEach(function(st){if(st.k&&session.data[st.k]){fd.append(st.k,session.data[st.k]);lines.push(st.L+': '+session.data[st.k]);}});
     fd.append('details',session.flow.title+" -- "+lines.join(' | '));
     fd.append('source','Website Chat - '+session.flow.title);
+    if(transcript())fd.append('conversation',transcript());
     fd.append('_subject','New quote request - '+session.flow.title);
     var nm=name;
     post(fd,function(){f.remove();bot("Perfect, "+esc(nm)+"! Your "+esc(session.flow.title)+" is on its way to Sertac - he'll reach out within 24 hours with options."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');session.flow=null;session.fkey=null;},er,btn);
@@ -430,6 +489,7 @@
         if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
         fd.append('message',note||'(from website chat)');
         fd.append('source','Website Chat Assistant');fd.append('_subject','New chat lead - Cover & Protect');
+        if(transcript())fd.append('conversation',transcript());
         post(fd,function(){f.remove();bot("Thank you, "+esc(name)+"! Your message is on its way to Sertac - he'll reach out within 24 hours."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');},er,btn);
       });
     });
@@ -437,7 +497,7 @@
 
   /* ---- Buy-online copilot: guided path finder for buy-online.html ---- */
   function copilotGreet(g){
-    bot(g+"! Looking to buy online? I'll get you to the right tool in about 20 seconds.");
+    bot(g+"! I'm the <b>automated assistant</b>. Looking to buy online? I'll get you to the right tool in about 20 seconds \u2014 and Sertac, an FSRA-licensed advisor, handles anything that needs judgement.");
     chips([{label:"I'm visiting Canada",key:"#covisit"},{label:"I'm a Canadian travelling abroad",key:"#coabroad"},{label:"Not sure - help me choose",key:"#lead"}]);
   }
   function copilotVisit(){
@@ -589,6 +649,7 @@
       if(a.note) fd.append('note',String(a.note).slice(0,500));
       fd.append('details','Chat sales agent -- '+bits.join(' | '));
       fd.append('source','Website Chat - AI sales agent');
+      if(transcript())fd.append('conversation',transcript());
       fd.append('_subject','New quote request - Chat sales agent');
       try{
         fetch('https://formspree.io/f/mdajwykn',{method:'POST',body:fd,headers:{'Accept':'application/json'}});
@@ -806,7 +867,10 @@
       chips([{label:"Quick estimate",key:"@estimate"},{label:"What affects the price?",key:"cost"},{label:"Talk to Sertac",key:"#lead"}]);
       return;
     }
-    bot(g+"! I'm the Cover &amp; Protect assistant. Ask me anything, get a quote in under a minute, or pick a topic below.");
+    /* Say plainly that this is automated. FSRA's Fair Treatment of Customers
+       guidance turns on the client understanding who they are dealing with, and
+       "do not claim to be human" in a system prompt is weaker than disclosing. */
+    bot(g+"! I'm the Cover &amp; Protect <b>automated assistant</b> \u2014 I can answer questions and work out an estimate in under a minute. Anything needing licensed judgement goes to Sertac, an FSRA-licensed advisor.");
     chips(MENU);
   }
 
