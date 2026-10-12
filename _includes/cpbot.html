@@ -271,8 +271,23 @@
     });
   }
 
+  // Reuse clearly stated travel facts when a visitor moves from AI chat to quote flow.
+  var cpKnownTravel={};
+  function rememberTravelFacts(message){
+    var s=String(message||"");
+    var age=s.match(/\b(?:i am|i'm|aged?|age|years? old|yrs? old)\s*(\d{1,3})\b/i)
+      ||s.match(/\b(\d{1,3})\s*(?:years?|yrs?)\s*old\b/i);
+    if(age){var n=parseInt(age[1],10);if(n>=18&&n<=110)cpKnownTravel.ages=String(n);}
+    if(/\b(?:florida|arizona|california|texas|hawaii)\b/i.test(s)){
+      var d=s.match(/\b(florida|arizona|california|texas|hawaii)\b/i);
+      cpKnownTravel.dest=d[1];
+    }
+    if(/\b(?:just me|only me|travelling alone|traveling alone|solo)\b/i.test(s))cpKnownTravel.count="1";
+    if(/\b(?:single trip|one trip)\b/i.test(s))cpKnownTravel.plan="Single";
+    if(/\b(?:annual multi.trip|multi.trip annual)\b/i.test(s))cpKnownTravel.plan="Multi-trip";
+  }
   function startFlow(fk){
-    session.flow=FLOWS[fk];session.fkey=fk;session.step=0;session.data={};
+    session.flow=FLOWS[fk];session.fkey=fk;session.step=0;session.data=fk==="travel"?Object.assign({},cpKnownTravel):{};
     typingThen(function(){bot("Great - let's start your "+FLOWS[fk].title+". You can type 'cancel' anytime.");nextStep();});
   }
   function cancelFlow(){
@@ -283,6 +298,7 @@
     if(!session.flow)return;
     if(session.step>=session.flow.steps.length){return;}
     var st=session.flow.steps[session.step];
+    if(st.k && session.data[st.k]){session.step++;nextStep();return;}
     if(st.t==="contact"){renderContact();return;}
     if(st.t==="estimate"){showEstimate();return;}
     if(st.t==="recommend"){showRecommend();return;}
@@ -510,6 +526,7 @@
       user(v);advance(v);return;
     }
     user(v);
+    rememberTravelFacts(v);
     aiFallback(v);
   }
 
