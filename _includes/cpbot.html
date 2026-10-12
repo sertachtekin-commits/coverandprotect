@@ -419,6 +419,21 @@
     return n;
   }
 
+  /* Why the band is the size it is, in the visitor's terms. A number with no
+     reason behind it invites "why so much?"; a number with the USA loading named
+     invites "should I skip the US leg?" — which is a conversation we can have.
+     The percentages are the factors estAbroad() actually applies. */
+  function priceDrivers(n){
+    var d=[];
+    if(/yes/.test(String(n.usa||"").toLowerCase()))
+      d.push("the trip includes the USA, which adds about 25% because US medical costs are so high");
+    if(normCond(n.cond)==="stable")
+      d.push("a stable pre-existing condition is declared, which adds about 25%");
+    if(!isNaN(n.age)) d.push("age "+n.age);
+    if(!isNaN(n.days) && n.ptype!=="annual") d.push(n.days+" days");
+    return d;
+  }
+
   /* A fact stated in passing is still a fact. Reading it into the one store is
      what lets both the guided flow and the agent act on it. */
   function rememberTravelFacts(message){
@@ -702,11 +717,12 @@
         note:"Ask the visitor for these, one at a time, then call save_profile again."};
       if(aiAdvisorRequired()) return {advisor_required:true, no_price:true,
         reason:"The visitor reported a recent medical change or is unsure. Stability-period wording decides whether that condition is covered, so an estimate here would be misleading. Route them to Sertac on 437-385-6173."};
-      var est=estimateFor(pricingNode());
+      var n=pricingNode();
+      var est=estimateFor(n);
       if(!est) return {error:"no_band_for_product", product:PROFILE.product,
         note:"No illustrative band exists for this product. Do not state a number. Offer the insurer quote tool or Sertac."};
       return {illustrative_estimate:true, low:est.r.low, high:est.r.high, currency:"CAD",
-        basis:est.label, age:PROFILE.age,
+        basis:est.label, age:PROFILE.age, price_drivers:priceDrivers(n),
         say_exactly:money(est.r.low)+" - "+money(est.r.high)+" CAD",
         disclaimer:"Illustrative range only, not a quote. The insurer sets the actual premium from the full application. Assumptions v2026.07."};
     },

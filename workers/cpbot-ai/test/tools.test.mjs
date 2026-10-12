@@ -51,6 +51,19 @@ console.log("\n--- memory: never re-ask ---");
 r = T.AI_TOOLS.save_profile({destination:"India"});
 ok(T.PROFILE.age==="68" && T.PROFILE.product==="supervisa", "earlier fields survive a later partial save");
 
+console.log("\n--- the number comes with its reasons ---");
+reset({product:"travel", age:61, days:21, destination:"Arizona", pre_existing:"stable"});
+let pd = T.AI_TOOLS.estimate_premium();
+ok(/illustrative range only, not a quote/i.test(pd.disclaimer), "the not-a-quote wording travels with the number");
+ok(Array.isArray(pd.price_drivers) && pd.price_drivers.length > 0, "price_drivers explains the band: " + JSON.stringify(pd.price_drivers));
+ok(/USA/.test(pd.price_drivers[0]), "the USA loading is named first, because it is the biggest single driver");
+ok(pd.price_drivers.some(d => /stable pre-existing/.test(d)), "the stable-condition loading is named too");
+reset({product:"travel", age:61, days:21, destination:"Portugal", pre_existing:"none"});
+pd = T.AI_TOOLS.estimate_premium();
+ok(!pd.price_drivers.some(d => /USA/.test(d)), "a non-US trip is not told it is paying for the USA");
+ok(!pd.price_drivers.some(d => /pre-existing/.test(d)), "nor is someone with no conditions");
+
+
 console.log("\n--- SAFETY: recent medical change must never reach a buy link ---");
 reset({product:"visitor", age:70, days:180, pre_existing:"recent_change"});
 ok(T.aiAdvisorRequired()===true, "recent_change flags advisor_required");

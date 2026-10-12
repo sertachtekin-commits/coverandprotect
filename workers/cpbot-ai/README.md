@@ -79,9 +79,21 @@ Up to `AI_MAX_ROUNDS` (3) tool rounds per visitor message.
 | Tool | What it does |
 |------|--------------|
 | `save_profile` | Records product, age, days, destination, dates, travellers, pre-existing status, monthly-payment preference. Returns what is still missing. This is why the agent stops re-asking. |
-| `estimate_premium` | Returns an illustrative band from the page's estimate engine. **The only source of a number the model is allowed to say.** |
+| `estimate_premium` | Returns an illustrative band from the page's estimate engine, plus `price_drivers` — what moved it. **The only source of a number the model is allowed to say.** |
 | `recommend_path` | Returns the right insurer/tool, the reason, and a URL — from the same `recommendFor()` the guided flows use. |
 | `create_lead` | Posts the profile to Formspree. Refuses without a name and a phone or email. |
+
+## Saying why, not just how much
+
+`estimate_premium` returns `price_drivers` alongside the band: the USA loading
+(about 25%), a declared stable condition (about 25%), the age and the trip
+length — built by `priceDrivers()` from the factors `estAbroad()` actually
+applies, so the explanation cannot drift from the arithmetic.
+
+The system prompt requires the not-a-quote wording in the **same** message as
+the number, and then the drivers. A visitor told only the number asks "why so
+much?"; a visitor told the US leg adds about 25% asks whether to drop it, which
+is a conversation worth having.
 
 ## The rule that matters
 
