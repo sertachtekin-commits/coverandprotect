@@ -476,6 +476,32 @@
     .catch(function(){ t.remove(); leadForm(question); });
   }
 
+  /* Quote-intent detection: when the visitor is making a REQUEST (not asking a
+     question), skip the FAQ and start the guided flow that asks the right
+     qualifying questions, gives an estimate, and hands off to buy-online. */
+  function detectQuoteIntent(raw){
+    var clean=String(raw||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+    var v=' '+clean+' ';
+    var isQ=/^(what|how|when|where|why|which|who|do|does|is|are|can)\b/.test(clean)
+      ||/ covered | cover for |do you cover|requirement|refund|claim /.test(v);
+    var sv=/ super visa /.test(v)
+      ||(/ parents? | mom | dad | mother | father | grandparents? /.test(v)&&/ canada | visit | coming | supervisa /.test(v));
+    var vi=/ visitor /.test(v)||/ tourist /.test(v);
+    var tr=/ florida | arizona | california | texas | hawaii | cruise | snowbird | vacation | travel | trip /.test(v)
+      ||/ going to | flying to | travelling to | traveling to /.test(v);
+    var wants=/ i need | i want | need insurance | want insurance | looking for | get a quote | buy | purchase /.test(v);
+    if(sv&&!isQ) return 'supervisa';
+    if(vi&&!isQ) return 'visitor';
+    if(tr&&!isQ) return 'travel';
+    if(wants&&sv) return 'supervisa';
+    if(wants&&vi) return 'visitor';
+    if(wants&&tr) return 'travel';
+    if(wants) return 'pick';
+    if(/ how much /.test(v)&&/ parents? | mom | dad | mother | father /.test(v)) return 'supervisa';
+    if(/ how much /.test(v)&&/ trip | travel | florida | vacation /.test(v)) return 'travel';
+    return null;
+  }
+
   function send(){
     var v=input.value.trim();if(!v)return;input.value='';
     if(session.flow){
@@ -484,6 +510,8 @@
       user(v);advance(v);return;
     }
     user(v);
+    var qi=detectQuoteIntent(v);
+    if(qi){ if(qi==="pick"){startQuote();} else {startFlow(qi);} return; }
     var r=rank(v);
     if(r.length&&r[0][1]>=4){ if(r[0][0]==="quote"){leadForm(v);} else {answerFaq(r[0][0]);} return; }
     typingThen(function(){
