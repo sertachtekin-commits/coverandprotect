@@ -605,6 +605,22 @@
     }catch(e){ return {error:"tool_failed", name:name}; }
   }
 
+  /* The model writes markdown. Escaping it and only converting newlines left
+     "[here](buy-online.html?pickup=1)" on screen as literal text, which looks
+     broken on a live site. Render links and bold — and ONLY link to our own
+     pages, so a reply can never become a link somewhere we did not intend.
+     esc() runs first, so quotes are already neutralised inside the href. */
+  function aiFormat(text){
+    var h=esc(String(text||""));
+    h=h.replace(/\[([^\]\n]{1,90})\]\(([^)\s]{1,200})\)/g,function(m,label,url){
+      /* \/\/evil.example is protocol-relative and resolves OFF-SITE, so a bare
+         leading slash is not enough — it must be a single slash. */
+      var ok=/^(?:https?:\/\/(?:www\.)?coverandprotect\.ca\/|\/(?!\/)|[a-z0-9_-]+\.html)/i.test(url);
+      return ok ? '<a href="'+url+'">'+label+'</a>' : label;
+    });
+    h=h.replace(/\*\*([^*\n]{1,140})\*\*/g,'<b>$1</b>');
+    return h.replace(/\n/g,"<br>");
+  }
   function aiPost(payload){
     return fetch(CPBOT_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify(payload)})
@@ -692,7 +708,7 @@
       }
       t.remove();
       CPBOT_AI_HISTORY.push({role:"assistant",content:String(d.reply).slice(0,2000)});
-      bot(esc(d.reply).replace(/\n/g,"<br>"));
+      bot(aiFormat(d.reply));
       if(AI_LAST_REC && AIP.product){
         try{ saveCtx({kind:"agent", n:aiNode(), rec:AI_LAST_REC, est:null, summary:ctxSummary(aiNode())}); }catch(e){}
       }
