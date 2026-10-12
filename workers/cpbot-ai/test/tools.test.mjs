@@ -22,7 +22,8 @@ const sandbox = `
 // Export the internals we want to exercise.
 const probe = `
   ;globalThis.__T = {AI_TOOLS, get AIP(){return AIP;}, set AIP(v){AIP=v;},
-    aiAdvisorRequired, aiMissing, aiNode, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor};
+    aiAdvisorRequired, aiMissing, aiNode, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
+    parseDays, normalizeCtx, missingForEstimate, isUSA};
 `;
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
 new Function(sandbox + patched)();
@@ -89,6 +90,35 @@ ok(T.needsAdvisor("Yes, recent changes")===true, "'Yes, recent changes' now need
 ok(T.needsAdvisor("Not sure")===true, "'Not sure' now needs an advisor");
 ok(T.needsAdvisor("Yes, stable")===false, "'Yes, stable' still goes straight through");
 ok(T.needsAdvisor("No")===false, "'No' still goes straight through");
+
+console.log("\n--- trip length: the input that silently killed the quote ---");
+const D = T.parseDays;
+ok(isNaN(D("nov 15")), "'nov 15' alone is still not a length (it is one date)");
+ok(D("nov 15 to dec 10")===26, "'nov 15 to dec 10' -> 26 days (got "+D("nov 15 to dec 10")+")");
+ok(D("Nov 15 - Dec 10")===26, "'Nov 15 - Dec 10' -> 26");
+ok(D("15 Nov to 10 Dec")===26, "'15 Nov to 10 Dec' -> 26");
+ok(D("Jul 1-15")===15, "'Jul 1-15' -> 15 (same-month range still works)");
+ok(D("dec 20 to jan 5")===17, "year rollover 'dec 20 to jan 5' -> 17 (got "+D("dec 20 to jan 5")+")");
+ok(D("2 weeks")===14, "'2 weeks' -> 14");
+ok(D("3 months")===90, "'3 months' -> 90");
+ok(D("14 days")===14, "'14 days' -> 14");
+ok(D("14")===14, "a bare '14' -> 14 (the new trip-length question)");
+ok(isNaN(D("next winter")), "unparseable stays unparseable rather than guessing");
+
+console.log("\n--- the exact conversation from the screenshots now prices ---");
+let ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15", plan:"Single"});
+ok(isNaN(ctx.days), "before: 'nov 15' gave no trip length, so no price");
+ok(T.estimateFor(ctx)===null, "…and estimateFor returned null — the silent failure");
+ok(T.missingForEstimate(ctx).join()==="how many days the trip is", "…now it says what is missing: "+T.missingForEstimate(ctx).join());
+ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15", days:"14", plan:"Single"});
+ok(ctx.days===14, "after: the trip-length answer supplies the days");
+const e = T.estimateFor(ctx);
+ok(e && e.r.low>0, "after: a real estimate comes back — "+(e?("$"+e.r.low+" - $"+e.r.high):"none"));
+ok(ctx.usa==="yes", "Florida is priced as USA coverage (was understated ~20% before)");
+ok(T.isUSA("florida")==="yes" && T.isUSA("Orlando")==="yes" && T.isUSA("Arizona")==="yes", "US destinations detected by name");
+ok(T.isUSA("Mexico")==="no" && T.isUSA("Portugal")==="no", "non-US destinations are not loaded");
+ctx = T.normalizeCtx("travel", {ages:"53", dest:"florida", dates:"nov 15 to dec 10", plan:"Single"});
+ok(ctx.days===26, "dates alone still work when they are a real range");
 
 console.log(fail? "\n"+fail+" FAILED" : "\nall tool tests passed");
 process.exit(fail?1:0);
