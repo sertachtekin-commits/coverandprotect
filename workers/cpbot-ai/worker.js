@@ -132,6 +132,13 @@ const TOOLS = [
   },
 ];
 
+/* Cloudflare lets a secret be named with hyphens, and a secret cannot be renamed
+   once created — you would have to delete and re-add it. So read either spelling.
+   env.FOO only works for a valid identifier; a hyphenated name needs env["FOO-BAR"]. */
+function envVar(env, name) {
+  return env[name] || env[name.replace(/_/g, "-")] || undefined;
+}
+
 const MAX_MESSAGE = 1000;
 const MAX_HISTORY = 12;
 const MAX_TOOL_RESULT = 2000;
@@ -224,7 +231,7 @@ async function callOpenAI(apiKey, model, messages) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    const allowed = String(env.ALLOWED_ORIGIN || "https://coverandprotect.ca")
+    const allowed = String(envVar(env, "ALLOWED_ORIGIN") || "https://coverandprotect.ca")
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean);
@@ -256,12 +263,12 @@ export default {
     if (!isRound2 && !String(body.message || "").trim())
       return json({ error: "empty_message" }, 400, cors);
 
-    const apiKey = env.OPENAI_API_KEY;
+    const apiKey = envVar(env, "OPENAI_API_KEY");
     if (!apiKey) {
-      console.error("AI diagnostic: missing OPENAI_API_KEY secret");
+      console.error("AI diagnostic: no secret found named OPENAI_API_KEY or OPENAI-API-KEY");
       return json({ error: "not_configured", detail: "AI server configuration missing" }, 500, cors);
     }
-    const model = env.OPENAI_MODEL || "gpt-4o-mini";
+    const model = envVar(env, "OPENAI_MODEL") || "gpt-4o-mini";
 
     let r;
     try {

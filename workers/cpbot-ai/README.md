@@ -113,6 +113,13 @@ npm install && npx wrangler deploy --dry-run
 Optional plain variables: `OPENAI_MODEL` (default `gpt-4o-mini`),
 `ALLOWED_ORIGIN` (default `https://coverandprotect.ca`, comma-separated for more).
 
+**Secret naming.** Cloudflare accepts hyphens in a secret name and will not let you
+rename one afterwards — you would have to delete and re-add it. The Worker
+therefore reads either spelling: `OPENAI_API_KEY` or `OPENAI-API-KEY`, and the
+same for `OPENAI_MODEL` and `ALLOWED_ORIGIN`. A name mismatch here is silent: the
+Worker returns `not_configured` and the chat quietly falls back to canned
+answers, which looks exactly like "the AI is broken".
+
 A `GET` on the Worker URL returning **`Method not allowed`** is correct — it
 accepts `POST` only. That response means it is alive, not broken.
 

@@ -54,5 +54,17 @@ ok(res.status === 500 && (await res.json()).error === "not_configured", "missing
 res = await worker.fetch(post({ message: "hi" }), env);
 ok(!(await res.text()).includes("sk-test"), "API key never appears in a response");
 
+// --- the secret may be named with hyphens; Cloudflare cannot rename one
+sent = null;
+res = await worker.fetch(post({ message: "hi" }), { "OPENAI-API-KEY": "sk-hyphen", ALLOWED_ORIGIN: env.ALLOWED_ORIGIN });
+ok(res.status === 200, "hyphenated OPENAI-API-KEY is found");
+ok(sent !== null, "…and the request actually reached OpenAI");
+res = await worker.fetch(post({ message: "hi" }), { OPENAI_API_KEY: "sk-under", ALLOWED_ORIGIN: env.ALLOWED_ORIGIN });
+ok(res.status === 200, "underscored OPENAI_API_KEY still works");
+res = await worker.fetch(post({ message: "hi" }), { ALLOWED_ORIGIN: env.ALLOWED_ORIGIN });
+ok((await res.json()).error === "not_configured", "neither spelling present -> not_configured");
+res = await worker.fetch(post({ message: "hi" }), { "OPENAI-API-KEY": "sk-x", "ALLOWED-ORIGIN": "https://coverandprotect.ca" });
+ok(res.status === 200, "hyphenated ALLOWED-ORIGIN also resolves");
+
 console.log(fail ? "\n" + fail + " FAILED" : "\nall worker tests passed");
 process.exit(fail ? 1 : 0);
