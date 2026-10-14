@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% include analytics.html %}
   <!-- SEO Meta Tags -->
-  <title>Insurance Advisor Toronto | Travel, Health & Group Benefits</title>
+  <title>Cover & Protect | Independent Insurance Advisor Toronto</title>
   <meta name="description" content="Ontario-licensed independent insurance advisor in Toronto. Super Visa, health, group benefits & life insurance from 10+ top Canadian insurers. Free quote.">
   <meta name="keywords" content="insurance advisor Toronto, independent insurance advisor Ontario, super visa insurance Toronto, health insurance Ontario, group benefits Toronto, FSRA licensed insurance advisor">
   <meta name="author" content="Sertac Tekin - Cover & Protect">
@@ -954,95 +954,221 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": ["InsuranceAgency", "LocalBusiness"],
-  "@id": "https://coverandprotect.ca/#business",
-  "name": "Cover & Protect",
-  "alternateName": "Cover and Protect Insurance",
-  "description": "Ontario-licensed independent insurance advisor specializing in travel insurance, super visa insurance, health insurance, group benefits, estate planning, RESP and RRSP savings plans.",
-  "url": "https://coverandprotect.ca",
-  "logo": "https://coverandprotect.ca/images/icon-512.png",
-  "image": "https://coverandprotect.ca/images/icon-512.png",
-  "telephone": "+14373856173",
-  "email": "contact@coverandprotect.ca",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Toronto",
-    "addressRegion": "ON",
-    "addressCountry": "CA"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 43.6532,
-    "longitude": -79.3832
-  },
-  "areaServed": [
-    {"@type": "City", "name": "Toronto"},
-    {"@type": "City", "name": "Mississauga"},
-    {"@type": "City", "name": "Brampton"},
-    {"@type": "City", "name": "Markham"},
-    {"@type": "City", "name": "Vaughan"},
-    {"@type": "AdministrativeArea", "name": "Greater Toronto Area"},
-    {"@type": "Province", "name": "Ontario"}
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Insurance Services",
-    "itemListElement": [
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Super Visa Insurance"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Travel Insurance"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Health Insurance"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Group Benefits"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Life Insurance"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estate Planning"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "RESP Savings Plans"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "RRSP Savings Plans"}}
-    ]
-  },
-  "employee": {
-    "@type": "Person",
-    "name": "Sertac Tekin",
-    "jobTitle": "Licensed Insurance Advisor",
-    "telephone": "+14373856173",
-    "email": "contact@coverandprotect.ca",
-    "hasCredential": {
-      "@type": "EducationalOccupationalCredential",
-      "credentialCategory": "Professional License",
-      "recognizedBy": {
-        "@type": "Organization",
-        "name": "Financial Services Regulatory Authority of Ontario (FSRA)",
-        "url": "https://www.fsrao.ca"
-      },
-      "identifier": "10112782"
-    }
-  },
-  "sameAs": [
-    "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8",
-    "https://www.facebook.com/share/1HAGzGYSun/",
-    "https://www.instagram.com/coverandprotect.ca"
-  ],
-  "priceRange": "Free Consultation",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "5.0",
-    "reviewCount": "16",
-    "bestRating": "5"
-  },
-  "openingHoursSpecification": [
+  "@graph": [
     {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-      "opens": "09:00",
-      "closes": "18:00"
+      "@type": "WebSite",
+      "@id": "https://coverandprotect.ca/#website",
+      "url": "https://coverandprotect.ca/",
+      "name": "Cover & Protect",
+      "alternateName": [
+        "Cover and Protect",
+        "coverandprotect.ca"
+      ],
+      "inLanguage": "en-CA",
+      "publisher": {
+        "@id": "https://coverandprotect.ca/#business"
+      }
     },
     {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Saturday",
-      "opens": "10:00",
-      "closes": "16:00"
+      "@type": [
+        "InsuranceAgency",
+        "LocalBusiness"
+      ],
+      "@id": "https://coverandprotect.ca/#business",
+      "name": "Cover & Protect",
+      "alternateName": [
+        "Cover and Protect",
+        "Cover and Protect Insurance",
+        "Cover & Protect Insurance",
+        "coverandprotect.ca"
+      ],
+      "description": "Ontario-licensed independent insurance advisor specializing in travel insurance, super visa insurance, health insurance, group benefits, estate planning, RESP and RRSP savings plans.",
+      "url": "https://coverandprotect.ca/",
+      "logo": "https://coverandprotect.ca/images/icon-512.png",
+      "image": "https://coverandprotect.ca/images/icon-512.png",
+      "telephone": "+14373856173",
+      "email": "contact@coverandprotect.ca",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Toronto",
+        "addressRegion": "ON",
+        "addressCountry": "CA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 43.6532,
+        "longitude": -79.3832
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Toronto"
+        },
+        {
+          "@type": "City",
+          "name": "Mississauga"
+        },
+        {
+          "@type": "City",
+          "name": "Brampton"
+        },
+        {
+          "@type": "City",
+          "name": "Markham"
+        },
+        {
+          "@type": "City",
+          "name": "Vaughan"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Greater Toronto Area"
+        },
+        {
+          "@type": "Province",
+          "name": "Ontario"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Insurance Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Super Visa Insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Travel Insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Health Insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Group Benefits"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Life Insurance"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Estate Planning"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "RESP Savings Plans"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "RRSP Savings Plans"
+            }
+          }
+        ]
+      },
+      "employee": {
+        "@type": "Person",
+        "name": "Sertac Tekin",
+        "jobTitle": "Licensed Insurance Advisor",
+        "telephone": "+14373856173",
+        "email": "contact@coverandprotect.ca",
+        "hasCredential": {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "Professional License",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Financial Services Regulatory Authority of Ontario (FSRA)",
+            "url": "https://www.fsrao.ca"
+          },
+          "identifier": "10112782"
+        }
+      },
+      "sameAs": [
+        "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8",
+        "https://www.facebook.com/share/1HAGzGYSun/",
+        "https://www.instagram.com/coverandprotect.ca"
+      ],
+      "priceRange": "Free Consultation",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "16",
+        "bestRating": "5"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "10:00",
+          "closes": "16:00"
+        }
+      ],
+      "disambiguatingDescription": "Cover & Protect is an Ontario, Canada insurance advisory practice run by FSRA-licensed advisor Sertac Tekin in Toronto. It is not affiliated with any UK or Australian company of a similar name, and it does not sell protective covers.",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "FSRA licence",
+        "value": "10112782"
+      },
+      "founder": {
+        "@id": "https://coverandprotect.ca/#sertac-tekin"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://coverandprotect.ca/#sertac-tekin",
+      "name": "Sertac Tekin",
+      "url": "https://coverandprotect.ca/about-sertac-tekin.html",
+      "jobTitle": "Ontario-Licensed Insurance Advisor (LLQP)",
+      "worksFor": {
+        "@id": "https://coverandprotect.ca/#business"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Toronto",
+        "addressRegion": "ON",
+        "addressCountry": "CA"
+      }
     }
   ]
 }
-</script>
+  </script>
 
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 <script type="application/ld+json">
