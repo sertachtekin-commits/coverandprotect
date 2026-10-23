@@ -1,6 +1,6 @@
 import fs from 'fs';
-const src = fs.readFileSync(new URL('../../../_includes/cpbot.html', import.meta.url),'utf8');
-const js = src.match(/<script>([\s\S]*?)<\/script>/)[1];
+// The shipped file itself, no longer carved out of the include with a regex.
+const js = fs.readFileSync(new URL('../../../cpbot.js', import.meta.url), 'utf8');
 
 // Minimal stubs so the IIFE can define itself without a DOM.
 const sandbox = `

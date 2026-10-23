@@ -1,8 +1,8 @@
 /* Characterization tests: capture how the flows behave TODAY, so a refactor of
    conversation state can be proved not to change anything a visitor would see. */
 import fs from 'fs';
-const src = fs.readFileSync(new URL('../../../_includes/cpbot.html', import.meta.url), 'utf8');
-const js = src.match(/<script>([\s\S]*?)<\/script>/)[1];
+// The shipped file itself, no longer carved out of the include with a regex.
+const js = fs.readFileSync(new URL('../../../cpbot.js', import.meta.url), 'utf8');
 const sandbox = `
   var __n=()=>({style:{},value:'',textContent:'',dataset:{},setAttribute(){},appendChild(){},
     removeChild(){},remove(){},focus(){},addEventListener(){},
