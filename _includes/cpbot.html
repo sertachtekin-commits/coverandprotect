@@ -51,6 +51,34 @@
 .cpbot-disclaimer{color:rgba(255,255,255,.4);font-size:.68rem;text-align:center;padding:6px 14px 10px;line-height:1.4;}
 @media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
 @media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open,.cpbot-typing span{transition:none;animation:none;}}
+/* The mobile buy bar is a fixed strip across the bottom (bottom:12px, ~41px
+   tall) and the launcher sits at bottom:20px — so the launcher covered the
+   bar's right-hand "Get a Quote" button, which is the one it most needs to
+   leave alone. Lift it clear, but only where a bar actually exists: app.html
+   carries the assistant and no bar. These come last in the stylesheet so they
+   win over the rules above; a browser without :has() keeps the old position
+   rather than breaking. */
+@media(max-width:900px){
+  body:has(.cp-buybar) #cpbot-launch,
+  body:has(.sticky-call) #cpbot-launch{bottom:76px;}
+  /* While the chat is open the bar is redundant and in the way, so hide it and
+     let the launcher sit back under the panel where it always has. */
+  body:has(#cpbot-panel.cpbot-open) .cp-buybar,
+  body:has(#cpbot-panel.cpbot-open) .sticky-call{display:none;}
+  body:has(#cpbot-panel.cpbot-open) #cpbot-launch{bottom:20px;}
+}
+/* Under 360px the bar wraps onto two rows (~89px tall). */
+@media(max-width:360px){
+  body:has(.cp-buybar) #cpbot-launch,
+  body:has(.sticky-call) #cpbot-launch{bottom:124px;}
+  body:has(#cpbot-panel.cpbot-open) #cpbot-launch{bottom:20px;}
+}
+/* In the installed app the bar is hidden but its markup is still on the page,
+   so :has() would match and strand the launcher in mid-air. */
+@media(display-mode:standalone){
+  body:has(.cp-buybar) #cpbot-launch,
+  body:has(.sticky-call) #cpbot-launch{bottom:20px;}
+}
 </style>
 <!-- COVER & PROTECT ASSISTANT -->
 <button id="cpbot-launch" aria-label="Chat with Cover and Protect"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cpbot-dot"></span></button>

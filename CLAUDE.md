@@ -70,6 +70,7 @@ Everything lives at the repository root (flat structure):
 | `_includes/cpbot.html` | Shared Cover & Protect assistant chatbot — markup + styles, loading `cpbot.js`. Include with `{% include cpbot.html %}` just before `</body>` — **on every page except the legal pages and `thankyou.html`**, since the pages that catch organic search are where a stranger first meets it. Page-aware greeting: buy-online.html gets copilot mode (guided path finder), instant-quote.html gets quote-tool help, travel-insurance-calculator.html gets estimate help. Knowledge base (KB), quote flows (FLOWS) and the illustrative estimate engine live in `cpbot.js` — keep the estimate bands in sync with `travel-insurance-calculator.html` (rate assumptions v2026.07). Outbound portal links carry `data-buy-step`/`data-trustone-plan` so `tracking.js` fires the funnel events. State: one `PROFILE` object, written only through `setFact()`; each step names its field as `f:`. Phase 2 (2026-10-06): guided quote flows now end in a `{t:"recommend"}` step that saves quote context to localStorage (`cpq_v1`, 24h) and shows a "best path" handoff card (Continue to buy / walkthrough / talk to Sertac). `buy-online.html` reads that context and shows a pickup banner highlighting the recommended provider card. New flows: `topup`, `annual`. Per-provider buying walkthroughs in `WALK`. LESSON (2026-10-05): when extracting a `<style>` block, remove from the opening tag — a regex starting at an inner comment left an orphaned `<style>` that swallowed page content as CSS. |
 | `images/` | All image assets (hero images, illustrations) |
 | `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
+| `tools/layout-check/` | Headless-browser check that the chat launcher does not cover the buy bar's quote button on a phone (not published; see its README) |
 | `tools/search-audit/` | TypeSafe search & AI-visibility audit of the sitemap pages, run from GitHub Actions (not published; see its README) |
 | `workers/cpbot-ai/` | Cloudflare Worker behind the chat assistant — holds the OpenAI key and runs the tool-calling loop (not published; see its README) |
 
@@ -184,8 +185,11 @@ never have both**:
   `padding-bottom` on `<body>` so it never covers the footer links, and hides
   itself on desktop and inside the installed app.
 
-When adding a page, include `buy-bar.html` unless you are hand-writing a
-`.sticky-call` bar, and include `cpbot.html` as well (see "The chat sales
+Both bars sit at `bottom:12px` and the chat launcher at `bottom:20px`, so the
+launcher is lifted clear of them on phones (see the end of `_includes/cpbot.html`);
+if you change either bar's height or the launcher's position, run
+`tools/layout-check`. When adding a page, include `buy-bar.html` unless you are
+hand-writing a `.sticky-call` bar, and include `cpbot.html` as well (see "The chat sales
 assistant"). The assistant spent its first three weeks on only the eight buy
 pages, which meant none of the blog or landing pages that actually catch search
 traffic could use it. Legal pages (`privacy-policy.html`, `terms.html`),

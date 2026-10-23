@@ -49,5 +49,25 @@ ok(inPage && inSw && inPage[1] === inSw[1],
 ok(!include.includes('CPBOT_WORKER_URL'),
    'the include no longer carries the script inline');
 
+/* The launcher is fixed at bottom:20px and the mobile buy bar occupies roughly
+   12–53px, so without a clearance rule the launcher covers the bar's "Get a
+   Quote" button — measured at 2067px², on every page carrying both. This only
+   checks the rules still exist; tools/layout-check measures them in a browser. */
+const css = include.slice(include.indexOf('<style>'), include.indexOf('</style>'));
+const raise = (q) => {
+  const m = css.match(new RegExp(`max-width:${q}px\\)\\{[^]*?#cpbot-launch\\{bottom:(\\d+)px`));
+  return m ? Number(m[1]) : null;
+};
+ok(/bottom:20px/.test(css.match(/#cpbot-launch\{[^}]*\}/)?.[0] || ''),
+   'the launcher still rests at bottom:20px (these numbers assume it)');
+ok(raise(900) !== null && raise(900) >= 65,
+   `a page with a buy bar lifts the launcher clear of it (${raise(900)}px)`);
+ok(raise(360) !== null && raise(360) >= 113,
+   `and clears the two-row bar under 360px (${raise(360)}px)`);
+ok(/:has\(#cpbot-panel\.cpbot-open\)[^]*?(cp-buybar|sticky-call)[^}]*display:none/.test(css),
+   'the bar hides while the chat is open');
+ok(/display-mode:standalone\)\{[^]*?#cpbot-launch\{bottom:20px/.test(css),
+   'and the lift is undone in the installed app, where the bar is hidden anyway');
+
 console.log(fail ? `\n${fail} FAILED` : "\nall coverage tests passed");
 process.exit(fail ? 1 : 0);
