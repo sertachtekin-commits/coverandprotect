@@ -26,7 +26,7 @@ Everything lives at the repository root (flat structure):
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Homepage / main landing page |
+| `index.html` | Homepage — a thin wrapper that renders `_includes/homepage-original.html` and rewrites a few exact strings in it for search. A `replace_first` whose needle stops matching fails **silently**, so `workers/cpbot-ai/test/homepage.test.mjs` checks every needle still appears exactly once. Run it after editing either file. |
 | `super-visa-insurance-ontario.html` | Super Visa insurance campaign landing page |
 | `visitor-insurance-canada.html` | Visitor insurance campaign landing page |
 | `travel-insurance.html` | Travel insurance service page |
@@ -420,7 +420,12 @@ lives in one place — `_includes/cpbot.html` — plus `sw.js`'s `PRECACHE` entr
 - **Update analytics:** edit `_includes/analytics.html` (one place). For
   `tracking.js` behavior changes, edit the script and bump `?v=` on all pages.
 - **Always update `sitemap.xml`** (add/remove `<url>` entries, refresh
-  `<lastmod>`) when pages are added, removed, or substantially changed.
+  `<lastmod>`) when pages are added, removed, or substantially changed. A
+  `<lastmod>` is the date the page's *copy* last changed — adding a shared
+  include to every page is not a reason to restamp all of them, and a sitemap
+  that says everything changed today tells a crawler nothing. Note the file
+  uses two layouts (one `<url>` per line, and one element per line); a script
+  that edits it must handle both.
 
 ## Search & AI visibility audit
 

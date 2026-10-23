@@ -130,6 +130,12 @@ runs all four:
 | `tools.test.mjs` | tool behaviour, the advisor gate, routing, lead capture |
 | `flow.test.mjs` | the guided flow's step sequence, driven for real |
 | `characterize.test.mjs` | every flow's question order, and that nothing is asked twice |
+| `coverage.test.mjs` | every page carries the assistant, and the `cpbot.js` version matches `sw.js` |
+| `homepage.test.mjs` | the homepage wrapper's rewrites still match the page they rewrite |
+
+The last two are not about the Worker, but this is the repo's only test runner,
+and both guard failures that produce no error of their own: a page quietly
+without the assistant, and a homepage rewrite that quietly stops applying.
 
 `characterize.test.mjs` exists to make a change to the state model provable: it
 drives every flow and records the questions each one asks, in order. If a refactor
