@@ -4,8 +4,11 @@ Two pieces that work together:
 
 - **`worker.js`** — a Cloudflare Worker that holds the OpenAI key and runs the
   conversation. Deployed as `coverandprotect.sertach-tekin.workers.dev`.
-- **`_includes/cpbot.html`** (in the site root) — the chat UI, the illustrative
-  estimate engine, and the tool implementations the model calls.
+- **`cpbot.js`** (site root) — the chat UI, the illustrative estimate engine, and
+  the tool implementations the model calls. One cached file for the whole site;
+  `_includes/cpbot.html` is now just the markup, the styles and a
+  `<script src="cpbot.js?v=N">`. Bump that `N` and the `sw.js` PRECACHE entry
+  together when this file changes.
 
 ## Where the conversation's facts live
 
@@ -51,7 +54,7 @@ Steps in different flows that mean the same thing point at the same field —
 ## Why the tools run in the browser
 
 The model has four tools. They execute **in the page**, not in the Worker,
-because the illustrative rate bands already live in `_includes/cpbot.html` and
+because the illustrative rate bands already live in `cpbot.js` and
 have to match `travel-insurance-calculator.html`. Putting them in the Worker too
 would create a third copy, and drifting rate tables are how a customer gets
 quoted one number and shown another.
@@ -133,8 +136,8 @@ drives every flow and records the questions each one asks, in order. If a refact
 changes what a visitor is asked, it fails.
 
 `worker.test.mjs` stubs `fetch`, so it never calls OpenAI and needs no key.
-`tools.test.mjs` evaluates the real script out of `_includes/cpbot.html` against a
-minimal DOM stub, so it tests the shipped code rather than a copy.
+`tools.test.mjs` evaluates `cpbot.js` itself against a minimal DOM stub, so it
+tests the shipped file rather than a copy.
 
 Run both after touching `worker.js`, the tool implementations, the rate bands, or
 the pre-existing-condition wording.

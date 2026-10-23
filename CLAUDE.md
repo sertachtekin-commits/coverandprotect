@@ -55,6 +55,7 @@ Everything lives at the repository root (flat structure):
 | `app.html` | Installable buy-online app (the PWA start page) |
 | `thankyou.html` | Post-form-submission confirmation page |
 | `tracking.js` | Shared analytics/lead-tracking script (see below) |
+| `cpbot.js` | The chat assistant's code — UI, estimate engine, AI tool implementations. Loaded by `_includes/cpbot.html` as `cpbot.js?v=N`; **bump that version there and in `sw.js` PRECACHE when you change it.** No front matter, so Jekyll copies it verbatim and no Liquid runs in it. |
 | `manifest.json` | PWA web app manifest (the buy-online app; start URL is `app.html`) |
 | `sw.js` | PWA service worker — offline caching; bump `CACHE_VERSION` when precached assets change |
 | `blog.css` | Shared stylesheet for all `blog-*.html` articles |
@@ -66,7 +67,7 @@ Everything lives at the repository root (flat structure):
 | `_includes/analytics.html` | Shared GA4 snippet (included in every page's `<head>`) |
 | `_includes/contact-line.html` | Shared footer licence + contact line (blog articles) |
 | `_includes/buy-bar.html` | Shared mobile buy bar (call · buy online · quote) |
-| `_includes/cpbot.html` | Shared Cover & Protect assistant chatbot (markup + styles + script). Include with `{% include cpbot.html %}` just before `</body>`. Page-aware greeting: buy-online.html gets copilot mode (guided path finder), instant-quote.html gets quote-tool help, travel-insurance-calculator.html gets estimate help. Knowledge base (KB), quote flows (FLOWS) and the illustrative estimate engine live here — keep the estimate bands in sync with `travel-insurance-calculator.html` (rate assumptions v2026.07). Outbound portal links carry `data-buy-step`/`data-trustone-plan` so `tracking.js` fires the funnel events. State: one `PROFILE` object, written only through `setFact()`; each step names its field as `f:`. Phase 2 (2026-10-06): guided quote flows now end in a `{t:"recommend"}` step that saves quote context to localStorage (`cpq_v1`, 24h) and shows a "best path" handoff card (Continue to buy / walkthrough / talk to Sertac). `buy-online.html` reads that context and shows a pickup banner highlighting the recommended provider card. New flows: `topup`, `annual`. Per-provider buying walkthroughs in `WALK`. LESSON (2026-10-05): when extracting a `<style>` block, remove from the opening tag — a regex starting at an inner comment left an orphaned `<style>` that swallowed page content as CSS. |
+| `_includes/cpbot.html` | Shared Cover & Protect assistant chatbot — markup + styles, loading `cpbot.js`. Include with `{% include cpbot.html %}` just before `</body>` — **on every page except the legal pages and `thankyou.html`**, since the pages that catch organic search are where a stranger first meets it. Page-aware greeting: buy-online.html gets copilot mode (guided path finder), instant-quote.html gets quote-tool help, travel-insurance-calculator.html gets estimate help. Knowledge base (KB), quote flows (FLOWS) and the illustrative estimate engine live in `cpbot.js` — keep the estimate bands in sync with `travel-insurance-calculator.html` (rate assumptions v2026.07). Outbound portal links carry `data-buy-step`/`data-trustone-plan` so `tracking.js` fires the funnel events. State: one `PROFILE` object, written only through `setFact()`; each step names its field as `f:`. Phase 2 (2026-10-06): guided quote flows now end in a `{t:"recommend"}` step that saves quote context to localStorage (`cpq_v1`, 24h) and shows a "best path" handoff card (Continue to buy / walkthrough / talk to Sertac). `buy-online.html` reads that context and shows a pickup banner highlighting the recommended provider card. New flows: `topup`, `annual`. Per-provider buying walkthroughs in `WALK`. LESSON (2026-10-05): when extracting a `<style>` block, remove from the opening tag — a regex starting at an inner comment left an orphaned `<style>` that swallowed page content as CSS. |
 | `images/` | All image assets (hero images, illustrations) |
 | `tools/lead-sorter/` | Gmail Apps Script that labels Formspree lead emails by product using TypeSafe (not published; see its README) |
 | `tools/search-audit/` | TypeSafe search & AI-visibility audit of the sitemap pages, run from GitHub Actions (not published; see its README) |
@@ -184,7 +185,10 @@ never have both**:
   itself on desktop and inside the installed app.
 
 When adding a page, include `buy-bar.html` unless you are hand-writing a
-`.sticky-call` bar. Legal pages (`privacy-policy.html`, `terms.html`),
+`.sticky-call` bar, and include `cpbot.html` as well (see "The chat sales
+assistant"). The assistant spent its first three weeks on only the eight buy
+pages, which meant none of the blog or landing pages that actually catch search
+traffic could use it. Legal pages (`privacy-policy.html`, `terms.html`),
 `thankyou.html` and `app.html` deliberately have neither.
 
 Every page should also reach `buy-online.html` through its nav or footer — that
@@ -328,9 +332,18 @@ lead email carries the campaign that produced it — you don't hand-author those
 **Lead sorting.** `tools/lead-sorter/Code.gs` runs in the inbox that receives
 these emails and labels each lead by product. It maps each form's `_subject` to a
 product in `SUBJECT_RULES`, so when you add a form or change a `_subject`, update
-that table and run `node test.mjs` there. `tools/` is excluded from the Jekyll
-build. The script never sends contact details or ad-click IDs to TypeSafe;
-keep it that way.
+that table and run `node test.mjs` there. **This includes the chat**: its guided
+flows send `New quote request - <flow title>` and the AI agent sends
+`New quote request - <product> - Chat sales agent`, where the product word comes
+from `leadSubjectProduct()` in `_includes/cpbot.html`. Those two must agree —
+a subject no rule matches lands the lead in "Needs review" rather than its
+product folder. The sorter's free-text fields are `notes` and `message`; a lead
+posting any other field name is silently invisible to it. `tools/` is excluded from the Jekyll
+build. The script never sends contact details, ad-click IDs or the chat
+transcript to TypeSafe; keep it that way. `redact()` masks emails and phone
+numbers but cannot mask a name typed mid-sentence, which is why `conversation`
+is in `PRIVATE_FIELDS` — the structured `details` field already carries the
+product signal.
 
 `thankyou.html` reads `?lead=1` and fires the conversion event, then
 auto-redirects home after a few seconds. When adding a form, mirror this exact
@@ -393,7 +406,8 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 
 The script is included with a cache-busting query (`tracking.js?v=10`). **If you
 change `tracking.js`, bump the `?v=` version on every page** that includes it so
-clients fetch the new file.
+clients fetch the new file. The same rule applies to `cpbot.js`, but its version
+lives in one place — `_includes/cpbot.html` — plus `sw.js`'s `PRECACHE` entry.
 
 ## Common tasks
 

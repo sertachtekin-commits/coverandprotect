@@ -1,8 +1,8 @@
 /* Drives the REAL flow engine out of _includes/cpbot.html with synchronous
    timers, so the step sequence under test is the shipped one, not a copy. */
 import fs from 'fs';
-const src = fs.readFileSync(new URL('../../../_includes/cpbot.html', import.meta.url), 'utf8');
-const js = src.match(/<script>([\s\S]*?)<\/script>/)[1];
+// The shipped file itself, no longer carved out of the include with a regex.
+const js = fs.readFileSync(new URL('../../../cpbot.js', import.meta.url), 'utf8');
 
 const asked = [];
 const sandbox = `
