@@ -60,19 +60,26 @@ const PRODUCT_LABELS = {
  * Email subject → product, checked in order (first match wins). The
  * calculator and buy-online forms cover several products, so they map to
  * null and are decided by the dropdown or the message instead.
+ *
+ * These must cover the chat assistant's subjects too: its guided-flow titles
+ * ("Health & dental enquiry", "RESP / RRSP enquiry", "Top-up quote",
+ * "Mortgage protection enquiry") and the sales agent's
+ * "New quote request - <product> - Chat sales agent". The product word in that
+ * one is built by leadSubjectProduct() in _includes/cpbot.html — change one,
+ * change both.
  */
 const SUBJECT_RULES = [
   [/calculator/i, null],
   [/buy online/i, null],
   [/super visa/i, 'super_visa'],
   [/visitor/i, 'visitor'],
-  [/travel|snowbird|multi-trip/i, 'travel'],
-  [/health insurance/i, 'health_dental'],
+  [/travel|snowbird|multi-trip|top-?up/i, 'travel'],
+  [/health insurance|health (?:&(?:amp;)?|and) dental|dental/i, 'health_dental'],
   [/group benefits/i, 'group_benefits'],
   [/critical illness/i, 'critical_illness'],
-  [/estate planning/i, 'life_estate'],
+  [/estate planning|life insurance|mortgage/i, 'life_estate'],
   [/long-term care/i, 'long_term_care'],
-  [/savings/i, 'savings'],
+  [/savings|\bresp\b|\brrsp\b|\btfsa\b/i, 'savings'],
 ];
 
 /** buy-online.html "coverage" dropdown → product ("Not sure" is left to the message). */
@@ -85,11 +92,15 @@ const COVERAGE_RULES = {
 };
 
 /**
- * Form fields never sent to TypeSafe: contact details and ad-click
- * attribution. Only what describes the coverage need leaves the inbox.
+ * Form fields never sent to TypeSafe: contact details, ad-click attribution,
+ * and the chat transcript. Only what describes the coverage need leaves the
+ * inbox. The transcript is a whole conversation — redact() masks emails and
+ * phone numbers but cannot mask a name someone typed mid-sentence, and the
+ * structured `details` field already carries the product signal, so the
+ * transcript has nothing to add and everything to leak.
  */
 const PRIVATE_FIELDS =
-  /^(name|fname|lname|first_?name|last_?name|email|_?replyto|phone|tel|_next|_subject|utm_\w+|gclid|gbraid|wbraid|fbclid|landing_page|referrer)$/i;
+  /^(name|fname|lname|first_?name|last_?name|email|_?replyto|phone|tel|_next|_subject|utm_\w+|gclid|gbraid|wbraid|fbclid|landing_page|referrer|conversation)$/i;
 
 /** Free-text fields a lead types into. */
 const MESSAGE_FIELDS = ['notes', 'message'];

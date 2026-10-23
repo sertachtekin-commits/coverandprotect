@@ -17,7 +17,8 @@ const sandbox = `
   var location=window.location;
   var navigator={userAgent:''};
   var fetch=async()=>({ok:true,json:async()=>({})});
-  var FormData=function(){this.d={};this.append=function(k,v){this.d[k]=v;};};
+  var __lastForm=null;
+  var FormData=function(){this.d={};__lastForm=this;this.append=function(k,v){this.d[k]=v;};};
 `;
 // Export the internals we want to exercise.
 const probe = `
@@ -26,7 +27,8 @@ const probe = `
     startFlow, advance, get session(){return session;},
     aiAdvisorRequired, aiMissing, estimateFor, recommendFor, estSupervisa, estVisitor, needsAdvisor,
     parseDays, missingForEstimate, isUSA, aiFormat,
-    logLine, transcript, SRC, srcLink, get CPLOG(){return CPLOG;}};
+    logLine, transcript, SRC, srcLink, get CPLOG(){return CPLOG;},
+    lastLead:function(){return __lastForm&&__lastForm.d;}};
 `;
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
 new Function(sandbox + patched)();
@@ -97,6 +99,23 @@ reset({product:"travel", age:45, days:14, destination:"Florida", pre_existing:"n
 r = T.AI_TOOLS.recommend_path();
 ok(!!r.url, "travel abroad gets a buy path: "+r.title);
 ok(T.pricingNode().usa==="yes", "Florida is detected as USA coverage");
+
+console.log("\n--- the lead carries its product in the subject line ---");
+/* The Gmail sorter reads the product out of the subject. "Chat sales agent"
+   alone told it nothing, so every agent lead landed in "Needs review". */
+const subjectFor = (p) => { reset({product:p, age:61, days:21});
+  const fd = T.AI_TOOLS.create_lead({name:"Ayse", contact:"a@b.ca"}) && T.lastLead(); return fd._subject; };
+ok(/Super Visa/.test(subjectFor("supervisa")), "supervisa -> " + subjectFor("supervisa"));
+ok(/Visitor to Canada/.test(subjectFor("visitor")), "visitor -> " + subjectFor("visitor"));
+ok(/Travel insurance/.test(subjectFor("travel")), "travel -> " + subjectFor("travel"));
+ok(/Annual multi-trip/.test(subjectFor("annual")), "annual -> " + subjectFor("annual"));
+ok(/Top-up travel insurance/.test(subjectFor("topup")), "topup -> " + subjectFor("topup"));
+reset({age:61, days:21});
+ok(/General enquiry/.test(subjectFor(undefined)), "unknown product says so rather than guessing");
+reset({product:"travel", age:61, days:21});
+T.AI_TOOLS.create_lead({name:"Ayse", contact:"a@b.ca", note:"call after 6pm"});
+ok(T.lastLead().notes === "call after 6pm",
+   "the visitor's note is sent as 'notes', the field the sorter actually reads");
 
 console.log("\n--- create_lead requires real contact details ---");
 reset({product:"supervisa", age:68});

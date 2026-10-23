@@ -3,6 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import vm from 'node:vm';
+import zlib from 'node:zlib';
 import assert from 'node:assert/strict';
 import { TypeSafeClient, choice } from '@typesafe-ai/sdk';
 
@@ -32,6 +33,14 @@ const formspree = (pairs) => [
   'You are receiving this because you confirmed this email address on', 'Formspree.',
 ].join('\n');
 const neverAsk = () => { throw new Error('TypeSafe should not be called'); };
+// The SDK compresses request bodies (zstd). Code.gs posts plain JSON over
+// UrlFetchApp, so this only has to read back whatever the SDK handed its fetch.
+const bodyText = (body) => {
+  if (typeof body === 'string') return body;
+  const bytes = Buffer.from(body);
+  const isZstd = bytes[0] === 0x28 && bytes[1] === 0xB5 && bytes[2] === 0x2F && bytes[3] === 0xFD;
+  return (isZstd ? zlib.zstdDecompressSync(bytes) : bytes).toString('utf8');
+};
 
 await test('request body matches what the official SDK sends', async () => {
   let sent;
@@ -49,7 +58,7 @@ await test('request body matches what the official SDK sends', async () => {
   await client.systemOne({ state, questions: { product: choice(q.instructions, q.criteria) } });
   assert.equal(sent.url, 'https://api.typesafe.ai/v1/systemone');
   assert.equal(new Headers(sent.init.headers).get('authorization'), 'Bearer test-key');
-  assert.deepEqual(JSON.parse(JSON.stringify(cs.buildRequest(state))), JSON.parse(sent.init.body));
+  assert.deepEqual(JSON.parse(JSON.stringify(cs.buildRequest(state))), JSON.parse(bodyText(sent.init.body)));
 });
 
 await test('every product the model can pick has a Gmail label', () => {
@@ -147,6 +156,44 @@ await test('every page subject on the site maps as intended', () => {
   for (const [page, product] of Object.entries(expected)) assert.equal(cs.productFromForm('New Lead - ' + page, {}), product, page);
   assert.equal(cs.productFromForm('New Super Visa landing page lead - Cover & Protect', {}), 'super_visa');
   assert.equal(cs.productFromForm('New Visitor Insurance landing page lead - Cover & Protect', {}), 'visitor');
+});
+
+await test('every chat assistant subject maps as intended', () => {
+  // The guided flows send "New quote request - <flow title>".
+  const flows = {
+    'Super Visa quote': 'super_visa', 'Visitor to Canada quote': 'visitor',
+    'Travel insurance quote (abroad)': 'travel', 'Top-up quote': 'travel',
+    'Annual multi-trip quote': 'travel', 'Life insurance enquiry': 'life_estate',
+    'Group benefits enquiry': 'group_benefits', 'Health & dental enquiry': 'health_dental',
+    'RESP / RRSP enquiry': 'savings', 'Mortgage protection enquiry': 'life_estate',
+  };
+  for (const [title, product] of Object.entries(flows)) {
+    assert.equal(cs.productFromForm('New quote request - ' + title, {}), product, title);
+  }
+  // The AI sales agent sends "New quote request - <product> - Chat sales agent".
+  // These product words are built by leadSubjectProduct() in _includes/cpbot.html.
+  const agent = {
+    'Super Visa': 'super_visa', 'Visitor to Canada': 'visitor', 'Travel insurance': 'travel',
+    'Annual multi-trip': 'travel', 'Top-up travel insurance': 'travel',
+  };
+  for (const [name, product] of Object.entries(agent)) {
+    assert.equal(cs.productFromForm(`New quote request - ${name} - Chat sales agent`, {}), product, name);
+  }
+  // When the agent never learned the product, it must not invent one: fall
+  // through to the message instead of guessing a label.
+  assert.equal(cs.productFromForm('New quote request - General enquiry - Chat sales agent', {}), null);
+});
+
+await test('the chat transcript never leaves the inbox', () => {
+  const sent = cs.publicFields({
+    details: 'Chat sales agent -- product: travel | age: 61',
+    conversation: 'Visitor: my name is Ayse and my number is 416-555-0168\nAssistant: thanks',
+    name: 'Ayse', phone: '4165550168',
+  });
+  assert.equal(sent.conversation, undefined, 'the transcript is not sent to TypeSafe');
+  assert.equal(sent.name, undefined);
+  assert.equal(sent.phone, undefined);
+  assert.ok(sent.details.includes('product: travel'), 'but the product signal still is');
 });
 
 console.log(`\n${passed} tests passed`);

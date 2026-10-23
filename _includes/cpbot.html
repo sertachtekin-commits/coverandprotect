@@ -738,6 +738,8 @@
       return {title:rec.title, why:rec.why, url:rec.url, opens_new_tab:!!rec.ext,
         walkthrough_available:!!rec.walk};
     },
+    /* The subject line is what the inbox sorts on, so it has to name the
+       product. Without it every chat-agent lead arrived unlabelled. */
     create_lead:function(a){
       var name=String(a.name||"").trim(), contact=String(a.contact||"").trim();
       if(!name||!contact) return {error:"missing_contact",
@@ -747,11 +749,11 @@
       if(contact.indexOf('@')>-1){fd.append('email',contact);}else{fd.append('phone',contact);}
       var bits=[];
       for(var k in PROFILE){ if(PROFILE.hasOwnProperty(k)) bits.push(k+': '+said(k)); }
-      if(a.note) fd.append('note',String(a.note).slice(0,500));
+      if(a.note) fd.append('notes',String(a.note).slice(0,500));
       fd.append('details','Chat sales agent -- '+bits.join(' | '));
       fd.append('source','Website Chat - AI sales agent');
       if(transcript())fd.append('conversation',transcript());
-      fd.append('_subject','New quote request - Chat sales agent');
+      fd.append('_subject','New quote request - '+leadSubjectProduct()+' - Chat sales agent');
       try{
         fetch('https://formspree.io/f/mdajwykn',{method:'POST',body:fd,headers:{'Accept':'application/json'}});
       }catch(e){}
@@ -759,6 +761,12 @@
         note:"Confirm it is on its way, say he replies within 24 hours, and offer 437-385-6173 if it is urgent."};
     }
   };
+  /* Worded to match tools/lead-sorter SUBJECT_RULES. Change one, change both. */
+  var LEAD_PRODUCT={supervisa:"Super Visa", visitor:"Visitor to Canada",
+    travel:"Travel insurance", abroad:"Travel insurance",
+    annual:"Annual multi-trip", topup:"Top-up travel insurance"};
+  function leadSubjectProduct(){ return LEAD_PRODUCT[PROFILE.product]||"General enquiry"; }
+
   function aiRunTool(name,args){
     try{
       var fn=AI_TOOLS[name];

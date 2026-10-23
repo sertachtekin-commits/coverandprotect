@@ -328,9 +328,18 @@ lead email carries the campaign that produced it — you don't hand-author those
 **Lead sorting.** `tools/lead-sorter/Code.gs` runs in the inbox that receives
 these emails and labels each lead by product. It maps each form's `_subject` to a
 product in `SUBJECT_RULES`, so when you add a form or change a `_subject`, update
-that table and run `node test.mjs` there. `tools/` is excluded from the Jekyll
-build. The script never sends contact details or ad-click IDs to TypeSafe;
-keep it that way.
+that table and run `node test.mjs` there. **This includes the chat**: its guided
+flows send `New quote request - <flow title>` and the AI agent sends
+`New quote request - <product> - Chat sales agent`, where the product word comes
+from `leadSubjectProduct()` in `_includes/cpbot.html`. Those two must agree —
+a subject no rule matches lands the lead in "Needs review" rather than its
+product folder. The sorter's free-text fields are `notes` and `message`; a lead
+posting any other field name is silently invisible to it. `tools/` is excluded from the Jekyll
+build. The script never sends contact details, ad-click IDs or the chat
+transcript to TypeSafe; keep it that way. `redact()` masks emails and phone
+numbers but cannot mask a name typed mid-sentence, which is why `conversation`
+is in `PRIVATE_FIELDS` — the structured `details` field already carries the
+product signal.
 
 `thankyou.html` reads `?lead=1` and fires the conversion event, then
 auto-redirects home after a few seconds. When adding a form, mirror this exact
