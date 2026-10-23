@@ -6,7 +6,7 @@
  * Formspree posts, insurer checkout portals, analytics and fonts pass straight
  * through to the network.
  * Bump CACHE_VERSION when precached assets change. */
-var CACHE_VERSION = "cp-pwa-v21";
+var CACHE_VERSION = "cp-pwa-v22";
 var PRECACHE = [
   "/app.html",
   "/buy-online.html",
