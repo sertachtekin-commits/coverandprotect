@@ -216,7 +216,13 @@ export const BLOCKERS = [
   { id: "awaiting_results",
     when: (i) => i.awaitingResults === true,
     say: "a test, scan or specialist referral is still outstanding",
-    why: "Until the result is in, the condition is under investigation. Every insurer treats that as unstable, and a claim connected to it would be refused however the policy was bought." },
+    why: "Until the result is in, the condition is under investigation. Diagnostic tests that took place, were scheduled, or were recommended without the result being received before departure are excluded, along with anything related to them.",
+    /* The wording carves two exceptions out of this, and they matter: someone
+       waiting on a routine mammogram is not in the same position as someone
+       waiting on a cardiac scan. We still stop the online purchase — getting
+       that judgement wrong costs a claim — but the assistant says why it might
+       not apply, so the visitor hears a reason to call rather than a refusal. */
+    nuance: "TuGo's wording excludes two kinds of test from this: tests that merely monitor an existing condition where there have been no new or more frequent symptoms, and screening tests meant to prevent illness or catch something before symptoms appear — in both cases whether or not the result has arrived. Which kind this is decides it, and that is a question for Sertac." },
 
   { id: "under_investigation",
     when: (i) => i.underInvestigation === true,
@@ -227,6 +233,21 @@ export const BLOCKERS = [
     when: (i) => Number.isFinite(i.hospitalisedMonthsAgo) && i.hospitalisedMonthsAgo < 3,
     say: "a hospital stay in the last three months",
     why: "A recent admission restarts the stability clock on every plan, and most insurers decline outright inside 90 days." },
+
+  { id: "advised_not_to_travel",
+    when: (i) => i.advisedNotToTravel === true,
+    say: "a physician or other medical practitioner has advised against travelling",
+    why: "Every wording excludes claims incurred after that advice. TuGo's Traveller policy excludes it twice over — once for a physician and once for any other registered medical practitioner." },
+
+  { id: "palliative",
+    when: (i) => i.palliativeCare === true,
+    say: "palliative care is being received, or has been recommended",
+    why: "A trip undertaken while receiving palliative care, or after it has been recommended, is excluded outright." },
+
+  { id: "procedure_pending",
+    when: (i) => i.procedureOrReferralPending === true,
+    say: "a surgery, procedure or specialist referral that has been scheduled or recommended but not yet happened",
+    why: "Scheduled or recommended procedures, surgeries and specialist referrals that have not taken place before departure are excluded, along with anything related to them. The condition is still in motion, so the wording treats it as unresolved." },
 
   { id: "terminal",
     when: (i) => i.terminalPrognosis === true,
@@ -239,12 +260,112 @@ export const BLOCKERS = [
     why: "Travel medical insurance covers emergencies that arise abroad, never planned treatment — and knowing the trip's purpose can void the whole policy if it is not declared." },
 ];
 
+/* ---- what does NOT count as a change ------------------------------------
+   Verbatim from TuGo's definition of "alteration" (Traveller policy wording,
+   page 60). Every one of these is a reason somebody believes they have broken
+   their stability period when they have not — and believing it is why they
+   stop shopping and never call anyone. */
+export const ALTERATION_EXCEPTIONS = [
+  "switching to an equivalent name brand, or to an equivalent generic, at the same or equivalent dose",
+  "routine dose adjustments within prescribed parameters for insulin or oral diabetes medication, where levels are checked regularly and the condition itself is unchanged",
+  "routine dose adjustments within prescribed parameters for blood thinners, on the same terms",
+  "stopping a blood thinner for up to 24 hours for a surgery or procedure",
+  "a usage change that is only several medications being combined into one, where the condition is unchanged",
+];
+
 /* ---- the rules ---------------------------------------------------------- */
 /* EMPTY ON PURPOSE. Each entry is Sertac's, verified against a named document
    on a named date. See RULES.md for the shape and the checklist. Until a rule
    is added for a condition, that condition returns needs_review and the case
    goes to him — which is what happens today, so nothing regresses. */
-export const RULES = [];
+const TUGO_TRAVELLER = {
+  doc: "TuGo Traveller policy wording (TRavel policy), Pre-existing Medical Condition Stability Exclusion, page 13 of the document (PDF page 18)",
+  /* TRANSCRIBED, NOT YET SIGNED OFF. The quotes below are verbatim from the
+     policy wording Sertac supplied, with the page. That is a primary source and
+     strictly better evidence than anyone's recollection — but reading a table
+     out of an insurance contract still involves judgement (this one is headed
+     "Worldwide and Worldwide Excluding USA Plans", and whether that covers the
+     Multi Trip Annual emergency medical is an inference, not a quote). It is
+     his licence on the policy, so he signs it, not me.
+     TO ACTIVATE: check the quotes against the PDF, then set verifiedBy to
+     "Sertac" and verifiedOn to today's date in each rule below. Until then
+     these produce needs_review, exactly as an empty file did. */
+  verifiedBy: null,
+  transcribedBy: "Claude, from the PDF supplied 2026-10-25",
+  verifiedOn: null,
+};
+
+export const RULES = [
+  {
+    insurer: "TuGo",
+    plan: "Traveller — Emergency Medical, Worldwide / Worldwide Excluding USA",
+    condition: "*",
+    appliesTo: "outbound",
+    ageBand: [0, 59],
+    tripMaxDays: 35,
+    stabilityDays: 7,
+    quote: "59 years and under / 35 days or less — Any medical condition which is not stable on or within the 7 days before the date of departure.",
+    source: TUGO_TRAVELLER,
+    reviewBy: "2027-04-30",
+  },
+  {
+    insurer: "TuGo",
+    plan: "Traveller — Emergency Medical, Worldwide / Worldwide Excluding USA",
+    condition: "*",
+    appliesTo: "outbound",
+    ageBand: [0, 59],
+    tripMinDays: 36,
+    stabilityDays: 90,
+    quote: "59 years and under / Over 35 days — Any medical condition which is not stable on or within the 90 days before the date of departure. If you extend your trip and the total trip length (including the extension) exceeds 35 days, the stability for medical conditions is based on your total trip length.",
+    source: TUGO_TRAVELLER,
+    reviewBy: "2027-04-30",
+  },
+  {
+    insurer: "TuGo",
+    plan: "Traveller — Emergency Medical, Worldwide / Worldwide Excluding USA",
+    condition: "*",
+    appliesTo: "outbound",
+    ageBand: [60, 74],
+    stabilityDays: 180,
+    quote: "60 to 74 years / All — Any medical condition which is not stable on or within the 180 days before the date of departure.",
+    source: TUGO_TRAVELLER,
+    reviewBy: "2027-04-30",
+  },
+  {
+    insurer: "TuGo",
+    plan: "Traveller — Emergency Medical, Worldwide / Worldwide Excluding USA",
+    condition: "*",
+    appliesTo: "outbound",
+    ageBand: [75, 200],
+    stabilityDays: 365,
+    quote: "75 years and over / All — Any medical condition which is not stable on or within the 365 days before the date of departure.",
+    source: TUGO_TRAVELLER,
+    reviewBy: "2027-04-30",
+  },
+  {
+    insurer: "TuGo",
+    plan: "Traveller — Emergency Medical, Travel Within Canada",
+    condition: "*",
+    appliesTo: "within_canada",
+    ageBand: [0, 200],
+    stabilityDays: 0,
+    quote: "Travel Within Canada Plans — There is no stability requirement for pre-existing medical conditions.",
+    note: "No stability requirement at all. For a snowbird who cannot clear a window for a US trip, a Canadian trip is a different conversation entirely.",
+    source: TUGO_TRAVELLER,
+    reviewBy: "2027-04-30",
+  },
+];
+
+/* Things the wording says that are not rules, but change the answer:
+   - The age band is read on the APPLICATION DATE, which the policy defines as
+     the date the premium is paid — while stability is measured to the DATE OF
+     DEPARTURE. Two different dates, and someone who turns 60 between them is
+     in the younger band.
+   - A top-up bought over another plan is measured on the TOTAL trip length, not
+     the top-up days. A 30-day top-up on a 90-day trip is a 90-day trip.
+   - Trip Cancellation and Trip Interruption carry their own, separate 60-day
+     stability wording — including for a travelling companion's conditions.
+     Do not mix it with the emergency medical table above. */
 
 /* A verification is good for a year. Underwriting moves; a rule nobody has
    looked at since last winter is a guess wearing a citation. */
@@ -264,6 +385,7 @@ export function ruleIsTrusted(rule, today) {
 /* ---- the assessment ----------------------------------------------------- */
 
 function monthsOrNull(v) { return Number.isFinite(v) ? v : null; }
+function domesticAsked(i) { return i.withinCanada === true || i.withinCanada === false; }
 
 /* The single number everything turns on: how long since anything about the
    condition changed. Insurers count a dose change, a new symptom, a test, a
@@ -295,7 +417,24 @@ function riderThatMayApply(rule, stableMonths, intake, today) {
 }
 
 function matches(rule, cond, intake) {
-  if (rule.condition !== cond.category && rule.condition !== cond.category + "." + cond.detail) return false;
+  /* TuGo's table turns on age and trip length, not on which condition it is —
+     so a rule may apply to any condition. Per-condition rules still work. */
+  if (rule.condition !== "*" &&
+      rule.condition !== cond.category &&
+      rule.condition !== cond.category + "." + cond.detail) return false;
+  /* Under 60, TuGo splits at 35 days: 7 days of stability for a short trip,
+     90 for a long one. A top-up or an extension is measured on the TOTAL trip
+     length, which is how a 30-day top-up on a 90-day trip lands in the wrong
+     band if nobody checks. */
+  if (Number.isFinite(rule.tripMaxDays) && Number.isFinite(intake.tripDays) && intake.tripDays > rule.tripMaxDays) return false;
+  if (Number.isFinite(rule.tripMinDays) && Number.isFinite(intake.tripDays) && intake.tripDays < rule.tripMinDays) return false;
+  if (Number.isFinite(rule.tripMaxDays) && !Number.isFinite(intake.tripDays)) return false;
+  if (Number.isFinite(rule.tripMinDays) && !Number.isFinite(intake.tripDays)) return false;
+  /* A domestic plan is not an answer for a trip to Florida, and an outbound
+     plan is not the one priced for a trip to Halifax. */
+  const domestic = intake.withinCanada === true;
+  if (rule.appliesTo === "within_canada" && !domestic) return false;
+  if (rule.appliesTo === "outbound" && domestic) return false;
   if (Array.isArray(rule.ageBand) && Number.isFinite(intake.age)) {
     if (intake.age < rule.ageBand[0] || intake.age > rule.ageBand[1]) return false;
   }
@@ -377,10 +516,19 @@ export function assess(intake, opts) {
      have broken their stability period when they have not — and that belief is
      why they stop looking. Raise it; do not decide it. */
   if (conditions.some((c) => monthsStable(c) !== null) && i.changeWasGenericSwitch !== false) {
-    deciding.push("whether that change was only a switch to an equivalent generic — some wordings do not count that as an alteration at all, which can leave the stability period unbroken");
+    deciding.push(
+      "whether that change actually counts as an alteration at all. Several do not: " +
+      ALTERATION_EXCEPTIONS.join("; ") + ". If the change was one of those, the stability period may never have been broken.");
   }
   if (Number.isFinite(i.medicationCount) && i.medicationCount >= 5) {
     deciding.push("five or more medications — several insurers ask about the number and the most recent change to any of them, not just the condition");
+  }
+  if (!Number.isFinite(i.tripDays) && Number.isFinite(i.age) && i.age < 60) {
+    deciding.push("how long the trip is — under 60, TuGo's stability window is 7 days for a trip of 35 days or less and 90 days for anything longer, so the trip length decides which one applies");
+  }
+  /* Someone who cannot clear an outbound window has not run out of options. */
+  if (!domesticAsked(i) && conditions.length) {
+    deciding.push("whether a trip inside Canada would do instead — TuGo's Travel Within Canada plans carry no stability requirement for pre-existing conditions at all");
   }
   if (Number.isFinite(i.tripDays) && i.tripDays > 60) {
     deciding.push(`a ${i.tripDays}-day trip — the stability period is measured to the departure date, and some plans shorten cover past 60 days`);

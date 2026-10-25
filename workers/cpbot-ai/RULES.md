@@ -16,6 +16,58 @@ this file lives in the Worker and never reaches the browser — a visitor cannot
 read it and nor can a competitor — but confidentiality terms are yours to
 confirm, not mine.
 
+## TuGo's table is in, and waiting for your signature
+
+Transcribed from the Traveller policy wording you supplied (page 13 of the
+document, PDF page 18), verbatim, with the quote on each rule:
+
+| Age on application date | Trip length | Stability period |
+|---|---|---|
+| 59 and under | 35 days or less | **7 days** before departure |
+| 59 and under | over 35 days | **90 days** |
+| 60 to 74 | all | **180 days** |
+| 75 and over | all | **365 days** |
+| any | Travel Within Canada | **no stability requirement at all** |
+
+**They are inactive.** Every one carries `verifiedBy: null`. I transcribed them;
+I did not sign them. Reading a table out of an insurance contract still takes
+judgement — that one is headed *"Worldwide and Worldwide Excluding USA Plans"*,
+and whether it also covers the Multi Trip Annual emergency medical is an
+inference, not a quote — and it is your licence on the policy.
+
+**To activate:** check the quotes against the PDF, then in each rule set
+
+```js
+  source: { ...TUGO_TRAVELLER, verifiedBy: "Sertac", verifiedOn: "2026-10-25" },
+```
+
+or just set those two fields on `TUGO_TRAVELLER` once. Until then they produce
+`needs_review` and everything routes to you, exactly as an empty file did.
+
+### Three things from the wording that are not rules but change the answer
+
+- The age band is read on the **application date** — which the policy defines as
+  the date the premium is paid — while stability is measured to the **date of
+  departure**. Someone who turns 60 between those two dates is in the younger band.
+- A **top-up** is measured on the **total** trip length, not the top-up days. A
+  30-day top-up on a 90-day trip is a 90-day trip.
+- **Trip Cancellation and Trip Interruption have their own, separate 60-day
+  stability wording**, including for a travelling companion's conditions. Do not
+  mix it with the emergency medical table.
+
+### A correction
+
+I told you earlier that TuGo has an optional *Unstable Pre-existing Medical
+Condition* rider reducing the requirement to as little as 7 days under 80. That
+came from a third-party website. **The words "unstable" and "rider" do not appear
+anywhere in the 75 pages of this policy wording.** The 7-day figure in the real
+table is the stability period for under-60s on trips of 35 days or less, which
+is most likely what that site garbled.
+
+The `riders` mechanism stays — it is built and tested, and riders do exist in
+this market — but no TuGo rider is recorded, and none will be until you name one
+from a document. This is exactly why the primary source matters.
+
 ## What happens while the file is empty
 
 Nothing breaks. With no rules, every pre-existing case returns `needs_review`
