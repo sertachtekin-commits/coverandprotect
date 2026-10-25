@@ -18,7 +18,28 @@
   var greeted=false;
   var session={flow:null,fkey:null,step:0};
 
-  function open(){panel.classList.add('cpbot-open');if(!greeted){greet();greeted=true;}setTimeout(function(){input.focus();},250);}
+  /* The assistant reported nothing to GA4, so "is it working?" had no answer
+     beyond counting leads — you could not see how many people opened it, how
+     many got a price, or where they stopped.
+
+     PRIVACY: engagement metadata only. Never an age, a destination, a date, a
+     name or any contact detail — those go in the lead email and nowhere else.
+     Only what a report needs: which product, and which way the conversation
+     went. (tracking.js has its own sender; it is inside a closure, so this is a
+     small deliberate duplicate rather than a new global.) */
+  function track(name,params){
+    try{
+      if(typeof gtag==="function"){gtag('event',name,params||{});return;}
+      window.dataLayer=window.dataLayer||[];
+      window.dataLayer.push(["event",name,params||{}]);
+    }catch(e){}
+  }
+
+  function open(){
+    panel.classList.add('cpbot-open');
+    if(!greeted){greet();greeted=true;track('chat_open',{page_path:(location.pathname||"/")});}
+    setTimeout(function(){input.focus();},250);
+  }
   function close(){panel.classList.remove('cpbot-open');}
   document.getElementById('cpbot-launch').onclick=function(){panel.classList.contains('cpbot-open')?close():open();};
   document.getElementById('cpbot-close').onclick=close;
@@ -88,7 +109,7 @@
 
   var KB={
     supervisa:{k:["what is super visa","super visa insurance","explain super visa","super visa mean","about super visa","super visa work"],c:CTA,a:"Super Visa insurance is the mandatory emergency medical coverage required for parents and grandparents visiting Canada on a Super Visa. It must provide at least $100,000 in coverage, stay valid for a full year from entry, and cover emergency healthcare, hospitalization, and repatriation."},
-    cost:{k:["super visa cost","super visa price","how much super visa","cost","how much","premium","rate"],c:CTA,a:"Super Visa pricing varies by the applicant's age, the coverage amount, the deductible, and any pre-existing conditions. As a general guide, $100,000 coverage often runs roughly $90 to $180+ per month, but your exact price depends on the details. I can start a quote so Sertac gives you an accurate number — or run a quick estimate right here in the chat."},
+    cost:{k:["super visa insurance cost","how much does super visa","how much is super visa","cost of super visa","super visa cost","super visa price","how much super visa","cost","how much","premium","rate"],c:CTA,a:"Super Visa pricing varies by the applicant's age, the coverage amount, the deductible, and any pre-existing conditions. As a general guide, $100,000 coverage often runs roughly $90 to $180+ per month, but your exact price depends on the details. I can start a quote so Sertac gives you an accurate number — or run a quick estimate right here in the chat."},
     requirements:{k:["requirement","minimum","ircc rules","qualify","criteria","mandatory","what do i need"],c:CTA,a:"To meet IRCC rules, a Super Visa policy must provide at least $100,000 in coverage, be valid for one year from entry, cover emergency medical care, hospitalization and repatriation, and come from a Canadian or IRCC-approved insurer. Proof of paid coverage is required with the application."},
     duration:{k:["how long","valid","duration","how many years","renew","expire","length of stay"],c:null,a:"A Super Visa lets parents and grandparents stay up to 5 years per visit, and the visa is valid up to 10 years. Your insurance must be valid for at least one year from your entry date; many families renew annually for longer stays."},
     monthly:{k:["monthly","installment","instalment","pay monthly","payment plan","split payment"],c:CTA,a:"Yes - many Super Visa and travel plans offer monthly payment options instead of paying the full year upfront, as long as the insurer has valid proof of coverage for the application. Monthly usually costs a little more over the full year."},
@@ -521,7 +542,8 @@
     if(transcript())fd.append('conversation',transcript());
     fd.append('_subject','New quote request - '+session.flow.title);
     var nm=name;
-    post(fd,function(){f.remove();bot("Perfect, "+esc(nm)+"! Your "+esc(session.flow.title)+" is on its way to Sertac - he'll reach out within 24 hours with options."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');session.flow=null;session.fkey=null;},er,btn);
+    post(fd,function(){track('chat_lead',{product:session.fkey||"unknown", path:"guided_flow"});
+      f.remove();bot("Perfect, "+esc(nm)+"! Your "+esc(session.flow.title)+" is on its way to Sertac - he'll reach out within 24 hours with options."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');session.flow=null;session.fkey=null;},er,btn);
   }
   function leadForm(prefill){
     typingThen(function(){
@@ -532,7 +554,8 @@
         fd.append('message',note||'(from website chat)');
         fd.append('source','Website Chat Assistant');fd.append('_subject','New chat lead - Cover & Protect');
         if(transcript())fd.append('conversation',transcript());
-        post(fd,function(){f.remove();bot("Thank you, "+esc(name)+"! Your message is on its way to Sertac - he'll reach out within 24 hours."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');},er,btn);
+        post(fd,function(){track('chat_lead',{product:PROFILE.product||"unknown", path:"contact_form"});
+          f.remove();bot("Thank you, "+esc(name)+"! Your message is on its way to Sertac - he'll reach out within 24 hours."+'<div><a class="cpbot-cta alt" href="tel:4373856173">Or call now</a></div>');},er,btn);
       });
     });
   }
@@ -642,7 +665,36 @@
     if(PROFILE.product!=="supervisa" && PROFILE.product!=="annual" && !PROFILE.days) need.push("days");
     return need;
   }
+  /* How sure rank() has to be before we treat a topic as the answer. Tuned
+     against twenty real questions and ten off-topic ones (see kb.test.mjs).
+     At 6 every real question is answered and one stray matches — "what is the
+     weather in toronto" returns Areas served. Raising it to 10 silences that
+     and loses "does OHIP cover my visitors", which is a question people
+     actually ask. An odd answer about the areas we serve costs nothing; not
+     answering a real customer does. */
+  var KB_MIN_SCORE = 6;
+  function kbSearch(question, limit){
+    return rank(question)
+      .filter(function(h){ return h[1] >= KB_MIN_SCORE && KB[h[0]] && KB[h[0]].a; })
+      .slice(0, limit || 2)
+      .map(function(h){ return h[0]; });
+  }
+
   var AI_TOOLS={
+    /* The site's own 36 written answers. The model had no access to them, so a
+       typed question was answered from its general knowledge while the curated,
+       cited wording sat unused in this file — and on the stability period, being
+       vaguely right is how a client loses a claim. */
+    lookup_kb:function(a){
+      var ids=kbSearch(a.question,2);
+      if(!ids.length) return {found:false,
+        note:"Nothing written on this. Answer from general knowledge, keep it short, state no number, and offer Sertac for anything that needs judgement."};
+      return {found:true, use_this_wording:true,
+        answers:ids.map(function(id){
+          return {topic:LBL[id]||id, answer:KB[id].a,
+                  source_page:SRC[id]?("/"+SRC[id]):undefined};
+        })};
+    },
     save_profile:function(a){
       for(var k in AI_FIELD){
         if(AI_FIELD.hasOwnProperty(k) && a[k]!==undefined && a[k]!==null && a[k]!=="") setFact(AI_FIELD[k],a[k]);
@@ -696,6 +748,7 @@
       try{
         fetch('https://formspree.io/f/mdajwykn',{method:'POST',body:fd,headers:{'Accept':'application/json'}});
       }catch(e){}
+      track('chat_lead',{product:PROFILE.product||"unknown", path:"ai_agent"});
       return {sent:true, to:"Sertac Tekin", name:name,
         note:"Confirm it is on its way, say he replies within 24 hours, and offer 437-385-6173 if it is urgent."};
     }
@@ -788,6 +841,12 @@
     AI_LAST_REC=null;
     function unavailable(){
       t.remove();
+      /* The AI is unreachable — out of credit, bad key, Worker down. That is
+         exactly when the written answers earn their keep: 19 of 20 common
+         questions have one. Reaching for a canned line instead, with the answer
+         sitting in this file, is the version of this bug that cost us a day. */
+      var kb=kbSearch(question,1);
+      if(kb.length){ answerFaq(kb[0]); return; }
       var intent=detectQuoteIntent(question);
       if(intent==="travel"){
         bot("I can help you find travel insurance for your trip. The main choices are emergency medical for a single trip or an annual multi-trip plan, and your age, dates and trip length decide which fits. What are your travel dates?");
@@ -1057,6 +1116,10 @@
     if(est){
       html+="Illustrative estimate: <b>"+money(est.r.low)+" &ndash; "+money(est.r.high)+" CAD</b><br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+est.label+" · age "+n.age+". Not a quote — actual rates depend on the insurer and your details (assumptions v2026.07).</span><br><br>";
     }
+    track('chat_recommend',{product:n.ptype||"unknown", provider:rec.key||"unknown",
+                            priced:est?"yes":"no"});
+    if(est) track('chat_estimate',{product:n.ptype||"unknown", usa:n.usa||"no",
+                                   conditions:normCond(n.cond)});
     html+="Your best path: <b>"+esc(rec.title)+"</b><br><span style='font-size:.85rem;color:rgba(255,255,255,.75)'>"+esc(rec.why)+"</span>";
     bot(html+"<br><span style='font-size:.8rem;color:rgba(255,255,255,.6)'>"+esc(ctxSummary(n))+"</span>");
     saveCtx({kind:"handoff",n:n,rec:rec,est:est?{low:est.r.low,high:est.r.high,label:est.label}:null,summary:ctxSummary(n)});
@@ -1071,6 +1134,7 @@
   function showRecommend(){
     var n=pricingNode();
     if(needsAdvisor(n.cond)){
+      track('chat_recommend',{product:n.ptype||"unknown", provider:"advisor", priced:"no"});
       typingThen(function(){
         bot("Here's what I have so far:"+summaryHtml());
         bot("Because there's been a recent change (or you're not certain), I'm not going to put a price or a buy link in front of you. A medication, dosage or treatment change inside the insurer's stability period is the most common reason a large claim is refused, and which insurer you pick changes the answer. Sertac will check the wording against the actual history first — it's free and it takes one call.");

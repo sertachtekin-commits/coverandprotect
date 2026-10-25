@@ -231,6 +231,7 @@ them to qualify, price and hand off:
 
 | Tool | Purpose |
 |------|---------|
+| `lookup_kb` | Searches the site's own 36 written answers and returns the wording plus the page to cite. **Called first for any factual question.** Without it the model answered from general knowledge while the curated, advisor-checked wording sat unused — and on the stability period, being vaguely right is how a client loses a claim. |
 | `save_profile` | Remembers product, age, days, destination, dates, travellers, pre-existing status, monthly preference; returns what is still missing. This is why it stops re-asking. |
 | `estimate_premium` | Returns an illustrative band from the page's estimate engine — **the only number the model may state.** |
 | `recommend_path` | Returns insurer/tool, reason and URL from the same `recommendFor()` the guided flows use. |
@@ -268,22 +269,53 @@ in the guided flows. This matches the rule `app.html` already follows for its
 *pricing* factor; the advisor gate runs first and is what keeps that off a
 customer's screen. Do not remove it.
 
+**The knowledge base answers typed questions, not just chips.** `KB`'s 36 topics
+used to be wired only to the chip buttons; everything typed went to the model.
+Now `kbSearch()` serves both the `lookup_kb` tool and `aiFallback`'s
+`unavailable()` branch, so a question still gets the written answer, with its
+source link, when the Worker is unreachable — out of credit, bad key, or down.
+`KB_MIN_SCORE` is the confidence floor, tuned in `kb.test.mjs` against twenty
+real questions and ten off-topic ones; raising it silences a stray match but
+starts dropping real questions, which is the worse trade.
+
+**`rank()` sums matched keyword lengths**, so a topic with long generic keywords
+outranks one with short specific keywords. That is why "how much does super visa
+insurance cost" returned the overview rather than the prices until the `cost`
+topic got the longer phrasings. If a question reaches the wrong topic, add the
+phrasing people actually type to that topic's `k` list rather than changing the
+scoring — and keep it specific, since a bare "insurance cost" would hijack
+travel and visitor pricing questions.
+
+**What the chat reports to GA4.** Four events, sent by `track()` in `cpbot.js`:
+`chat_open`, `chat_estimate`, `chat_recommend` (the advisor gate counts, as
+`provider:"advisor"`) and `chat_lead`. Together they answer how many people open
+it, how many get a price, and where they stop — none of which was visible
+before. `generate_lead` still fires separately through `tracking.js`'s fetch
+wrapper, so the conversion is unchanged. **Engagement metadata only**: product,
+provider, path, USA flag and condition class. Never an age, destination, date,
+name or contact detail — those belong in the lead email and nowhere else. A test
+in `tools.test.mjs` reads the shipped payloads and fails if one grows a PII
+field.
+
 **Tests** (plain Node, no dependencies) live in `workers/cpbot-ai/test/`. Run
-both after changing the Worker, the tools, the rate bands, or the
+them after changing the Worker, the tools, the rate bands, or the
 pre-existing wording:
 
 ```sh
 cd workers/cpbot-ai && npm test
 ```
 
-That runs four suites: `worker.test.mjs` (protocol and guards),
-`tools.test.mjs` (tool behaviour, the advisor gate, routing),
-`flow.test.mjs` (the guided flow's step sequence) and
+That runs seven suites: `worker.test.mjs` (protocol and guards),
+`tools.test.mjs` (tool behaviour, the advisor gate, routing, and the GA4
+payloads), `flow.test.mjs` (the guided flow's step sequence),
 `characterize.test.mjs` (every flow's question order — it fails if a change
-alters what a visitor is asked).
+alters what a visitor is asked), `coverage.test.mjs` (every page carries the
+assistant; the `cpbot.js` version matches `sw.js`), `homepage.test.mjs` (the
+homepage wrapper's rewrites still match) and `kb.test.mjs` (every real question
+finds a written answer; chitchat does not).
 
-`tools.test.mjs` evaluates the real script out of `_includes/cpbot.html`, so it
-tests the shipped code rather than a copy.
+They evaluate `cpbot.js` itself, so they test the shipped file rather than a
+copy. `tools/layout-check` needs a browser and is run by hand.
 
 A `GET` on the Worker URL returning `Method not allowed` is correct — it accepts
 `POST` only.

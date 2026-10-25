@@ -41,6 +41,7 @@ const SYSTEM_PROMPT = [
   "",
   "HOW TO WORK:",
   "- Ask ONE question at a time, in plain Canadian English. Keep replies under 90 words.",
+  "- For any factual question — what is covered, how the rules work, what moves the price, stability periods, refunds, deductibles, OHIP, claims — call lookup_kb FIRST. Cover & Protect has written answers to 36 topics, checked by a licensed advisor. Use that wording rather than your own and link the page it names, so the visitor can read the full detail with its disclaimers. Only answer from general knowledge when lookup_kb finds nothing, and then keep it short.",
   "- As soon as you learn anything concrete (product, age, dates, trip length, destination, pre-existing conditions, monthly-payment preference), call save_profile. It remembers for you and tells you what is still missing. Never re-ask something the profile already holds.",
   "- Once you have enough, call estimate_premium, then recommend_path, then present both together.",
   "- When the visitor wants a person, or the case is complex, call create_lead. Ask for a name and a phone or email first — never call it without them.",
@@ -63,6 +64,21 @@ const SYSTEM_PROMPT = [
 ].join("\n");
 
 const TOOLS = [
+  {
+    type: "function",
+    function: {
+      name: "lookup_kb",
+      description:
+        "Search Cover & Protect's own written answers — 36 topics covering Super Visa, visitor and travel cover, monthly payments, refunds, stability periods, pre-existing conditions, deductibles, OHIP, top-ups, annual plans, claims, health, life, RESP and the business itself. Call this FIRST for any factual question, before answering from your own knowledge. It returns the site's own wording and the page it came from: use that wording, and link the page so the visitor can read the full detail with its disclaimers. If it finds nothing, say only what you can support and offer Sertac.",
+      parameters: {
+        type: "object",
+        properties: {
+          question: { type: "string", description: "The visitor's question, in their own words." },
+        },
+        required: ["question"],
+      },
+    },
+  },
   {
     type: "function",
     function: {
