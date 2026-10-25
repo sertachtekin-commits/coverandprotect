@@ -112,6 +112,26 @@ function monthsStable(c) {
   return monthsOrNull(c.lastEventMonthsAgo);
 }
 
+/* A rider is a paid add-on that buys a shorter stability window — TuGo's
+   Unstable Pre-existing Medical Condition rider is the one most people have
+   never heard of. It matters because without it, "your dose changed four months
+   ago" is a dead end, and with it there may still be a way to travel. It is
+   never an automatic yes: it costs more, it has its own age limit, and whether
+   it is worth the premium is a judgement call. So a rider turns a dead end into
+   a conversation — it does not turn it green. */
+function riderThatMayApply(rule, stableMonths, intake, today) {
+  const riders = Array.isArray(rule.riders) ? rule.riders : [];
+  for (const rider of riders) {
+    /* Same bar as the rule itself: unverified means unnamed. */
+    if (!ruleIsTrusted(rider, today)) continue;
+    if (Number.isFinite(rider.maxAge) && Number.isFinite(intake.age) && intake.age > rider.maxAge) continue;
+    if (!Number.isFinite(rider.stabilityDays)) continue;
+    if (stableMonths * 30.4 < rider.stabilityDays) continue;
+    return { name: rider.name, stability_days: rider.stabilityDays, note: rider.note };
+  }
+  return null;
+}
+
 function matches(rule, cond, intake) {
   if (rule.condition !== cond.category && rule.condition !== cond.category + "." + cond.detail) return false;
   if (Array.isArray(rule.ageBand) && Number.isFinite(intake.age)) {
@@ -149,6 +169,7 @@ export function assess(intake, opts) {
 
   const insurers = [];
   const deciding = [];
+  const riders = [];
   let anyUnknown = false;
   let anyInsideWindow = false;
 
@@ -170,19 +191,32 @@ export function assess(intake, opts) {
       const hit = (r.knockouts || []).filter((k) => (c.flags || []).includes(k));
       if (hit.length) { anyInsideWindow = true; deciding.push(`${r.insurer}: ${hit.join(", ")}`); continue; }
 
+      const rider = inside && trusted ? riderThatMayApply(r, stable, i, today) : null;
+      if (rider) riders.push(`${r.insurer}: ${rider.name}`);
+
       insurers.push({
         insurer: r.insurer,
         plan: r.plan,
         stability_days: r.stabilityDays,
         clear_of_window: !inside,
         /* An unverified rule is information, never a green light. */
-        status: trusted ? (inside ? "inside_window" : "normally_considered") : "unverified",
+        status: trusted
+          ? (inside ? (rider ? "inside_window_rider_may_apply" : "inside_window") : "normally_considered")
+          : "unverified",
+        rider_may_apply: rider || undefined,
         source: trusted ? r.source.doc : undefined,
       });
       if (!trusted) deciding.push(`${r.insurer} ${r.plan}: this rule has not been verified since ${(r.source && r.source.verifiedOn) || "ever"} — Sertac confirms it against the current wording`);
     }
   }
 
+  /* A switch to an equivalent generic is excluded from the definition of an
+     "alteration" in some wordings. People who changed brand often believe they
+     have broken their stability period when they have not — and that belief is
+     why they stop looking. Raise it; do not decide it. */
+  if (conditions.some((c) => monthsStable(c) !== null) && i.changeWasGenericSwitch !== false) {
+    deciding.push("whether that change was only a switch to an equivalent generic — some wordings do not count that as an alteration at all, which can leave the stability period unbroken");
+  }
   if (Number.isFinite(i.medicationCount) && i.medicationCount >= 5) {
     deciding.push("five or more medications — several insurers ask about the number and the most recent change to any of them, not just the condition");
   }
@@ -198,9 +232,12 @@ export function assess(intake, opts) {
     blockers: [],
     insurers,
     deciding_factors: [...new Set(deciding)],
+    riders_to_raise: [...new Set(riders)],
     verified_rules_used: green.length,
     must_say: tier === "likely_eligible"
       ? "Say which insurers normally consider a case like this and on what stability rule, in general terms. Never say they are covered or approved — say Sertac confirms it against the policy wording and their exact dates before anything is bought."
-      : "Do not state a conclusion. Explain what decides the case and why it needs the actual wording, then hand to Sertac. Showing that you know what the question turns on is the point; answering it is not.",
+      : riders.length
+        ? "The standard wording would not cover this, but a rider in riders_to_raise may. Say so — that the usual stability window is not met, that there is an add-on built for exactly this, that it costs more and has its own limits, and that Sertac will say whether it is worth the premium. Do not promise it. A visitor told 'no' stops looking; a visitor told 'there is a route, and here is who decides it' picks up the phone."
+        : "Do not state a conclusion. Explain what decides the case and why it needs the actual wording, then hand to Sertac. Showing that you know what the question turns on is the point; answering it is not.",
   };
 }

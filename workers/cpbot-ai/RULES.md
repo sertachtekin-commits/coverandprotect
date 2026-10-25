@@ -48,6 +48,29 @@ and each one makes the assistant sharper without any risk in between.
 }
 ```
 
+### Riders
+
+A rider is a paid add-on that buys a shorter stability window — TuGo's Unstable
+Pre-existing Medical Condition rider is the one most people have never heard of.
+Add them to the rule they belong to:
+
+```js
+  riders: [{
+    name: "Unstable Pre-existing Medical Condition rider",
+    stabilityDays: 7,
+    maxAge: 79,
+    note: "added premium; the condition still has to be stable for the shorter window",
+    source: { doc: "TuGo policy wording, January 2026",
+              verifiedBy: "Sertac", verifiedOn: "2026-10-25" },
+  }],
+```
+
+A rider needs its own `source` and is held to the same bar as the rule: an
+unverified or stale rider is never named to a visitor. **A rider never makes a
+case green.** It costs more, it has its own age limit, and whether it is worth
+the premium is your call — so it turns a dead end into a conversation, which is
+the point. Without it, "your dose changed four months ago" ends the discussion.
+
 Categories available: see `CONDITIONS` in `underwriting.js` — `cardiac`,
 `stroke`, `cancer`, `diabetes`, `respiratory`, `bloodthin`, `kidney`, `liver`,
 `bp`, `other`. Add one if you need it.
