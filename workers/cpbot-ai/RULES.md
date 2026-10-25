@@ -55,6 +55,49 @@ or just set those two fields on `TUGO_TRAVELLER` once. Until then they produce
   stability wording**, including for a travelling companion's conditions. Do not
   mix it with the emergency medical table.
 
+### Snowbirds: what the wording says about a long winter away
+
+These came out of the same PDF and are in the engine now. The first three stop
+a sale; the rest are raised as questions.
+
+**Provincial health coverage is an eligibility condition, not a benefit.** TuGo
+defines a Canadian resident as someone *"eligible for or has a provincial or
+territorial government health care plan in place"*. Lose OHIP by staying away
+too long and the travel policy goes with it — the opposite of what most people
+assume, since they expect the travel insurance to cover the gap. It cannot: the
+deductible applies only after the provincial plan has paid.
+
+**Also eligibility, from page 3 of the document:** not travelling against a
+physician's or other registered medical practitioner's advice, no terminal
+diagnosis, not receiving or recommended palliative care. Plus exclusion 14 —
+registered on a waiting list in Canada for treatment or diagnosis — and
+coverage is **void if bought after you leave your province**, or for a trip that
+did not start in Canada.
+
+**The annual multi-trip trap.** An annual plan covers unlimited trips but no
+single trip beyond the cap contracted at application, and outside Canada that
+clock runs *from leaving Canada to returning to Canada*. A 150-day winter on a
+35-day cap is covered for 35 days. Travel within Canada but outside your own
+province is automatically covered beyond the cap.
+
+**Coming home mid-winter.** Coverage terminates when you return to your
+province. One temporary visit is allowed without ending the policy — but only
+if it was *unexpected or beyond your control*, and you are not covered while
+home, with no refund for those days. A planned Christmas trip back is not that
+exception. Worth re-reading alongside `snowbird-60-day-split-calculator.html`.
+
+**Worldwide excluding USA, for someone driving south.** Stopovers or layovers up
+to 48 hours, or transit by road or rail up to 5 days each way. A cruise that
+departs from or calls at any US port needs the full Worldwide plan for the whole
+trip.
+
+**The $15,000 figure worth quoting to every client over 60.** For insureds 60
+and over at the time of application, an answer on the Medical Questionnaire that
+is not truthful and accurate carries an **extra $15,000 USD deductible** on any
+claim, and no further coverage under the policy until the corrected premium is
+paid. That is the best argument there is for going through those questions with
+an advisor instead of guessing at a checkout.
+
 ### A correction
 
 I told you earlier that TuGo has an optional *Unstable Pre-existing Medical

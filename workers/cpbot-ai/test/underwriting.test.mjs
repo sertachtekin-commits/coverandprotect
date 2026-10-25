@@ -3,7 +3,8 @@
    has a six-figure claim refused. Everything below exists to make that
    impossible by construction rather than by careful wording. */
 import { assess, BLOCKERS, CONDITIONS, RULES, ruleIsTrusted,
-         QUESTIONNAIRES, questionnaireFor, ALTERATION_EXCEPTIONS } from '../underwriting.js';
+         QUESTIONNAIRES, questionnaireFor, ALTERATION_EXCEPTIONS,
+         SNOWBIRD_CHECKS } from '../underwriting.js';
 import fs from 'node:fs';
 
 let fail = 0;
@@ -159,6 +160,58 @@ console.log("\n--- the things a specialist would raise unprompted ---");
   const r = assess(stentCase(), { rules: [verified()], today: TODAY });
   ok(r.deciding_factors.some(f => /five or more medications/i.test(f)), "six medications is raised");
   ok(r.deciding_factors.some(f => /120-day trip/.test(f)), "and a 120-day trip against the departure date");
+}
+
+console.log("\n--- SNOWBIRDS: losing provincial cover ends the eligibility, not just a benefit ---");
+{
+  const winter = (o) => ({ age: 72, tripDays: 150,
+    conditions: [{ category: "cardiac", changeMonthsAgo: 9 }], ...o });
+  const r = assess(winter({ provincialHealthCover: false }), { rules: [verified()], today: TODAY });
+  ok(r.tier === "advisor_only" && r.insurers.length === 0,
+     `OHIP lapsed or at risk -> ${r.tier}, no insurer named`);
+  ok(/eligible for, or holding, a provincial/.test(r.blockers[0].why),
+     "and it cites the residency definition that makes it an eligibility condition");
+  ok(/opposite of what people assume/.test(r.blockers[0].why),
+     "…and says why people get it wrong");
+
+  /* Only fires when they actually say so — never guessed from a long trip. */
+  ok(assess(winter({}), { rules: [verified()], today: TODAY }).tier !== "advisor_only",
+     "a long trip on its own does not trigger it");
+}
+
+console.log("\n--- the other two eligibility stops in the wording ---");
+for (const [label, extra] of [
+  ["on a waiting list in Canada", { onWaitingListInCanada: true }],
+  ["already left the province",   { alreadyDeparted: true }],
+]) {
+  const r = assess({ age: 72, tripDays: 150, conditions: [{ category: "cardiac", changeMonthsAgo: 9 }], ...extra },
+                   { rules: [verified()], today: TODAY });
+  ok(r.tier === "advisor_only", `${label} -> ${r.tier}`);
+}
+
+console.log("\n--- the long-winter questions a two-week traveller never faces ---");
+{
+  const r = assess({ age: 72, tripDays: 150, plan: "worldwide_excluding_usa",
+                     conditions: [{ category: "cardiac", changeMonthsAgo: 9 }] },
+                   { rules: [verified()], today: TODAY });
+  const f = r.deciding_factors.join(" | ");
+  ok(/per-trip day cap/.test(f), "an annual plan's per-trip cap, and that the clock runs Canada-to-Canada");
+  ok(/terminates when you return to your province/.test(f), "what coming home mid-winter does to the policy");
+  ok(/48 hours/.test(f) && /5 days each way/.test(f), "the USA transit limits on a worldwide-excluding-USA plan");
+  ok(/\$15,000 USD/.test(f), "the extra deductible at 60+ for an inaccurate questionnaire answer");
+
+  /* They are questions, not rulings — none of them blocks. */
+  ok(r.tier !== "advisor_only", `none of them stops the conversation (${r.tier})`);
+}
+
+console.log("\n--- and they stay quiet for a traveller they do not apply to ---");
+{
+  const fortnight = assess({ age: 40, tripDays: 14, plan: "worldwide",
+    conditions: [{ category: "cardiac", changeMonthsAgo: 9 }] }, { rules: [verified()], today: TODAY });
+  const f = fortnight.deciding_factors.join(" | ");
+  ok(!/per-trip day cap/.test(f), "a 14-day trip is not lectured about annual caps");
+  ok(!/\$15,000 USD/.test(f), "and a 40-year-old is not told about the over-60 deductible");
+  ok(SNOWBIRD_CHECKS.length === 4, `${SNOWBIRD_CHECKS.length} checks, each gated on the traveller it applies to`);
 }
 
 console.log("\n--- TuGo's stability table, transcribed from the policy wording ---");
