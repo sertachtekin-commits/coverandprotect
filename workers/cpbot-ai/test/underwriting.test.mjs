@@ -2,7 +2,8 @@
    A wrong green light here means someone with a stent buys the wrong plan and
    has a six-figure claim refused. Everything below exists to make that
    impossible by construction rather than by careful wording. */
-import { assess, BLOCKERS, CONDITIONS, RULES, ruleIsTrusted } from '../underwriting.js';
+import { assess, BLOCKERS, CONDITIONS, RULES, ruleIsTrusted,
+         QUESTIONNAIRES, questionnaireFor } from '../underwriting.js';
 import fs from 'node:fs';
 
 let fail = 0;
@@ -155,6 +156,49 @@ console.log("\n--- the things a specialist would raise unprompted ---");
   const r = assess(stentCase(), { rules: [verified()], today: TODAY });
   ok(r.deciding_factors.some(f => /five or more medications/i.test(f)), "six medications is raised");
   ok(r.deciding_factors.some(f => /120-day trip/.test(f)), "and a 120-day trip against the departure date");
+}
+
+console.log("\n--- the insurer's own questionnaire, in the insurer's words ---");
+{
+  const q = questionnaireFor("TuGo");
+  ok(q.found === true && q.questions.length === 5, `TuGo: ${q.questions.length} questions`);
+  ok(/shop\.tugo\.com/.test(q.source), `sourced to the tool it came from (${q.source})`);
+  ok(QUESTIONNAIRES.tugo.source.verifiedBy === "Sertac", "and to the person who captured it");
+
+  /* The details that make it worth having — each one is a fact on the form,
+     and each one is something people routinely get wrong. */
+  const all = JSON.stringify(q.questions);
+  ok(/Less than 1 year ago/.test(all) && /More than 5 years ago/.test(all),
+     "cardiac events are recency bands, not dates");
+  ok(/alteration to medication in the last 6 months/.test(all),
+     "the blood-pressure question turns on a six-month alteration window");
+  ok(/controlled or managed by medication, a medical device, diet or exercise/.test(all),
+     "a controlled condition still counts as a yes");
+  ok(/Exclude basal cell and squamous cell skin cancer and\/or cancer that is in remission/.test(all),
+     "cancer in remission is explicitly excluded from the catch-all");
+  ok(/requiring prednisone/.test(all) && /requiring home oxygen/.test(all) && /requiring insulin/.test(all),
+     "asthma, COPD and diabetes each split on severity");
+
+  ok(/sets the (price|rate) band|rate category/i.test(q.purpose + q.must_say),
+     "it is described as setting the rate, not deciding coverage");
+  ok(/never tell anyone what their answers mean for eligibility/i.test(q.must_say),
+     "and the model is told not to interpret it as eligibility");
+}
+
+console.log("\n--- what the screenshots cut off is marked, not guessed ---");
+{
+  const partial = questionnaireFor("TuGo").questions.filter((x) => x.complete === false);
+  ok(partial.length === 2, `${partial.length} questions are flagged incomplete`);
+  ok(partial.every((x) => /Sertac to complete/.test(x.incomplete_note || "")),
+     "each says what is missing and who completes it");
+}
+
+console.log("\n--- an insurer with no questionnaire gets no invented one ---");
+{
+  const none = questionnaireFor("Acme Insurance");
+  ok(none.found === false, "unknown insurer returns found:false");
+  ok(/Do not invent one/.test(none.note), "…and tells the model not to make one up");
+  ok(none.available.includes("TuGo"), `…while naming what is held: ${none.available.join(", ")}`);
 }
 
 console.log("\n--- nothing in here was invented by an AI ---");

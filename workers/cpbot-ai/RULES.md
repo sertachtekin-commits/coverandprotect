@@ -27,6 +27,36 @@ sale rather than enable one.
 So you can add rules one at a time, starting with the conditions you see most,
 and each one makes the assistant sharper without any risk in between.
 
+## Two separate things
+
+| | What it is | Who supplies it |
+|---|---|---|
+| `QUESTIONNAIRES` | What an insurer **asks** — their medical questionnaire, in their words | Transcribed from the insurer's own tool. A fact. |
+| `RULES` | What the insurer **does with the answer** — stability windows, knockouts | Yours. Not derivable from the form. |
+
+TuGo's is in, captured 2026-10-25 from shop.tugo.com. Two of its five questions
+are flagged `complete: false` because the screenshots cut off mid-list — the
+cardiovascular list after *Arteriosclerosis*, and the general list after
+*Kidney disease requiring dialysis*. Finish those and clear the flag. **Do not
+let anyone guess the missing items**; a questionnaire that is nearly right is
+how someone answers "None" to a condition that was on the real form.
+
+Three things that questionnaire told us, which are worth knowing whether or not
+you ever write a rule:
+
+- Cardiac events are asked as **recency bands** — under a year, one to five,
+  over five — not as a date. "About a year ago" is the answer to pin down.
+- Blood pressure turns on a **six-month medication-alteration window**, and only
+  blood pressure.
+- The condition lists use a **twelve-month lookback** and count a condition
+  *"whether or not you received any medical care for it… including conditions
+  controlled or managed by medication, a medical device, diet or exercise."*
+  And the cancer catch-all **excludes** basal cell and squamous cell skin cancer
+  and cancer in remission.
+
+Whether any of that changes what TuGo will cover is your call, not the form's —
+which is why it sits in `QUESTIONNAIRES` and not in `RULES`.
+
 ## The shape
 
 ```js

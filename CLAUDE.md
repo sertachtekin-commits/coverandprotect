@@ -231,6 +231,7 @@ them to qualify, price and hand off:
 
 | Tool | Purpose |
 |------|---------|
+| `insurer_questionnaire` | **Runs in the Worker.** Returns an insurer's own medical questionnaire in their exact wording, so the assistant can walk someone through the real questions before they hit the quote tool. TuGo's is transcribed from `shop.tugo.com`. It sets the rate band and decides nothing about coverage. |
 | `assess_preexisting` | **Runs in the Worker, never the browser.** Sorts a pre-existing case against the insurer underwriting rules in `workers/cpbot-ai/underwriting.js` and returns a tier plus `must_say` wording instructions. See "The underwriting layer" below. |
 | `lookup_kb` | Searches the site's own 36 written answers and returns the wording plus the page to cite. **Called first for any factual question.** Without it the model answered from general knowledge while the curated, advisor-checked wording sat unused — and on the stability period, being vaguely right is how a client loses a claim. |
 | `save_profile` | Remembers product, age, days, destination, dates, travellers, pre-existing status, monthly preference; returns what is still missing. This is why it stops re-asking. |
@@ -282,6 +283,15 @@ and `underwriting.test.mjs` fails if it stops being true. **Never add a rule you
 cannot source** — `RULES` ships empty for exactly that reason, and an empty file
 behaves precisely as the site did before, so it is safe to fill in one rule at
 a time. The procedure is in `workers/cpbot-ai/RULES.md`.
+
+**`QUESTIONNAIRES` and `RULES` are different things and must stay apart.** A
+questionnaire is what an insurer *asks* — a fact, transcribed from their own
+tool. A rule is what they *do with the answer*, which is Sertac's knowledge and
+is not derivable from the form. TuGo's questionnaire is in; two of its five
+questions carry `complete: false` because the source screenshots cut off
+mid-list, and that flag stays until he finishes them. Never guess a missing
+item: a questionnaire that is nearly right is how someone answers "None" to a
+condition that was on the real form.
 
 **Riders are the difference between a dead end and a phone call.** A rule may
 carry `riders` — a paid add-on buying a shorter stability window, such as
