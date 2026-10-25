@@ -795,6 +795,10 @@
     return aiPost(payload).then(function(d){
       if(d && d.tool_calls && d.tool_calls.length && depth<AI_MAX_ROUNDS){
         var next=(chain||[]).slice();
+        /* Rounds the Worker already ran and answered itself — the underwriting
+           layer, which never comes down here. Replayed so the model does not
+           forget what it was told between browser rounds. */
+        if(d.server_chain && d.server_chain.length) next=next.concat(d.server_chain);
         next.push({role:"assistant",
                    content:(d.assistant&&d.assistant.content)||"",
                    tool_calls:(d.assistant&&d.assistant.tool_calls)||d.tool_calls});
@@ -803,6 +807,12 @@
           try{ args=JSON.parse((c.function&&c.function.arguments)||"{}"); }catch(e){}
           next.push({role:"tool", tool_call_id:c.id,
                      content:JSON.stringify(aiRunTool(c.function&&c.function.name,args))});
+        });
+        /* This same assistant turn also asked for server-side tools. The Worker
+           answered those; every tool_call_id must be answered or the provider
+           rejects the whole round. */
+        if(d.server_results) d.server_results.forEach(function(r){
+          next.push({role:"tool", tool_call_id:r.tool_call_id, content:r.content});
         });
         return aiTurn({history:CPBOT_AI_HISTORY.slice(-12), profile:PROFILE, chain:next}, depth+1, next);
       }

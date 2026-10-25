@@ -231,6 +231,7 @@ them to qualify, price and hand off:
 
 | Tool | Purpose |
 |------|---------|
+| `assess_preexisting` | **Runs in the Worker, never the browser.** Sorts a pre-existing case against the insurer underwriting rules in `workers/cpbot-ai/underwriting.js` and returns a tier plus `must_say` wording instructions. See "The underwriting layer" below. |
 | `lookup_kb` | Searches the site's own 36 written answers and returns the wording plus the page to cite. **Called first for any factual question.** Without it the model answered from general knowledge while the curated, advisor-checked wording sat unused — and on the stability period, being vaguely right is how a client loses a claim. |
 | `save_profile` | Remembers product, age, days, destination, dates, travellers, pre-existing status, monthly preference; returns what is still missing. This is why it stops re-asking. |
 | `estimate_premium` | Returns an illustrative band from the page's estimate engine — **the only number the model may state.** |
@@ -258,6 +259,46 @@ them in the Worker as well would be a third copy to keep in sync, and drifting
 rate tables are how a customer is quoted one number and shown another. The Worker
 is the conversation brain, the page is the calculator. The two-round protocol and
 the tool contracts are documented in `workers/cpbot-ai/README.md`.
+
+## The underwriting layer (`workers/cpbot-ai/underwriting.js`)
+
+Travelling Canadians, snowbirds and seniors with serious health histories are
+Sertac's specialism, and this is where that shows. The file holds insurer
+stability rules per condition and age band, and `assess()` sorts a case into
+`advisor_only` / `needs_review` / `likely_eligible`.
+
+**It runs in the Worker and never reaches the browser.** `cpbot.js` is public;
+underwriting guides are usually confidential under the broker agreement, and
+this is eighteen years of work besides. The page sends the intake and gets back
+a tier — never the rules that produced it. `worker.test.mjs` asserts that
+neither the tool name nor any rule detail appears in a browser-bound response.
+Note this is the **opposite** of the rate bands, which must stay in the page so
+they cannot drift from the calculator. Different data, different rule.
+
+**`likely_eligible` is reachable only from a rule Sertac verified against a
+named document, within the last year, and not past its `reviewBy`.** Unverified
+or stale rules cap at `needs_review`. This is enforced in code, not in wording,
+and `underwriting.test.mjs` fails if it stops being true. **Never add a rule you
+cannot source** — `RULES` ships empty for exactly that reason, and an empty file
+behaves precisely as the site did before, so it is safe to fill in one rule at
+a time. The procedure is in `workers/cpbot-ai/RULES.md`.
+
+The `BLOCKERS` list is separate and needs no rule: a test result outstanding, a
+symptom under investigation, an admission inside 90 days, a terminal prognosis,
+or a trip taken for treatment. These stop a sale rather than enable one, so the
+failure mode is routing someone to a licensed advisor.
+
+The assistant may never say anyone is insurable, approved, covered or
+uninsurable — only what insurers normally consider and what decides a case.
+That is the FSRA fair-treatment position and the reason the handoff to Sertac is
+the process rather than a disclaimer.
+
+**Server-side tools change the protocol.** When the model asks for
+`assess_preexisting`, the Worker answers it and asks the model again without
+involving the page. Those exchanges come back as `server_chain` (and
+`server_results` when one assistant turn mixes server and browser tools) so
+`aiTurn` can replay them — every `tool_call_id` must be answered or the provider
+rejects the round.
 
 **The pre-existing-condition gate is a safety rule, not a nicety.** A visitor who
 reports a recent medication, dosage or treatment change — or says they are not
@@ -305,14 +346,15 @@ pre-existing wording:
 cd workers/cpbot-ai && npm test
 ```
 
-That runs seven suites: `worker.test.mjs` (protocol and guards),
+That runs eight suites: `worker.test.mjs` (protocol and guards),
 `tools.test.mjs` (tool behaviour, the advisor gate, routing, and the GA4
 payloads), `flow.test.mjs` (the guided flow's step sequence),
 `characterize.test.mjs` (every flow's question order — it fails if a change
 alters what a visitor is asked), `coverage.test.mjs` (every page carries the
 assistant; the `cpbot.js` version matches `sw.js`), `homepage.test.mjs` (the
-homepage wrapper's rewrites still match) and `kb.test.mjs` (every real question
-finds a written answer; chitchat does not).
+homepage wrapper's rewrites still match) `kb.test.mjs` (every real question finds a
+written answer; chitchat does not) and `underwriting.test.mjs` (an unverified
+or stale rule can never produce a green light; the hard stops stop everything).
 
 They evaluate `cpbot.js` itself, so they test the shipped file rather than a
 copy. `tools/layout-check` needs a browser and is run by hand.
