@@ -122,6 +122,38 @@ sale rather than enable one.
 So you can add rules one at a time, starting with the conditions you see most,
 and each one makes the assistant sharper without any risk in between.
 
+## The panel — please confirm this first
+
+Your site states your insurer panel **five different ways**, and the assistant
+cannot safely name anyone until you say which is right:
+
+| Where | Claimed |
+|---|---|
+| `about-sertac-tekin.html` + 2 more | Manulife, Canada Life, TuGo, RBC Life, Desjardins, iA Financial, BMO Life, Empire Life, 21st Century, TruStone Health |
+| `super-visa-insurance-brampton.html` | Manulife, TuGo, 21st Century, **GMS, Allianz, Travelance** and more |
+| `travel-insurance.html` | Manulife CoverMe, 21st Century, TuGo, Canada Life |
+| `best-visitor-insurance-toronto.html` **(JSON-LD)** | Manulife, TuGo, RBC Life, TruStone Health |
+| `travel-insurance.html` (meta) | Manulife, TuGo & more |
+
+GMS, Allianz and Travelance appear on exactly one page. Desjardins, iA, BMO Life
+and Empire Life appear on three but are missing from the other two lists. The
+JSON-LD version matters most, because that is the one search engines and AI
+assistants read as a statement of fact about your business.
+
+For a licensed broker this is an accuracy question in both directions —
+advertising an appointment you do not hold, and burying ones you do.
+
+**To fix:** set `confirmed: true` on the insurers in `INSURERS` you actually
+place business with, delete the rest, then make the five pages agree. Until a
+name is confirmed the assistant will not say it; it says you are an independent
+broker who compares across a panel at the same premiums as going direct, which
+sells the same point without asserting anything.
+
+Note `panel()` returns two lists and they are not the same size: `confirmed` is
+who you work with, `rules_held_for` is who the assistant actually holds
+underwriting rules for — TuGo, and only TuGo. *"He works with Manulife"* is a
+business fact. *"Manulife would consider this"* needs a rule.
+
 ## Two separate things
 
 | | What it is | Who supplies it |

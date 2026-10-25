@@ -4,7 +4,7 @@
    impossible by construction rather than by careful wording. */
 import { assess, BLOCKERS, CONDITIONS, RULES, ruleIsTrusted,
          QUESTIONNAIRES, questionnaireFor, ALTERATION_EXCEPTIONS,
-         SNOWBIRD_CHECKS } from '../underwriting.js';
+         SNOWBIRD_CHECKS, INSURERS, panel } from '../underwriting.js';
 import fs from 'node:fs';
 
 let fail = 0;
@@ -160,6 +160,34 @@ console.log("\n--- the things a specialist would raise unprompted ---");
   const r = assess(stentCase(), { rules: [verified()], today: TODAY });
   ok(r.deciding_factors.some(f => /five or more medications/i.test(f)), "six medications is raised");
   ok(r.deciding_factors.some(f => /120-day trip/.test(f)), "and a 120-day trip against the departure date");
+}
+
+console.log("\n--- the panel: an unconfirmed insurer is never named ---");
+{
+  const p = panel();
+  ok(INSURERS.length >= 13, `${INSURERS.length} insurers appear in the site's own copy`);
+  ok(p.confirmed.length === 0, "none is confirmed yet, so none may be named");
+  ok(/Do not list insurers by name/.test(p.must_say), "and the model is told so explicitly");
+  ok(/independent broker who compares/.test(p.must_say),
+     "…with the thing it should say instead, which sells the same point");
+  ok(INSURERS.every((x) => Array.isArray(x.seenOn) && x.seenOn.length),
+     "every entry records which page claimed it, so the list can be checked against the site");
+
+  /* The two lists are different sizes and conflating them is the failure mode:
+     "he works with Manulife" is a business fact; "Manulife would cover this"
+     needs a rule. */
+  ok(p.rules_held_for.join() === "TuGo", `rules are held for ${p.rules_held_for.join(", ")} only`);
+  ok(p.rules_held_for.length < INSURERS.length, "which is a much shorter list than the panel");
+}
+
+console.log("\n--- missing one insurer's window is a reason to compare ---");
+{
+  const r = assess({ age: 72, tripDays: 120, conditions: [{ category: "cardiac", changeMonthsAgo: 2 }] },
+                   { rules: [verified()], today: TODAY });
+  const f = r.deciding_factors.join(" | ");
+  ok(/not by an industry rule/.test(f), "it says the windows are each insurer's own wording");
+  ok(/reason to compare, not a reason to stop/.test(f), "…and that missing one is not the end of it");
+  ok(r.tier !== "advisor_only", "and it does not close the conversation");
 }
 
 console.log("\n--- SNOWBIRDS: losing provincial cover ends the eligibility, not just a benefit ---");
