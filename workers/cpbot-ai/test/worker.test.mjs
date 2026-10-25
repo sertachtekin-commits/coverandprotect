@@ -17,7 +17,12 @@ const ok = (c, m) => { console.log((c ? "  PASS  " : "  FAIL  ") + m); if (!c) f
 // --- round 1
 let res = await worker.fetch(post({ message: "my mom is 68, coming from India", profile: { product: "supervisa" } }), env);
 ok(res.status === 200, "round 1 returns 200");
-ok(Array.isArray(sent.tools) && sent.tools.length === 4, "4 tools sent to OpenAI (got " + (sent.tools||[]).length + ")");
+const toolNames = (sent.tools||[]).map(t => t.function && t.function.name);
+ok(toolNames.length === 5, "5 tools sent to OpenAI (got " + toolNames.length + "): " + toolNames.join(", "));
+ok(toolNames[0] === "lookup_kb",
+   "lookup_kb is offered first — the written answers come before the model's own knowledge");
+ok(["save_profile","estimate_premium","recommend_path","create_lead"].every(n => toolNames.includes(n)),
+   "and the four that qualify, price, route and capture are all still there");
 ok(sent.tool_choice === "auto", "tool_choice auto");
 ok(sent.messages[0].role === "system", "system prompt first");
 ok(sent.messages.some(x => x.role === "system" && x.content.includes("supervisa")), "known profile injected so it never re-asks");

@@ -81,6 +81,7 @@ Up to `AI_MAX_ROUNDS` (3) tool rounds per visitor message.
 
 | Tool | What it does |
 |------|--------------|
+| `lookup_kb` | Searches the site's 36 written answers and returns the wording and the page to cite. Offered first, and the prompt tells the model to call it before answering from its own knowledge. The same `kbSearch()` answers directly when the Worker is unreachable, so an out-of-credit key no longer reduces the chat to a canned line. |
 | `save_profile` | Records product, age, days, destination, dates, travellers, pre-existing status, monthly-payment preference. Returns what is still missing. This is why the agent stops re-asking. |
 | `estimate_premium` | Returns an illustrative band from the page's estimate engine, plus `price_drivers` — what moved it. **The only source of a number the model is allowed to say.** |
 | `recommend_path` | Returns the right insurer/tool, the reason, and a URL — from the same `recommendFor()` the guided flows use. |
@@ -132,6 +133,7 @@ runs all four:
 | `characterize.test.mjs` | every flow's question order, and that nothing is asked twice |
 | `coverage.test.mjs` | every page carries the assistant, and the `cpbot.js` version matches `sw.js` |
 | `homepage.test.mjs` | the homepage wrapper's rewrites still match the page they rewrite |
+| `kb.test.mjs` | every real question finds a written answer, chitchat does not, and a pricing question gets prices |
 
 The last two are not about the Worker, but this is the repo's only test runner,
 and both guard failures that produce no error of their own: a page quietly

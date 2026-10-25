@@ -33,6 +33,7 @@ const probe = `
 const patched = js.replace(/\}\)\(\);?\s*$/, probe + '})();');
 new Function(sandbox + patched)();
 const T = globalThis.__T;
+T.source = js;   // the shipped file, for checks that read the code itself
 
 let fail=0; const ok=(c,m)=>{console.log((c?"  PASS  ":"  FAIL  ")+m); if(!c)fail++;};
 /* The AI's field names go in through save_profile, exactly as the model sends
@@ -116,6 +117,21 @@ reset({product:"travel", age:61, days:21});
 T.AI_TOOLS.create_lead({name:"Ayse", contact:"a@b.ca", note:"call after 6pm"});
 ok(T.lastLead().notes === "call after 6pm",
    "the visitor's note is sent as 'notes', the field the sorter actually reads");
+
+console.log("\n--- what reaches GA4, and what must never ---");
+/* CLAUDE.md: engagement metadata only, never form values or contact details.
+   The chat holds an age, a destination, dates and a name — none may leave. */
+const EVENTS = [...T.source.matchAll(/track\('([a-z_]+)',\s*\{([^}]*)\}/g)]
+  .map(m => ({ name: m[1], payload: m[2].replace(/\s+/g, ' ') }));
+ok(EVENTS.length >= 4, `the chat reports ${EVENTS.length} events (it used to report none)`);
+const names = [...new Set(EVENTS.map(e => e.name))].sort();
+ok(names.join() === 'chat_estimate,chat_lead,chat_open,chat_recommend',
+   `opened, estimate, recommendation, lead: ${names.join(' · ')}`);
+const leaky = EVENTS.filter(e =>
+  /\bPROFILE\.(age|ages|destination|dates)\b|\bn\.(age|dest|days)\b|\bsaid\(|\bemail\b|\bphone\b|\btranscript\b/.test(e.payload));
+ok(leaky.length === 0,
+   'no age, destination, dates, name or contact detail in any payload' +
+   (leaky.length ? ` — ${leaky.map(e => e.name).join(', ')}` : ''));
 
 console.log("\n--- create_lead requires real contact details ---");
 reset({product:"supervisa", age:68});
