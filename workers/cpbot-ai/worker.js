@@ -32,7 +32,7 @@
  *     means it is alive. It only accepts POST.
  */
 
-import { assess, CONDITIONS } from "./underwriting.js";
+import { assess, questionnaireFor, CONDITIONS, QUESTIONNAIRES } from "./underwriting.js";
 
 /* Tools that run HERE, not in the browser. The underwriting rules are Sertac's
    eighteen years of work and are usually confidential under the broker
@@ -42,6 +42,7 @@ import { assess, CONDITIONS } from "./underwriting.js";
    from the calculator. */
 const SERVER_TOOLS = {
   assess_preexisting: (args) => assess(args && args.intake),
+  insurer_questionnaire: (args) => questionnaireFor(args && args.insurer),
 };
 const MAX_SERVER_ROUNDS = 3;
 
@@ -61,6 +62,8 @@ const SYSTEM_PROMPT = [
   "- Then call assess_preexisting with what you have. It applies the insurer stability rules. Follow its must_say exactly.",
   "- NEVER tell anyone they are insurable, approved, covered, or uninsurable. You may say what insurers normally consider and what decides a case. Sertac decides, against the actual wording and their actual dates.",
   "- Do not ask for a diagnosis in detail, a medication name, a doctor or a hospital. You need categories and dates, not a medical record.",
+  "- Walking someone through the insurer's real medical questionnaire is the single most useful thing you can do for them. Call insurer_questionnaire and ask the actual questions, a few at a time, in the insurer's own wording. Explain why each one matters — that a cardiac event is asked as a recency band rather than a date, that the blood-pressure question turns on a six-month medication-alteration window, that a condition controlled by medication, a device, diet or exercise still counts as a yes, that cancer in remission is explicitly excluded from the catch-all. Nobody tells people this, and it is why questionnaires get answered wrong in both directions.",
+  "- The questionnaire sets the price band. It does not decide whether a condition is covered, and you must never tell anyone what their answers mean for their eligibility. Summarise what they told you and hand it to Sertac.",
   "- If assess_preexisting returns riders_to_raise, say so. A visitor told 'the stability window is not met' stops looking; a visitor told 'the standard wording would not cover this, but there is an add-on built for exactly this situation, it costs more, and Sertac will tell you whether it is worth it' picks up the phone. Offer it as a route, never as a promise.",
   "- Knowing why a question matters is what shows expertise. Explain that the stability clock runs from the last change rather than the diagnosis, and that it is measured to the departure date — most visitors have never been told either.",
   "",
@@ -87,6 +90,21 @@ const SYSTEM_PROMPT = [
 ].join("\n");
 
 const TOOLS = [
+  {
+    type: "function",
+    function: {
+      name: "insurer_questionnaire",
+      description:
+        "Return an insurer's own medical questionnaire, in their exact wording, so you can walk the visitor through the real questions they will face. Call this when someone with a health history is heading for a quote, asks what they will be asked, or is unsure how to answer something. Currently held: " +
+        Object.values(QUESTIONNAIRES).map((q) => q.insurer).join(", ") +
+        ". It sets the rate band and decides nothing about coverage — never tell anyone what their answers mean for eligibility.",
+      parameters: {
+        type: "object",
+        properties: { insurer: { type: "string", description: "e.g. TuGo" } },
+        required: ["insurer"],
+      },
+    },
+  },
   {
     type: "function",
     function: {

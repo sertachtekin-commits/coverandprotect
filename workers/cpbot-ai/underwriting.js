@@ -41,8 +41,170 @@ export const CONDITIONS = {
   kidney:      "Kidney disease or dialysis",
   liver:       "Liver disease",
   bp:          "High blood pressure or cholesterol",
+  /* Added to match what TuGo's questionnaire actually asks about, so the intake
+     maps onto the form rather than forcing everything into "other". */
+  gastro:      "Stomach or bowel condition (ulcer, Crohn's, colitis, GERD)",
+  thyroid:     "Thyroid condition",
+  arthritis:   "Arthritis",
+  dvt:         "Blood clot or DVT",
+  aneurysm:    "Aortic aneurysm",
   other:       "Something else",
 };
+
+/* ---- what the insurer actually asks ------------------------------------- */
+/* This is NOT the same thing as RULES, and keeping them apart is the point.
+ *
+ *   QUESTIONNAIRES = what an insurer asks.      A fact. Transcribed from the
+ *                                               insurer's own tool.
+ *   RULES          = what it does with the answer. Sertac's knowledge, and
+ *                                               not derivable from the form.
+ *
+ * The questionnaire on its own is worth a lot. An assistant that can walk
+ * someone through TuGo's real questions, in TuGo's words, sends them to the
+ * quote tool already knowing their answers and sends Sertac a complete picture
+ * instead of "my mother has a heart thing". It does that without claiming
+ * anything about coverage. */
+export const QUESTIONNAIRES = {
+  tugo: {
+    insurer: "TuGo",
+    title: "Rate Qualification Questions (Medical Questionnaire)",
+    /* TuGo's own material is explicit that the MQ sets the PRICE band. It is
+       not the policy's pre-existing/stability wording, which is a separate
+       document and is what a claim is actually assessed against. */
+    purpose:
+      "Determines the rate category for the quote. It is not the policy's pre-existing condition wording, and answering it does not mean a condition is covered.",
+    note_on_accuracy:
+      "TuGo states that if a Medical Questionnaire is required and an answer is not accurate and complete, an extra deductible may apply. Every question must be answered, including choosing None where nothing applies.",
+    source: {
+      doc: "TuGo online store Medical Questionnaire, shop.tugo.com, Step 2: Choose Plans",
+      verifiedBy: "Sertac",
+      verifiedOn: "2026-10-25",
+      note: "Transcribed from screenshots of the live quote tool.",
+    },
+    reviewBy: "2027-04-30",
+    questions: [
+      {
+        n: 1,
+        verbatim: "Have you had any of the following? Choose the one most recent event.",
+        complete: true,
+        items: [
+          "Myocardial infarction (heart attack), stroke or Transient Ischemic Attack (TIA, mini-stroke)",
+          "Arterial by-pass, angioplasty and/or the placement of a stent for a cardiovascular condition",
+        ],
+        answers: ["Less than 1 year ago", "1 to 5 years ago", "More than 5 years ago", "None"],
+        why:
+          "Asked as recency bands, not as a date. Which band an event falls into is what moves the rate, so 'about a year ago' is the single answer worth pinning down before anyone runs a quote.",
+      },
+      {
+        n: 2,
+        verbatim: "Do you currently have hypertension also known as high blood pressure?",
+        complete: true,
+        answers: [
+          "No",
+          "Yes with no alteration to medication in the last 6 months",
+          "Yes with an alteration to medication in the last 6 months",
+        ],
+        why:
+          "The pivot is a SIX MONTH medication-alteration window, and it is asked only for blood pressure. An alteration is the dose or type going up, down, stopping, or a new medication starting — a switch to an equivalent generic is excluded. People on long-term blood pressure medication routinely answer this wrong in both directions.",
+      },
+      {
+        n: 3,
+        verbatim:
+          "Have you had any of these conditions in the last 12 months? Choose a condition if, in the specified timeframe, you had the condition, whether or not you received any medical care for it. This includes conditions controlled or managed by medication, a medical device, diet or exercise.",
+        complete: false,
+        incomplete_note:
+          "The CARDIOVASCULAR list was cut off in the source screenshots after 'Arteriosclerosis and/or atherosclerosis'. Sertac to complete.",
+        groups: {
+          CARDIOVASCULAR: [
+            "Aortic aneurysm that is 4cm or larger",
+            "Angina",
+            "Congestive heart failure also known as pulmonary edema",
+            "Coronary Artery Disease (CAD)",
+            "Deep Vein Thrombosis (DVT)",
+            "Arteriosclerosis and/or atherosclerosis",
+          ],
+          RESPIRATORY: [
+            "Asthma requiring prednisone",
+            "Asthma not requiring prednisone",
+            "Two or more bronchitis episodes",
+            "Pneumonia",
+            "Chronic Obstructive Pulmonary Disease (COPD), including emphysema, requiring home oxygen",
+            "Chronic Obstructive Pulmonary Disease (COPD), including emphysema, not requiring home oxygen",
+            "None",
+          ],
+          GASTROINTESTINAL: [
+            "Peptic ulcer either stomach or duodenal",
+            "Crohn's disease, diverticulitis, inflammatory bowel disease, bowel obstruction and/or ulcerative colitis",
+            "Gastroesophageal reflux disease (GERD) also known as chronic acid reflux",
+            "None",
+          ],
+        },
+        why:
+          "Twelve-month lookback, and it counts a condition even with no treatment and even when it is controlled by medication, a device, diet or exercise. That catches people out: 'my asthma is fine, I just use an inhaler' is still a yes. Note the pairs that split on severity — asthma with or without prednisone, COPD with or without home oxygen — which is where the rate difference sits.",
+      },
+      {
+        n: 4,
+        verbatim:
+          "Have you had any of these conditions in the last 12 months? Choose a condition if, in the specified timeframe, you had the condition, whether or not you received any medical care for it. This includes conditions controlled or managed by medication, a medical device, diet or exercise.",
+        complete: false,
+        incomplete_note:
+          "The first list was cut off in the source screenshots after 'Kidney disease requiring dialysis'. Sertac to complete.",
+        groups: {
+          GENERAL: [
+            "Arthritis",
+            "Diabetes requiring insulin",
+            "Diabetes not requiring insulin",
+            "Gallbladder disease, including gallstones",
+            "Hyperthyroidism",
+            "Hypothyroidism",
+            "Kidney stones",
+            "Kidney disease requiring dialysis",
+          ],
+          CANCER: [
+            "Pancreatic cancer",
+            "Liver cancer",
+            "Any type of cancer that has metastasized or that required a bone marrow transplant, excluding pancreatic or liver cancer",
+            "Any other types of cancer. Exclude basal cell and squamous cell skin cancer and/or cancer that is in remission",
+            "None",
+          ],
+        },
+        why:
+          "Cancer is not one question. Pancreatic and liver are each asked separately, metastasis or a bone marrow transplant is asked separately again, and the catch-all explicitly EXCLUDES basal cell and squamous cell skin cancer and cancer in remission. Someone whose cancer is in remission is often answering yes when the form does not ask them to. Diabetes splits on insulin, like asthma splits on prednisone.",
+      },
+      {
+        n: 5,
+        verbatim:
+          "In the last 12 months, have you smoked any tobacco products, or vaped any nicotine products (including e-cigarettes)?",
+        complete: true,
+        answers: ["Yes", "No"],
+        why: "Twelve-month lookback, and vaping counts.",
+      },
+    ],
+  },
+};
+
+export function questionnaireFor(insurer) {
+  const key = String(insurer || "").toLowerCase().replace(/[^a-z]/g, "");
+  const q = QUESTIONNAIRES[key];
+  if (!q) {
+    return {
+      found: false,
+      available: Object.values(QUESTIONNAIRES).map((x) => x.insurer),
+      note: "No questionnaire is recorded for that insurer. Do not invent one — say which you have and offer Sertac for the rest.",
+    };
+  }
+  return {
+    found: true,
+    insurer: q.insurer,
+    title: q.title,
+    purpose: q.purpose,
+    note_on_accuracy: q.note_on_accuracy,
+    source: q.source.doc,
+    questions: q.questions,
+    must_say:
+      "These are the insurer's own questions, so use their wording. Ask them a few at a time, not as a wall of text. Explain WHY a question matters — the recency band, the six-month alteration window, that a controlled condition still counts — because that is the part nobody tells people and it is what stops a questionnaire being answered wrong. This sets the price band; it does not decide whether a condition is covered. Never tell anyone what their answers mean for eligibility: summarise what they told you and hand it to Sertac.",
+  };
+}
 
 /* ---- hard stops --------------------------------------------------------- */
 /* These are not insurer-specific and not a judgement call: while any of them is
