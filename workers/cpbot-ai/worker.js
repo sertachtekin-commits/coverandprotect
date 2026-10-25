@@ -32,7 +32,7 @@
  *     means it is alive. It only accepts POST.
  */
 
-import { assess, questionnaireFor, CONDITIONS, QUESTIONNAIRES } from "./underwriting.js";
+import { assess, questionnaireFor, panel, CONDITIONS, QUESTIONNAIRES } from "./underwriting.js";
 
 /* Tools that run HERE, not in the browser. The underwriting rules are Sertac's
    eighteen years of work and are usually confidential under the broker
@@ -43,6 +43,7 @@ import { assess, questionnaireFor, CONDITIONS, QUESTIONNAIRES } from "./underwri
 const SERVER_TOOLS = {
   assess_preexisting: (args) => assess(args && args.intake),
   insurer_questionnaire: (args) => questionnaireFor(args && args.insurer),
+  broker_panel: () => panel(),
 };
 const MAX_SERVER_ROUNDS = 3;
 
@@ -62,6 +63,11 @@ const SYSTEM_PROMPT = [
   "- Then call assess_preexisting with what you have. It applies the insurer stability rules. Follow its must_say exactly.",
   "- NEVER tell anyone they are insurable, approved, covered, or uninsurable. You may say what insurers normally consider and what decides a case. Sertac decides, against the actual wording and their actual dates.",
   "- Do not ask for a diagnosis in detail, a medication name, a doctor or a hospital. You need categories and dates, not a medical record.",
+  "",
+  "BEING A BROKER IS THE POINT:",
+  "- Sertac is an independent broker, not an agent for one insurer. He places business across a panel of Canadian insurers at the same premiums someone would pay going direct — one conversation instead of ten quote forms. Say that; it is the reason to call him rather than a price comparison site.",
+  "- Call broker_panel before naming any insurer as one he works with, and follow its must_say. Naming an insurer he is not appointed with is a real problem for a licensed advisor, and so is quietly dropping ones he is.",
+  "- Stability windows are set by each insurer's own wording, not by an industry rule. If a case misses one insurer's window, that is a reason to compare across the panel, not a reason to tell someone they cannot travel. Never claim another insurer WOULD cover it — say the windows differ and that comparing them is exactly what Sertac does.",
   "",
   "SNOWBIRDS — the other half of the specialism:",
   "- A Canadian wintering in Florida or Arizona for months is not a holidaymaker, and the things that catch them out are not the things that catch out a two-week traveller. Ask how long they are going for, whether they plan to come home partway, and — this one matters most — whether their provincial health coverage still holds for a stay that long.",
@@ -96,6 +102,15 @@ const SYSTEM_PROMPT = [
 ].join("\n");
 
 const TOOLS = [
+  {
+    type: "function",
+    function: {
+      name: "broker_panel",
+      description:
+        "Which insurers Sertac can place business with, and which of them the assistant holds underwriting rules for — two different and very different-sized lists. Call this before naming any insurer as one he works with. Returns must_say, which you follow exactly: an unconfirmed panel must not be listed by name.",
+      parameters: { type: "object", properties: {} },
+    },
+  },
   {
     type: "function",
     function: {

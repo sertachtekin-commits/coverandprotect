@@ -51,6 +51,50 @@ export const CONDITIONS = {
   other:       "Something else",
 };
 
+/* ---- the panel ----------------------------------------------------------
+ * Who Sertac can actually place business with. This exists because the site
+ * currently says it five different ways — about-sertac-tekin.html names ten
+ * insurers, the Brampton page names six including three that appear nowhere
+ * else, travel-insurance.html names four, and best-visitor-insurance-toronto
+ * names four more in its JSON-LD, which is the version search engines and AI
+ * assistants read as fact.
+ *
+ * For a licensed broker that is not a copy problem, it is an accuracy problem
+ * in both directions: claiming an appointment you do not hold, and burying ones
+ * you do. So nothing here is confirmed until he says so, and the assistant
+ * names only confirmed insurers. Until then it says he compares across a panel
+ * without listing it, which sells the same point without asserting a fact.
+ */
+export const INSURERS = [
+  { key: "manulife",    name: "Manulife",        confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html", "super-visa-insurance-brampton.html"] },
+  { key: "tugo",        name: "TuGo",            confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html", "super-visa-insurance-brampton.html"] },
+  { key: "21st",        name: "21st Century",    confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html", "super-visa-insurance-brampton.html"] },
+  { key: "trustone",    name: "TruStone Health", confirmed: false, seenOn: ["about-sertac-tekin.html", "best-visitor-insurance-toronto.html"] },
+  { key: "canadalife",  name: "Canada Life",     confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html"] },
+  { key: "rbc",         name: "RBC Life",        confirmed: false, seenOn: ["about-sertac-tekin.html", "best-visitor-insurance-toronto.html"] },
+  { key: "desjardins",  name: "Desjardins",      confirmed: false, seenOn: ["about-sertac-tekin.html"] },
+  { key: "ia",          name: "iA Financial",    confirmed: false, seenOn: ["about-sertac-tekin.html"] },
+  { key: "bmo",         name: "BMO Life",        confirmed: false, seenOn: ["about-sertac-tekin.html"] },
+  { key: "empire",      name: "Empire Life",     confirmed: false, seenOn: ["about-sertac-tekin.html"] },
+  { key: "gms",         name: "GMS",             confirmed: false, seenOn: ["super-visa-insurance-brampton.html"] },
+  { key: "allianz",     name: "Allianz",         confirmed: false, seenOn: ["super-visa-insurance-brampton.html"] },
+  { key: "travelance",  name: "Travelance",      confirmed: false, seenOn: ["super-visa-insurance-brampton.html"] },
+];
+
+export function panel() {
+  const ok = INSURERS.filter((x) => x.confirmed);
+  return {
+    confirmed: ok.map((x) => x.name),
+    /* How many insurers we hold underwriting rules for, which is a different
+       and much smaller number. Saying "I compare across the panel" is true;
+       saying "insurer X would consider this" needs a rule. */
+    rules_held_for: [...new Set(RULES.map((r) => r.insurer))],
+    must_say: ok.length
+      ? "You may name these insurers as ones Sertac places business with. You may NOT say what any of them would do with a particular case unless an assessment returned it."
+      : "Do not list insurers by name — the panel is not confirmed in the code yet. Say that Sertac is an independent broker who compares across a panel of Canadian insurers at the same premiums as going direct. That is the selling point anyway: one conversation instead of ten quote forms.",
+  };
+}
+
 /* ---- what the insurer actually asks ------------------------------------- */
 /* This is NOT the same thing as RULES, and keeping them apart is the point.
  *
@@ -578,6 +622,13 @@ export function assess(intake, opts) {
   }
   if (Number.isFinite(i.tripDays) && i.tripDays > 60) {
     deciding.push(`a ${i.tripDays}-day trip — the stability period is measured to the departure date, and some plans shorten cover past 60 days`);
+  }
+  /* The broker's whole advantage, and the assistant should say it out loud:
+     stability windows are not an industry standard, they are each insurer's
+     own wording. Missing one by a month is not the end of it. */
+  if (insurers.some((x) => x.clear_of_window === false)) {
+    deciding.push("that this misses " + (insurers.find((x) => !x.clear_of_window) || {}).insurer +
+      "'s window specifically — those windows are set by each insurer's own wording, not by an industry rule, and Sertac is an independent broker who compares across a panel. Missing one insurer's window by a few weeks is a reason to compare, not a reason to stop.");
   }
   for (const chk of SNOWBIRD_CHECKS) {
     try { if (chk.when(i)) deciding.push(chk.say); } catch (_) {}

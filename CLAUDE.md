@@ -294,6 +294,25 @@ application-date/departure-date split, top-ups measured on total trip length,
 and Trip Cancellation's separate 60-day wording — are in
 `workers/cpbot-ai/RULES.md`.
 
+**The panel is not confirmed, so the assistant does not name insurers.**
+`INSURERS` holds the thirteen names that appear in the site's own copy, each
+with the pages that claimed it and `confirmed: false`. The site states the panel
+five different ways — ten insurers on `about-sertac-tekin.html`, six including
+GMS/Allianz/Travelance on the Brampton page, four on `travel-insurance.html`,
+and four more in `best-visitor-insurance-toronto.html`'s **JSON-LD**, which is
+what search engines and AI assistants read as fact. For a licensed broker that
+is an accuracy problem in both directions. Until Sertac sets `confirmed: true`,
+`panel()` tells the model to say he is an independent broker who compares across
+a panel at the same premiums as going direct, and to name nobody. `panel()` also
+returns `rules_held_for`, a deliberately separate and much shorter list — "he
+works with Manulife" is a business fact; "Manulife would consider this" needs a
+rule.
+
+**A near miss is a reason to compare, not a refusal.** Stability windows are
+each insurer's own wording, not an industry standard, so when a case misses one
+insurer's window the assessment says so and says that comparing is what a broker
+does. It never claims another insurer *would* cover it.
+
 **`QUESTIONNAIRES` and `RULES` are different things and must stay apart.** A
 questionnaire is what an insurer *asks* — a fact, transcribed from their own
 tool. A rule is what they *do with the answer*, which is Sertac's knowledge and
