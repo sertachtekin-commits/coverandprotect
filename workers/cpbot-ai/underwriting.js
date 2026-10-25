@@ -234,6 +234,29 @@ export const BLOCKERS = [
     say: "a hospital stay in the last three months",
     why: "A recent admission restarts the stability clock on every plan, and most insurers decline outright inside 90 days." },
 
+  /* The snowbird trap, and it is an ELIGIBILITY condition rather than an
+     exclusion — fail it and there is no policy to argue about. TuGo defines a
+     Canadian resident as someone "eligible for or has a provincial or
+     territorial government health care plan in place". Stay out of the country
+     long enough to lose OHIP and you stop being eligible for the travel
+     insurance as well, which is the opposite of what people assume: they think
+     the travel policy covers the gap. */
+  { id: "no_provincial_health_cover",
+    when: (i) => i.provincialHealthCover === false,
+    say: "provincial or territorial health coverage that has lapsed, or is about to",
+    why: "Eligibility runs through it. TuGo's definition of a Canadian resident is someone eligible for, or holding, a provincial or territorial government health care plan. Lose it and the travel policy goes with it — which is the opposite of what people assume, because most expect the travel insurance to cover the gap. It does not: the deductible applies only after the provincial plan has paid, so the whole structure is built on that plan existing. Ontario's minimum-presence rule is what usually breaks it on a long winter away.",
+    nuance: "Worth checking before the trip is booked rather than after. Sertac does this calculation constantly." },
+
+  { id: "waiting_list",
+    when: (i) => i.onWaitingListInCanada === true,
+    say: "being on a waiting list in Canada for treatment or diagnosis",
+    why: "Any medical condition for which you are registered on a waiting list in Canada for treatment or diagnosis is excluded outright. It does not matter how long the wait is or how stable the condition has been." },
+
+  { id: "already_departed",
+    when: (i) => i.alreadyDeparted === true,
+    say: "already having left your province",
+    why: "Coverage is void if the policy is bought after you depart from your province or territory, or for a trip that did not start in Canada, unless the insurer authorises it — and then a waiting period applies. Buying from the road is not the same as buying before you go." },
+
   { id: "advised_not_to_travel",
     when: (i) => i.advisedNotToTravel === true,
     say: "a physician or other medical practitioner has advised against travelling",
@@ -271,6 +294,29 @@ export const ALTERATION_EXCEPTIONS = [
   "routine dose adjustments within prescribed parameters for blood thinners, on the same terms",
   "stopping a blood thinner for up to 24 hours for a surgery or procedure",
   "a usage change that is only several medications being combined into one, where the condition is unchanged",
+];
+
+/* ---- the long-winter questions ------------------------------------------
+   None of these stops a sale. They are the things that catch out someone
+   wintering in Florida or Arizona, each taken from the policy wording, and
+   each one a reason to talk to an advisor rather than click buy. */
+export const SNOWBIRD_CHECKS = [
+  { id: "annual_per_trip_cap",
+    when: (i) => Number.isFinite(i.tripDays) && i.tripDays > 35,
+    say: "if this is going on an annual multi-trip plan, check the per-trip day cap. An annual policy covers unlimited trips, but no single trip beyond the maximum contracted at application — and outside Canada that clock runs from the day you leave Canada to the day you come back. A 150-day winter on a 35-day cap is covered for 35 days.",
+  },
+  { id: "trip_home_terminates",
+    when: (i) => Number.isFinite(i.tripDays) && i.tripDays > 60,
+    say: "what happens if they come home mid-winter. Coverage terminates when you return to your province, with one exception: a single temporary visit is allowed without ending the policy, but only if it was unexpected or beyond your control, and you are not covered while you are home. A planned Christmas trip back is not that exception.",
+  },
+  { id: "usa_transit_limits",
+    when: (i) => i.plan === "worldwide_excluding_usa",
+    say: "the USA limits on a worldwide-excluding-USA plan: stopovers or layovers up to 48 hours, or driving through for up to 5 days each way. Someone taking three leisurely days each way is inside it; someone stopping a week in the Carolinas is not. A cruise that departs from or calls at any US port needs the full Worldwide plan for the whole trip.",
+  },
+  { id: "mq_deductible_60plus",
+    when: (i) => Number.isFinite(i.age) && i.age >= 60,
+    say: "that at 60 and over, an answer on the Medical Questionnaire that is not truthful and accurate carries an extra $15,000 USD deductible on any claim — and no further coverage under that policy until the corrected premium is paid. This is the single best reason to go through those questions properly with an advisor rather than guessing at a checkout.",
+  },
 ];
 
 /* ---- the rules ---------------------------------------------------------- */
@@ -532,6 +578,9 @@ export function assess(intake, opts) {
   }
   if (Number.isFinite(i.tripDays) && i.tripDays > 60) {
     deciding.push(`a ${i.tripDays}-day trip — the stability period is measured to the departure date, and some plans shorten cover past 60 days`);
+  }
+  for (const chk of SNOWBIRD_CHECKS) {
+    try { if (chk.when(i)) deciding.push(chk.say); } catch (_) {}
   }
 
   const green = insurers.filter((x) => x.status === "normally_considered");

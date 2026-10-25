@@ -312,6 +312,25 @@ standard window but clears a rider's, the insurer is flagged
 and whether it is worth the premium is the advisor's call. A rider is held to
 the same verification bar as the rule, so an unsourced one is never named.
 
+**Snowbirds are the other half of the specialism.** `SNOWBIRD_CHECKS` raises what
+catches out someone wintering away for months and never troubles a two-week
+traveller: an annual plan's per-trip day cap (the clock runs Canada-to-Canada,
+so a 150-day winter on a 35-day cap is covered for 35 days), what coming home
+mid-winter does to the policy (coverage terminates on return; one temporary
+visit is allowed only if unexpected or beyond your control), the USA transit
+limits on a worldwide-excluding-USA plan (48 hours by air, 5 days each way by
+road), and the extra **$15,000 USD deductible** that applies at 60 and over when
+a Medical Questionnaire answer is not accurate. Each is gated on the traveller
+it applies to, so a fortnight in Portugal hears none of them. They are questions,
+never rulings — none blocks.
+
+**Losing provincial health coverage is an eligibility stop, not a benefit
+question**, and it is the trap snowbirds walk into. TuGo defines a Canadian
+resident as someone eligible for, or holding, a provincial or territorial health
+plan; lose it and the travel policy goes too, which is the reverse of what
+people assume. It only fires when the visitor says so — never inferred from a
+long trip.
+
 The `BLOCKERS` list is separate and needs no rule: a test result outstanding, a
 symptom under investigation, an admission inside 90 days, a terminal prognosis,
 or a trip taken for treatment. These stop a sale rather than enable one, so the
