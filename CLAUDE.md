@@ -283,6 +283,15 @@ cannot source** — `RULES` ships empty for exactly that reason, and an empty fi
 behaves precisely as the site did before, so it is safe to fill in one rule at
 a time. The procedure is in `workers/cpbot-ai/RULES.md`.
 
+**Riders are the difference between a dead end and a phone call.** A rule may
+carry `riders` — a paid add-on buying a shorter stability window, such as
+TuGo's Unstable Pre-existing Medical Condition rider. When a case misses the
+standard window but clears a rider's, the insurer is flagged
+`inside_window_rider_may_apply` and the rider goes in `riders_to_raise`. It
+**never** makes a case `likely_eligible`: it costs more, has its own age cap,
+and whether it is worth the premium is the advisor's call. A rider is held to
+the same verification bar as the rule, so an unsourced one is never named.
+
 The `BLOCKERS` list is separate and needs no rule: a test result outstanding, a
 symptom under investigation, an admission inside 90 days, a terminal prognosis,
 or a trip taken for treatment. These stop a sale rather than enable one, so the
