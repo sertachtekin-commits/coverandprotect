@@ -3,7 +3,7 @@
    has a six-figure claim refused. Everything below exists to make that
    impossible by construction rather than by careful wording. */
 import { assess, BLOCKERS, CONDITIONS, RULES, ruleIsTrusted,
-         QUESTIONNAIRES, questionnaireFor } from '../underwriting.js';
+         QUESTIONNAIRES, questionnaireFor, ALTERATION_EXCEPTIONS } from '../underwriting.js';
 import fs from 'node:fs';
 
 let fail = 0;
@@ -46,7 +46,8 @@ console.log("\n--- with no rules at all it behaves exactly as the site does toda
   const r = assess(stentCase(), { rules: [], today: TODAY });
   ok(r.tier === "needs_review", "every case routes to the advisor");
   ok(r.insurers.length === 0, "and no insurer is named");
-  ok(RULES.length === 0, "the shipped rule set is empty until Sertac fills it");
+  ok(RULES.every((r) => !ruleIsTrusted(r, TODAY)),
+     `no shipped rule is trusted until it is signed off (${RULES.length} transcribed, 0 trusted)`);
 }
 
 console.log("\n--- the hard stops stop everything, rules or no rules ---");
@@ -149,6 +150,8 @@ console.log("\n--- the generic-switch point people stop looking over ---");
   const r = assess(stentCase(), { rules: [verified()], today: TODAY });
   ok(r.deciding_factors.some(f => /equivalent generic/i.test(f)),
      "a reported change prompts the question of whether it was only a brand switch");
+  ok(r.deciding_factors.some(f => /counts as an alteration at all/i.test(f)),
+     "…against all five carve-outs, not just that one");
 }
 
 console.log("\n--- the things a specialist would raise unprompted ---");
@@ -156,6 +159,88 @@ console.log("\n--- the things a specialist would raise unprompted ---");
   const r = assess(stentCase(), { rules: [verified()], today: TODAY });
   ok(r.deciding_factors.some(f => /five or more medications/i.test(f)), "six medications is raised");
   ok(r.deciding_factors.some(f => /120-day trip/.test(f)), "and a 120-day trip against the departure date");
+}
+
+console.log("\n--- TuGo's stability table, transcribed from the policy wording ---");
+{
+  /* Signed-off copies, so we can test what the table does once Sertac activates
+     it. The shipped rules stay unverified until he says otherwise. */
+  const signed = RULES.map((r) => ({ ...r, source: { ...r.source, verifiedBy: "Sertac", verifiedOn: "2026-10-25" } }));
+  const cse = (o) => ({ conditions: [{ category: "cardiac", changeMonthsAgo: 9 }], ...o });
+  const band = (i) => {
+    const r = assess(cse(i), { rules: signed, today: TODAY });
+    return r.insurers.map((x) => x.stability_days);
+  };
+  ok(band({ age: 55, tripDays: 20 }).join() === "7",   "under 60, 35 days or less -> 7 days");
+  ok(band({ age: 55, tripDays: 120 }).join() === "90", "under 60, over 35 days -> 90 days");
+  ok(band({ age: 72, tripDays: 120 }).join() === "180","60 to 74 -> 180 days");
+  ok(band({ age: 80, tripDays: 120 }).join() === "365","75 and over -> 365 days");
+  ok(band({ age: 72, tripDays: 120, withinCanada: true }).join() === "0",
+     "Travel Within Canada -> no stability requirement");
+  ok(band({ age: 72, tripDays: 120 }).join() !== "180,0",
+     "…and that domestic plan is not offered for a trip abroad");
+
+  ok(RULES.every((r) => typeof r.quote === "string" && r.quote.length > 40),
+     "every rule carries the verbatim line it came from");
+  ok(/page 13 of the document/.test(RULES[0].source.doc), `and the page (${RULES[0].source.doc.slice(-30)})`);
+
+  /* 9 months stable clears 180 but not 365. */
+  const r72 = assess(cse({ age: 72, tripDays: 120 }), { rules: signed, today: TODAY });
+  ok(r72.tier === "likely_eligible", `once signed off, a 72-year-old 9 months stable -> ${r72.tier}`);
+  const r80 = assess(cse({ age: 80, tripDays: 120 }), { rules: signed, today: TODAY });
+  ok(r80.tier === "needs_review", `but at 80, against a 365-day window -> ${r80.tier}`);
+}
+
+console.log("\n--- as shipped, none of it is active until Sertac signs it ---");
+{
+  ok(RULES.length === 5, `${RULES.length} rules transcribed`);
+  ok(RULES.every((r) => r.source.verifiedBy === null), "every one is unverified");
+  ok(RULES.every((r) => /Claude, from the PDF/.test(r.source.transcribedBy)), "…and says who transcribed it");
+  ok(RULES.every((r) => !ruleIsTrusted(r, TODAY)), "so none is trusted");
+  const r = assess({ age: 72, tripDays: 120, conditions: [{ category: "cardiac", changeMonthsAgo: 9 }] }, { today: TODAY });
+  ok(r.tier === "needs_review", `and a clear-cut case still routes to him (${r.tier})`);
+}
+
+console.log("\n--- trip length decides the band under 60, so it is asked for ---");
+{
+  const r = assess({ age: 55, conditions: [{ category: "cardiac", changeMonthsAgo: 9 }] }, { today: TODAY });
+  ok(r.deciding_factors.some((f) => /7 days for a trip of 35 days or less/.test(f)),
+     "with no trip length, it explains why the number matters");
+}
+
+console.log("\n--- a Canadian trip is raised when an outbound window is the problem ---");
+{
+  const r = assess({ age: 80, tripDays: 120, conditions: [{ category: "cardiac", changeMonthsAgo: 2 }] }, { today: TODAY });
+  ok(r.deciding_factors.some((f) => /no stability requirement/.test(f)),
+     "someone who cannot clear a window is told a domestic trip has none");
+}
+
+console.log("\n--- the exclusions the wording actually lists ---");
+for (const [label, extra] of [
+  ["advised not to travel",        { advisedNotToTravel: true }],
+  ["palliative care recommended",  { palliativeCare: true }],
+  ["surgery or referral pending",  { procedureOrReferralPending: true }],
+]) {
+  const r = assess({ age: 72, tripDays: 30, conditions: [{ category: "cardiac", changeMonthsAgo: 9 }], ...extra }, { today: TODAY });
+  ok(r.tier === "advisor_only" && r.insurers.length === 0, `${label} -> ${r.tier}`);
+}
+{
+  const pending = BLOCKERS.find((b) => b.id === "awaiting_results");
+  ok(/monitor an existing condition/.test(pending.nuance || ""),
+     "a pending test still stops the sale, but the monitoring and screening carve-outs are explained");
+}
+
+console.log("\n--- what does NOT break a stability period ---");
+{
+  ok(ALTERATION_EXCEPTIONS.length === 5, `${ALTERATION_EXCEPTIONS.length} carve-outs from the definition of alteration`);
+  const all = ALTERATION_EXCEPTIONS.join(" ");
+  ok(/equivalent generic/.test(all), "the generic switch");
+  ok(/insulin or oral diabetes/.test(all), "routine insulin and oral diabetes adjustments");
+  ok(/blood thinner/.test(all) && /24 hours/.test(all), "blood thinner adjustments, and a 24-hour stop for surgery");
+  ok(/combined into one/.test(all), "and medications being combined");
+  const r = assess({ age: 72, tripDays: 30, conditions: [{ category: "cardiac", changeMonthsAgo: 4 }] }, { today: TODAY });
+  ok(r.deciding_factors.some((f) => /counts as an alteration at all/.test(f)),
+     "a reported change prompts the question of whether it counts at all");
 }
 
 console.log("\n--- the insurer's own questionnaire, in the insurer's words ---");
@@ -204,8 +289,13 @@ console.log("\n--- an insurer with no questionnaire gets no invented one ---");
 console.log("\n--- nothing in here was invented by an AI ---");
 {
   const src = fs.readFileSync(new URL('../underwriting.js', import.meta.url), 'utf8');
-  ok(RULES.length === 0 || RULES.every(r => r.source && r.source.verifiedBy),
-     "every shipped rule carries a human verifier");
+  /* The invariant is not "a human wrote every rule" — it is that nothing
+     reaches a visitor as fact without a human signing it, and that anything
+     unsigned says where it came from and carries the line it was taken from. */
+  ok(RULES.every(r => r.source && (r.source.verifiedBy || (r.source.transcribedBy && r.quote))),
+     "every rule is either signed off, or says who transcribed it and quotes its source");
+  ok(RULES.filter(r => !r.source.verifiedBy).every(r => !ruleIsTrusted(r, TODAY)),
+     "and nothing unsigned is ever trusted");
   ok(/Nothing in RULES was written by an AI/.test(src), "and the file says so where the next person will read it");
 }
 

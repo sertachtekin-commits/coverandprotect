@@ -280,9 +280,19 @@ they cannot drift from the calculator. Different data, different rule.
 named document, within the last year, and not past its `reviewBy`.** Unverified
 or stale rules cap at `needs_review`. This is enforced in code, not in wording,
 and `underwriting.test.mjs` fails if it stops being true. **Never add a rule you
-cannot source** — `RULES` ships empty for exactly that reason, and an empty file
-behaves precisely as the site did before, so it is safe to fill in one rule at
-a time. The procedure is in `workers/cpbot-ai/RULES.md`.
+cannot source.** `RULES` now holds TuGo's Traveller stability table — 7 / 90 /
+180 / 365 days by age and trip length, plus no requirement at all on Travel
+Within Canada — transcribed verbatim from the policy wording with the page and
+the quote on each rule. Every one carries `verifiedBy: null` and a
+`transcribedBy` note: reading a table out of an insurance contract takes
+judgement, and it is Sertac's licence on the policy, so he signs it. Until he
+does they behave exactly as an empty file did. A rule may be `condition: "*"`
+when the table turns on age and trip length rather than diagnosis, and
+`appliesTo` scopes it to outbound or within-Canada travel. The procedure, and
+the three things in the wording that are not rules but change the answer — the
+application-date/departure-date split, top-ups measured on total trip length,
+and Trip Cancellation's separate 60-day wording — are in
+`workers/cpbot-ai/RULES.md`.
 
 **`QUESTIONNAIRES` and `RULES` are different things and must stay apart.** A
 questionnaire is what an insurer *asks* — a fact, transcribed from their own
