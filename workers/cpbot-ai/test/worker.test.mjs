@@ -18,11 +18,10 @@ const ok = (c, m) => { console.log((c ? "  PASS  " : "  FAIL  ") + m); if (!c) f
 let res = await worker.fetch(post({ message: "my mom is 68, coming from India", profile: { product: "supervisa" } }), env);
 ok(res.status === 200, "round 1 returns 200");
 const toolNames = (sent.tools||[]).map(t => t.function && t.function.name);
-ok(toolNames.length === 5, "5 tools sent to OpenAI (got " + toolNames.length + "): " + toolNames.join(", "));
-ok(toolNames[0] === "lookup_kb",
-   "lookup_kb is offered first — the written answers come before the model's own knowledge");
-ok(["save_profile","estimate_premium","recommend_path","create_lead"].every(n => toolNames.includes(n)),
-   "and the four that qualify, price, route and capture are all still there");
+ok(toolNames.length === 6, "6 tools sent to OpenAI (got " + toolNames.length + "): " + toolNames.join(", "));
+ok(["assess_preexisting","lookup_kb","save_profile","estimate_premium","recommend_path","create_lead"]
+     .every(n => toolNames.includes(n)),
+   "the specialism, the written answers, and the four that qualify, price, route and capture");
 ok(sent.tool_choice === "auto", "tool_choice auto");
 ok(sent.messages[0].role === "system", "system prompt first");
 ok(sent.messages.some(x => x.role === "system" && x.content.includes("supervisa")), "known profile injected so it never re-asks");
@@ -93,6 +92,39 @@ res = await worker.fetch(post({ message: "hi" }), { ALLOWED_ORIGIN: env.ALLOWED_
 ok((await res.json()).error === "not_configured", "neither spelling present -> not_configured");
 res = await worker.fetch(post({ message: "hi" }), { "OPENAI-API-KEY": "sk-x", "ALLOWED-ORIGIN": "https://coverandprotect.ca" });
 ok(res.status === 200, "hyphenated ALLOWED-ORIGIN also resolves");
+
+
+/* ---------------------------------------------------------------------------
+   The underwriting rules are Sertac's eighteen years of work and are usually
+   confidential under the broker agreement. They run in the Worker and must
+   never travel to the browser — not the rules, and not the tool call that
+   would let a page ask for them directly. */
+console.log("\n--- the underwriting layer stays server-side ---");
+{
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls++;
+    // round 1: the model asks for the server-side tool
+    if (calls === 1) return new Response(JSON.stringify({ choices: [{ message: { content: "",
+      tool_calls: [{ id: "s1", type: "function", function: { name: "assess_preexisting",
+        arguments: JSON.stringify({ intake: { age: 72, awaitingResults: true,
+          conditions: [{ category: "cardiac", detail: "stent", changeMonthsAgo: 9 }] } }) } }] } }] }),
+      { status: 200, headers: { "content-type": "application/json" } });
+    // round 2: having been answered server-side, it replies in words
+    return new Response(JSON.stringify({ choices: [{ message: { content: "Let me put you on to Sertac." } }] }),
+      { status: 200, headers: { "content-type": "application/json" } });
+  };
+
+  const res = await worker.fetch(post({ message: "my mother had a stent and is waiting on a scan" }), env);
+  const out = await res.json();
+  const body = JSON.stringify(out);
+
+  ok(calls === 2, "the Worker answered the tool itself and asked the model again (" + calls + " provider calls)");
+  ok(out.reply && !out.tool_calls, "the browser got a reply, never a request to run it");
+  ok(!/assess_preexisting/.test(body), "the tool name does not appear in the response");
+  ok(!/stabilityDays|verifiedBy|normally_considered|advisor_only/.test(body),
+     "nor does any rule, tier or verification detail");
+}
 
 console.log(fail ? "\n" + fail + " FAILED" : "\nall worker tests passed");
 process.exit(fail ? 1 : 0);

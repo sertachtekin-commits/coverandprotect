@@ -32,6 +32,19 @@
  *     means it is alive. It only accepts POST.
  */
 
+import { assess, CONDITIONS } from "./underwriting.js";
+
+/* Tools that run HERE, not in the browser. The underwriting rules are Sertac's
+   eighteen years of work and are usually confidential under the broker
+   agreement, so they never leave the Worker — the page sends the intake and
+   gets back a tier, never the rules that produced it. This is deliberately the
+   opposite of the rate bands, which must live in the page so they cannot drift
+   from the calculator. */
+const SERVER_TOOLS = {
+  assess_preexisting: (args) => assess(args && args.intake),
+};
+const MAX_SERVER_ROUNDS = 3;
+
 const SYSTEM_PROMPT = [
   "You are the sales assistant for Cover & Protect, an independent insurance advisory in Toronto, Ontario.",
   "Licensed advisor: Sertac Tekin, FSRA #10112782. Phone/WhatsApp 437-385-6173. contact@coverandprotect.ca.",
@@ -41,6 +54,15 @@ const SYSTEM_PROMPT = [
   "",
   "HOW TO WORK:",
   "- Ask ONE question at a time, in plain Canadian English. Keep replies under 90 words.",
+  "",
+  "PRE-EXISTING CONDITIONS — Sertac's specialism, and the reason this assistant exists:",
+  "- Travelling Canadians, snowbirds and seniors with serious health histories are what he does. Treat a visitor who mentions a heart condition, cancer, a stroke, diabetes, blood thinners or a list of medications as the most important conversation of the day, not a problem to hand off quickly.",
+  "- Gather the intake conversationally, one question at a time: what the condition is, when it was diagnosed or last treated, and — the question that actually decides it — when anything about it last changed: a new medication, a dose change, a new symptom, a test, a referral, a hospital stay. Also ask whether anything is currently being investigated or awaiting results, roughly how many medications they take, their age, and the trip dates.",
+  "- Then call assess_preexisting with what you have. It applies the insurer stability rules. Follow its must_say exactly.",
+  "- NEVER tell anyone they are insurable, approved, covered, or uninsurable. You may say what insurers normally consider and what decides a case. Sertac decides, against the actual wording and their actual dates.",
+  "- Do not ask for a diagnosis in detail, a medication name, a doctor or a hospital. You need categories and dates, not a medical record.",
+  "- Knowing why a question matters is what shows expertise. Explain that the stability clock runs from the last change rather than the diagnosis, and that it is measured to the departure date — most visitors have never been told either.",
+  "",
   "- For any factual question — what is covered, how the rules work, what moves the price, stability periods, refunds, deductibles, OHIP, claims — call lookup_kb FIRST. Cover & Protect has written answers to 36 topics, checked by a licensed advisor. Use that wording rather than your own and link the page it names, so the visitor can read the full detail with its disclaimers. Only answer from general knowledge when lookup_kb finds nothing, and then keep it short.",
   "- As soon as you learn anything concrete (product, age, dates, trip length, destination, pre-existing conditions, monthly-payment preference), call save_profile. It remembers for you and tells you what is still missing. Never re-ask something the profile already holds.",
   "- Once you have enough, call estimate_premium, then recommend_path, then present both together.",
@@ -64,6 +86,47 @@ const SYSTEM_PROMPT = [
 ].join("\n");
 
 const TOOLS = [
+  {
+    type: "function",
+    function: {
+      name: "assess_preexisting",
+      description:
+        "Sort a pre-existing medical case against the insurer underwriting rules Sertac maintains. Call this once you know the condition, roughly when anything about it last changed, and whether anything is outstanding. Returns a tier (advisor_only / needs_review / likely_eligible), what decides the case, and must_say — wording instructions you must follow exactly. It never says anyone is insurable, and neither may you.",
+      parameters: {
+        type: "object",
+        properties: {
+          intake: {
+            type: "object",
+            properties: {
+              conditions: {
+                type: "array",
+                description: "One entry per condition. Categories: " + Object.keys(CONDITIONS).join(", "),
+                items: {
+                  type: "object",
+                  properties: {
+                    category: { type: "string" },
+                    detail: { type: "string", description: "e.g. stent, bypass, breast, type 2 — optional" },
+                    lastEventMonthsAgo: { type: "number", description: "Months since diagnosis or last treatment." },
+                    changeMonthsAgo: { type: "number", description: "Months since ANYTHING changed: medication, dose, symptom, test, referral, admission. This is the number that decides the case." },
+                  },
+                  required: ["category"],
+                },
+              },
+              age: { type: "number" },
+              medicationCount: { type: "number" },
+              tripDays: { type: "number" },
+              awaitingResults: { type: "boolean", description: "A test, scan or referral result still outstanding." },
+              underInvestigation: { type: "boolean", description: "A symptom currently being investigated." },
+              hospitalisedMonthsAgo: { type: "number" },
+              terminalPrognosis: { type: "boolean" },
+              travellingForTreatment: { type: "boolean" },
+            },
+          },
+        },
+        required: ["intake"],
+      },
+    },
+  },
   {
     type: "function",
     function: {
@@ -264,6 +327,23 @@ function buildMessages(body) {
   return msgs;
 }
 
+function runServerTool(call) {
+  const name = (call.function && call.function.name) || "";
+  const fn = SERVER_TOOLS[name];
+  if (!fn) return { error: "unknown_tool", name };
+  let args = {};
+  try { args = JSON.parse((call.function && call.function.arguments) || "{}"); } catch (_) {}
+  try { return fn(args); } catch (e) { return { error: "tool_failed", name }; }
+}
+
+/* The assistant turn and its answers, in the shape OpenAI replays them. */
+function toolExchange(msg, calls, results) {
+  return [
+    { role: "assistant", content: msg.content || "", tool_calls: calls },
+    ...results.map((r) => ({ role: "tool", tool_call_id: r.tool_call_id, content: r.content })),
+  ];
+}
+
 async function callOpenAI(apiKey, model, messages) {
   return fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -322,12 +402,56 @@ export default {
     }
     const model = envVar(env, "OPENAI_MODEL") || "gpt-4o-mini";
 
-    let r;
-    try {
-      r = await callOpenAI(apiKey, model, buildMessages(body));
-    } catch (e) {
-      console.error("AI diagnostic: upstream network failure", String((e && e.name) || "network_error"));
-      return json({ error: "upstream_failed", detail: "Unable to connect to AI provider" }, 502, cors);
+    /* The loop below runs server-side tools here and asks the model again,
+       without the browser ever seeing them. `serverChain` carries those
+       exchanges back so the browser can replay them on its next round —
+       otherwise the model forgets what it was told between rounds. */
+    const messages = buildMessages(body);
+    const serverChain = [];
+    let r, data, msg;
+
+    for (let round = 0; ; round++) {
+      try {
+        r = await callOpenAI(apiKey, model, messages);
+      } catch (e) {
+        console.error("AI diagnostic: upstream network failure", String((e && e.name) || "network_error"));
+        return json({ error: "upstream_failed", detail: "Unable to connect to AI provider" }, 502, cors);
+      }
+      if (!r.ok) break;
+      try { data = await r.json(); } catch (e) {
+        console.error("AI diagnostic: invalid provider JSON");
+        return json({ error: "bad_response" }, 502, cors);
+      }
+      msg = ((data.choices || [])[0] || {}).message || {};
+      const calls = Array.isArray(msg.tool_calls) ? msg.tool_calls : [];
+      const serverCalls = calls.filter((c) => SERVER_TOOLS[(c.function && c.function.name) || ""]);
+      if (!serverCalls.length) break;
+
+      const results = serverCalls.map((c) => ({
+        tool_call_id: c.id,
+        content: JSON.stringify(runServerTool(c)).slice(0, MAX_TOOL_RESULT),
+      }));
+      const browserCalls = calls.filter((c) => !SERVER_TOOLS[(c.function && c.function.name) || ""]);
+
+      if (browserCalls.length) {
+        /* Mixed round: the browser must answer its own calls, and we hand it our
+           results so every tool_call_id in that assistant turn is answered —
+           an unanswered id is a hard 400 from the provider. */
+        return json({
+          tool_calls: browserCalls.map((c) => ({
+            id: c.id, type: "function",
+            function: { name: c.function && c.function.name, arguments: c.function && c.function.arguments },
+          })),
+          assistant: { content: msg.content || "", tool_calls: calls },
+          server_results: results,
+          server_chain: serverChain,
+        }, 200, cors);
+      }
+
+      const exchange = toolExchange(msg, calls, results);
+      messages.push(...exchange);
+      serverChain.push(...exchange);
+      if (round + 1 >= MAX_SERVER_ROUNDS) break;
     }
 
     if (!r.ok) {
@@ -344,19 +468,9 @@ export default {
       return json({ error: "provider_error", provider_status: r.status, provider_code: providerCode }, 502, cors);
     }
 
-    let data;
-    try {
-      data = await r.json();
-    } catch (e) {
-      console.error("AI diagnostic: invalid provider JSON");
-      return json({ error: "bad_response" }, 502, cors);
-    }
-
-    const choice = (data.choices || [])[0] || {};
-    const msg = choice.message || {};
-
-    /* The model wants to use tools. Hand them to the browser to run. */
-    if (Array.isArray(msg.tool_calls) && msg.tool_calls.length) {
+    /* The model wants browser tools. Hand them over, with any server exchanges
+       so far so the browser can keep them in the chain. */
+    if (msg && Array.isArray(msg.tool_calls) && msg.tool_calls.length) {
       return json(
         {
           tool_calls: msg.tool_calls.map((c) => ({
@@ -365,13 +479,14 @@ export default {
             function: { name: c.function && c.function.name, arguments: c.function && c.function.arguments },
           })),
           assistant: { content: msg.content || "", tool_calls: msg.tool_calls },
+          server_chain: serverChain,
         },
         200,
         cors
       );
     }
 
-    const reply = String(msg.content || "").trim();
+    const reply = String((msg && msg.content) || "").trim();
     if (!reply) {
       console.error("AI diagnostic: empty model reply");
       return json({ error: "empty_reply" }, 502, cors);
