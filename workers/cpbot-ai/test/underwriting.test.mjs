@@ -162,16 +162,40 @@ console.log("\n--- the things a specialist would raise unprompted ---");
   ok(r.deciding_factors.some(f => /120-day trip/.test(f)), "and a 120-day trip against the departure date");
 }
 
-console.log("\n--- the panel: an unconfirmed insurer is never named ---");
+console.log("\n--- the panel: only the four he confirmed, and only because he signed for them ---");
 {
   const p = panel();
   ok(INSURERS.length >= 13, `${INSURERS.length} insurers appear in the site's own copy`);
-  ok(p.confirmed.length === 0, "none is confirmed yet, so none may be named");
-  ok(/Do not list insurers by name/.test(p.must_say), "and the model is told so explicitly");
-  ok(/independent broker who compares/.test(p.must_say),
-     "…with the thing it should say instead, which sells the same point");
-  ok(INSURERS.every((x) => Array.isArray(x.seenOn) && x.seenOn.length),
-     "every entry records which page claimed it, so the list can be checked against the site");
+
+  /* Confirmed 2026-10-31. The assistant sells travel, visitor and Super Visa
+     and nothing else, so this list is its whole world. */
+  ok(p.confirmed.join(", ") === "Manulife, TuGo, 21st Century, TruStone Health",
+     `confirmed: ${p.confirmed.join(", ")}`);
+
+  /* Same discipline as RULES: a name is confirmed because a licensed human put
+     his name to it, not because someone edited a boolean. */
+  ok(INSURERS.filter((x) => x.confirmed).every((x) => x.confirmedBy && x.confirmedOn),
+     "every confirmed insurer records who confirmed it and when");
+
+  /* The ones that are NOT confirmed must never leak into the named list, and
+     the three that were false travel claims are called out by name so the
+     model cannot drift back to them. */
+  const unconfirmed = INSURERS.filter((x) => !x.confirmed).map((x) => x.name);
+  ok(unconfirmed.every((n) => !p.confirmed.includes(n)),
+     `${unconfirmed.length} unconfirmed insurers, none of them named`);
+  ok(/Name no others/.test(p.must_say), "the model is told to name no others");
+  ok(/GMS, Allianz, Travelance/.test(p.must_say),
+     "…and the three removed travel claims are named as off-limits");
+  ok(/holding a name is not holding a rule/.test(p.must_say),
+     "…and that an appointment is not an underwriting opinion");
+
+  /* Every row is traceable to the site either way: confirmed by a human, or
+     recorded against the page that claimed it. */
+  ok(INSURERS.every((x) =>
+       (x.confirmed && x.confirmedBy) ||
+       (Array.isArray(x.seenOn) && x.seenOn.length) ||
+       (Array.isArray(x.removedFrom) && x.removedFrom.length)),
+     "every entry is either signed off or records the pages that claimed it");
 
   /* The two lists are different sizes and conflating them is the failure mode:
      "he works with Manulife" is a business fact; "Manulife would cover this"

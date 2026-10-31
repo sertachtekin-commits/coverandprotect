@@ -122,37 +122,79 @@ sale rather than enable one.
 So you can add rules one at a time, starting with the conditions you see most,
 and each one makes the assistant sharper without any risk in between.
 
-## The panel — please confirm this first
+## The panel — settled 2026-10-31, except the life & health half
 
-Your site states your insurer panel **five different ways**, and the assistant
-cannot safely name anyone until you say which is right:
+You confirmed you place **travel, visitor and Super Visa** business with four
+insurers:
+
+**Manulife · TuGo · 21st Century · TruStone Health**
+
+Those four are `confirmed: true` in `INSURERS`, each stamped with your name and
+the date, and the assistant may now name them. It still will not say what any of
+them would do with a particular case — that needs a rule, and `rules_held_for`
+is TuGo only, unsigned.
+
+### What the site used to claim
+
+Before this, the panel was stated five different ways and "10+ Canadian
+insurers" appeared on twenty-odd lines:
 
 | Where | Claimed |
 |---|---|
 | `about-sertac-tekin.html` + 2 more | Manulife, Canada Life, TuGo, RBC Life, Desjardins, iA Financial, BMO Life, Empire Life, 21st Century, TruStone Health |
 | `super-visa-insurance-brampton.html` | Manulife, TuGo, 21st Century, **GMS, Allianz, Travelance** and more |
-| `travel-insurance.html` | Manulife CoverMe, 21st Century, TuGo, Canada Life |
-| `best-visitor-insurance-toronto.html` **(JSON-LD)** | Manulife, TuGo, RBC Life, TruStone Health |
-| `travel-insurance.html` (meta) | Manulife, TuGo & more |
+| `super-visa-guide.html` | Manulife, TuGo, 21st Century, **GMS, Travelance, MSH International** & more |
+| `travel-insurance.html` | Manulife CoverMe, 21st Century, TuGo, **Canada Life** — plus per-product chips naming RBC Life and Desjardins, and a Canada Life Super Visa card |
+| `best-visitor-insurance-toronto.html` **(JSON-LD)** | Manulife, TuGo, **RBC Life**, TruStone Health |
 
-GMS, Allianz and Travelance appear on exactly one page. Desjardins, iA, BMO Life
-and Empire Life appear on three but are missing from the other two lists. The
-JSON-LD version matters most, because that is the one search engines and AI
-assistants read as a statement of fact about your business.
+The JSON-LD version mattered most: that is what search engines and AI assistants
+read as a statement of fact about your business.
 
-For a licensed broker this is an accuracy question in both directions —
-advertising an appointment you do not hold, and burying ones you do.
+**All of it is now corrected** on the travel, visitor and Super Visa pages —
+`travel-insurance.html`, `super-visa-guide.html`, the Brampton and Mississauga
+pages, `best-visitor-insurance-toronto.html`, `snowbird-travel-insurance.html`,
+`annual-multi-trip-travel-insurance.html`, `snowbird-60-day-split-calculator.html`,
+`buy-online.html`, `app.html` and the homepage's travel card. GMS, Allianz,
+Travelance and MSH International are gone. No travel page claims an insurer
+count any more; the copy says "every insurer we are appointed with", which sells
+the same point and stays true if the panel changes.
 
-**To fix:** set `confirmed: true` on the insurers in `INSURERS` you actually
-place business with, delete the rest, then make the five pages agree. Until a
-name is confirmed the assistant will not say it; it says you are an independent
-broker who compares across a panel at the same premiums as going direct, which
-sells the same point without asserting anything.
+`test/panel.test.mjs` keeps it that way: it fails if any page starts naming an
+insurer you are not appointed with, or if a travel page claims a count again.
 
-Note `panel()` returns two lists and they are not the same size: `confirmed` is
-who you work with, `rules_held_for` is who the assistant actually holds
-underwriting rules for — TuGo, and only TuGo. *"He works with Manulife"* is a
-business fact. *"Manulife would consider this"* needs a rule.
+### Still open: the life & health side
+
+Six insurers are still named on the pages for a **different book of business** —
+health, group benefits, critical illness, long-term care and life:
+
+| Insurer | Named on |
+|---|---|
+| Canada Life | health, group benefits, critical illness, long-term care, about, homepage |
+| Desjardins | health, group benefits, critical illness, long-term care, about, homepage |
+| iA Financial | health, group benefits, critical illness, long-term care, about, homepage |
+| Empire Life | health, group benefits, critical illness, long-term care, about, homepage |
+| RBC Life | critical illness, long-term care, about, homepage |
+| BMO Life | critical illness, long-term care, about, homepage |
+
+Three of your four confirmed insurers — TuGo, 21st Century and TruStone Health —
+do not write those products at all, so the four almost certainly is not your
+whole book. **Nothing has been removed from those pages**, because unconfirmed is
+not the same as wrong and guessing either way would be a worse error than
+waiting.
+
+What is still outstanding on those pages:
+
+- `about-sertac-tekin.html` — "More than ten Canadian insurers, including …" in
+  both the visible copy and the **FAQ JSON-LD**, plus "Contracted with 10+".
+- The homepage — a **"Partnered With"** bar listing all ten names, which is the
+  strongest claim on the site, plus the health / group / life / critical illness
+  / disability service cards, the meta description and the FAQ JSON-LD.
+- Two blog bios — "contracted with more than ten Canadian insurers".
+
+**To finish:** tell me which of those six you actually place life & health
+business with. I will set them `confirmed: true`, remove the rest from the pages,
+replace the "10+" counts, and delete the matching entries from
+`panel.test.mjs`'s `ALLOWED` table so the suite starts enforcing it.
 
 ## Two separate things
 

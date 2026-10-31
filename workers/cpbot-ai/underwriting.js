@@ -52,33 +52,48 @@ export const CONDITIONS = {
 };
 
 /* ---- the panel ----------------------------------------------------------
- * Who Sertac can actually place business with. This exists because the site
- * currently says it five different ways — about-sertac-tekin.html names ten
- * insurers, the Brampton page names six including three that appear nowhere
- * else, travel-insurance.html names four, and best-visitor-insurance-toronto
- * names four more in its JSON-LD, which is the version search engines and AI
- * assistants read as fact.
+ * Who Sertac can actually place business with.
  *
- * For a licensed broker that is not a copy problem, it is an accuracy problem
- * in both directions: claiming an appointment you do not hold, and burying ones
- * you do. So nothing here is confirmed until he says so, and the assistant
- * names only confirmed insurers. Until then it says he compares across a panel
- * without listing it, which sells the same point without asserting a fact.
+ * CONFIRMED 2026-10-31, by Sertac, for travel, visitor and Super Visa
+ * business: Manulife, TuGo, 21st Century and TruStone Health. Those four are
+ * the assistant's whole world — it sells nothing else — so it may now name
+ * them instead of talking around the panel.
+ *
+ * Everything below them is still unconfirmed, and the two groups are
+ * unconfirmed for different reasons:
+ *
+ *   - Canada Life, RBC Life, Desjardins, iA Financial, BMO Life and Empire
+ *     Life are life & health carriers, named on the health, group benefits,
+ *     critical illness and long-term care pages. That is a different book of
+ *     business from the one the assistant sells, and Sertac has not confirmed
+ *     it. They stay false: unconfirmed is not the same as wrong.
+ *   - GMS, Allianz and Travelance were travel claims on pages that had no
+ *     basis for them. Those claims are gone from the pages (2026-10-31); the
+ *     rows stay here so that re-adding one is a visible decision rather than
+ *     a quiet copy edit.
+ *
+ * `confirmed` governs one thing: whether the assistant may say the name. It
+ * is not a verdict on the site's life & health copy, and it is a separate
+ * question from whether we hold an underwriting rule for that insurer — see
+ * rules_held_for below, which is a much shorter list.
  */
 export const INSURERS = [
-  { key: "manulife",    name: "Manulife",        confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html", "super-visa-insurance-brampton.html"] },
-  { key: "tugo",        name: "TuGo",            confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html", "super-visa-insurance-brampton.html"] },
-  { key: "21st",        name: "21st Century",    confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html", "super-visa-insurance-brampton.html"] },
-  { key: "trustone",    name: "TruStone Health", confirmed: false, seenOn: ["about-sertac-tekin.html", "best-visitor-insurance-toronto.html"] },
-  { key: "canadalife",  name: "Canada Life",     confirmed: false, seenOn: ["about-sertac-tekin.html", "travel-insurance.html"] },
-  { key: "rbc",         name: "RBC Life",        confirmed: false, seenOn: ["about-sertac-tekin.html", "best-visitor-insurance-toronto.html"] },
-  { key: "desjardins",  name: "Desjardins",      confirmed: false, seenOn: ["about-sertac-tekin.html"] },
-  { key: "ia",          name: "iA Financial",    confirmed: false, seenOn: ["about-sertac-tekin.html"] },
-  { key: "bmo",         name: "BMO Life",        confirmed: false, seenOn: ["about-sertac-tekin.html"] },
-  { key: "empire",      name: "Empire Life",     confirmed: false, seenOn: ["about-sertac-tekin.html"] },
-  { key: "gms",         name: "GMS",             confirmed: false, seenOn: ["super-visa-insurance-brampton.html"] },
-  { key: "allianz",     name: "Allianz",         confirmed: false, seenOn: ["super-visa-insurance-brampton.html"] },
-  { key: "travelance",  name: "Travelance",      confirmed: false, seenOn: ["super-visa-insurance-brampton.html"] },
+  /* travel / visitor / Super Visa — confirmed */
+  { key: "manulife",    name: "Manulife",        confirmed: true,  confirmedOn: "2026-10-31", confirmedBy: "Sertac" },
+  { key: "tugo",        name: "TuGo",            confirmed: true,  confirmedOn: "2026-10-31", confirmedBy: "Sertac" },
+  { key: "21st",        name: "21st Century",    confirmed: true,  confirmedOn: "2026-10-31", confirmedBy: "Sertac" },
+  { key: "trustone",    name: "TruStone Health", confirmed: true,  confirmedOn: "2026-10-31", confirmedBy: "Sertac" },
+  /* life & health copy — a different book, not confirmed, not removed */
+  { key: "canadalife",  name: "Canada Life",     confirmed: false, book: "life_health", seenOn: ["about-sertac-tekin.html", "health-insurance.html", "group-benefits.html", "critical-illness.html", "long-term-care.html"] },
+  { key: "rbc",         name: "RBC Life",        confirmed: false, book: "life_health", seenOn: ["about-sertac-tekin.html", "critical-illness.html", "long-term-care.html"] },
+  { key: "desjardins",  name: "Desjardins",      confirmed: false, book: "life_health", seenOn: ["about-sertac-tekin.html", "health-insurance.html", "group-benefits.html", "critical-illness.html", "long-term-care.html"] },
+  { key: "ia",          name: "iA Financial",    confirmed: false, book: "life_health", seenOn: ["about-sertac-tekin.html", "health-insurance.html", "group-benefits.html", "critical-illness.html", "long-term-care.html"] },
+  { key: "bmo",         name: "BMO Life",        confirmed: false, book: "life_health", seenOn: ["about-sertac-tekin.html", "critical-illness.html", "long-term-care.html"] },
+  { key: "empire",      name: "Empire Life",     confirmed: false, book: "life_health", seenOn: ["about-sertac-tekin.html", "health-insurance.html", "group-benefits.html", "critical-illness.html", "long-term-care.html"] },
+  /* travel claims with no basis — removed from the pages 2026-10-31 */
+  { key: "gms",         name: "GMS",             confirmed: false, book: "travel", removedFrom: ["super-visa-insurance-brampton.html", "super-visa-guide.html"] },
+  { key: "allianz",     name: "Allianz",         confirmed: false, book: "travel", removedFrom: ["super-visa-insurance-brampton.html"] },
+  { key: "travelance",  name: "Travelance",      confirmed: false, book: "travel", removedFrom: ["super-visa-insurance-brampton.html", "super-visa-guide.html"] },
 ];
 
 export function panel() {
@@ -90,7 +105,7 @@ export function panel() {
        saying "insurer X would consider this" needs a rule. */
     rules_held_for: [...new Set(RULES.map((r) => r.insurer))],
     must_say: ok.length
-      ? "You may name these insurers as ones Sertac places business with. You may NOT say what any of them would do with a particular case unless an assessment returned it."
+      ? "These " + ok.length + " are the insurers Sertac places travel, visitor and Super Visa business with, and you may name them. Name no others — not GMS, Allianz, Travelance, or any life & health carrier. You may NOT say what any of them would do with a particular case unless an assessment returned it; holding a name is not holding a rule."
       : "Do not list insurers by name — the panel is not confirmed in the code yet. Say that Sertac is an independent broker who compares across a panel of Canadian insurers at the same premiums as going direct. That is the selling point anyway: one conversation instead of ten quote forms.",
   };
 }

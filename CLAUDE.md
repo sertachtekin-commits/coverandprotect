@@ -294,19 +294,37 @@ application-date/departure-date split, top-ups measured on total trip length,
 and Trip Cancellation's separate 60-day wording — are in
 `workers/cpbot-ai/RULES.md`.
 
-**The panel is not confirmed, so the assistant does not name insurers.**
-`INSURERS` holds the thirteen names that appear in the site's own copy, each
-with the pages that claimed it and `confirmed: false`. The site states the panel
-five different ways — ten insurers on `about-sertac-tekin.html`, six including
-GMS/Allianz/Travelance on the Brampton page, four on `travel-insurance.html`,
-and four more in `best-visitor-insurance-toronto.html`'s **JSON-LD**, which is
-what search engines and AI assistants read as fact. For a licensed broker that
-is an accuracy problem in both directions. Until Sertac sets `confirmed: true`,
-`panel()` tells the model to say he is an independent broker who compares across
-a panel at the same premiums as going direct, and to name nobody. `panel()` also
-returns `rules_held_for`, a deliberately separate and much shorter list — "he
-works with Manulife" is a business fact; "Manulife would consider this" needs a
-rule.
+**The panel is four insurers, and the site now says so.** Sertac confirmed on
+2026-10-31 that he places travel, visitor and Super Visa business with
+**Manulife, TuGo, 21st Century and TruStone Health**. Those four carry
+`confirmed: true` plus `confirmedBy`/`confirmedOn` in `INSURERS`, and `panel()`
+lets the model name them while still refusing to say what any of them would do
+with a case — holding an appointment is not holding a rule, which is why
+`panel()` also returns `rules_held_for` (currently just TuGo, and unsigned).
+
+The other nine entries stay in the table, `confirmed: false`, for two different
+reasons. **Canada Life, RBC Life, Desjardins, iA Financial, BMO Life and Empire
+Life** are life & health carriers named on the health, group benefits, critical
+illness, long-term care and life pages — a different book of business, not yet
+confirmed either way, and *unconfirmed is not the same as wrong*, so that copy
+stands until he answers. **GMS, Allianz and Travelance** were travel claims with
+no basis; the sentences that made them are gone, and the rows remain so that
+re-adding one is a visible decision rather than a quiet copy edit.
+
+Before that, the site stated the panel five different ways and claimed "10+
+Canadian insurers" on twenty-odd lines, including in **JSON-LD**, which is what
+search engines and AI assistants read as fact. For a licensed advisor that is an
+accuracy problem in both directions. **`test/panel.test.mjs` is what notices if
+it drifts back**: it asserts the set of pages naming an unconfirmed insurer is
+exactly the set recorded in its `ALLOWED` table — so naming one anywhere new
+fails, and a human decides whether the mention is a panel claim or editorial.
+Two kinds of mention are deliberately allowed: the life & health pages above,
+and genuine editorial (PolicyAdvisor's published snowbird premium comparison on
+`snowbird-travel-insurance-cost-by-age.html`, Allianz's own appeal deadline in
+`blog-how-to-make-travel-insurance-claim.html`). The suite also fails any
+travel or visitor page that claims an insurer count, excepting the handful of
+pages whose copy spans the whole practice. When the life & health side is
+settled, delete those `ALLOWED` entries and fix the pages together.
 
 **A near miss is a reason to compare, not a refusal.** Stability windows are
 each insurer's own wording, not an industry standard, so when a case misses one
@@ -413,7 +431,7 @@ pre-existing wording:
 cd workers/cpbot-ai && npm test
 ```
 
-That runs eight suites: `worker.test.mjs` (protocol and guards),
+That runs nine suites: `worker.test.mjs` (protocol and guards),
 `tools.test.mjs` (tool behaviour, the advisor gate, routing, and the GA4
 payloads), `flow.test.mjs` (the guided flow's step sequence),
 `characterize.test.mjs` (every flow's question order — it fails if a change
@@ -421,7 +439,9 @@ alters what a visitor is asked), `coverage.test.mjs` (every page carries the
 assistant; the `cpbot.js` version matches `sw.js`), `homepage.test.mjs` (the
 homepage wrapper's rewrites still match) `kb.test.mjs` (every real question finds a
 written answer; chitchat does not) and `underwriting.test.mjs` (an unverified
-or stale rule can never produce a green light; the hard stops stop everything).
+or stale rule can never produce a green light; the hard stops stop everything)
+and `panel.test.mjs` (no page names an insurer he is not appointed with, and no
+travel page claims an insurer count).
 
 They evaluate `cpbot.js` itself, so they test the shipped file rather than a
 copy. `tools/layout-check` needs a browser and is run by hand.
