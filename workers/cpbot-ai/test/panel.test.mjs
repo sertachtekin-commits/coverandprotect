@@ -31,48 +31,34 @@ const files = [
 const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 
 /* ---------------------------------------------------------------------------
- * Where an unconfirmed insurer may still be named, and why.
+ * Where an insurer Sertac is NOT appointed with may still be named, and why.
  *
- * Two kinds of entry, and the difference matters:
+ * Sertac confirmed the life & health carriers on 2026-11-01 — Canada Life,
+ * Desjardins, iA Financial, RBC Life and BMO Life, alongside Manulife — so
+ * those are `confirmed` in INSURERS and this table no longer covers them.
  *
- *   LIFE & HEALTH  — Canada Life, RBC Life, Desjardins, iA Financial, BMO Life
- *     and Empire Life are named on the health, group benefits, critical
- *     illness, long-term care and life pages. That is a different book of
- *     business from the one the assistant sells, and Sertac has not confirmed
- *     it either way. Unconfirmed is not the same as wrong, so the copy stands
- *     until he says. When he does, delete these entries and the pages
- *     together.
+ * What is left is genuine EDITORIAL: a factual statement about an insurer the
+ * practice does not place with. Comparing published market rates, or citing an
+ * insurer's own appeal deadline, is useful content and claims no appointment.
  *
- *   EDITORIAL — a factual statement about an insurer the practice does not
- *     place with. Comparing published market rates, or citing an insurer's own
- *     appeal deadline, is useful content and claims no appointment. These stay.
+ * Empire Life has an empty list on purpose. It was named on four service pages
+ * and the homepage, and Sertac did not include it when he confirmed the life &
+ * health carriers. Read as deliberate and removed; the empty list is what
+ * fails if it comes back without the boolean changing with it.
  * ------------------------------------------------------------------------ */
 const ALLOWED = {
-  /* life & health copy, pending Sertac's answer */
-  "Canada Life":  ['about-sertac-tekin.html', 'health-insurance.html', 'group-benefits.html',
-                   'critical-illness.html', 'long-term-care.html', '_includes/homepage-original.html'],
-  "RBC Life":     ['about-sertac-tekin.html', 'critical-illness.html', 'long-term-care.html',
-                   '_includes/homepage-original.html'],
-  "Desjardins":   ['about-sertac-tekin.html', 'health-insurance.html', 'group-benefits.html',
-                   'critical-illness.html', 'long-term-care.html', '_includes/homepage-original.html'],
-  "iA Financial": ['about-sertac-tekin.html', 'health-insurance.html', 'group-benefits.html',
-                   'critical-illness.html', 'long-term-care.html', '_includes/homepage-original.html'],
-  "BMO Life":     ['about-sertac-tekin.html', 'critical-illness.html', 'long-term-care.html',
-                   '_includes/homepage-original.html'],
-  "Empire Life":  ['about-sertac-tekin.html', 'health-insurance.html', 'group-benefits.html',
-                   'critical-illness.html', 'long-term-care.html', '_includes/homepage-original.html'],
-
   /* editorial: PolicyAdvisor's published 180-day snowbird premium comparison,
      cited to them on the page. Market data, not a panel. */
-  "GMS":          ['snowbird-travel-insurance-cost-by-age.html'],
+  "GMS":         ['snowbird-travel-insurance-cost-by-age.html'],
 
   /* editorial: Allianz's own 180-day written-appeal deadline, given as an
      example of why a denial letter must be read immediately, plus a link to
      their claim page. Useful to a claimant whoever sold the policy. */
-  "Allianz":      ['blog-how-to-make-travel-insurance-claim.html'],
+  "Allianz":     ['blog-how-to-make-travel-insurance-claim.html'],
 
-  /* nothing left: the Brampton and Super Visa guide claims are gone */
-  "Travelance":   [],
+  /* removed, and expected to stay removed */
+  "Empire Life": [],
+  "Travelance":  [],
 };
 
 console.log("--- the four confirmed insurers, and nobody else claimed ---");
@@ -96,25 +82,37 @@ console.log("--- the four confirmed insurers, and nobody else claimed ---");
   }
 }
 
-console.log("\n--- no travel or visitor page claims a panel it does not have ---");
+console.log("\n--- no page claims a number of insurers ---");
 {
-  /* "10+ insurers" was the headline claim and it is four. These pages sell
-     travel, visitor or Super Visa only, so the count is simply wrong on them.
-     The about page and the homepage span the whole practice, including the
-     unconfirmed life & health side, so they are excluded until that is settled
-     — the one place the count may still appear. */
-  const SPANS_WHOLE_PRACTICE = new Set([
-    'about-sertac-tekin.html',
-    'index.html',
-    '_includes/homepage-original.html',
-    'blog-super-visa-foreign-insurer-rules.html',        // advisor bio, whole practice
-    'blog-travel-insurance-pre-existing-conditions.html', // advisor bio, whole practice
-  ]);
-  const COUNT = /\b(10\+|more than ten|ten|eleven|twelve|thirteen|[1-9]\d)\s+(major\s+)?(top\s+)?(Canadian\s+)?insurers\b/i;
-  const offenders = files.filter(f => !SPANS_WHOLE_PRACTICE.has(f) && COUNT.test(read(f)));
+  /* "10+ Canadian insurers" was the headline claim, on twenty-odd lines
+     including meta descriptions and JSON-LD. On travel pages it was simply
+     wrong — the travel panel is four. On the homepage and about page it spanned
+     the whole practice, where nine are confirmed "among others", so the number
+     was arguably defensible and still not verifiable: he has not said how many
+     the others are.
+     Every count is now gone, replaced by wording that stays true whoever joins
+     or leaves the panel. No page may quote one again. */
+  const COUNT = /\b(\d+\+|more than ten|ten|eleven|twelve|thirteen|[1-9]\d)\s+(major\s+)?(top\s+)?(Canadian\s+)?insurers\b/i;
+  const offenders = files.filter(f => COUNT.test(read(f)));
   ok(offenders.length === 0,
-     `${files.length - SPANS_WHOLE_PRACTICE.size} pages checked for an inflated insurer count` +
+     `${files.length} pages checked, none quoting an insurer count` +
      (offenders.length ? ` — still claiming one: ${offenders.join(', ')}` : ''));
+}
+
+console.log("\n--- the assistant's panel is travel only, not every appointment ---");
+{
+  /* Three of the four travel insurers do not write life or group business, and
+     the life carriers do not write travel. panel() filters on `books`, so a
+     confirmed Canada Life appointment can never be offered to a snowbird. */
+  const p = panel();
+  const lifeOnly = INSURERS.filter(x => x.confirmed && !x.books.includes("travel"));
+  ok(lifeOnly.length > 0, `${lifeOnly.length} confirmed insurers write life & health but not travel`);
+  ok(lifeOnly.every(x => !p.confirmed.includes(x.name)),
+     `none of them reaches the assistant (${lifeOnly.map(x => x.name).join(', ')})`);
+  ok(INSURERS.every(x => Array.isArray(x.books) && x.books.length),
+     "every insurer records which book of business it is for");
+  ok(/must not name them here/.test(p.must_say),
+     "and the model is told the other carriers exist but are not its to sell");
 }
 
 console.log("\n--- the removed travel claims stay removed ---");

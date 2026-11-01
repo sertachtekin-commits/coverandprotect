@@ -184,8 +184,10 @@ console.log("\n--- the panel: only the four he confirmed, and only because he si
   ok(unconfirmed.every((n) => !p.confirmed.includes(n)),
      `${unconfirmed.length} unconfirmed insurers, none of them named`);
   ok(/Name no others/.test(p.must_say), "the model is told to name no others");
-  ok(/GMS, Allianz, Travelance/.test(p.must_say),
+  ok(/GMS, Allianz or Travelance/.test(p.must_say),
      "…and the three removed travel claims are named as off-limits");
+  ok(/must not name them here/.test(p.must_say),
+     "…while the life & health carriers are acknowledged but out of scope");
   ok(/holding a name is not holding a rule/.test(p.must_say),
      "…and that an appointment is not an underwriting opinion");
 

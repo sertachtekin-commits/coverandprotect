@@ -294,37 +294,51 @@ application-date/departure-date split, top-ups measured on total trip length,
 and Trip Cancellation's separate 60-day wording — are in
 `workers/cpbot-ai/RULES.md`.
 
-**The panel is four insurers, and the site now says so.** Sertac confirmed on
-2026-10-31 that he places travel, visitor and Super Visa business with
-**Manulife, TuGo, 21st Century and TruStone Health**. Those four carry
-`confirmed: true` plus `confirmedBy`/`confirmedOn` in `INSURERS`, and `panel()`
-lets the model name them while still refusing to say what any of them would do
-with a case — holding an appointment is not holding a rule, which is why
-`panel()` also returns `rules_held_for` (currently just TuGo, and unsigned).
+**The panel is confirmed, and `books` keeps the two halves apart.** Sertac
+confirmed it in two passes. **Travel, visitor and Super Visa: Manulife, TuGo,
+21st Century, TruStone Health** (2026-10-31). **Life, critical illness, group
+and health: Manulife, Canada Life, Desjardins, iA Financial, RBC Life, BMO
+Life** — *among others*, in his words "a variety of providers", so that list is
+not closed (2026-11-01). Nine names confirmed in all, each stamped with
+`confirmedBy`/`confirmedOn`.
 
-The other nine entries stay in the table, `confirmed: false`, for two different
-reasons. **Canada Life, RBC Life, Desjardins, iA Financial, BMO Life and Empire
-Life** are life & health carriers named on the health, group benefits, critical
-illness, long-term care and life pages — a different book of business, not yet
-confirmed either way, and *unconfirmed is not the same as wrong*, so that copy
-stands until he answers. **GMS, Allianz and Travelance** were travel claims with
-no basis; the sentences that made them are gone, and the rows remain so that
-re-adding one is a visible decision rather than a quiet copy edit.
+**`panel()` filters on `books`, not on `confirmed`, and that distinction is the
+whole point.** Three of the four travel insurers do not write life or group
+business, and the life carriers do not write travel — so a flat confirmed list
+would let the assistant offer Canada Life to a snowbird. `panel()` returns the
+four travel names only, and its `must_say` tells the model the other carriers
+exist but are not its to sell. Naming an insurer is still separate from holding
+its rules: `rules_held_for` is TuGo alone, and unsigned.
 
-Before that, the site stated the panel five different ways and claimed "10+
-Canadian insurers" on twenty-odd lines, including in **JSON-LD**, which is what
-search engines and AI assistants read as fact. For a licensed advisor that is an
-accuracy problem in both directions. **`test/panel.test.mjs` is what notices if
-it drifts back**: it asserts the set of pages naming an unconfirmed insurer is
-exactly the set recorded in its `ALLOWED` table — so naming one anywhere new
-fails, and a human decides whether the mention is a panel claim or editorial.
-Two kinds of mention are deliberately allowed: the life & health pages above,
-and genuine editorial (PolicyAdvisor's published snowbird premium comparison on
-`snowbird-travel-insurance-cost-by-age.html`, Allianz's own appeal deadline in
-`blog-how-to-make-travel-insurance-claim.html`). The suite also fails any
-travel or visitor page that claims an insurer count, excepting the handful of
-pages whose copy spans the whole practice. When the life & health side is
-settled, delete those `ALLOWED` entries and fix the pages together.
+**Empire Life is `confirmed: false` and removed from the copy.** It was named on
+the health, group benefits, critical illness and long-term care pages and in
+three homepage cards, and Sertac did not include it when he confirmed the life &
+health carriers. That omission was read as deliberate. **GMS, Allianz and
+Travelance** were travel claims with no basis, removed 2026-10-31. All four rows
+stay in `INSURERS` so that re-adding a name is a visible decision rather than a
+quiet copy edit.
+
+**No page quotes an insurer count any more.** The site claimed "10+ Canadian
+insurers" on twenty-odd lines, including meta descriptions and **JSON-LD**,
+which is what search engines and AI assistants read as fact — and stated the
+panel five mutually inconsistent ways. On travel pages the number was simply
+wrong; on the homepage and about page it spanned the whole practice, where nine
+are confirmed "among others", so it was arguably defensible and still not
+verifiable, since he has not said how many the others are. The copy now names
+the nine and says "among others", or says "every insurer we are appointed with"
+— wording that stays true whoever joins or leaves. Don't reintroduce a number.
+
+**`test/panel.test.mjs` is what notices if any of this drifts back.** It asserts
+the set of pages naming an unconfirmed insurer is exactly the set in its
+`ALLOWED` table, so naming one anywhere new fails and a human decides whether
+the mention is a panel claim or editorial; that **no** page quotes an insurer
+count; and that no confirmed life & health carrier reaches `panel()`. Two kinds
+of mention are allowed on purpose, both genuine editorial: PolicyAdvisor's
+published snowbird premium comparison on
+`snowbird-travel-insurance-cost-by-age.html`, and Allianz's own appeal deadline
+in `blog-how-to-make-travel-insurance-claim.html`. Empire Life and Travelance
+carry deliberately empty lists — that is what fails if the copy comes back
+without the boolean changing with it.
 
 **A near miss is a reason to compare, not a refusal.** Stability windows are
 each insurer's own wording, not an industry standard, so when a case misses one
