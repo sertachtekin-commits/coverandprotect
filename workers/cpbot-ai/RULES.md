@@ -122,37 +122,66 @@ sale rather than enable one.
 So you can add rules one at a time, starting with the conditions you see most,
 and each one makes the assistant sharper without any risk in between.
 
-## The panel — please confirm this first
+## The panel — settled
 
-Your site states your insurer panel **five different ways**, and the assistant
-cannot safely name anyone until you say which is right:
+You confirmed it in two passes, and the site now matches.
 
-| Where | Claimed |
-|---|---|
-| `about-sertac-tekin.html` + 2 more | Manulife, Canada Life, TuGo, RBC Life, Desjardins, iA Financial, BMO Life, Empire Life, 21st Century, TruStone Health |
-| `super-visa-insurance-brampton.html` | Manulife, TuGo, 21st Century, **GMS, Allianz, Travelance** and more |
-| `travel-insurance.html` | Manulife CoverMe, 21st Century, TuGo, Canada Life |
-| `best-visitor-insurance-toronto.html` **(JSON-LD)** | Manulife, TuGo, RBC Life, TruStone Health |
-| `travel-insurance.html` (meta) | Manulife, TuGo & more |
+**Travel, visitor and Super Visa** (2026-10-31) — the assistant's whole world:
 
-GMS, Allianz and Travelance appear on exactly one page. Desjardins, iA, BMO Life
-and Empire Life appear on three but are missing from the other two lists. The
-JSON-LD version matters most, because that is the one search engines and AI
-assistants read as a statement of fact about your business.
+**Manulife · TuGo · 21st Century · TruStone Health**
 
-For a licensed broker this is an accuracy question in both directions —
-advertising an appointment you do not hold, and burying ones you do.
+**Life, critical illness, group and health** (2026-11-01) — *among others*; your
+words were that you run the other products with a variety of providers:
 
-**To fix:** set `confirmed: true` on the insurers in `INSURERS` you actually
-place business with, delete the rest, then make the five pages agree. Until a
-name is confirmed the assistant will not say it; it says you are an independent
-broker who compares across a panel at the same premiums as going direct, which
-sells the same point without asserting anything.
+**Manulife · Canada Life · Desjardins · iA Financial · RBC Life · BMO Life**
 
-Note `panel()` returns two lists and they are not the same size: `confirmed` is
-who you work with, `rules_held_for` is who the assistant actually holds
-underwriting rules for — TuGo, and only TuGo. *"He works with Manulife"* is a
-business fact. *"Manulife would consider this"* needs a rule.
+Nine names in all, each stamped in `INSURERS` with your name and the date.
+
+### Why the two lists are kept apart in code
+
+Each insurer carries a `books` field, and `panel()` filters on it rather than on
+`confirmed`. Three of your four travel insurers do not write life or group
+business, and the life carriers do not write travel — so a single flat list
+would let the assistant offer Canada Life to a snowbird heading to Florida. The
+assistant sees the four travel names and is told the others exist but are not
+its to sell.
+
+Naming an insurer is still a different thing from holding its underwriting
+rules. `rules_held_for` is TuGo, and only TuGo, and still unsigned.
+
+### Empire Life has been removed
+
+It was named on `health-insurance.html`, `group-benefits.html`,
+`critical-illness.html`, `long-term-care.html`, the about page and three places
+on the homepage — and you did not include it when you confirmed the life &
+health carriers. That was read as deliberate and the name is gone from all of
+them.
+
+**If that was an oversight, say so and it goes straight back** — the row is
+still in `INSURERS`, it just reads `confirmed: false`.
+
+### What else changed on the site
+
+| Claim | Before | Now |
+|---|---|---|
+| Insurer count | "10+ Canadian insurers" on twenty-odd lines, including meta descriptions and **JSON-LD** | no page quotes a number at all |
+| The panel list | stated five mutually inconsistent ways | the nine names, "among others" |
+| Travel pages | named GMS, Allianz, Travelance, MSH International, Canada Life, RBC Life, Desjardins | the four only |
+| Travel copy | "we compare 10+ insurers" | "every insurer we are appointed with" |
+
+On the travel pages the old number was simply wrong — the travel panel is four.
+On the homepage and about page it covered the whole practice, where nine are
+confirmed plus others, so it was arguably defensible; it is gone anyway, because
+you have not said how many the others are and a number nobody can verify is the
+kind of claim this whole exercise was about. The copy names the nine and says
+"among others", which reads stronger than a count and stays true whoever joins
+or leaves the panel.
+
+`test/panel.test.mjs` enforces all of it: no page may name an insurer you are
+not appointed with, no page may quote a count, and no life & health carrier may
+reach the assistant. Two mentions are allowed on purpose, both genuine
+editorial — PolicyAdvisor's published snowbird premium comparison, and Allianz's
+own appeal deadline in the claims guide.
 
 ## Two separate things
 

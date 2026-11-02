@@ -294,19 +294,51 @@ application-date/departure-date split, top-ups measured on total trip length,
 and Trip Cancellation's separate 60-day wording — are in
 `workers/cpbot-ai/RULES.md`.
 
-**The panel is not confirmed, so the assistant does not name insurers.**
-`INSURERS` holds the thirteen names that appear in the site's own copy, each
-with the pages that claimed it and `confirmed: false`. The site states the panel
-five different ways — ten insurers on `about-sertac-tekin.html`, six including
-GMS/Allianz/Travelance on the Brampton page, four on `travel-insurance.html`,
-and four more in `best-visitor-insurance-toronto.html`'s **JSON-LD**, which is
-what search engines and AI assistants read as fact. For a licensed broker that
-is an accuracy problem in both directions. Until Sertac sets `confirmed: true`,
-`panel()` tells the model to say he is an independent broker who compares across
-a panel at the same premiums as going direct, and to name nobody. `panel()` also
-returns `rules_held_for`, a deliberately separate and much shorter list — "he
-works with Manulife" is a business fact; "Manulife would consider this" needs a
-rule.
+**The panel is confirmed, and `books` keeps the two halves apart.** Sertac
+confirmed it in two passes. **Travel, visitor and Super Visa: Manulife, TuGo,
+21st Century, TruStone Health** (2026-10-31). **Life, critical illness, group
+and health: Manulife, Canada Life, Desjardins, iA Financial, RBC Life, BMO
+Life** — *among others*, in his words "a variety of providers", so that list is
+not closed (2026-11-01). Nine names confirmed in all, each stamped with
+`confirmedBy`/`confirmedOn`.
+
+**`panel()` filters on `books`, not on `confirmed`, and that distinction is the
+whole point.** Three of the four travel insurers do not write life or group
+business, and the life carriers do not write travel — so a flat confirmed list
+would let the assistant offer Canada Life to a snowbird. `panel()` returns the
+four travel names only, and its `must_say` tells the model the other carriers
+exist but are not its to sell. Naming an insurer is still separate from holding
+its rules: `rules_held_for` is TuGo alone, and unsigned.
+
+**Empire Life is `confirmed: false` and removed from the copy.** It was named on
+the health, group benefits, critical illness and long-term care pages and in
+three homepage cards, and Sertac did not include it when he confirmed the life &
+health carriers. That omission was read as deliberate. **GMS, Allianz and
+Travelance** were travel claims with no basis, removed 2026-10-31. All four rows
+stay in `INSURERS` so that re-adding a name is a visible decision rather than a
+quiet copy edit.
+
+**No page quotes an insurer count any more.** The site claimed "10+ Canadian
+insurers" on twenty-odd lines, including meta descriptions and **JSON-LD**,
+which is what search engines and AI assistants read as fact — and stated the
+panel five mutually inconsistent ways. On travel pages the number was simply
+wrong; on the homepage and about page it spanned the whole practice, where nine
+are confirmed "among others", so it was arguably defensible and still not
+verifiable, since he has not said how many the others are. The copy now names
+the nine and says "among others", or says "every insurer we are appointed with"
+— wording that stays true whoever joins or leaves. Don't reintroduce a number.
+
+**`test/panel.test.mjs` is what notices if any of this drifts back.** It asserts
+the set of pages naming an unconfirmed insurer is exactly the set in its
+`ALLOWED` table, so naming one anywhere new fails and a human decides whether
+the mention is a panel claim or editorial; that **no** page quotes an insurer
+count; and that no confirmed life & health carrier reaches `panel()`. Two kinds
+of mention are allowed on purpose, both genuine editorial: PolicyAdvisor's
+published snowbird premium comparison on
+`snowbird-travel-insurance-cost-by-age.html`, and Allianz's own appeal deadline
+in `blog-how-to-make-travel-insurance-claim.html`. Empire Life and Travelance
+carry deliberately empty lists — that is what fails if the copy comes back
+without the boolean changing with it.
 
 **A near miss is a reason to compare, not a refusal.** Stability windows are
 each insurer's own wording, not an industry standard, so when a case misses one
@@ -413,7 +445,7 @@ pre-existing wording:
 cd workers/cpbot-ai && npm test
 ```
 
-That runs eight suites: `worker.test.mjs` (protocol and guards),
+That runs nine suites: `worker.test.mjs` (protocol and guards),
 `tools.test.mjs` (tool behaviour, the advisor gate, routing, and the GA4
 payloads), `flow.test.mjs` (the guided flow's step sequence),
 `characterize.test.mjs` (every flow's question order — it fails if a change
@@ -421,7 +453,9 @@ alters what a visitor is asked), `coverage.test.mjs` (every page carries the
 assistant; the `cpbot.js` version matches `sw.js`), `homepage.test.mjs` (the
 homepage wrapper's rewrites still match) `kb.test.mjs` (every real question finds a
 written answer; chitchat does not) and `underwriting.test.mjs` (an unverified
-or stale rule can never produce a green light; the hard stops stop everything).
+or stale rule can never produce a green light; the hard stops stop everything)
+and `panel.test.mjs` (no page names an insurer he is not appointed with, and no
+travel page claims an insurer count).
 
 They evaluate `cpbot.js` itself, so they test the shipped file rather than a
 copy. `tools/layout-check` needs a browser and is run by hand.
