@@ -617,6 +617,21 @@ paragraph, one that could be quoted on its own. Keep the page's FAQ JSON-LD in
 sync with its visible FAQ. New pages are picked up from `sitemap.xml`
 automatically.
 
+**The secret is deliberately not set, and this is settled — do not reopen it.**
+Sertac decided on 2026-11-02 that he does not want another paid subscription for
+it. The workflow stays in the repository, costs nothing while it is not run, and
+fails honestly if someone does run it: it names what is missing, says how to fix
+it, and still uploads the offline half of the report. **Do not suggest signing up
+for TypeSafe, and do not go looking for the secret when you see a red run — the
+red run is the expected state.**
+
+The audit this tool automates can be done by hand, and has been: on 2026-11-02
+the 43 searches in `queries.txt` were worked through manually, which is what
+found the seniors gap, the stale `llms.txt`, the eight over-long meta
+descriptions and the "covered from their first day in Ontario" error on
+`blog-ohip-visitors.html`. Do that again when an audit is asked for, rather than
+treating the missing key as a blocker.
+
 ## Workflow notes
 
 - **Build/verify locally with Jekyll:** `jekyll build` produces `_site/`. Diff a
