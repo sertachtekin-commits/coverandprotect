@@ -23,10 +23,18 @@ const root = new URL('../../../', import.meta.url).pathname;
 let fail = 0;
 const ok = (c, m) => { console.log((c ? "  PASS  " : "  FAIL  ") + m); if (!c) fail++; };
 
-/* Every page, plus the homepage body (index.html is a thin wrapper around it). */
+/* Every page, plus the homepage body (index.html is a thin wrapper around it),
+   plus the machine-readable files AI assistants read as a statement of fact
+   about the business. llms.txt went stale within a day of the panel being
+   confirmed — it was still naming Empire Life and listing the insurers flat,
+   with no travel/life split, while every page had been corrected. A file
+   nothing checks is a file that drifts, and this is the one an assistant
+   quotes. */
 const files = [
   ...fs.readdirSync(root).filter(f => f.endsWith('.html')),
   '_includes/homepage-original.html',
+  'llms.txt',
+  'entity.json',
 ];
 const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
 
