@@ -57,6 +57,21 @@ commands:
   TypeSafe.
 - `npm test` runs the offline tests.
 
+## When there is no API key
+
+The audit needs the `TYPESAFE_API_KEY` repository secret. Add it under
+**Settings → Secrets and variables → Actions → New repository secret**, and paste
+the key straight from TypeSafe — never into a file, a commit, a screenshot or a
+chat message.
+
+Without it the run still **fails**, because it did not do the job it was asked to
+do. But it no longer fails empty: it writes the offline half of the report to
+`report.md` and to the run's summary page, saying what is missing, how to fix it,
+and the one finding that needs no API call — any search that matches no page on
+any word is a gap whatever TypeSafe would have said. A rejected key produces the
+same report. The first run of this workflow failed in 14 seconds with no artifact
+and no explanation on the run page, which is what this exists to prevent.
+
 ## The searches
 
 `queries.txt` starts with a guessed list. Real searches are better:

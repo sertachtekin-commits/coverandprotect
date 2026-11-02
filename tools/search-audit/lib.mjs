@@ -159,6 +159,55 @@ const table = (head, rows) => rows.length
   ? [`| ${head.join(' | ')} |`, `|${head.map(() => '---').join('|')}|`, ...rows.map((r) => `| ${r.map(esc).join(' | ')} |`)].join('\n')
   : '_None._';
 
+/**
+ * What the audit can still say when TypeSafe is unreachable — no key, or a key it
+ * rejected. The shortlisting is plain code, so the one finding that needs no API at
+ * all still holds: a search that matches no page on any word has nothing on the site
+ * about it. Without this the run failed with an empty red X and no artifact, which
+ * told nobody anything.
+ */
+export function offlineReport(searches, shortlistFor, { reason, date = new Date().toISOString().slice(0, 10) } = {}) {
+  const rows = searches.map((search) => ({ search, shortlist: shortlistFor(search) }));
+  const nothing = rows.filter((r) => r.shortlist.length === 0);
+
+  return `# Search & AI visibility audit — ${date}
+
+> **This run could not score anything.** ${reason}
+>
+> Only the offline half ran: the shortlisting, which is plain code. Nothing below is a
+> TypeSafe judgement — no page was rated, and no search was checked for buyer intent.
+
+## Fix it
+
+1. Get a TypeSafe API key.
+2. In GitHub: **Settings → Secrets and variables → Actions → New repository secret**.
+3. Name it \`TYPESAFE_API_KEY\`, paste the key, save.
+4. Re-run this workflow: **Actions → Search & AI visibility audit → Run workflow**.
+
+Paste the key straight from TypeSafe into GitHub. Do not put it in a file, a commit, a
+screenshot or a chat message — a secret that has been pasted somewhere else is a secret
+that has to be rotated.
+
+## What ran anyway
+
+${searches.length} searches shortlisted against the site's pages.
+
+- **${nothing.length}** ${nothing.length === 1 ? 'search matches' : 'searches match'} no page on any word — those are gaps whatever TypeSafe would have said
+- **${rows.length - nothing.length}** ${rows.length - nothing.length === 1 ? 'search has' : 'searches have'} at least one candidate page, unscored below
+
+## Searches with no candidate page at all
+
+${table(['Search'], nothing.map((r) => [r.search]))}
+
+## Candidate pages, unscored
+
+The first column is the search; the rest is what the index thinks is closest, best first.
+A search whose top candidate looks wrong is worth a look even without a score.
+
+${table(['Search', 'Candidate pages (best first)'], rows.filter((r) => r.shortlist.length).map((r) => [r.search, r.shortlist.map(link).join(', ')]))}
+`;
+}
+
 export function report(results, { date = new Date().toISOString().slice(0, 10) } = {}) {
   const ok = results.filter((r) => !r.error);
   const gaps = ok.filter((r) => !r.page).sort(byBuyer);

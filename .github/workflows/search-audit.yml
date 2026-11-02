@@ -32,7 +32,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install
         run: npm ci
@@ -46,6 +46,8 @@ jobs:
           LIMIT: ${{ inputs.limit }}
         run: node audit.mjs ${LIMIT:+--limit "$LIMIT"}
 
+      # Runs even when the audit step failed: without a key it still writes a partial
+      # report saying what is missing and what the offline half found.
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
