@@ -534,11 +534,15 @@ A single vanilla-JS, no-dependency script included on every page. Key behavior:
 
 - **GA4** property `G-J7F01SWCLW` (the gtag snippet lives in
   `_includes/analytics.html`, included in each page's `<head>`; `tracking.js`
-  sends events via `gtag`/`dataLayer`). `analytics.html` also holds two commented
+  sends events via `gtag`/`dataLayer`). `analytics.html` also holds three commented
   placeholders: one for the **Google Search Console** `google-site-verification`
-  meta, and one for a direct **Google Ads** conversion tag (`gtag('config',
-  'AW-…')` plus a `window.CP_ADS_CONVERSION` id/label). Filling either in once
-  applies it to every page.
+  meta, one for **Bing Webmaster Tools** (`msvalidate.01`), and one for a direct
+  **Google Ads** conversion tag (`gtag('config', 'AW-…')` plus a
+  `window.CP_ADS_CONVERSION` id/label). Filling any of them in once applies it to
+  every page. Bing is worth verifying for more than Bing: Copilot and ChatGPT's
+  search both draw on its index, and a verified site there is a second route to
+  verify a stalled **Bing Places** listing — for which the Places website URL must
+  match the Webmaster Tools property exactly, protocol and www included.
 - **Google Search Console verification** is currently done via the HTML-file
   method: `googledb2fcfa7efcf42c9.html` at the repo root is the token GSC checks
   for. Leave it in place. (The meta-tag placeholder in `analytics.html` is an

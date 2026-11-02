@@ -189,7 +189,23 @@
 
 <!-- Google Search Console: when verified, replace this comment with the
      <meta name="google-site-verification" content="..."> tag from Search Console.
-     It lives here so one edit applies to every page. -->
+     It lives here so one edit applies to every page.
+     (Currently verified by the HTML-file method instead: googledb2fcfa7efcf42c9.html
+     at the repo root. Leave that file in place.) -->
+<!-- Bing Webmaster Tools: worth having for its own sake, because Copilot and
+     ChatGPT's search both draw on Bing's index — and a verified site here is also
+     a second route to verify a Bing Places listing when the postcard/PIN loop
+     stalls. For that route the Places website URL must match this property
+     EXACTLY, protocol and www included: https://coverandprotect.ca
+     Three ways to verify, easiest first:
+       1. Import from Google Search Console. Nothing to add here — Bing reads the
+          existing GSC verification. Use this unless it refuses.
+       2. Meta tag. Replace this comment with the
+          <meta name="msvalidate.01" content="..."> tag Bing gives you. One edit,
+          every page, same as the Google line above.
+       3. XML file. Put Bing's BingSiteAuth.xml at the repo root, alongside the
+          Google token file. It needs no front matter; Jekyll copies it verbatim.
+     Do not invent a token — it is generated per account and a wrong one fails. -->
 <!-- Google Ads conversion tag: to fire lead conversions directly into Google Ads
      (faster and more reliable than the GA4 import), create a "Website lead"
      conversion action in Google Ads, then uncomment and fill in BOTH lines below
