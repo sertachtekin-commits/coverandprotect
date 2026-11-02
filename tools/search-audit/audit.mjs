@@ -7,7 +7,7 @@
 // In GitHub Actions the report also goes to the run's summary page.
 import { readFileSync, writeFileSync, appendFileSync, existsSync } from 'node:fs';
 import { AuthenticationError, PermissionDeniedError, TypeSafeClient } from '@typesafe-ai/sdk';
-import { auditSearch, buildIndex, EXCLUDED_PAGES, readPage, report } from './lib.mjs';
+import { auditSearch, buildIndex, EXCLUDED_PAGES, offlineReport, readPage, report } from './lib.mjs';
 
 const here = (p) => new URL(p, import.meta.url);
 const args = process.argv.slice(2);
@@ -34,10 +34,19 @@ if (dryRun) {
   process.exit(0);
 }
 
-if (!process.env.TYPESAFE_API_KEY) {
-  console.error('TYPESAFE_API_KEY is not set. In GitHub, add it under Settings → Secrets and variables → Actions.');
+// Write whatever the offline half found, then fail. A bare red X with no artifact
+// tells nobody what is wrong or what the run would have said.
+const bailOffline = (reason) => {
+  const md = offlineReport(searches, shortlistFor, { reason });
+  writeFileSync(here('./report.md'), md);
+  if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, md);
+  console.error(`\n${reason}`);
+  console.error('In GitHub: Settings → Secrets and variables → Actions → New repository secret, named TYPESAFE_API_KEY.');
+  console.error('Wrote a partial report (shortlisting only) to tools/search-audit/report.md and the run summary.');
   process.exit(1);
-}
+};
+
+if (!process.env.TYPESAFE_API_KEY) bailOffline('TYPESAFE_API_KEY is not set.');
 const client = new TypeSafeClient();
 const ask = (req) => client.systemOne(req);
 const results = [];
@@ -46,8 +55,7 @@ for (const [i, search] of searches.entries()) {
     results.push(await auditSearch(search, shortlistFor, ask));
   } catch (err) {
     if (err instanceof AuthenticationError || err instanceof PermissionDeniedError) {
-      console.error('TypeSafe rejected the API key. Check the TYPESAFE_API_KEY secret.');
-      process.exit(1);
+      bailOffline('TypeSafe rejected the API key.');
     }
     results.push({ search, error: String(err.message ?? err).slice(0, 200) });
   }

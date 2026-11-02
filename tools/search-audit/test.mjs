@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
-import { answerRequest, auditSearch, buildIndex, matchRequest, readPage, report } from './lib.mjs';
+import { answerRequest, auditSearch, buildIndex, matchRequest, offlineReport, readPage, report } from './lib.mjs';
 
 let passed = 0;
 const test = async (name, fn) => { await fn(); passed++; console.log('ok -', name); };
@@ -114,6 +114,31 @@ await test('report sorts each section by readiness to buy and lists failures', (
   assert.match(md, /## 3\.[\s\S]*strong one[\s\S]*## 4\./);
   assert.match(md, /## Failed[\s\S]*broke \| HTTP 500/);
   assert.match(md, /low certainty: strong one/);
+});
+
+await test('offline report says what is missing and never pretends to have scored anything', () => {
+  const p = (f) => ({ file: f, url: 'https://coverandprotect.ca/' + f });
+  const md = offlineReport(
+    ['alpha search', 'orphan search'],
+    (q) => (q === 'alpha search' ? [p('a.html'), p('b.html')] : []),
+    { reason: 'TYPESAFE_API_KEY is not set.', date: '2026-01-01' },
+  );
+  // the reason, and how to fix it, where someone looking at a red run will see it
+  assert.match(md, /could not score anything.*TYPESAFE_API_KEY is not set/);
+  assert.match(md, /Settings → Secrets and variables → Actions/);
+  // the one finding that needs no API: a search nothing on the site matches
+  assert.match(md, /\*\*1\*\* search matches no page on any word/);
+  assert.match(md, /\| orphan search \|/);
+  assert.match(md, /\| alpha search \| \[a\.html\]\(https:\/\/coverandprotect\.ca\/a\.html\), \[b\.html\]/);
+  // and nothing that looks like a TypeSafe judgement
+  assert.ok(!/Ready to buy/.test(md), 'must not show buyer intent it never asked for');
+  assert.ok(!/\/ 4/.test(md), 'must not show answer scores it never asked for');
+});
+
+await test('offline report is also what a rejected key produces', () => {
+  const md = offlineReport(['x'], () => [], { reason: 'TypeSafe rejected the API key.', date: '2026-01-01' });
+  assert.match(md, /TypeSafe rejected the API key/);
+  assert.match(md, /Settings → Secrets and variables → Actions/);
 });
 
 console.log(`\n${passed} tests passed`);
