@@ -29,6 +29,31 @@ jobs:
       - name: Check out site
         uses: actions/checkout@v4
 
+      # Three runs failed because the key never reached the job, and the log said only
+      # "TYPESAFE_API_KEY:" with an empty value — which does not tell you whether the
+      # name is wrong, or it was saved under Variables instead of Secrets, or the paste
+      # carried a stray newline. This says which, in seconds, and never prints the key.
+      - name: Check the key is wired up
+        env:
+          KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          AS_VARIABLE: ${{ vars.TYPESAFE_API_KEY }}
+        run: |
+          note() { echo "$1"; echo "$1" >> "$GITHUB_STEP_SUMMARY"; }
+          if [ -n "$KEY" ]; then
+            stripped=$(printf '%s' "$KEY" | tr -d '[:space:]')
+            if [ "${#stripped}" -ne "${#KEY}" ]; then
+              note "::warning::TYPESAFE_API_KEY is set but contains whitespace. A stray space or newline from the paste will fail authentication - re-add it with no surrounding spaces."
+            elif [ "${#KEY}" -lt 20 ]; then
+              note "::warning::TYPESAFE_API_KEY is set but looks too short to be a full key. Check the paste was not truncated."
+            else
+              note "TYPESAFE_API_KEY is set and looks well formed. If TypeSafe still rejects it, the key itself is wrong or expired."
+            fi
+          elif [ -n "$AS_VARIABLE" ]; then
+            note "::error::TYPESAFE_API_KEY was saved under the Variables tab, not Secrets. Delete it there, then add it under Settings - Secrets and variables - Actions - Secrets - New repository secret."
+          else
+            note "::error::No TYPESAFE_API_KEY reached this job. Check three things: the name is exactly TYPESAFE_API_KEY with no trailing space; it is under the Secrets tab, not Variables; and it is a repository secret, not an environment, organization or Codespaces secret."
+          fi
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
