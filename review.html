@@ -1,0 +1,78 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Leave a Review | Cover &amp; Protect</title>
+  <link rel="canonical" href="https://coverandprotect.ca/review.html">
+  {% include analytics.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#0a1628;--deep:#0d1f3c;--teal2:#14a8a7;--gold:#c9973a;--gold2:#e5b657;--muted:#91a0b8;--white:#fff;--border:rgba(255,255,255,.12)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:linear-gradient(135deg,#0a1628,#0d1f3c);color:var(--white);line-height:1.6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{max-width:460px;text-align:center}
+    .logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;text-decoration:none;color:var(--white);display:inline-block;margin-bottom:28px}
+    .logo span{color:var(--gold)}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.3rem);line-height:1.15;margin-bottom:14px}
+    h1 em{font-style:normal;color:var(--teal2)}
+    p{color:var(--muted);margin-bottom:22px}
+    .stars{font-size:1.6rem;letter-spacing:4px;color:var(--gold2);margin-bottom:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;text-decoration:none;font-weight:700;padding:15px 26px;background:var(--gold);color:var(--navy);border:0;cursor:pointer;font-size:1rem}
+    .alt{display:block;margin-top:20px;font-size:.88rem;color:var(--muted)}
+    .alt a{color:var(--gold2)}
+    .small{font-size:.8rem;margin-top:26px;color:var(--muted);opacity:.75}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a class="logo" href="/">Cover<span>&amp;</span>Protect</a>
+    <div class="stars">★ ★ ★ ★ ★</div>
+    <h1>Thank you for <em>leaving a review</em></h1>
+    <p>It takes about thirty seconds, and it genuinely helps other Ontario families find a licensed advisor they can trust.</p>
+    <p id="status">Taking you to Google…</p>
+    <a class="btn" id="go" href="#">Write a review on Google</a>
+    <span class="alt">Would rather tell us privately? <a href="mailto:contact@coverandprotect.ca">Email us</a> or call <a href="tel:4373856173">437-385-6173</a>.</span>
+    <p class="small">Cover &amp; Protect · Sertac Tekin · FSRA Licence #10112782</p>
+  </div>
+
+<script>
+/* ---------------------------------------------------------------------------
+   The review destination. Two options, and the first one is better:
+
+   1. The DIRECT review link. In Google Business Profile tap "Ask for reviews"
+      and copy the link it gives you — it looks like https://g.page/r/XXXX/review
+      and opens the star box immediately, with nothing to tap first. Paste it
+      below as REVIEW_URL and this page becomes a single tap.
+
+   2. The fallback below is the public Maps listing the site already publishes.
+      It works today and needs nothing, but the visitor has to find "Write a
+      review" on the profile themselves, which loses some of them.
+   ------------------------------------------------------------------------ */
+var REVIEW_URL = "";                                      /* <-- paste the g.page/r/... link here */
+var FALLBACK   = "https://maps.app.goo.gl/Mtj5WvXBePCDiAfy8";
+var DEST = REVIEW_URL || FALLBACK;
+
+document.getElementById('go').href = DEST;
+document.getElementById('status').textContent =
+  REVIEW_URL ? 'Taking you to Google…'
+             : 'Taking you to our Google listing — tap “Write a review” there.';
+
+/* Engagement metadata only: whether the page was used and which link type.
+   No names, no contact details — same rule as everywhere else on the site. */
+try {
+  if (typeof gtag === 'function') {
+    gtag('event', 'review_request_open', { link_type: REVIEW_URL ? 'direct' : 'listing' });
+  }
+} catch (e) {}
+
+/* A short pause so the brand registers, then go. Anyone who taps first wins. */
+setTimeout(function () { window.location.replace(DEST); }, 1800);
+</script>
+</body>
+</html>
