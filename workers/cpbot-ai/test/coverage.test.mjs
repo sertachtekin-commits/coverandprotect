@@ -13,6 +13,7 @@ const EXEMPT = new Set([
   'privacy-policy.html',
   'terms.html',
   'thankyou.html',
+  'review.html',                   // redirects to Google in under two seconds
   'googledb2fcfa7efcf42c9.html',   // Google Search Console token, left as-is
 ]);
 
