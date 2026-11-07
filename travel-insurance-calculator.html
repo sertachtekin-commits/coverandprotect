@@ -50,6 +50,12 @@
     /* very narrow phones: let the action bar wrap to two rows rather than
        squeezing four labels onto one line */
     @media(max-width:360px){.sticky-call{flex-wrap:wrap}.sticky-call a{flex:1 1 46%}body{padding-bottom:134px}}
+  
+    /* The header's Call button plus Free Quote overflowed the viewport on phones:
+       measured 76px of horizontal scroll at 360px, 46px at 390px, 24px at 412px,
+       with Free Quote cut off. The fixed buy bar already carries Call, Buy Online
+       and Get a Quote at the bottom, so dropping the long one here loses nothing. */
+    @media(max-width:620px){.navlinks a.btn.out{display:none}}
   </style>
   <script type="application/ld+json">{
   "@context": "https://schema.org",
