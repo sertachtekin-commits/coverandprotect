@@ -40,6 +40,12 @@
     .related{padding:44px 0}.related ul{list-style:none;padding:0;display:grid;gap:10px}.related a{color:var(--gold2);text-decoration:none;font-weight:600}
     footer{padding:34px 0;color:var(--muted);font-size:.84rem;border-top:1px solid var(--border)}footer .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
     @media(max-width:900px){.navlinks a:not(.btn){display:none}.navlinks a.buy{display:inline-block}.wrap{padding:0 18px}section{padding:40px 0}}
+  
+    /* The header's Call button plus Free Quote overflowed the viewport on phones:
+       measured 76px of horizontal scroll at 360px, 46px at 390px, 24px at 412px,
+       with Free Quote cut off. The fixed buy bar already carries Call, Buy Online
+       and Get a Quote at the bottom, so dropping the long one here loses nothing. */
+    @media(max-width:620px){.navlinks a.btn.out{display:none}}
   </style>
   <script type="application/ld+json">
   {
