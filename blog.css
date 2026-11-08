@@ -74,3 +74,8 @@
 
 /* Article tables scroll on their own rather than widening the page. */
 .wrap table{display:block;overflow-x:auto;max-width:100%;}
+
+/* The rule above only covers .wrap table. These articles put the table in
+   article.post, so a wide one still pushed the page sideways — measured +6px
+   at 360px on blog-super-visa-foreign-insurer-rules. */
+.post table{display:block;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch}

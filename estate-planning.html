@@ -262,7 +262,18 @@
   .faq-block details[open] summary::after{content:"\2013";}
   .faq-block details p{margin:12px 0 0;color:var(--text-muted);}
 
-</style>
+
+    /* Phone-width fixes. Measured at 360px: wide tables and the form box were
+       pushing the whole page sideways, which CLAUDE.md forbids. A table now
+       scrolls inside itself; the form box drops its oversized side padding. */
+    @media(max-width:760px){
+      table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+      .form-box{padding:28px 18px}
+    }
+  
+    /* phone-width grid fix (measured +33px at 360px) */
+    @media(max-width:760px){.quote-wrap{grid-template-columns:minmax(0,1fr)}.quote-wrap>*{min-width:0}}
+  </style>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": [

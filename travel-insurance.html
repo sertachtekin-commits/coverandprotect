@@ -970,7 +970,21 @@
       .qw-fine{font-size:.7rem;color:rgba(255,255,255,0.35);margin-top:18px;line-height:1.5;}
       @media(prefers-reduced-motion:reduce){.qw-step.active,.qw-result.active{animation:none;}.qw-opt:hover,.qw-cta:hover{transform:none;}}
       @media(max-width:600px){.qw{padding:28px 18px;}}
-    </style>
+    
+    /* Phone-width fixes. Measured at 360px: wide tables and the form box were
+       pushing the whole page sideways, which CLAUDE.md forbids. A table now
+       scrolls inside itself; the form box drops its oversized side padding. */
+    @media(max-width:760px){
+      table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+      .form-box{padding:28px 18px}
+    }
+  
+    /* phone-width grid fix (measured +71px at 360px: an inline 1fr 1fr grid never collapsed) */
+    @media(max-width:760px){
+      div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:minmax(0,1fr)!important}
+      .supervisa-grid>*,.why-grid>*,.quote-wrap>*,.products-grid>*{min-width:0}
+    }
+  </style>
     <div class="qw" id="quoteWizard">
       <!-- STEP 1 -->
       <div class="qw-step active" data-step="1">
