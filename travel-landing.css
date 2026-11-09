@@ -172,3 +172,4 @@ footer.site .legal{border-top:1px solid var(--border);padding-top:18px;font-size
   .prov{flex-direction:column;align-items:flex-start;gap:12px}
   .prov .go{width:100%;text-align:center}
 }
+html{scroll-behavior:smooth}h2[id]{scroll-margin-top:90px}

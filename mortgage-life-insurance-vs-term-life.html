@@ -47,7 +47,7 @@
        with Free Quote cut off. The fixed buy bar already carries Call, Buy Online
        and Get a Quote at the bottom, so dropping the long one here loses nothing. */
     @media(max-width:620px){.navlinks a.btn.out{display:none}}
-  </style>
+  html{scroll-behavior:smooth}h2[id]{scroll-margin-top:90px}</style>
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -106,9 +106,26 @@
     </div>
   </section>
 
+  <section aria-label="Contents">
+    <div class="wrap">
+      <details style="border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:16px 20px;max-width:860px">
+        <summary style="cursor:pointer;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);font-weight:600">On this page · 6 sections</summary>
+        <ol style="margin:14px 0 0;padding:0 0 0 20px;display:grid;gap:8px 28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));font-size:.95rem">
+          <li style="min-width:0"><a href="#the-three-differences-that-matter" style="color:var(--gold2)">The three differences that matter</a></li>
+          <li style="min-width:0"><a href="#why-the-declining-benefit-is-the-real-cost" style="color:var(--gold2)">Why the declining benefit is the real cost</a></li>
+          <li style="min-width:0"><a href="#the-questions-to-ask-at-the-signing-table" style="color:var(--gold2)">The questions to ask at the signing table</a></li>
+          <li style="min-width:0"><a href="#when-the-banks-version-is-genuinely-the-right" style="color:var(--gold2)">When the bank's version is genuinely the right answer</a></li>
+          <li style="min-width:0"><a href="#getting-the-amount-right" style="color:var(--gold2)">Getting the amount right</a></li>
+          <li style="min-width:0"><a href="#frequently-asked-questions" style="color:var(--gold2)">Frequently asked questions</a></li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+
   <section>
     <div class="wrap">
-      <h2>The three differences that matter</h2>
+      <h2 id="the-three-differences-that-matter">The three differences that matter</h2>
       <table>
         <thead><tr><th></th><th>Mortgage life insurance</th><th>Term life insurance</th></tr></thead>
         <tbody>
@@ -123,7 +140,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Why the declining benefit is the real cost</h2>
+      <h2 id="why-the-declining-benefit-is-the-real-cost">Why the declining benefit is the real cost</h2>
       <p>Picture a $600,000 mortgage. In year one, mortgage life insurance covers roughly $600,000. In year eighteen, with $200,000 left, it covers roughly $200,000 — and you have most likely been paying a similar premium throughout. You bought a shrinking asset at a flat price.</p>
       <p>A level term policy behaves the other way round. The amount stays put while the mortgage falls, and the difference is not wasted: it is what pays for the childcare, the lost income and the time off work that a family actually needs in the first year after a death. The mortgage is the biggest number on the list, but it has never been the only one.</p>
       <p>There is a second effect people miss. A term policy you own is <strong>portable</strong>. Switch lenders at renewal, move house, or refinance, and it carries on untouched. Creditor coverage attached to the loan generally does not, and reapplying five years later means doing it at an older age and with whatever health you have by then.</p>
@@ -132,7 +149,7 @@
 
   <section>
     <div class="wrap">
-      <h2>The questions to ask at the signing table</h2>
+      <h2 id="the-questions-to-ask-at-the-signing-table">The questions to ask at the signing table</h2>
       <p>Mortgage closings are rushed and the insurance is often a one-page tick box. Four questions, and you want the answers <strong>in writing</strong>, before you sign:</p>
       <ol>
         <li><strong>"Is my eligibility assessed now, or when a claim is made?"</strong> This is the single most important question and it is rarely volunteered. Ask for the certificate of insurance and read the definitions and exclusions, not the brochure.</li>
@@ -146,7 +163,7 @@
 
   <section>
     <div class="wrap">
-      <h2>When the bank's version is genuinely the right answer</h2>
+      <h2 id="when-the-banks-version-is-genuinely-the-right">When the bank's version is genuinely the right answer</h2>
       <p>This is a comparison, not a warning, and there are real cases where creditor insurance is the better outcome:</p>
       <ul>
         <li><strong>Your health makes individual underwriting hard.</strong> If a term application would be declined, heavily rated, or take months, coverage attached to the mortgage may be the coverage you can actually get. Some coverage beats none, and a house is not a good thing to lose twice.</li>
@@ -159,7 +176,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Getting the amount right</h2>
+      <h2 id="getting-the-amount-right">Getting the amount right</h2>
       <p>If you only insure the mortgage, you have insured the building. A fuller calculation generally covers the mortgage balance, other debts, the cost of raising any children to independence, and some replacement of lost income — less what you already have in coverage and savings.</p>
       <p>That arithmetic, with Ontario examples, is set out in <a href="/blog-how-much-life-insurance.html" style="color:var(--gold2)">how much life insurance do I need</a>. If you are also weighing policy types, <a href="/blog-term-vs-whole-life.html" style="color:var(--gold2)">term vs whole life</a> covers that choice. And because a serious illness is statistically more likely than a death during the mortgage years, it is worth knowing what <a href="/critical-illness.html" style="color:var(--gold2)">critical illness insurance</a> does alongside it — a diagnosis that stops your income does not pay the mortgage either.</p>
     </div>
@@ -167,7 +184,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Frequently asked questions</h2>
+      <h2 id="frequently-asked-questions">Frequently asked questions</h2>
       <div class="faq">
         <details><summary>Do I have to buy the bank's mortgage insurance to get a mortgage?</summary><p>No. The Financial Consumer Agency of Canada states that you do not need optional mortgage insurance to be approved for a mortgage, that the lender cannot insist you buy it, and that it requires your express consent. If you felt it was presented as a condition of approval, it was not one. You can decline at the signing table and arrange your own coverage instead.</p></details>
         <details><summary>What is the real difference between mortgage life insurance and term life?</summary><p>Three things. Who gets paid: with mortgage life insurance the lender is the beneficiary and the payout must go toward the mortgage, while a term policy pays a beneficiary you name, who can use it for the mortgage or anything else. How much: mortgage coverage shrinks as the loan is repaid, while a term policy's amount generally stays level for the whole term. Portability: creditor coverage normally ends when the debt moves to another lender, whereas a term policy you own follows you.</p></details>

@@ -47,7 +47,7 @@
        with Free Quote cut off. The fixed buy bar already carries Call, Buy Online
        and Get a Quote at the bottom, so dropping the long one here loses nothing. */
     @media(max-width:620px){.navlinks a.btn.out{display:none}}
-  </style>
+  html{scroll-behavior:smooth}h2[id]{scroll-margin-top:90px}</style>
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -106,9 +106,27 @@
     </div>
   </section>
 
+  <section aria-label="Contents">
+    <div class="wrap">
+      <details style="border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:16px 20px;max-width:860px">
+        <summary style="cursor:pointer;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);font-weight:600">On this page · 7 sections</summary>
+        <ol style="margin:14px 0 0;padding:0 0 0 20px;display:grid;gap:8px 28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));font-size:.95rem">
+          <li style="min-width:0"><a href="#what-ohip-leaves-you" style="color:var(--gold2)">What OHIP leaves you with</a></li>
+          <li style="min-width:0"><a href="#how-a-dental-plan-is-actually-built" style="color:var(--gold2)">How a dental plan is actually built</a></li>
+          <li style="min-width:0"><a href="#the-annual-maximum-is-the-whole-game" style="color:var(--gold2)">The annual maximum is the whole game</a></li>
+          <li style="min-width:0"><a href="#waiting-periods-and-why-applying-early" style="color:var(--gold2)">Waiting periods, and why applying early is cheaper</a></li>
+          <li style="min-width:0"><a href="#if-your-business-is-incorporated-your-options" style="color:var(--gold2)">If your business is incorporated, your options are different</a></li>
+          <li style="min-width:0"><a href="#before-you-compare-plans" style="color:var(--gold2)">Before you compare plans</a></li>
+          <li style="min-width:0"><a href="#frequently-asked-questions" style="color:var(--gold2)">Frequently asked questions</a></li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+
   <section>
     <div class="wrap">
-      <h2>What OHIP leaves you with</h2>
+      <h2 id="what-ohip-leaves-you">What OHIP leaves you with</h2>
       <p>Ontario's health plan covers physicians and hospitals. For a working-age adult it does not cover routine dentistry at all. The province runs targeted programs — dental surgery performed in hospital, children in lower-income households, some seniors — but none of those is the self-employed thirty-, forty- or fifty-something paying for a cleaning twice a year.</p>
       <p>Two cleanings, an exam and x-rays is a few hundred dollars a year before anything goes wrong. One crown or root canal is a four-figure decision. That is the gap, and it is permanent: unlike the OHIP waiting period for newcomers, it does not resolve with time.</p>
     </div>
@@ -116,7 +134,7 @@
 
   <section>
     <div class="wrap">
-      <h2>How a dental plan is actually built</h2>
+      <h2 id="how-a-dental-plan-is-actually-built">How a dental plan is actually built</h2>
       <p>Individual plans split dental into tiers and reimburse each at a different rate. The shape is consistent across insurers even when the numbers differ:</p>
       <table>
         <thead><tr><th>Tier</th><th>What is in it</th><th>How it behaves</th></tr></thead>
@@ -133,7 +151,7 @@
 
   <section>
     <div class="wrap">
-      <h2>The annual maximum is the whole game</h2>
+      <h2 id="the-annual-maximum-is-the-whole-game">The annual maximum is the whole game</h2>
       <p>The annual maximum is the most the plan reimburses for dental in a policy year. On an employer plan it is usually generous enough that nobody thinks about it. On an individual plan it is modest, and it is the figure that decides whether buying the plan made you money or cost you money.</p>
       <p>Work it out the honest way, with your own history:</p>
       <ol>
@@ -147,7 +165,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Waiting periods, and why applying early is cheaper</h2>
+      <h2 id="waiting-periods-and-why-applying-early">Waiting periods, and why applying early is cheaper</h2>
       <p>You generally cannot buy a plan the week a crown gets quoted and claim on it. Preventive work often starts quickly; basic restorative typically waits a few months; major work frequently waits a year or more.</p>
       <p>Most individual health and dental plans are also <strong>medically underwritten</strong> — there are health questions, and existing conditions or work your dentist has already recommended can be excluded or priced for. Some plans are <strong>guaranteed issue</strong> with no questions at all; those accept everyone, and pay for it with lower maximums, longer waits and a higher premium for the coverage you get.</p>
       <div class="callout"><p>Both facts point the same way: <strong>apply while nothing is wrong.</strong> The cheapest version of this decision is the one made a year before you need it, which is also the one nobody makes.</p></div>
@@ -156,7 +174,7 @@
 
   <section>
     <div class="wrap">
-      <h2>If your business is incorporated, your options are different</h2>
+      <h2 id="if-your-business-is-incorporated-your-options">If your business is incorporated, your options are different</h2>
       <p>This is the part most comparison articles get wrong, and the distinction that matters is <strong>incorporated company versus sole proprietorship</strong> — not "self-employed" as one category.</p>
       <p>An incorporated business may be able to fund medical and dental costs through the corporation using a health spending arrangement rather than a conventional insurance plan. That changes how the cost is treated and, for some owners, changes the arithmetic entirely. The rules differ by business structure, and the published guidance on the details is genuinely inconsistent — including on whether an unincorporated sole proprietor qualifies at all, and on what limits apply.</p>
       <div class="warn"><p><strong>So this page will not quote you figures.</strong> Plenty of articles state specific annual caps with great confidence; I could not verify those against the Canada Revenue Agency, and a number that is nearly right is worse than no number when it is a tax position. <strong>The tax treatment is a question for your accountant.</strong> Cover &amp; Protect is a licensed insurance advisory practice and does not give tax advice. What we can do is price the insurance side properly against whichever route your accountant says fits your structure.</p></div>
@@ -166,7 +184,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Before you compare plans</h2>
+      <h2 id="before-you-compare-plans">Before you compare plans</h2>
       <ol>
         <li>Pull your <strong>last three years</strong> of dental spending.</li>
         <li>Ask your dentist what is <strong>coming in the next two years</strong>, in writing if they will.</li>
@@ -179,7 +197,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Frequently asked questions</h2>
+      <h2 id="frequently-asked-questions">Frequently asked questions</h2>
       <div class="faq">
         <details><summary>Does OHIP cover dental care for adults in Ontario?</summary><p>Not routine dental care, for most adults. OHIP covers certain dental surgery performed in hospital, and the province runs targeted programs for children in lower-income households and for some seniors, but cleanings, fillings, crowns and root canals are not covered for a working-age adult. Without an employer plan the bill is yours.</p></details>
         <details><summary>What does self employed dental insurance actually cover?</summary><p>Individual plans split dental into three tiers reimbursed at different rates. Preventive and diagnostic work — cleanings, exams, x-rays — is reimbursed at the highest percentage. Basic restorative work such as fillings and extractions sits in the middle. Major work such as crowns, bridges and dentures is reimbursed at the lowest percentage, often has a waiting period, and is sometimes excluded from entry-level plans entirely.</p></details>

@@ -47,7 +47,7 @@
        with Free Quote cut off. The fixed buy bar already carries Call, Buy Online
        and Get a Quote at the bottom, so dropping the long one here loses nothing. */
     @media(max-width:620px){.navlinks a.btn.out{display:none}}
-  </style>
+  html{scroll-behavior:smooth}h2[id]{scroll-margin-top:90px}</style>
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -106,9 +106,27 @@
     </div>
   </section>
 
+  <section aria-label="Contents">
+    <div class="wrap">
+      <details style="border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:16px 20px;max-width:860px">
+        <summary style="cursor:pointer;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);font-weight:600">On this page · 7 sections</summary>
+        <ol style="margin:14px 0 0;padding:0 0 0 20px;display:grid;gap:8px 28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));font-size:.95rem">
+          <li style="min-width:0"><a href="#what-the-province-actually-says" style="color:var(--gold2)">What the province actually says</a></li>
+          <li style="min-width:0"><a href="#why-so-much-advice-still-says-three-months" style="color:var(--gold2)">Why so much advice still says three months</a></li>
+          <li style="min-width:0"><a href="#the-gap-that-does-exist" style="color:var(--gold2)">The gap that does exist</a></li>
+          <li style="min-width:0"><a href="#the-gap-that-never-closes" style="color:var(--gold2)">The gap that never closes</a></li>
+          <li style="min-width:0"><a href="#if-you-are-moving-between-provinces" style="color:var(--gold2)">If you are moving between provinces</a></li>
+          <li style="min-width:0"><a href="#a-short-checklist-for-a-new-arrival" style="color:var(--gold2)">A short checklist for a new arrival</a></li>
+          <li style="min-width:0"><a href="#frequently-asked-questions" style="color:var(--gold2)">Frequently asked questions</a></li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+
   <section>
     <div class="wrap">
-      <h2>What the province actually says</h2>
+      <h2 id="what-the-province-actually-says">What the province actually says</h2>
       <p>Ontario's own guidance on applying for OHIP states that there is no longer a waiting period, and that coverage begins once an eligible application is approved. The wait was suspended as part of the pandemic response and the province's current position is that none applies.</p>
       <div class="callout"><p><strong>Removing the wait did not remove the eligibility rules</strong>, and this is where newcomers actually get caught. The three-month wait is gone; the residency and status tests are not.</p></div>
       <p>To be eligible you generally need all three of the following:</p>
@@ -123,7 +141,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Why so much advice still says three months</h2>
+      <h2 id="why-so-much-advice-still-says-three-months">Why so much advice still says three months</h2>
       <p>The three-month wait was real for a long time, and it was removed relatively recently. Immigration blogs, settlement handouts and insurance marketing written before the change are still circulating, and some of them rank well. A few even state that the wait was reinstated, which contradicts the province's own page.</p>
       <div class="warn"><p>If you are reading a newcomer guide that still describes a three-month OHIP wait, it is out of date — and so is anything it tells you to buy on that basis. Check the date on the page, then check <a href="https://www.ontario.ca/page/apply-ohip-and-get-health-card" target="_blank" rel="noopener" style="color:var(--gold2)">ontario.ca</a>.</p></div>
       <p>This matters commercially as well as factually: some newcomers are still being sold three months of private emergency coverage they may not need, while the gaps they genuinely will live with go uninsured.</p>
@@ -132,7 +150,7 @@
 
   <section>
     <div class="wrap">
-      <h2>The gap that does exist</h2>
+      <h2 id="the-gap-that-does-exist">The gap that does exist</h2>
       <p>Coverage starts on approval, not on arrival. So the honest exposure for a new permanent resident is the stretch between landing and completing a successful application: finding your documents, getting to a ServiceOntario centre, and having the application accepted. For an organised arrival that can be short. For a family arriving in winter with a lease to sort out and a school to register, it is not always.</p>
       <p>Emergency medical insurance covering that interval is inexpensive, and it is worth having for the same reason anyone has it: a single ambulance ride and an overnight admission is a four-figure bill, and it does not wait for your paperwork.</p>
       <div class="callout"><p>Two groups should not treat this as a short gap at all. <strong>Visitors are never eligible for OHIP</strong>, however long they stay — see <a href="/visitor-insurance-canada.html" style="color:var(--gold2)">visitor to Canada insurance</a>. <strong>Parents and grandparents on a Super Visa</strong> must hold private emergency medical coverage of at least $100,000 for a year as a condition of the visa itself — see <a href="/super-visa-insurance-ontario.html" style="color:var(--gold2)">Super Visa insurance</a>.</p></div>
@@ -141,7 +159,7 @@
 
   <section>
     <div class="wrap">
-      <h2>The gap that never closes</h2>
+      <h2 id="the-gap-that-never-closes">The gap that never closes</h2>
       <p>This is the one worth your attention, and almost nothing written about the OHIP wait mentions it. OHIP covers physician and hospital care. It does not cover a long list of things people assume are included:</p>
       <table>
         <thead><tr><th>Not covered by OHIP</th><th>What that means in practice</th></tr></thead>
@@ -161,7 +179,7 @@
 
   <section>
     <div class="wrap">
-      <h2>If you are moving between provinces</h2>
+      <h2 id="if-you-are-moving-between-provinces">If you are moving between provinces</h2>
       <p>Ontario has removed its waiting period. Several provinces, including British Columbia and Quebec, still apply one of roughly three months for new residents. If you land in one province and move to another, check both sets of rules — the gap belongs to whichever province you are in at the time, and interprovincial moves are where people fall between two systems.</p>
       <p>Ontario residents who spend long stretches <em>outside</em> the province have the mirror-image problem: OHIP has day-count rules, and losing provincial coverage can also end a travel policy, because insurers generally define an eligible Canadian resident as someone enrolled in or eligible for a provincial plan. That is set out in the <a href="/ohip-212-day-rule-snowbirds.html" style="color:var(--gold2)">212-day rule guide</a>.</p>
     </div>
@@ -169,7 +187,7 @@
 
   <section>
     <div class="wrap">
-      <h2>A short checklist for a new arrival</h2>
+      <h2 id="a-short-checklist-for-a-new-arrival">A short checklist for a new arrival</h2>
       <ol>
         <li>Check the current eligibility list on <a href="https://www.ontario.ca/page/apply-ohip-and-get-health-card" target="_blank" rel="noopener" style="color:var(--gold2)">ontario.ca</a> and gather an immigration document for <strong>each</strong> person, children included.</li>
         <li>Apply as early as you can — coverage runs from approval, so every day of delay is a day of exposure.</li>
@@ -182,7 +200,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Frequently asked questions</h2>
+      <h2 id="frequently-asked-questions">Frequently asked questions</h2>
       <div class="faq">
         <details><summary>Is there still a 3-month waiting period for OHIP?</summary><p>No. Ontario's official position is that there is no longer a waiting period for OHIP coverage, and that eligible people are covered as soon as their application is approved. A great deal of newcomer guidance still describes a three-month wait, which is out of date. You still have to be eligible and still have to apply: the wait is gone, the eligibility rules are not.</p></details>
         <details><summary>What are the OHIP eligibility rules for a new permanent resident?</summary><p>Ontario requires that you be physically present in Ontario for 153 days in any 12-month period, or for at least 153 of the first 183 days after you begin living in the province, and that Ontario be your primary residence. You must also meet at least one further condition, such as being a Canadian citizen, a permanent resident, or a person registered under the Indian Act. Each applicant, children included, needs their own immigration document from IRCC. Confirm the current list on ontario.ca before you apply.</p></details>
