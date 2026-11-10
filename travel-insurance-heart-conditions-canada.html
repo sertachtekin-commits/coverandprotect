@@ -47,7 +47,7 @@
        with Free Quote cut off. The fixed buy bar already carries Call, Buy Online
        and Get a Quote at the bottom, so dropping the long one here loses nothing. */
     @media(max-width:620px){.navlinks a.btn.out{display:none}}
-  </style>
+  html{scroll-behavior:smooth}h2[id]{scroll-margin-top:90px}</style>
   <style>
     picture{display:contents}
     .hero-img{width:100%;max-width:960px;border-radius:16px;margin:26px auto 0;display:block;border:1px solid var(--border)}
@@ -69,7 +69,7 @@
     "datePublished":"2026-11-08",
     "dateModified":"2026-11-08",
     "inLanguage":"en-CA",
-    "author":{"@type":"Person","name":"Sertac Tekin","jobTitle":"Independent Insurance Advisor","identifier":{"@type":"PropertyValue","propertyID":"FSRA licence","value":"10112782"}},
+    "author":{"@type":"Person","@id": "https://coverandprotect.ca/#sertac-tekin","url": "https://coverandprotect.ca/about-sertac-tekin.html","name":"Sertac Tekin","jobTitle":"Independent Insurance Advisor","identifier":{"@type":"PropertyValue","propertyID":"FSRA licence","value":"10112782"}},
     "publisher":{"@type":"InsuranceAgency","name":"Cover & Protect","url":"https://coverandprotect.ca/","telephone":"+1-437-385-6173","email":"contact@coverandprotect.ca","areaServed":{"@type":"AdministrativeArea","name":"Ontario"}},
     "about":[{"@type":"Thing","name":"Cardiovascular disease"},{"@type":"Thing","name":"Travel insurance"}],
     "audience":{"@type":"PeopleAudience","geographicArea":{"@type":"AdministrativeArea","name":"Ontario, Canada"}}
@@ -103,7 +103,7 @@
         <a class="btn gold" href="/travel-insurance.html#get-quote">Have my case reviewed free</a>
         <a class="btn out" href="https://wa.me/14373856173" target="_blank" rel="noopener">WhatsApp us</a>
       </div>
-      <p class="trust">Sertac Tekin · Licensed Ontario advisor · FSRA Licence #10112782 · Toronto &amp; the GTA · 5.0 rating, 16 Google reviews</p>
+      <p class="trust">By <a href="/about-sertac-tekin.html" style="color:var(--gold2)" rel="author">Sertac Tekin</a>, licensed Ontario insurance advisor (FSRA Licence #10112782) · Toronto &amp; the GTA · Reviewed November 2026 · 5.0 rating, 16 Google reviews</p>
       <picture>
         <source srcset="images/ci-hearth.webp" type="image/webp">
         <img class="hero-img" src="images/ci-hearth.jpg" alt="Heart health and travel insurance for Canadian snowbirds and seniors travelling south" width="960" height="420" fetchpriority="high">
@@ -111,9 +111,26 @@
     </div>
   </section>
 
+  <section aria-label="Contents">
+    <div class="wrap">
+      <details style="border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:16px 20px;max-width:860px">
+        <summary style="cursor:pointer;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);font-weight:600">On this page · 6 sections</summary>
+        <ol style="margin:14px 0 0;padding:0 0 0 20px;display:grid;gap:8px 28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));font-size:.95rem">
+          <li style="min-width:0"><a href="#first-the-blood-thinner-question" style="color:var(--gold2)">First: the blood thinner question</a></li>
+          <li style="min-width:0"><a href="#how-the-form-actually-asks-about-your-heart" style="color:var(--gold2)">How the form actually asks about your heart</a></li>
+          <li style="min-width:0"><a href="#what-severe-actually-means-to-an-insurer" style="color:var(--gold2)">What "severe" actually means to an insurer</a></li>
+          <li style="min-width:0"><a href="#snowbirds-with-a-cardiac-history" style="color:var(--gold2)">Snowbirds with a cardiac history</a></li>
+          <li style="min-width:0"><a href="#before-you-touch-the-questionnaire" style="color:var(--gold2)">Before you touch the questionnaire</a></li>
+          <li style="min-width:0"><a href="#frequently-asked-questions" style="color:var(--gold2)">Frequently asked questions</a></li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+
   <section>
     <div class="wrap">
-      <h2>First: the blood thinner question</h2>
+      <h2 id="first-the-blood-thinner-question">First: the blood thinner question</h2>
       <p>This is the most common point of confusion in the whole subject, and the reason is that <strong>insurers genuinely disagree</strong> — so people who ask around get different answers and conclude nobody knows.</p>
       <p>Here is the structure. <strong>A blood thinner is a medication, not a condition.</strong> Some Canadian questionnaires name warfarin or Coumadin outright in their medication question. Others never mention anticoagulants at all, and the information reaches the insurer only through the question about your heart or circulatory condition. Neither approach is assessing the drug. Both are assessing <em>why you are on it</em>.</p>
 
@@ -187,7 +204,7 @@
 
   <section>
     <div class="wrap">
-      <h2>How the form actually asks about your heart</h2>
+      <h2 id="how-the-form-actually-asks-about-your-heart">How the form actually asks about your heart</h2>
       <p>Cardiac history is not one question. It is usually three or four, in different shapes, and knowing which shape you are looking at is most of the battle.</p>
       <table>
         <thead><tr><th>Question shape</th><th>What it covers</th><th>What trips people up</th></tr></thead>
@@ -204,7 +221,7 @@
 
   <section>
     <div class="wrap">
-      <h2>What "severe" actually means to an insurer</h2>
+      <h2 id="what-severe-actually-means-to-an-insurer">What "severe" actually means to an insurer</h2>
       <p>People assume there is a list of heart conditions that get refused. There mostly is not. Severity, in the sense the form cares about, is built from three things — and the diagnosis is not one of them.</p>
 
       <figure>
@@ -249,7 +266,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Snowbirds with a cardiac history</h2>
+      <h2 id="snowbirds-with-a-cardiac-history">Snowbirds with a cardiac history</h2>
       <p>A winter in Florida is a different product from a fortnight in Lisbon, and with a heart condition the differences get expensive:</p>
       <ul>
         <li><strong>The per-trip day cap.</strong> An annual multi-trip plan covers unlimited trips but caps each one, commonly at 9, 17, 30 or 60 days, measured from leaving Canada to returning. A 150-day winter on a 35-day cap means 115 days uninsured with a cardiac history, a long way from your cardiologist.</li>
@@ -263,7 +280,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Before you touch the questionnaire</h2>
+      <h2 id="before-you-touch-the-questionnaire">Before you touch the questionnaire</h2>
       <ol>
         <li>Find the <strong>exact date</strong> of any heart attack, stroke, TIA, bypass, angioplasty or stent. Not the year — the date.</li>
         <li>List every <strong>cardiac medication</strong>, including blood thinners, and the date each last changed.</li>
@@ -279,7 +296,7 @@
 
   <section>
     <div class="wrap">
-      <h2>Frequently asked questions</h2>
+      <h2 id="frequently-asked-questions">Frequently asked questions</h2>
       <div class="faq">
         <details><summary>Are blood thinners a heart condition on a travel insurance questionnaire?</summary><p>A blood thinner is a medication, not a condition, and insurers differ on whether they ask about it directly. Some Canadian questionnaires name warfarin or Coumadin outright in their medication question. Others never mention anticoagulants, and the information reaches the insurer only through the question about your heart or circulatory condition. Either way the thing being assessed is the condition it was prescribed for. Declare both the condition and the medication, with the date each last changed.</p></details>
         <details><summary>My blood thinner is not warfarin. Do I still declare it?</summary><p>Yes, and this is where honest answers go wrong. Questionnaires written years ago often name warfarin or Coumadin specifically, and someone on a newer anticoagulant reads that list, does not see their drug, and answers no in good faith. The question is almost always meant to capture any blood thinner. Declare it anyway and say so in writing.</p></details>
@@ -315,6 +332,16 @@
       <h2>Have your cardiac history reviewed before you buy</h2>
       <p>Send your age, destination and dates, the date of any cardiac event or procedure, and the date anything last changed — medication included. We compare the wording across the insurers this practice is appointed with and tell you plainly where you stand. Free, no obligation. Toronto, the GTA and all of Ontario.</p>
       <div class="actions" style="justify-content:center"><a class="btn gold" href="/travel-insurance.html#get-quote">Start free review</a><a class="btn out" href="tel:4373856173">Call 437-385-6173</a><a class="btn out" href="https://wa.me/14373856173" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div style="border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:22px 24px;max-width:860px">
+        <p style="font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin:0 0 10px">About the author</p>
+        <p style="margin:0 0 12px"><a href="/about-sertac-tekin.html" style="color:var(--gold2)" rel="author"><strong>Sertac Tekin</strong></a> is an independent insurance advisor in Toronto, licensed by the Financial Services Regulatory Authority of Ontario (FSRA Licence #10112782). He has worked in insurance since 2010, following a background in finance, and is contracted directly with the Canadian insurers he places business with.</p>
+        <p style="margin:0 0 12px">Travellers with a cardiac history — a stent, a bypass, atrial fibrillation, a blood thinner — are a regular part of his caseload, and sorting which of those an insurer treats as a changed condition is the work.</p>
+        <p style="margin:0;color:var(--muted);font-size:.9rem">Reviewed November 2026 · This page is general information, not medical advice, a coverage guarantee or a personalised recommendation. Eligibility, stability and exclusions depend on the insurer and the policy wording.</p>
+      </div>
     </div>
   </section>
 </main>
