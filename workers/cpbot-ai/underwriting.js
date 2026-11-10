@@ -90,7 +90,10 @@ export const INSURERS = [
   { key: "21st",        name: "21st Century",    confirmed: true,  books: ["travel", "visitor"], confirmedOn: "2026-10-31", confirmedBy: "Sertac" },
   { key: "trustone",    name: "TruStone Health", confirmed: true,  books: ["travel", "visitor"], confirmedOn: "2026-10-31", confirmedBy: "Sertac" },
   /* travel / visitor / Super Visa — contract confirmed 2026-11-10 */
-  { key: "rimi",        name: "RIMI",            confirmed: true,  books: ["travel", "visitor"], confirmedOn: "2026-11-10", confirmedBy: "Sertac" },
+  /* RIMI also writes accidental death & dismemberment (Secure Advantage Plus).
+     Deliberately NOT a book here: AD&D pays a lump sum and no medical expenses,
+     so it must never be offered to someone asking for travel or visitor cover. */
+  { key: "rimi",        name: "RIMI",            confirmed: true,  books: ["travel", "visitor"], alsoWrites: ["accidental_death"], confirmedOn: "2026-11-10", confirmedBy: "Sertac" },
   /* life, critical illness, group, health — confirmed 2026-11-01, "among others" */
   { key: "canadalife",  name: "Canada Life",     confirmed: true,  books: ["life_health"], confirmedOn: "2026-11-01", confirmedBy: "Sertac" },
   { key: "desjardins",  name: "Desjardins",      confirmed: true,  books: ["life_health"], confirmedOn: "2026-11-01", confirmedBy: "Sertac" },
