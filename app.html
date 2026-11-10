@@ -145,7 +145,7 @@
   }
   .pick h3 { margin: 0 0 6px; font-size: 1.1rem; line-height: 1.35; }
   .pick p { margin: 0 0 14px; color: #c8d3e4; font-size: .9rem; }
-  .pick .plancode {
+  .pick .plancode, .alt .plancode {
     font-size: .74rem; color: var(--text-muted);
     letter-spacing: .4px; margin-top: 12px;
   }
@@ -347,6 +347,10 @@
   var TRUSTONE = "https://www.trustonehealth.ca/cgi-bin/underwrite/start.pl?xxx:BrokerID=2765&xxx:Plan=";
   var TRUSTONE_TAIL = "&xxx:UserLang=english&xxx:AgentID=0&uid=U2FsdGVkX18Cl0TFH2itazVulngtkJd49eydsVoM/hICwLjc6mYjw2Xms/0l0AVih/yZGuojBB4LWGyOSGzyCQ==";
   var TUGO = "https://shop.tugo.com/store/TEK200";
+  // RIMI's visitor / Super Visa plan. Monthly payments, and the application and
+  // payment finish in one sitting — which is what makes it the monthly answer
+  // here rather than 21st Century, where the payment link arrives by email later.
+  var RIMI_VISITOR = "https://rimi-forms.policy-dashboard.com/en/arkrimivisitorstocanada?&sales_channel=online&tracking_code=STE101";
 
   function plan(code) { return TRUSTONE + code + TRUSTONE_TAIL; }
 
@@ -453,6 +457,19 @@
       }
 
       if (state.who === "visitor") {
+        // The monthly-payment answer. RIMI takes the premium inside the form,
+        // so monthly here still means covered as soon as the first payment is
+        // made — unlike the 21st Century route below, which does not complete
+        // a purchase in the session.
+        html += '<div class="alt"><h4>Prefer to pay monthly?</h4>' +
+          '<p>RIMI writes the visitor and Super Visa plans with monthly payments, and the application and ' +
+          'payment finish in one sitting, so coverage starts as soon as the premium is paid rather than ' +
+          'waiting on a link by email.</p>' +
+          '<a class="btn btn-gold" href="' + esc(RIMI_VISITOR) + '" target="_blank" rel="noopener"' +
+          ' data-plan-code="visitorstocanada" data-application-type="online_application"' +
+          ' data-buy-step="checkout" data-provider="RIMI">Apply and pay monthly &rarr;</a>' +
+          '<div class="plancode">RIMI &middot; visitor and Super Visa &middot; opens on the insurer\u2019s secure site</div></div>';
+
         // 21st Century covers visitors to Canada only (outbound is due from the
         // insurer in 2026), and it does not complete a purchase in one sitting:
         // you price it, we review it, then the insurer's secure payment link is
@@ -460,10 +477,11 @@
         // above for exactly that reason — same-looking buttons that behave
         // differently is how people end up thinking they are covered when the
         // premium has not been paid.
-        html += '<div class="alt"><h4>Monthly payments, or a policy for the visa application</h4>' +
-          '<p>Price every 21st Century plan yourself, without leaving our site. Worth using when you want to ' +
-          'pay monthly rather than all at once, cover up to six travellers on one quote, or need a policy issued ' +
-          'in <strong>Pending</strong> status so the confirmation can be filed with a Super Visa application before arrival. ' +
+        html += '<div class="alt"><h4>A policy for the visa application, or up to six travellers</h4>' +
+          '<p>Price every 21st Century plan yourself, without leaving our site. Worth using when you need a policy issued ' +
+          'in <strong>Pending</strong> status so the confirmation can be filed with a Super Visa application before arrival, ' +
+          'or you want up to six travellers on one quote. It can also be paid monthly, but unlike RIMI above the premium ' +
+          'is not taken here. ' +
           'You price it, we check it with you, then the insurer emails a secure payment link &mdash; you are not ' +
           'covered until that premium is paid.</p>' +
           '<a class="btn btn-out" href="instant-quote.html" data-buy-step="quote" data-provider="21st Century">' +
