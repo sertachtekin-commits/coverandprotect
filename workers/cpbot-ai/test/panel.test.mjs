@@ -72,7 +72,7 @@ const ALLOWED = {
 console.log("--- the four confirmed insurers, and nobody else claimed ---");
 {
   const p = panel();
-  ok(p.confirmed.join(", ") === "Manulife, TuGo, 21st Century, TruStone Health",
+  ok(p.confirmed.join(", ") === "Manulife, TuGo, 21st Century, TruStone Health, RIMI",
      `panel(): ${p.confirmed.join(", ")}`);
 
   for (const ins of INSURERS.filter(x => !x.confirmed)) {

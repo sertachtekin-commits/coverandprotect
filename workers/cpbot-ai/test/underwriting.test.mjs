@@ -162,14 +162,14 @@ console.log("\n--- the things a specialist would raise unprompted ---");
   ok(r.deciding_factors.some(f => /120-day trip/.test(f)), "and a 120-day trip against the departure date");
 }
 
-console.log("\n--- the panel: only the four he confirmed, and only because he signed for them ---");
+console.log("\n--- the panel: only the ones he confirmed, and only because he signed for them ---");
 {
   const p = panel();
   ok(INSURERS.length >= 13, `${INSURERS.length} insurers appear in the site's own copy`);
 
-  /* Confirmed 2026-10-31. The assistant sells travel, visitor and Super Visa
-     and nothing else, so this list is its whole world. */
-  ok(p.confirmed.join(", ") === "Manulife, TuGo, 21st Century, TruStone Health",
+  /* Confirmed 2026-10-31, RIMI added 2026-11-10. The assistant sells travel,
+     visitor and Super Visa and nothing else, so this list is its whole world. */
+  ok(p.confirmed.join(", ") === "Manulife, TuGo, 21st Century, TruStone Health, RIMI",
      `confirmed: ${p.confirmed.join(", ")}`);
 
   /* Same discipline as RULES: a name is confirmed because a licensed human put
