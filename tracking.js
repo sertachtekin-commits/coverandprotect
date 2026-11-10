@@ -190,7 +190,7 @@
     if (checkoutProvider) {
       once("checkout-" + href, "begin_checkout", Object.assign({}, details, {
         provider: checkoutProvider,
-        plan_code: link.dataset.trustonePlan || link.dataset.tugoStore || "",
+        plan_code: link.dataset.trustonePlan || link.dataset.tugoStore || link.dataset.planCode || "",
         application_type: link.dataset.applicationType || "online_application",
         buy_channel: "online_self_serve"
       }));
