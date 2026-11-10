@@ -6,12 +6,12 @@
  * Formspree posts, insurer checkout portals, analytics and fonts pass straight
  * through to the network.
  * Bump CACHE_VERSION when precached assets change. */
-var CACHE_VERSION = "cp-pwa-v25";
+var CACHE_VERSION = "cp-pwa-v24";
 var PRECACHE = [
   "/app.html",
   "/buy-online.html",
   "/travel-insurance-calculator.html",
-  "/tracking.js?v=11",
+  "/tracking.js?v=10",
   "/cpbot.js?v=3",
   "/manifest.json",
   "/images/icon-192.png",
