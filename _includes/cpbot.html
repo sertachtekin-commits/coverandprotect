@@ -48,6 +48,10 @@
 .cpbot-input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:#fff;padding:11px 13px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;}
 .cpbot-input::placeholder{color:rgba(255,255,255,.4);}
 .cpbot-send{background:var(--gold,#c9973a);border:none;border-radius:10px;color:#0a1628;font-weight:700;padding:0 15px;cursor:pointer;font-size:1.1rem;}
+.cpbot-iconbtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:rgba(255,255,255,.75);padding:0 11px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;}
+.cpbot-iconbtn.cpbot-on{background:var(--gold,#c9973a);color:#0a1628;border-color:var(--gold,#c9973a);}
+.cpbot-iconbtn.cpbot-listening{background:#b3261e;color:#fff;border-color:#b3261e;animation:cpbotPulse 1.1s infinite;}
+@keyframes cpbotPulse{0%,100%{opacity:1;}50%{opacity:.55;}}
 .cpbot-disclaimer{color:rgba(255,255,255,.4);font-size:.68rem;text-align:center;padding:6px 14px 10px;line-height:1.4;}
 @media(max-width:480px){#cpbot-panel{height:calc(100vh - 120px);bottom:90px;}}
 @media(prefers-reduced-motion:reduce){#cpbot-launch,#cpbot-panel.cpbot-open,.cpbot-typing span{transition:none;animation:none;}}
@@ -94,8 +98,10 @@
   <div class="cpbot-body" id="cpbot-body"></div>
   <div class="cpbot-foot">
     <input class="cpbot-input" id="cpbot-input" type="text" placeholder="Ask a question, e.g. Super Visa cost..." autocomplete="off">
+    <button class="cpbot-iconbtn" id="cpbot-mic" aria-label="Speak your question" title="Speak your question">&#127908;</button>
+    <button class="cpbot-iconbtn" id="cpbot-voice" aria-label="Read replies aloud" title="Read replies aloud" aria-pressed="false">&#128264;</button>
     <button class="cpbot-send" id="cpbot-send" aria-label="Send">&#10148;</button>
   </div>
   <div class="cpbot-disclaimer">Informational only. For personalized advice, Sertac (FSRA-licensed advisor) will assist you.</div>
 </div>
-<script src="cpbot.js?v=3" defer></script>
+<script src="cpbot.js?v=4" defer></script>

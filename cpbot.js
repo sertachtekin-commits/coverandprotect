@@ -180,6 +180,7 @@
       {t:"text",f:"dates",L:"Dates",q:"Travel dates? e.g. Nov 15 to Dec 10",p:"Travel dates..."},
       {t:"choice",f:"days",L:"Trip length",q:"How long is the trip? (tap one, or type the number of days)",o:[["About 1 week","7"],["About 2 weeks","14"],["About 3 weeks","21"],["About a month","30"]]},
       {t:"choice",f:"plan",L:"Plan",q:"Single trip or multi-trip annual?",o:[["Single trip","Single"],["Multi-trip annual","Multi-trip"],["Not sure","Not sure"]]},
+      {t:"choice",f:"preExisting",L:"Pre-existing",q:"Any pre-existing medical conditions?",o:[["No","No"],["Yes - stable","Yes, stable"],["Yes - recent","Yes, recent changes"],["Not sure","Not sure"]]},
       {t:"contact"}
     ]},
     life:{title:"Life insurance enquiry",steps:[
@@ -1230,6 +1231,75 @@
     var st=FLOWS[fk].steps;
     for(var i=0;i<st.length;i++){if(st[i].t==="contact"){st.splice(i,0,{t:"recommend"});break;}}
   });
+
+  /* ============ VOICE (simple): mic input + read-aloud ============
+     Browser built-ins only (Web Speech API) - no keys, no per-minute cost.
+     Mic input: SpeechRecognition (Chrome/Edge; hidden where unsupported).
+     Read-aloud: speechSynthesis, OFF until the visitor taps the speaker
+     button (browsers require a user gesture before any audio anyway). */
+  var voiceOn=false;
+  var micBtn=document.getElementById('cpbot-mic');
+  var voiceBtn=document.getElementById('cpbot-voice');
+  function speakText(html){
+    if(!voiceOn||!('speechSynthesis' in window))return;
+    var t=String(html).replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/\s+/g,' ').trim();
+    if(!t)return;
+    if(t.length>700)t=t.slice(0,700);
+    try{
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);
+      u.lang='en-CA';u.rate=1.02;
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  /* Every bot reply in this file flows through bot(); wrap it once here so
+     read-aloud covers the flows, the FAQ answers and the AI replies alike. */
+  var botOrig=bot;
+  bot=function(html){botOrig(html);speakText(html);};
+  if(voiceBtn){
+    if(!('speechSynthesis' in window)){voiceBtn.style.display='none';}
+    voiceBtn.onclick=function(){
+      voiceOn=!voiceOn;
+      voiceBtn.classList.toggle('cpbot-on',voiceOn);
+      voiceBtn.setAttribute('aria-pressed',voiceOn?'true':'false');
+      if(!voiceOn&&('speechSynthesis' in window))window.speechSynthesis.cancel();
+      if(voiceOn)speakText('Voice on. I will read my replies aloud.');
+    };
+  }
+  document.getElementById('cpbot-close').addEventListener('click',function(){if('speechSynthesis' in window)window.speechSynthesis.cancel();});
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(micBtn){
+    if(!SR){micBtn.style.display='none';}
+    else{
+      var rec=null,listening=false;
+      micBtn.onclick=function(){
+        if(listening&&rec){try{rec.stop();}catch(e){}return;}
+        if('speechSynthesis' in window)window.speechSynthesis.cancel();
+        try{
+          rec=new SR();
+          rec.lang='en-CA';rec.interimResults=true;rec.continuous=false;
+          rec.onstart=function(){listening=true;micBtn.classList.add('cpbot-listening');input.placeholder='Listening - speak now';};
+          rec.onresult=function(ev){
+            var interim='',finalT='';
+            for(var i=ev.resultIndex;i<ev.results.length;i++){
+              if(ev.results[i].isFinal)finalT+=ev.results[i][0].transcript;
+              else interim+=ev.results[i][0].transcript;
+            }
+            input.value=finalT||interim;
+            if(finalT){input.value=finalT.trim();send();}
+          };
+          rec.onend=function(){listening=false;micBtn.classList.remove('cpbot-listening');input.placeholder=DEFAULT_PH;};
+          rec.onerror=function(ev){
+            listening=false;micBtn.classList.remove('cpbot-listening');input.placeholder=DEFAULT_PH;
+            if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){
+              bot('The microphone is blocked. Please allow microphone access in your browser, or just type your question.');
+            }
+          };
+          rec.start();
+        }catch(e){}
+      };
+    }
+  }
 
   document.getElementById('cpbot-send').onclick=send;
   input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
