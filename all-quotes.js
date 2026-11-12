@@ -1,9 +1,13 @@
 /* Cover & Protect — "One form, every company" quote list for buy-online.html.
-   Built 2026-11-10. The visitor enters their trip once; the widget shows the
-   site's illustrative estimate range plus one card per insurer with the plan
-   that fits and a live link to that insurer's own quote/application tool.
-   It never invents a per-insurer price: real premiums come from the insurers'
-   own tools, exactly like the rest of this page.
+   Built 2026-11-10; v2 2026-11-12. The visitor enters their trip once; the
+   widget shows one card per insurer WITH a per-company estimated premium,
+   sorted lowest first, plus a live link to that insurer's own quote tool.
+   The per-company figures are estimates from the site's rate model: each
+   company is placed at a position inside the overall market band, calibrated
+   against real quotes Cover & Protect ran in Oct-Nov 2026. They are labelled
+   as estimates everywhere they appear; the insurer's own tool confirms the
+   exact premium after its health questions. (No insurer except TuGo offers
+   brokers a live price API, and TuGo's needs TuGo's written approval.)
 
    SYNC WARNING: the estimate bands below are copied verbatim from cpbot.js
    (rate assumptions v2026.07), which must match travel-insurance-calculator.html.
@@ -67,6 +71,10 @@
     var h='<div class="card cp-aq-card">';
     h+="<h3>"+esc(o.name)+"</h3>";
     if(o.badge) h+='<div class="cp-aq-badge">'+esc(o.badge)+"</div>";
+    if(o.price!=null){
+      h+='<div class="cp-aq-price">Estimated premium: <b>'+money(o.price)+' CAD</b></div>';
+      if(o.basis) h+='<div class="cp-aq-basis">'+esc(o.basis)+"</div>";
+    }
     h+="<p>"+o.text+"</p>";
     if(o.unavailable){
       h+='<div class="cp-aq-no">'+esc(o.unavailable)+"</div>";
@@ -82,35 +90,35 @@
     var stable=(cond==="stable"), cards=[];
     if(p==="visitor"||p==="supervisa"){
       var sv=(p==="supervisa");
-      cards.push({name:"21st Century (Manulife)",badge:"Instant quote on this site",
+      cards.push({name:"21st Century (Manulife)",badge:"Instant quote on this site",pos:stable?(age>=75?0.65:0.15):0.30,basis:"$100,000 cover · $0 deductible basis",
         text:(stable?"Enhanced plan covers stable pre-existing conditions. ":"")+"Runs right here — answer the health questions and see the real price before you pay.",
         links:[{label:"Get my instant quote →",url:INSTANT_QUOTE,gold:true}]});
-      cards.push({name:"TuGo",badge:"$100,000+ coverage",
+      cards.push({name:"TuGo",badge:"$100,000+ coverage",pos:stable?(age>=75?0.75:0.55):0.60,basis:"$100,000 cover · $0 deductible basis",
         text:"Comprehensive visitor plan from a Canadian travel specialist. Save the quote — TuGo emails you a link so you can finish later.",
         links:[{label:"Open the TuGo store →",url:TUGO}]});
-      cards.push({name:"TruStone Health",badge:stable?"Covers stable pre-existing":"Often the lowest cost",
+      cards.push({name:"TruStone Health",badge:stable?"Covers stable pre-existing":"Often the lowest cost",pos:stable?(age>=75?0.45:0.30):0.05,basis:"$100,000 cover · $0 deductible basis",
         text:stable?"With-pre-existing plan (conditions stable 365 days).":"No-pre-existing plan — the budget pick when there is nothing to declare."+(sv||days>=365?" Monthly payments available on a 1-year policy.":""),
         links:[{label:"Start TruStone application →",url:ts(stable?"ELVTCUW":"ELVTC")}]});
-      cards.push({name:"RIMI Secure Travel",badge:"Underwritten by Lloyd's",
+      cards.push({name:"RIMI Secure Travel",badge:"Underwritten by Lloyd's",pos:stable?(age>=75?0.05:0.00):0.15,basis:"$100,000 cover · $0 deductible basis",
         text:stable?"Plan 2 covers stable pre-existing conditions.":"Standard and Enhanced levels; monthly plan available on 1-year policies.",
         links:[{label:"Open RIMI quote →",url:RIMI_VISITOR}]});
     }else{ /* abroad */
-      cards.push({name:"21st Century (Manulife)",badge:"$10,000,000 coverage",
+      cards.push({name:"21st Century (Manulife)",badge:"$10,000,000 coverage",pos:stable?(age>=60?0.80:0.55):(age>=60?0.35:0.30),basis:"$10,000,000 cover · $0 deductible basis",
         text:"The highest limit on this page, at a fixed $10M. Instant quote runs right here.",
         links:[{label:"Get my instant quote →",url:INSTANT_QUOTE,gold:true}]});
-      cards.push({name:"TuGo",badge:"$5,000,000 coverage",
+      cards.push({name:"TuGo",badge:"$5,000,000 coverage",pos:stable?(days>60?0.75:0.65):0.28,basis:"$5,000,000 cover · US$300 deductible basis",
         text:"Single-trip or annual multi-trip from a Canadian travel specialist.",
         links:[{label:"Open the TuGo store →",url:TUGO}]});
       if(stable){
-        cards.push({name:"TruStone Health",badge:"Covers stable pre-existing",
+        cards.push({name:"TruStone Health",badge:"Covers stable pre-existing",pos:(days>60?0.30:0.10),basis:"$5,000,000 cover · US$50 deductible per claim",
           text:"Premier plan with pre-existing conditions covered (180-day stability), US$50 deductible per claim.",
           links:[{label:"Start TruStone application →",url:ts("ELOOC")}]});
       }else{
-        cards.push({name:"TruStone Health",badge:"Often the lowest cost",
-          text:"No-pre-existing plans: Value at $2,000,000 or Premier at $5,000,000 — same design, Value costs about 15% less.",
+        cards.push({name:"TruStone Health",badge:"Often the lowest cost",pos:0.02,basis:"$2,000,000 Value cover · US$50 deductible per claim",
+          text:"No-pre-existing plans: Value at $2,000,000 or Premier at $5,000,000 (about 18% more) — same design, Value costs less.",
           links:[{label:"Value $2M →",url:ts("ELOOCVNP"),gold:true},{label:"Premier $5M →",url:ts("ELOOCNP")}]});
       }
-      var rimi={name:"RIMI Canuck Voyage",badge:"$7,000,000 coverage",
+      var rimi={name:"RIMI Canuck Voyage",badge:"$7,000,000 coverage",pos:stable?0.40:0.18,basis:"$7,000,000 cover",
         text:"Emergency medical for Canadians abroad, underwritten by Lloyd's.",
         links:[{label:"Open RIMI quote →",url:RIMI_CANUCK}]};
       if(age>=60&&age<=80&&days>60){
@@ -153,10 +161,19 @@
     var label=(p==="supervisa")?"1 year · $100,000 coverage"
              :(p==="visitor")?days+"-day stay · $100,000 coverage"
              :days+"-day trip · emergency medical"+(usa?" · incl. USA":"");
-    html+='<div class="form-card cp-aq-est">Illustrative estimate for this trip: <b>'+money(est.low)+" – "+money(est.high)+' CAD</b><br><span>'+
-      esc(label)+" · age "+age+". Not a quote — each company's real price comes from its own tool below, from your full answers (assumptions v2026.07).</span></div>";
+    var cards=buildCards(p,age,days,usa,cond);
+    cards.forEach(function(c){
+      c.price=c.unavailable?null:rStep(est.low+(est.high-est.low)*(c.pos||0.5),5);
+    });
+    cards.sort(function(a,b){
+      if(a.price==null)return 1; if(b.price==null)return -1; return a.price-b.price;
+    });
+    if(cards.length&&cards[0].price!=null) cards[0].badge="Lowest estimate · "+(cards[0].badge||"");
+    var estSummary=cards.filter(function(c){return c.price!=null;}).map(function(c){return c.name+" "+money(c.price);}).join(" | ");
+    html+='<div class="form-card cp-aq-est">Estimated premiums for this trip, <b>lowest first</b>:<br><span>'+
+      esc(label)+" · age "+age+". Each figure is Cover &amp; Protect\u2019s estimate from its rate model (assumptions v2026.07) — tap a company to get its confirmed price from its own tool after its health questions.</span></div>";
     html+='<div class="cards cp-aq-cards">';
-    buildCards(p,age,days,usa,cond).forEach(function(c){html+=card(c);});
+    cards.forEach(function(c){html+=card(c);});
     html+="</div>";
     html+='<div class="form-card cp-aq-lead"><h3>Rather have Sertac run all of these for you?</h3>'+
       "<p>Send your name and a phone number or email. He runs every company above against your exact details and sends you the comparison — free, and the premium is the same as buying yourself.</p>"+
@@ -172,7 +189,7 @@
       fd.append("name",leadForm.querySelector("[name=name]").value);
       var contact=leadForm.querySelector("[name=contact]").value;
       if(contact.indexOf("@")>-1) fd.append("email",contact); else fd.append("phone",contact);
-      fd.append("details","All-companies quote list -- product: "+p+" | age: "+age+" | days: "+days+(p==="abroad"?(" | USA: "+(usa?"yes":"no")):"")+" | pre-existing: "+cond+" | estimate shown: "+money(est.low)+"-"+money(est.high));
+      fd.append("details","All-companies quote list -- product: "+p+" | age: "+age+" | days: "+days+(p==="abroad"?(" | USA: "+(usa?"yes":"no")):"")+" | pre-existing: "+cond+" | per-company estimates shown: "+estSummary);
       fd.append("source","Buy Online - all-companies form");
       fd.append("_subject","New quote request - "+(p==="supervisa"?"Super Visa":p==="visitor"?"Visitor to Canada":"Travel insurance")+" - All-companies form");
       fetch(FORMSPREE,{method:"POST",body:fd,headers:{"Accept":"application/json"}})
