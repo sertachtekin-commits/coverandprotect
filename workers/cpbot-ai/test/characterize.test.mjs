@@ -18,7 +18,7 @@ const sandbox = `
   var setTimeout=function(fn){fn();return 0;};
 `;
 const probe = `;globalThis.__E={startFlow,advance,cancelFlow,startOver,get session(){return session;},
-  rememberTravelFacts,estimateFor,recommendFor,FLOWS,setFact,said,
+  rememberTravelFacts,estimateFor,recommendFor,FLOWS,setFact,said,needsAdvisor,
   get PROFILE(){return PROFILE;},forgetFacts,pricing:pricingNode};`;
 new Function(sandbox + js.replace(/\}\)\(\);?\s*$/, probe + '})();'))();
 const E = globalThis.__E;
@@ -118,15 +118,32 @@ E.startOver();
 ok(E.PROFILE.ages === undefined, "'start over' clears them, because it is a different quote");
 
 console.log("\n--- a finished travel quote can actually be sent ---");
+/* The travel flow asks about pre-existing conditions before it recommends, so
+   the answers here run one step further than the other flows. */
 E.forgetFacts();
 E.startFlow("travel");
-for (const v of ["1","53","Florida","Nov 15 to Dec 10","Single"]) E.advance(v);
+for (const v of ["1","53","Florida","Nov 15 to Dec 10","Single","No"]) E.advance(v);
 const steps = E.session.flow ? E.session.flow.steps : [];
 const recIdx = steps.findIndex(st => st.t === "recommend");
 ok(recIdx > -1 && E.session.step === recIdx, "it stops on the recommendation card");
 E.session.step++;                                   // what the "Send my details" chip does
 const after = steps[E.session.step];
 ok(after && after.t === "contact", "and the next step is the contact form, not the card again");
+
+/* SAFETY: the travel flow's pre-existing answer has to reach the advisor gate.
+   The step writes `preExisting`; showRecommend() reads pricingNode().cond. If
+   those ever stop lining up the flow still looks right and silently starts
+   showing prices to someone whose condition changed last month — which is the
+   single most common reason a large claim is refused. */
+for (const [answer, gated] of [["No", false], ["Yes, stable", false],
+                               ["Yes, recent changes", true], ["Not sure", true]]) {
+  E.forgetFacts();
+  E.startFlow("travel");
+  for (const v of ["1","53","Florida","Nov 15 to Dec 10","Single", answer]) E.advance(v);
+  const cond = E.pricing().cond;
+  ok(E.needsAdvisor(cond) === gated,
+     `"${answer}" -> cond=${cond} -> ${gated ? "advisor, no price" : "priced"}`);
+}
 
 console.log("\nBASELINE " + JSON.stringify(Object.fromEntries(
   Object.entries(baseline).map(([k, v]) => [k, v.asked.join(">")]))));
